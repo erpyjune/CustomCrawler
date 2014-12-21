@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.erpy.dao.SeedMapper'>
+
+    <select id='getSeedById' parameterType='int' resultType='com.erpy.dao.Seed'>
+        SELECT
+        id      as seedId,
+        keyword as seedKeyword,
+        url     as crawlUrl,
+        cp      as cpName
+        FROM seed
+        WHERE id = #{seedId}
+    </select>
+
+    <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in seed-mybatis-config.xml and use Alias names. -->
+    <resultMap type='Seed' 				id='SeedResult'>
+        <id property='seedId' 			column='id'/>
+        <result property='seedKeyword' 	column='keyword'/>
+        <result property='crawlUrl' 	column='url'/>
+        <result property='cpName' 	    column='cp'/>
+    </resultMap>
+
+    <select id='getAllSeeds' resultMap='SeedResult'>
+        SELECT * FROM seed
+    </select>
+
+    <insert id='insertSeed' parameterType='Seed' useGeneratedKeys='true' keyProperty='seedId'>
+        INSERT INTO seed(keyword, url, cp)
+        VALUES(#{seedKeyword}, #{crawlUrl}, #{cpName})
+        <!--
+            VALUES(#{emailId}, #{password}, #{firstName}, #{lastName})
+        -->
+    </insert>
+
+    <update id='updateSeed' parameterType='Seed'>
+        UPDATE seed
+        SET
+        keyword = #{seedKeyword},
+        url     = #{crawlUrl},
+        cp      = #{cpName}
+        WHERE id = #{seedId}
+    </update>
+
+    <delete id='deleteSeed' parameterType='int'>
+        DELETE FROM seed WHERE id = #{seedId}
+    </delete>
+
+</mapper>

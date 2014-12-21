@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.erpy.dao.CrawlDataMapper'>
+
+    <select id='getCrawlDataById' parameterType='int' resultType='com.erpy.dao.CrawlData'>
+        SELECT
+        id       as dataId,
+        url      as seedUrl,
+        date     as crawlDate,
+        savepath as savePath
+        FROM crawl_data
+        WHERE id = #{dataId}
+    </select>
+
+    <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in seed-mybatis-config.xml and use Alias names. -->
+    <resultMap type='CrawlData' 		id='CrawlDataResult'>
+        <id     property='dataId' 		column='id'/>
+        <result property='seedUrl' 	    column='url'/>
+        <result property='crawlDate' 	column='date'/>
+        <result property='savePath' 	column='savepath'/>
+    </resultMap>
+
+    <select id='getAllCrawlDatas' resultMap='CrawlDataResult'>
+        SELECT * FROM crawl_data
+    </select>
+
+    <insert id='insertCrawlData' parameterType='CrawlData' useGeneratedKeys='true' keyProperty='dataId'>
+        INSERT INTO crawl_data(url, date, savepath)
+        VALUES(#{seedUrl}, #{crawlDate}, #{savePath})
+        <!--
+            VALUES(#{emailId}, #{password}, #{firstName}, #{lastName})
+        -->
+    </insert>
+
+    <update id='updateCrawlData' parameterType='CrawlData'>
+        UPDATE crawl_data
+        SET
+        url       = #{seedUrl},
+        date      = #{crawlDate},
+        savepath  = #{savePath}
+        WHERE id = #{dataId}
+    </update>
+
+    <delete id='deleteCrawlData' parameterType='int'>
+        DELETE FROM crawl_data WHERE id = #{dataId}
+    </delete>
+
+</mapper>
