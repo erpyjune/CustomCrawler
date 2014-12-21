@@ -2,9 +2,7 @@ package com.erpy.crawler;
 
 import org.apache.commons.codec.binary.StringUtils;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by baeonejune on 14. 11. 30..
@@ -35,7 +33,9 @@ public class CrawlIO {
 
         //String buffer = new String(this.data.getBytes("euc-kr"), "utf-8");
 
-        BufferedWriter bw = new BufferedWriter(new FileWriter(this.path));
+        //BufferedWriter bw = new BufferedWriter(new FileWriter(this.path));
+        File file = new File(this.path);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,true),"utf-8"));
         bw.write(this.data);
         bw.close();
 
