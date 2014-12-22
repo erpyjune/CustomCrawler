@@ -2,8 +2,11 @@ package com.erpy.main;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
+import com.erpy.dao.CrawlData;
+import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
+import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
 
 import java.io.FileInputStream;
@@ -20,6 +23,7 @@ import java.util.Random;
 public class CrawlMain {
 
     private static SeedService seedService;
+    private static CrawlDataService crawlDataService;
 
     public static void main(String args[]) throws IOException {
 
@@ -33,14 +37,19 @@ public class CrawlMain {
         Random random = new Random();
         CrawlIO crawlIO = new CrawlIO();
         GlobalInfo globalInfo = new GlobalInfo();
+        DateInfo dateInfo = new DateInfo();
         seedService = new SeedService();
+
+        CrawlData crawlData = new CrawlData();
+        crawlDataService = new CrawlDataService();
+
 
         // savePath prefix.
         String savePrefixPath = globalInfo.getSaveFilePath();
 
         crawlSite.setConnectionTimeout(1000);
         crawlSite.setSocketTimeout(1000);
-        crawlSite.setCrawlEncode("UTF-8");
+        crawlSite.setCrawlEncode("euc-kr");
 
         List<Seed> seedList = seedService.getAllSeeds();
         Iterator iterator = seedList.iterator();
@@ -59,11 +68,17 @@ public class CrawlMain {
             // save file.
             randomNum = random.nextInt(9182773);
             crawlSavePath = savePrefixPath + "/" + Integer.toString(randomNum) + ".html";
-            crawlIO.setSaveDataInfo(crawlSite.getCrawlData(),crawlSavePath);
+            crawlIO.setSaveDataInfo(crawlSite.getCrawlData(), crawlSavePath, "euc-kr");
             crawlIO.executeSaveData();
 
-            System.out.println("Crawling completed!!");
+            // insert save file info.
+            crawlData.setSeedUrl(strUrl);
+            crawlData.setCrawlDate(dateInfo.getCurrDateTime());
+            crawlData.setSavePath(crawlSavePath);
+            crawlDataService.insertCrawlData(crawlData);
+
         }
 
+        System.out.println("Crawling completed!!");
     }
 }

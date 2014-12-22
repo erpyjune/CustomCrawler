@@ -11,15 +11,12 @@ import java.io.IOException;
  */
 public class CrawlerTest
 {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws  IOException {
         String log=null;
         String crawlUrl=null;
         String encodeType=null;
 
-        String site1 = "http://www.okmall.com/product/product.html?p_category_id=B&category_id=BAAA&UNI=M";
-        String site2 = "http://www.sbclub.co.kr/search_brandproductlist.html";
-        String path1 = "/Users/baeonejune/work/SummaryNode/out1.html";
-        String path2 = "/Users/baeonejune/work/SummaryNode/out2.html";
+        String site1 = "http://www.okmall.com/product/product.html?pID=20000677&UNI=M";
 
         System.out.println("args length : " + args.length);
 
@@ -38,6 +35,7 @@ public class CrawlerTest
 
         CrawlSite cs = new CrawlSite();
         CrawlIO ci = new CrawlIO();
+        GlobalInfo globalInfo = new GlobalInfo();
 
         try {
             // set crawl info.
@@ -45,11 +43,13 @@ public class CrawlerTest
             cs.setCrawlEncode(encodeType);
 
             cs.setConnectionTimeout(1000);
-            cs.setSocketTimeout(500);
+            cs.setSocketTimeout(1000);
+
+            String crawlSavePath = globalInfo.getSaveFilePath();
 
             //cs.HttpCrawlGetMethod1();
             cs.HttpCrawlGetDataTimeout();
-            ci.setSaveDataInfo(cs.getCrawlData(), path1);
+            ci.setSaveDataInfo(cs.getCrawlData(), crawlSavePath + "/" + "test.html", "euc-kr");
             ci.executeSaveData();
             System.out.println("GET end!!");
 
