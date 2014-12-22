@@ -71,12 +71,11 @@ public class CrawlMain {
             crawlIO.setSaveDataInfo(crawlSite.getCrawlData(), crawlSavePath, "euc-kr");
             crawlIO.executeSaveData();
 
-            // insert save file info.
+            // insert save file to history db.
             crawlData.setSeedUrl(strUrl);
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
             crawlDataService.insertCrawlData(crawlData);
-
         }
 
         System.out.println("Crawling completed!!");
