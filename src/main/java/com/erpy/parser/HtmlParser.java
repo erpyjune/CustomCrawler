@@ -1,4 +1,4 @@
-package com.erpy.crawler;
+package com.erpy.parser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

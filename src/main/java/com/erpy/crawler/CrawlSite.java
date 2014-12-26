@@ -162,6 +162,7 @@ public class CrawlSite {
             StringBuffer result = new StringBuffer();
             while ((line = rd.readLine()) != null) {
                 result.append(line);
+                result.append("\n");
             }
 
             if (result.length() <= 0) {

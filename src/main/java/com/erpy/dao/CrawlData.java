@@ -8,6 +8,7 @@ public class CrawlData {
     String      seedUrl;
     String      crawlDate;
     String      savePath;
+    String      cpName;
 
     public Integer getDataId() {
         return dataId;
@@ -39,5 +40,13 @@ public class CrawlData {
 
     public void setSavePath(String savePath) {
         this.savePath = savePath;
+    }
+
+    public String getCpName() {
+        return cpName;
+    }
+
+    public void setCpName(String cpName) {
+        this.cpName = cpName;
     }
 }

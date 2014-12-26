@@ -8,6 +8,7 @@ import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,11 +31,12 @@ public class CrawlMain {
         Seed seed;
         String strKeyword;
         String strUrl;
+        String strCpName;
         String crawlSavePath;
         int randomNum;
 
-        CrawlSite crawlSite = new CrawlSite();
         Random random = new Random();
+        CrawlSite crawlSite = new CrawlSite();
         CrawlIO crawlIO = new CrawlIO();
         GlobalInfo globalInfo = new GlobalInfo();
         DateInfo dateInfo = new DateInfo();
@@ -57,17 +59,18 @@ public class CrawlMain {
             seed = (Seed)iterator.next();
             strKeyword = seed.getKeyword();
             strUrl     = seed.getUrl();
+            strCpName  = StringUtils.trim(seed.getCpName());
 
             System.out.println("Crawling... " + strKeyword);
             System.out.println("Url... " + strUrl);
 
-            // crawling.
+            // set crawling information.
             crawlSite.setCrawlUrl(strUrl);
             crawlSite.HttpCrawlGetDataTimeout();
 
-            // save file.
+            // save crawling file.
             randomNum = random.nextInt(9182773);
-            crawlSavePath = savePrefixPath + "/" + Integer.toString(randomNum) + ".html";
+            crawlSavePath = savePrefixPath + "/" + strCpName + "/" + Integer.toString(randomNum) + ".html";
             crawlIO.setSaveDataInfo(crawlSite.getCrawlData(), crawlSavePath, "euc-kr");
             crawlIO.executeSaveData();
 
@@ -75,6 +78,7 @@ public class CrawlMain {
             crawlData.setSeedUrl(strUrl);
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
+            crawlData.setCpName(strCpName);
             crawlDataService.insertCrawlData(crawlData);
         }
 
