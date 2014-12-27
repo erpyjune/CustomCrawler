@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by baeonejune on 14. 12. 26..
  */
-public class JsoupTest {
+public class JsoupParseTest {
     public static void main(String args[]) throws IOException {
         String test_path = "/Users/baeonejune/work/social_shop/crawl_data/okmall/5030766.html";
         String htmlContent=null;
@@ -101,11 +101,12 @@ public class JsoupTest {
         }
 
         // extract sale price.
-        Elements sale_prices = doc.select("div.al_left div.real_price div.real_price03.f_c16.fb span.r");
+        Elements sale_prices = doc.select("div.al_left > div.real_price > div.real_price03.f_c16.fb > span.r");
         for (Element sale_price: sale_prices) {
             System.out.println(".tagName : " + sale_price.tagName());
             System.out.println(".text : " + sale_price.text());
             System.out.println(".attr(href) : " + sale_price.attr("href"));
+            System.out.println("outerHtml : "+sale_price.outerHtml());
             System.out.println("-----------------------------");
             listTitle.add(sale_price.tagName());
             total[5]++;
@@ -114,6 +115,7 @@ public class JsoupTest {
         for (int i=0; i<6; i++) {
             System.out.println("total[" + i + "] : " + total[i]);
         }
+
 
 //        Elements links = doc.select("a[href]");
 //        Elements media = doc.select("[src]");
@@ -138,6 +140,7 @@ public class JsoupTest {
 //        for (Element link : links) {
 //            print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
 //        }
+
     }
 
     private static void print(String msg, Object... args) {
