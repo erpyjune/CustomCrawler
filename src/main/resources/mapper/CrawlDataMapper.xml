@@ -28,6 +28,10 @@
         SELECT * FROM crawl_data
     </select>
 
+    <select id='getCrawlDataByCpName' parameterType='String' resultMap='CrawlDataResult'>
+        SELECT * FROM crawl_data WHERE cp = #{cpName}
+    </select>
+
     <insert id='insertCrawlData' parameterType='CrawlData' useGeneratedKeys='true' keyProperty='dataId'>
         INSERT INTO crawl_data(url, date, savepath, cp)
         VALUES(#{seedUrl}, #{crawlDate}, #{savePath}, #{cpName})

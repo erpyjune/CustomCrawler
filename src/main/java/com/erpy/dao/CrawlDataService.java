@@ -21,11 +21,21 @@ public class CrawlDataService {
         }
     }
 
-    public CrawlData getCrawlDataById(Integer dataId) {
+    public CrawlData getCrawlDataById(int dataId) {
         SqlSession sqlSession = CrawlDataMybatisFactory.getSqlSessionFactory().openSession();
         try{
             CrawlDataMapper crawlDataMapper = sqlSession.getMapper(CrawlDataMapper.class);
             return crawlDataMapper.getCrawlDataById(dataId);
+        }finally{
+            sqlSession.close();
+        }
+    }
+
+    public List<CrawlData> getCrawlDataByCpName(String cpName) {
+        SqlSession sqlSession = CrawlDataMybatisFactory.getSqlSessionFactory().openSession();
+        try{
+            CrawlDataMapper crawlDataMapper = sqlSession.getMapper(CrawlDataMapper.class);
+            return crawlDataMapper.getCrawlDataByCpName(cpName);
         }finally{
             sqlSession.close();
         }

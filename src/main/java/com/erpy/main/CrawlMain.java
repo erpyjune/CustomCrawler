@@ -53,6 +53,7 @@ public class CrawlMain {
         crawlSite.setSocketTimeout(1000);
         crawlSite.setCrawlEncode("euc-kr");
 
+        // get crawl seeds.
         List<Seed> seedList = seedService.getAllSeeds();
         Iterator iterator = seedList.iterator();
         while (iterator.hasNext()) {
