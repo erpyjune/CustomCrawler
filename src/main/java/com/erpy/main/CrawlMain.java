@@ -6,16 +6,15 @@ import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
+import com.erpy.parser.OkMallProc;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.FileInputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -32,26 +31,10 @@ public class CrawlMain {
         String strKeyword;
         String strUrl;
         String strCpName;
-        String crawlSavePath;
-        int randomNum;
 
-        Random random = new Random();
-        CrawlSite crawlSite = new CrawlSite();
-        CrawlIO crawlIO = new CrawlIO();
-        GlobalInfo globalInfo = new GlobalInfo();
-        DateInfo dateInfo = new DateInfo();
+        OkMallProc okMallProc = new OkMallProc();
         seedService = new SeedService();
-
-        CrawlData crawlData = new CrawlData();
         crawlDataService = new CrawlDataService();
-
-
-        // savePath prefix.
-        String savePrefixPath = globalInfo.getSaveFilePath();
-
-        crawlSite.setConnectionTimeout(1000);
-        crawlSite.setSocketTimeout(1000);
-        crawlSite.setCrawlEncode("euc-kr");
 
         // get crawl seeds.
         List<Seed> seedList = seedService.getAllSeeds();
@@ -62,25 +45,12 @@ public class CrawlMain {
             strUrl     = seed.getUrl();
             strCpName  = StringUtils.trim(seed.getCpName());
 
-            System.out.println("Crawling... " + strKeyword);
             System.out.println("Url... " + strUrl);
 
-            // set crawling information.
-            crawlSite.setCrawlUrl(strUrl);
-            crawlSite.HttpCrawlGetDataTimeout();
-
-            // save crawling file.
-            randomNum = random.nextInt(9182773);
-            crawlSavePath = savePrefixPath + "/" + strCpName + "/" + Integer.toString(randomNum) + ".html";
-            crawlIO.setSaveDataInfo(crawlSite.getCrawlData(), crawlSavePath, "euc-kr");
-            crawlIO.executeSaveData();
-
-            // insert save file to history db.
-            crawlData.setSeedUrl(strUrl);
-            crawlData.setCrawlDate(dateInfo.getCurrDateTime());
-            crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlDataService.insertCrawlData(crawlData);
+            if (strCpName.equals("okmall")==true) {
+                okMallProc.setTxtEncode("euc-kr");
+                okMallProc.crawlData(strUrl, strKeyword, strCpName);
+            }
         }
 
         System.out.println("Crawling completed!!");

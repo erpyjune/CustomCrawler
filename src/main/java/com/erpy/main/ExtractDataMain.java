@@ -3,7 +3,7 @@ package com.erpy.main;
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
-import com.erpy.parser.ParseOkMall;
+import com.erpy.parser.OkMallProc;
 
 import java.io.IOException;
 import java.util.*;
@@ -17,26 +17,31 @@ public class ExtractDataMain {
 
     public static void main(String args[]) throws IOException {
         CrawlData crawlData;
-        Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
-
         // okmall.
-        ParseOkMall parseOkMall = new ParseOkMall();
+        OkMallProc okMallProc = new OkMallProc();
+        List<SearchData> searchDataList = new ArrayList<SearchData>();
 
+        // okmall process.
         crawlDataService = new CrawlDataService();
-        List<CrawlData> crawlDataList = crawlDataService.getCrawlDataByCpName("okmall");
+        List<CrawlData> crawlDataList = crawlDataService.getAllCrawlDatas();
         Iterator iterator = crawlDataList.iterator();
         while (iterator.hasNext()) {
             crawlData = (CrawlData)iterator.next();
-//            System.out.println(crawlData.getCpName());
-//            System.out.println(crawlData.getCrawlDate());
-//            System.out.println(crawlData.getSavePath());
 
-            // okmall parser.
-            parseOkMall.setFilePath(crawlData.getSavePath());
-            parseOkMall.extractOkMall();
-
-            System.out.println("----------------------");
+            if (crawlData.getCpName().equals("okmall")==true) {
+                // set parsing file path.
+                System.out.println("extract - " + crawlData.getSavePath());
+                okMallProc.setFilePath(crawlData.getSavePath());
+                // set keyword.
+                okMallProc.setKeyword(crawlData.getCrawlKeyword());
+                // parsing.
+                searchDataList = okMallProc.extractOkMall();
+                // insert to DB.
+                okMallProc.insertOkMall(searchDataList);
+            }
         }
-        System.out.println("end!!");
+
+        System.out.println("=========================");
+        System.out.println("Extract processing end !!");
     }
 }

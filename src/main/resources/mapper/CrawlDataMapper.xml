@@ -10,7 +10,8 @@
         url      as seedUrl,
         date     as crawlDate,
         savepath as savePath,
-        cp       as cpName
+        cp       as cpName,
+        keyword  as crawlKeyword
         FROM crawl_data
         WHERE id = #{dataId}
     </select>
@@ -22,6 +23,7 @@
         <result property='crawlDate' 	column='date'/>
         <result property='savePath' 	column='savepath'/>
         <result property='cpName' 	    column='cp'/>
+        <result property='crawlKeyword' column='keyword'/>
     </resultMap>
 
     <select id='getAllCrawlDatas' resultMap='CrawlDataResult'>
@@ -33,8 +35,8 @@
     </select>
 
     <insert id='insertCrawlData' parameterType='CrawlData' useGeneratedKeys='true' keyProperty='dataId'>
-        INSERT INTO crawl_data(url, date, savepath, cp)
-        VALUES(#{seedUrl}, #{crawlDate}, #{savePath}, #{cpName})
+        INSERT INTO crawl_data(url, date, savepath, cp, keyword)
+        VALUES(#{seedUrl}, #{crawlDate}, #{savePath}, #{cpName}, #{crawlKeyword})
         <!--
             VALUES(#{emailId}, #{password}, #{firstName}, #{lastName})
         -->
@@ -46,7 +48,8 @@
         url       = #{seedUrl},
         date      = #{crawlDate},
         savepath  = #{savePath},
-        cp        = #{cpName}
+        cp        = #{cpName},
+        keyword   = #{crawlKeyword}
         WHERE id = #{dataId}
     </update>
 

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.erpy.dao.SearchDataMapper'>
+
+    <select id='getSearchDataById' parameterType='int' resultType='com.erpy.dao.SearchData'>
+        SELECT
+        id       as dataId,
+        product_name as productName,
+        brand_name   as brandName,
+        url          as contentUrl,
+        thumb_url    as thumbUrl,
+        org_price    as orgPrice,
+        sale_price   as salePrice,
+        sale_per     as salePer,
+        cp           as cpName,
+        keyword      as crawlKeyword
+        FROM search
+        WHERE id = #{dataId}
+    </select>
+
+    <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in seed-mybatis-config.xml and use Alias names. -->
+    <resultMap type='SearchData' 		id='SearchDataResult'>
+        <id     property='dataId' 		    column='id'/>
+        <result property='productName' 	    column='product_name'/>
+        <result property='brandName' 	    column='brand_name'/>
+        <result property='contentUrl' 	    column='url'/>
+        <result property='thumbUrl' 	    column='thumb_url'/>
+        <result property='orgPrice' 	    column='org_price'/>
+        <result property='salePrice' 	    column='sale_price'/>
+        <result property='salePer' 	        column='sale_per'/>
+        <result property='cpName' 	        column='cp'/>
+        <result property='crawlKeyword' 	column='keyword'/>
+    </resultMap>
+
+    <select id='getAllSearchDatas' resultMap='SearchDataResult'>
+        SELECT * FROM search
+    </select>
+
+    <select id='getSearchDataByCpName' parameterType='String' resultMap='SearchDataResult'>
+        SELECT * FROM search WHERE cp = #{cpName}
+    </select>
+
+    <insert id='insertSearchData' parameterType='SearchData' useGeneratedKeys='true' keyProperty='dataId'>
+        INSERT INTO search (product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword)
+        VALUES(#{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword})
+    </insert>
+
+    <update id='updateSearchData' parameterType='SearchData'>
+        UPDATE search
+        SET
+        product_name = #{productName},
+        brand_name   = #{brandName},
+        url          = #{contentUrl},
+        thumb_url    = #{thumbUrl},
+        org_price    = #{orgPrice},
+        sale_price   = #{salePrice},
+        sale_per     = #{salePer},
+        cp           = #{cpName},
+        org_price    = #{cpName},
+        keyword      = #{crawlKeyword}
+        WHERE url = #{contentUrl}
+    </update>
+
+    <delete id='deleteSearchData' parameterType='String'>
+        DELETE FROM search WHERE cp = #{cpName}
+    </delete>
+
+</mapper>

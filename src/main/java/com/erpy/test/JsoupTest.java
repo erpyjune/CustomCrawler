@@ -45,7 +45,7 @@ public class JsoupTest {
 
         // price
         Document price_doc;
-        Elements elements = doc.select("div.item_box div.al_left");
+        Elements elements = doc.select("div.item_box[data-ProductNo]");
         for (Element element : elements) {
             price_doc = Jsoup.parse(element.outerHtml());
             Elements price_elements = price_doc.select("div.real_price01 > span.r");

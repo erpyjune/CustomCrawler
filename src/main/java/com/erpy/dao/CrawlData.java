@@ -9,6 +9,7 @@ public class CrawlData {
     String      crawlDate;
     String      savePath;
     String      cpName;
+    String      crawlKeyword;
 
     public Integer getDataId() {
         return dataId;
@@ -48,5 +49,13 @@ public class CrawlData {
 
     public void setCpName(String cpName) {
         this.cpName = cpName;
+    }
+
+    public String getCrawlKeyword() {
+        return crawlKeyword;
+    }
+
+    public void setCrawlKeyword(String crawlKeyword) {
+        this.crawlKeyword = crawlKeyword;
     }
 }
