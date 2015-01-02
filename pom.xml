@@ -60,6 +60,14 @@
       <version>1.8.1</version>
     </dependency>
 
+    <!-- elastic search -->
+    <dependency>
+      <groupId>org.elasticsearch</groupId>
+      <artifactId>elasticsearch</artifactId>
+      <version>1.4.2</version>
+    </dependency>
+
+
 
   </dependencies>
 </project>
