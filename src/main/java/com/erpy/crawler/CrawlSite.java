@@ -10,15 +10,16 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,10 @@ public class CrawlSite {
          */
     public String getCrawlData() {
         return this.crawlData;
+    }
+
+    public void setCrawlData(String crawlData) {
+        this.crawlData = crawlData;
     }
 
     public String HttpCrawlGetMethod1() throws IOException {
@@ -181,16 +186,18 @@ public class CrawlSite {
         HttpPost post = new HttpPost(this.crawlUrl);
 
         // add header
-        post.setHeader("User-Agent", this.USER_AGENT);
-        post.setHeader("Referer", this.REFERER);
+        post.addHeader("User-Agent", this.USER_AGENT);
+        post.addHeader("Referer", this.REFERER);
+        post.setHeader("aaa", "ddd");
+        //post.setHeader("User-Agent", this.USER_AGENT);
+        //post.setHeader("Referer", this.REFERER);
+        //post.setHeader("Content-Length:", "100");
 
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         urlParameters.add(new BasicNameValuePair("mode", "categorymain"));
         urlParameters.add(new BasicNameValuePair("categoryid", "94201"));
         urlParameters.add(new BasicNameValuePair("startnum", "41"));
         urlParameters.add(new BasicNameValuePair("endnum", "200"));
-        //urlParameters.add(new BasicNameValuePair("caller", ""));
-        //urlParameters.add(new BasicNameValuePair("num", "12345"));
 
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
         urlParameters.size();
@@ -217,6 +224,87 @@ public class CrawlSite {
 
         rd.close();
     }
+
+
+    public int HttpXPost() throws IOException {
+
+        //String data = "{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}";
+        int responseReturnCode;
+        URL url = new URL(this.crawlUrl);
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+
+        //httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        httpConn.setDoOutput(true);
+        httpConn.setDoInput(true);
+        httpConn.setConnectTimeout(5000);
+        httpConn.setReadTimeout(5000);
+        httpConn.setRequestMethod("POST"); // PUT, DELETE, POST, GET
+
+        OutputStreamWriter osw = new OutputStreamWriter(httpConn.getOutputStream());
+        osw.write(this.crawlData);
+        osw.flush();
+        osw.close();
+
+        //System.out.println("HTTP Response Code : " + httpConn.getResponseCode());
+        responseReturnCode = httpConn.getResponseCode();
+        httpConn.disconnect();
+
+        return responseReturnCode;
+    }
+
+
+    public void HttpXPut3() throws IOException {
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(this.crawlUrl);
+        String body = "{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}";
+
+        // add header
+        System.out.println("url:" + this.crawlUrl);
+        System.out.println("length :" + String.valueOf(body.length()));
+
+
+//        post.addHeader("User-Agent", this.USER_AGENT);
+//        post.addHeader("Referer", this.REFERER);
+//        post.addHeader("Content-Length:", String.valueOf(body.length()));
+//        post.setHeader("aaa", "ddd");
+//        post.setHeader("User-Agent", this.USER_AGENT);
+//        post.setHeader("Referer", this.REFERER);
+//        post.setHeader("Content-Length:", "100");
+
+//        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+//        urlParameters.add(new BasicNameValuePair("title", "good morning"));
+//        urlParameters.add(new BasicNameValuePair("name", "erpy"));
+//        urlParameters.add(new BasicNameValuePair("date", "20141230"));
+//        urlParameters.add(new BasicNameValuePair("id", "312"));
+
+        //post.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+        post.setEntity(new StringEntity(body));
+
+        HttpResponse response = client.execute(post);
+
+        System.out.println("Response Code : "
+                + response.getStatusLine().getStatusCode());
+
+        BufferedReader rd = new BufferedReader(
+                new InputStreamReader(response.getEntity().getContent(), this.crawlEncoding));
+
+        StringBuffer result = new StringBuffer();
+        String line = "";
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+
+        if (result.length() <= 0) {
+            this.crawlData = "";
+        } else {
+            this.crawlData = result.toString();
+        }
+
+        rd.close();
+    }
+
 
     public void HttpCrawlGetBuilder() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();

@@ -113,7 +113,7 @@ public class OkMallProc {
                 elementsLink = docu.select("div.brand_detail_layer p.item_title a span.prName_Brand");
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
-                    strItem = strItem.replace("[","").replace("]", "");
+                    strItem = strItem.replace("[","").replace("]", "").replace("\"", " ").replace("'", " ");
                     searchData.setBrandName(strItem);
 //                    System.out.println(strItem);
                 }
@@ -127,6 +127,7 @@ public class OkMallProc {
                 elementsLink = docu.select("div.brand_detail_layer p.item_title a span.prName_PrName");
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
+                    strItem = strItem.replace("\"", " ").replace("'", " ");
                     searchData.setProductName(strItem);
                     searchData.setCpName("okmall");
                     searchData.setCrawlKeyword(this.keyword);
@@ -220,8 +221,8 @@ public class OkMallProc {
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
 
-        crawlSite.setConnectionTimeout(1000);
-        crawlSite.setSocketTimeout(1000);
+        crawlSite.setConnectionTimeout(5000);
+        crawlSite.setSocketTimeout(5000);
         crawlSite.setCrawlEncode(txtEncode);
 
         for(;;) {
@@ -255,5 +256,57 @@ public class OkMallProc {
             data_size = 0;
             page++;
         }
+    }
+
+
+    public void indexingOkMall(SearchData searchData) throws IOException {
+        int returnCode;
+        StringBuilder sb = new StringBuilder();
+        StringBuilder indexUrl = new StringBuilder("http://localhost:9200/shop/okmall/");
+        CrawlSite crawlSite = new CrawlSite();
+
+        sb.append("{");
+
+        sb.append("\"dataid\" : ");
+        sb.append("\""+searchData.getDataId()+"\",");
+
+        sb.append("\"product_name\" : ");
+        sb.append("\""+searchData.getProductName()+"\",");
+
+        sb.append("\"brand_name\" : ");
+        sb.append("\""+searchData.getBrandName()+"\",");
+
+        sb.append("\"url\" : ");
+        sb.append("\"http://www.okmall.com/"+searchData.getContentUrl()+"\",");
+
+        sb.append("\"thumb\" : ");
+        sb.append("\""+searchData.getThumbUrl()+"\",");
+
+        sb.append("\"org_price\" : ");
+        sb.append(" "+searchData.getOrgPrice()+",");
+
+        sb.append("\"sale_price\" : ");
+        sb.append(" "+searchData.getSalePrice()+",");
+
+        sb.append("\"sale_per\" : ");
+        sb.append(" "+searchData.getSalePer()+",");
+
+        sb.append("\"cp\" : ");
+        sb.append("\""+searchData.getCpName()+"\",");
+
+        sb.append("\"keyword\" : ");
+        sb.append("\""+searchData.getCrawlKeyword()+"\"");
+
+        sb.append("}");
+
+        indexUrl.append(searchData.getDataId());
+        crawlSite.setCrawlUrl(indexUrl.toString());
+        crawlSite.setCrawlData(sb.toString());
+        System.out.println("indexing url : " + indexUrl.toString());
+        System.out.println("product name : " + searchData.getProductName());
+
+        returnCode = crawlSite.HttpXPost();
+        System.out.println("return code : " + returnCode);
+        System.out.println("---------------------------------------------");
     }
 }
