@@ -22,10 +22,13 @@ public class UpdateSeed {
         String token;
         Integer index;
 
-        if (args.length != 2) {
-            System.out.println("(USAGE) seed_file_path cp_name");
-            System.exit(0);
-        }
+//        if (args.length != 2) {
+//            System.out.println("(USAGE) seed_file_path cp_name");
+//            System.exit(0);
+//        }
+
+        args[0] = "/Users/baeonejune/work/social_shop/data/okoutdoor.dat";
+        args[1] = "okmall";
 
         Seed seed = new Seed();
         seed.setCpName(args[1]);

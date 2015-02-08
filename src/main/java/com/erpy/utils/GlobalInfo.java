@@ -21,6 +21,7 @@ public class GlobalInfo {
         if (cl == null) {
             cl = ClassLoader.getSystemClassLoader();
         }
+
         URL url = cl.getResource("crawl.properties");
         File propFile = new File(url.getPath());
         FileInputStream is = new FileInputStream(propFile);

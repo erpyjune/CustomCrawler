@@ -6,10 +6,11 @@ import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
+import com.erpy.extract.ExtractInfo;
+import com.erpy.extract.ExtractProperties;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -52,18 +53,20 @@ public class OkMallProc {
         this.txtEncode = txtEncode;
     }
 
-    public List<SearchData> extractOkMall() throws IOException {
+    public List<SearchData> extractOkMall() throws Exception {
         FileIO fileIO = new FileIO();
+        ExtractInfo extractInfo = new ExtractInfo();
+        List<SearchData> searchDataList = new ArrayList<SearchData>();
+        Elements elements=null;
+        Elements elementsLink=null;
+        Document document=null;
+        String strItem=null;
+
         fileIO.setEncoding(this.txtEncode);
         fileIO.setPath(this.filePath);
 
-        Elements elements;
-        Elements elementsLink;
-        Document document;
-        String strItem;
 
-        List<SearchData> searchDataList = new ArrayList<SearchData>();
-
+        ////////////////////////////////////////////////////////
         if (filePath==null) {
             System.out.println("(ERROR) filePath is null !!");
             System.exit(0);
@@ -72,45 +75,54 @@ public class OkMallProc {
         String htmlContent = fileIO.getFileContent();
         Document doc = Jsoup.parse(htmlContent);
 
-        //////////////////////////////////////////
-        // 1) content link
-        // 2) image link
         Elements listE;
         Document docu;
         size = 0;
-        //elements = doc.select("div.item_box div.os_border");
-        elements = doc.select("div.item_box[data-ProductNo]");
+        //elements = doc.select("div.item_box[data-ProductNo]");
+        elements = doc.select(extractInfo.getOkmallProf().getListGroup());
         for (Element element : elements) {
 
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
 
-            // link, thumbUrl
-            listE = document.select("div.os_border");
+            // Link
+            //listE = document.select("div.os_border");
+            listE = document.select(extractInfo.getOkmallProf().getLinkGroup());
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                // link
-                elementsLink = docu.select("a");
+                //elementsLink = docu.select("a");
+                elementsLink = docu.select(extractInfo.getOkmallProf().getLink());
                 for (Element elink : elementsLink) {
-                    strItem = elink.attr("href");
+                    //strItem = elink.attr("href");
+                    strItem = elink.attr(extractInfo.getOkmallProf().getLinkAttr());
                     searchData.setContentUrl(strItem);
-//                    System.out.println(strItem);
+                    System.out.println(String.format(">> Link : %s", strItem));
                 }
-                // thumb
-                elementsLink = docu.select("a img");
+            }
+
+            // Thumb link
+            //listE = document.select("div.os_border");
+            listE = document.select(extractInfo.getOkmallProf().getThumbGroup());
+            for (Element et : listE) {
+                docu = Jsoup.parse(et.outerHtml());
+                //elementsLink = docu.select("a img");
+                elementsLink = docu.select(extractInfo.getOkmallProf().getThumb());
                 for (Element elink : elementsLink) {
-                    strItem = elink.attr("data-original");
+                    //strItem = elink.attr("data-original");
+                    strItem = elink.attr(extractInfo.getOkmallProf().getThumbAttr());
                     searchData.setThumbUrl(strItem);
-//                    System.out.println(strItem);
+                    System.out.println(String.format(">> Thumb : %s", strItem));
                 }
             }
 
             // brand name
-            listE = document.select("div.val_top");
+            //listE = document.select("div.val_top");
+            listE = document.select(extractInfo.getOkmallProf().getBrandNameGroup());
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
                 // brand name
-                elementsLink = docu.select("div.brand_detail_layer p.item_title a span.prName_Brand");
+                //elementsLink = docu.select("div.brand_detail_layer p.item_title a span.prName_Brand");
+                elementsLink = docu.select(extractInfo.getOkmallProf().getBrandName());
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
                     strItem = strItem.replace("[","").replace("]", "").replace("\"", " ").replace("'", " ");
@@ -120,11 +132,13 @@ public class OkMallProc {
             }
 
             // product name
-            listE = document.select("div.val_top");
+            //listE = document.select("div.val_top");
+            listE = document.select(extractInfo.getOkmallProf().getProductNameGroup());
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
                 // product name
-                elementsLink = docu.select("div.brand_detail_layer p.item_title a span.prName_PrName");
+                //elementsLink = docu.select("div.brand_detail_layer p.item_title a span.prName_PrName");
+                elementsLink = docu.select(extractInfo.getOkmallProf().getProductName());
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
                     strItem = strItem.replace("\"", " ").replace("'", " ");
@@ -135,33 +149,51 @@ public class OkMallProc {
                 }
             }
 
-            // sale per / org price / sale price
-            listE = document.select("div.al_left");
+            // sale per
+            //listE = document.select("div.al_left");
+            listE = document.select(extractInfo.getOkmallProf().getSalePerGroup());
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                // sale per
-                elementsLink = docu.select("div.icon_group.clearfix div.ic.ic_coupon p");
+                //elementsLink = docu.select("div.icon_group.clearfix div.ic.ic_coupon div.icon");
+                elementsLink = docu.select(extractInfo.getOkmallProf().getSalePer());
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
-                    strItem = strItem.replace("%", "");
+                    strItem = strItem.replace("%", "").replace(" ", "");
                     searchData.setSalePer(Float.parseFloat(strItem));
-//                    System.out.println(strItem);
+                    System.out.println(String.format(">> Sale Per : %s", strItem));
+                    break;
                 }
-                // org price
-                elementsLink = docu.select("div.real_price div.real_price01 span.r");
+            }
+
+            // org price
+            //listE = document.select("div.al_left");
+            listE = document.select(extractInfo.getOkmallProf().getOrgPriceGroup());
+            for (Element et : listE) {
+                docu = Jsoup.parse(et.outerHtml());
+                //elementsLink = docu.select("div.real_price div.value_price span.l span");
+                elementsLink = docu.select(extractInfo.getOkmallProf().getOrgOrgPrice());
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
-//                    System.out.println(strItem);
                     strItem = strItem.replace("원","").replace(",", "");
                     searchData.setOrgPrice(Integer.parseInt(strItem));
+                    System.out.println(String.format(">> Org Per : %s", strItem));
+                    break;
                 }
-                // sale price
-                elementsLink = docu.select("div.real_price div.real_price03.f_c16.fb span.r");
+            }
+
+            // sale price
+            //listE = document.select("div.al_left");
+            listE = document.select(extractInfo.getOkmallProf().getSalePriceGroup());
+            for (Element et : listE) {
+                docu = Jsoup.parse(et.outerHtml());
+                //elementsLink = docu.select("div.real_price div.last_price span.l span");
+                elementsLink = docu.select(extractInfo.getOkmallProf().getSalePrice());
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
-                    strItem = strItem.replace("원","").replace(",","");
+                    strItem = strItem.replace("원","").replace(",","").replace(" ", "");
+                    System.out.println(String.format(">> Sale Per : %s", strItem));
                     searchData.setSalePrice(Integer.parseInt(strItem));
-                    //System.out.println(strItem);
+                    break;
                 }
             }
 
@@ -305,7 +337,7 @@ public class OkMallProc {
         System.out.println("indexing url : " + indexUrl.toString());
         System.out.println("product name : " + searchData.getProductName());
 
-        returnCode = crawlSite.HttpXPost();
+        returnCode = crawlSite.HttpXPUT();
         System.out.println("return code : " + returnCode);
         System.out.println("---------------------------------------------");
     }

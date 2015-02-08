@@ -7,7 +7,7 @@
     <properties resource='jdbc.properties'/>
 
     <typeAliases>
-        <typeAlias type='com.erpy.dao.CrawlData' alias='CrawlData'></typeAlias>
+        <typeAlias type='com.erpy.dao.CrawlData' alias='CrawlData'/>
     </typeAliases>
 
     <environments default='development'>

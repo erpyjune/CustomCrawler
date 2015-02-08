@@ -226,7 +226,7 @@ public class CrawlSite {
     }
 
 
-    public int HttpXPost() throws IOException {
+    public int HttpXPUT() throws IOException {
 
         //String data = "{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}";
         int responseReturnCode;
@@ -239,6 +239,30 @@ public class CrawlSite {
         httpConn.setConnectTimeout(5000);
         httpConn.setReadTimeout(5000);
         httpConn.setRequestMethod("POST"); // PUT, DELETE, POST, GET
+
+        OutputStreamWriter osw = new OutputStreamWriter(httpConn.getOutputStream());
+        osw.write(this.crawlData);
+        osw.flush();
+        osw.close();
+
+        //System.out.println("HTTP Response Code : " + httpConn.getResponseCode());
+        responseReturnCode = httpConn.getResponseCode();
+        httpConn.disconnect();
+
+        return responseReturnCode;
+    }
+
+    public int HttpXGET() throws IOException {
+        int responseReturnCode;
+        URL url = new URL(this.crawlUrl);
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+
+        //httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        httpConn.setDoOutput(true);
+        httpConn.setDoInput(true);
+        httpConn.setConnectTimeout(5000);
+        httpConn.setReadTimeout(5000);
+        httpConn.setRequestMethod("GET"); // PUT, DELETE, POST, GET
 
         OutputStreamWriter osw = new OutputStreamWriter(httpConn.getOutputStream());
         osw.write(this.crawlData);

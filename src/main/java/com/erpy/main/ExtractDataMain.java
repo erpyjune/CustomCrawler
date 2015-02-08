@@ -15,7 +15,7 @@ public class ExtractDataMain {
 
     private static CrawlDataService crawlDataService;
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws Exception {
         CrawlData crawlData;
         // okmall.
         OkMallProc okMallProc = new OkMallProc();
@@ -25,20 +25,22 @@ public class ExtractDataMain {
         crawlDataService = new CrawlDataService();
         List<CrawlData> crawlDataList = crawlDataService.getAllCrawlDatas();
         Iterator iterator = crawlDataList.iterator();
-        while (iterator.hasNext()) {
-            crawlData = (CrawlData)iterator.next();
+        if (iterator.hasNext()) {
+            do {
+                crawlData = (CrawlData) iterator.next();
 
-            if (crawlData.getCpName().equals("okmall")==true) {
-                // set parsing file path.
-                System.out.println("extract - " + crawlData.getSavePath());
-                okMallProc.setFilePath(crawlData.getSavePath());
-                // set keyword.
-                okMallProc.setKeyword(crawlData.getCrawlKeyword());
-                // parsing.
-                searchDataList = okMallProc.extractOkMall();
-                // insert to DB.
-                okMallProc.insertOkMall(searchDataList);
-            }
+                if (crawlData.getCpName().equals("okmall")) {
+                    // set parsing file path.
+                    System.out.println("extract - " + crawlData.getSavePath());
+                    okMallProc.setFilePath(crawlData.getSavePath());
+                    // set keyword.
+                    okMallProc.setKeyword(crawlData.getCrawlKeyword());
+                    // parsing.
+                    searchDataList = okMallProc.extractOkMall();
+                    // insert to DB.
+                    //okMallProc.insertOkMall(searchDataList);
+                }
+            } while (iterator.hasNext());
         }
 
         System.out.println("=========================");

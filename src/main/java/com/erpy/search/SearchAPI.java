@@ -56,25 +56,6 @@ public class SearchAPI {
                 .execute()
                 .actionGet();
 
-
-
-//        SearchHit[] searchHits = response.getHits().getHits();
-//        StringBuilder builder = new StringBuilder();
-//        int length = searchHits.length;
-//        builder.append("[");
-//        for (int i = 0; i < length; i++) {
-//            if (i == length - 1) {
-//                builder.append(searchHits[i].getSourceAsString());
-//            } else {
-//                builder.append(searchHits[i].getSourceAsString());
-//                builder.append(",");
-//            }
-//        }
-//
-//        builder.append("]");
-//        String result= builder.toString();
-
-
         System.out.println(response.toString());
         System.out.println("------------------");
 
@@ -85,9 +66,9 @@ public class SearchAPI {
 
 
     public void search2() throws Exception {
+
         Node node = nodeBuilder().node();
-        Client client = new TransportClient()
-                .addTransportAddress(new InetSocketTransportAddress("127.0.0.1", 9300));
+        Client client = new TransportClient().addTransportAddress(new InetSocketTransportAddress("127.0.0.1", 9300));
 
         //searchResponse = client().prepareSearch().setQuery(QueryBuilders.multiMatchQuery("the quick brown", "field1", "field2").cutoffFrequency(3).operator(MatchQueryBuilder.Operator.AND)).execute().actionGet();
 
@@ -100,10 +81,9 @@ public class SearchAPI {
         */
 
         QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(
-                "nike 뮤트",                    // Text you are looking for
+                "nike",                    // Text you are looking for
                 "brand_name",     // Fields you query on
-                "product_name"
-        );
+                "product_name").operator(MatchQueryBuilder.Operator.AND);
 
         SearchResponse response = client.prepareSearch("shop")
                 //.setTypes("twitter", "type2")
@@ -111,14 +91,17 @@ public class SearchAPI {
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                         //.setQuery(QueryBuilders.termQuery("brand_name", "nike"))             // Query
                         //.setPostFilter(FilterBuilders.rangeFilter("age").from(0).to(10))   // Filter
-                .addSort(new FieldSortBuilder("sale_price").order(SortOrder.ASC))
+                .addSort(new FieldSortBuilder("sale_price").order(SortOrder.DESC))
                 .setQuery(queryBuilder)
                 .setFrom(0).setSize(10).setExplain(true)
+                .setHighlighterQuery(queryBuilder)
                 .execute()
                 .actionGet();
 
         int count = 0;
         SearchHit[] searchHits = response.getHits().getHits();
+        System.out.println(String.format("getTotalHit:%d", response.getHits().getTotalHits()));
+        System.out.println(String.format("totalHits:%d", response.getHits().totalHits()));
         for (SearchHit hit : searchHits) {
             Map<String, Object> listMap = hit.getSource();
             System.out.println(String.format("[%d] %s:%s:%s|%d",

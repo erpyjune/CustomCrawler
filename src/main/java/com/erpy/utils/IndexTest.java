@@ -16,6 +16,6 @@ public class IndexTest {
         CrawlSite crawlSite = new CrawlSite();
         crawlSite.setCrawlUrl("http://localhost:9200/twitter/tweet/22");
         crawlSite.setCrawlData("{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}");
-        crawlSite.HttpXPost();
+        crawlSite.HttpXPUT();
     }
 }
