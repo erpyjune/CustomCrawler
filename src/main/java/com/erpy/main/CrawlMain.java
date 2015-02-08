@@ -10,6 +10,7 @@ import com.erpy.parser.OkMallProc;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.search.aggregations.bucket.global.Global;
 
 
 import java.io.IOException;
@@ -22,9 +23,6 @@ import java.util.Random;
  */
 public class CrawlMain {
 
-    private static SeedService seedService;
-    private static CrawlDataService crawlDataService;
-
     public static void main(String args[]) throws IOException {
 
         Seed seed;
@@ -33,13 +31,13 @@ public class CrawlMain {
         String strCpName;
 
         OkMallProc okMallProc = new OkMallProc();
-        seedService = new SeedService();
-        crawlDataService = new CrawlDataService();
+        SeedService seedService = new SeedService();
 
         // get crawl seeds.
         List<Seed> seedList = seedService.getAllSeeds();
         Iterator iterator = seedList.iterator();
-        while (iterator.hasNext()) {
+        while (true) {
+            if (!(iterator.hasNext())) break;
             seed = (Seed)iterator.next();
             strKeyword = seed.getKeyword();
             strUrl     = seed.getUrl();
@@ -47,7 +45,7 @@ public class CrawlMain {
 
             System.out.println("Url... " + strUrl);
 
-            if (strCpName.equals("okmall")==true) {
+            if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
                 okMallProc.setTxtEncode("euc-kr");
                 okMallProc.crawlData(strUrl, strKeyword, strCpName);
             }

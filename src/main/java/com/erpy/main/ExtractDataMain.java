@@ -4,6 +4,7 @@ import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
 import com.erpy.parser.OkMallProc;
+import com.erpy.utils.GlobalInfo;
 
 import java.io.IOException;
 import java.util.*;
@@ -13,8 +14,6 @@ import java.util.*;
  */
 public class ExtractDataMain {
 
-    private static CrawlDataService crawlDataService;
-
     public static void main(String args[]) throws Exception {
         CrawlData crawlData;
         // okmall.
@@ -22,14 +21,14 @@ public class ExtractDataMain {
         List<SearchData> searchDataList = new ArrayList<SearchData>();
 
         // okmall process.
-        crawlDataService = new CrawlDataService();
+        CrawlDataService crawlDataService = new CrawlDataService();
         List<CrawlData> crawlDataList = crawlDataService.getAllCrawlDatas();
         Iterator iterator = crawlDataList.iterator();
         if (iterator.hasNext()) {
             do {
                 crawlData = (CrawlData) iterator.next();
 
-                if (crawlData.getCpName().equals("okmall")) {
+                if (crawlData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
                     // set parsing file path.
                     System.out.println("extract - " + crawlData.getSavePath());
                     okMallProc.setFilePath(crawlData.getSavePath());
@@ -38,7 +37,7 @@ public class ExtractDataMain {
                     // parsing.
                     searchDataList = okMallProc.extractOkMall();
                     // insert to DB.
-                    //okMallProc.insertOkMall(searchDataList);
+                    okMallProc.insertOkMall(searchDataList);
                 }
             } while (iterator.hasNext());
         }

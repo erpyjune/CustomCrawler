@@ -15,23 +15,21 @@ import java.util.List;
  */
 public class IndexingMain {
 
-    private static SearchDataService searchDataService;
     private static final String IndexingUrl = "http://localhost:9200/shop/";
 
     public static void main (String args[]) throws IOException {
-        StringBuilder sb = new StringBuilder();
         SearchData searchData = new SearchData();
-        searchDataService = new SearchDataService();
-        CrawlSite crawlSite = new CrawlSite();
+        SearchDataService searchDataService = new SearchDataService();
         OkMallProc okMallProc = new OkMallProc();
-        GlobalInfo globalInfo = new GlobalInfo();
 
         List<SearchData> searchDataList = searchDataService.getAllSearchDatas();
         Iterator iterator = searchDataList.iterator();
-        while (iterator.hasNext()) {
+        while (true) {
+            if (!(iterator.hasNext())) break;
             searchData = (SearchData)iterator.next();
-            //System.out.println(String.format("(%d)%s",searchData.getDataId(), searchData.getProductName()));
-            if (searchData.getCpName().equals(globalInfo.CP_OKMALL)) {
+//            System.out.println(String.format("(%d)%s",searchData.getDataId(), searchData.getCpName()));
+            if (searchData.getCpName()==null) continue;;
+            if (searchData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
                 okMallProc.indexingOkMall(searchData);
             } else {
                 System.out.println("cp name is not equals !!");
