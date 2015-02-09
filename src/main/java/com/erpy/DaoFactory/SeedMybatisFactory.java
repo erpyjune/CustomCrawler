@@ -19,7 +19,7 @@ public class SeedMybatisFactory {
     static {
         Reader reader = null;
         try {
-            reader = Resources.getResourceAsReader("seed-mybatis-config.xml");
+            reader = Resources.getResourceAsReader("resources/seed-mybatis-config.xml");
             System.out.println("SeedMybatisFactory : " + reader);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());

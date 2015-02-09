@@ -4,7 +4,7 @@
         'http://mybatis.org/dtd/mybatis-3-config.dtd'>
 <configuration>
 
-    <properties resource='jdbc.properties'/>
+    <properties resource='resources/jdbc.properties'/>
 
     <typeAliases>
         <typeAlias type='com.erpy.dao.CrawlData' alias='CrawlData'/>
@@ -23,6 +23,6 @@
     </environments>
 
     <mappers>
-        <mapper resource='mapper/CrawlDataMapper.xml'/>
+        <mapper resource='resources/mapper/CrawlDataMapper.xml'/>
     </mappers>
 </configuration>

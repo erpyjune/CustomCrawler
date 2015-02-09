@@ -4,7 +4,7 @@
         'http://mybatis.org/dtd/mybatis-3-config.dtd'>
 <configuration>
 
-    <properties resource='jdbc.properties'/>
+    <properties resource='resources/jdbc.properties'/>
 
     <typeAliases>
         <typeAlias type='com.erpy.dao.Seed' alias='Seed'></typeAlias>
@@ -23,6 +23,6 @@
     </environments>
 
     <mappers>
-        <mapper resource='mapper/SeedMapper.xml'/>
+        <mapper resource='resources/mapper/SeedMapper.xml'/>
     </mappers>
 </configuration>

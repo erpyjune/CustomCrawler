@@ -19,7 +19,7 @@ public class CrawlDataMybatisFactory {
     static {
         Reader reader = null;
         try {
-            reader = Resources.getResourceAsReader("crawldata-mybatis-config.xml");
+            reader = Resources.getResourceAsReader("resources/crawldata-mybatis-config.xml");
             System.out.println("SeedMybatisFactory : " + reader);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
