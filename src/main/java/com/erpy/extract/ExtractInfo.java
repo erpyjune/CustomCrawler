@@ -1,8 +1,8 @@
 package com.erpy.extract;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import org.apache.ibatis.io.Resources;
+
+import java.io.*;
 import java.net.URL;
 import java.util.Properties;
 
@@ -14,15 +14,7 @@ public class ExtractInfo {
     private static ExtractProperties okmall = new ExtractProperties();
     
     public ExtractInfo() throws Exception {
-        ClassLoader cl;
-        cl = Thread.currentThread().getContextClassLoader();
-        if (cl == null) {
-            cl = ClassLoader.getSystemClassLoader();
-        }
-
-        URL url = cl.getResource("extract.properties");
-        assert url != null;
-        FileInputStream is = new FileInputStream(new File(url.getPath()));
+        InputStream is = getClass().getClassLoader().getResourceAsStream("extract.properties");
         Properties props = new Properties();
         props.load(is);
 

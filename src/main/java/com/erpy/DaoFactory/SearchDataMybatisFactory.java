@@ -34,7 +34,8 @@ public class SearchDataMybatisFactory {
 		
 		try {
 			//org reader = Resources.getResourceAsReader("searchdata-mybatis-config.xml");
-			reader = Resources.getResourceAsReader("resources/searchdata-mybatis-config.xml");
+			//reader = Resources.getResourceAsReader("resources/searchdata-mybatis-config.xml");
+            reader = Resources.getResourceAsReader("searchdata-mybatis-config.xml");
 			//is =  SearchDataMybatisFactory.class.getClassLoader().getResourceAsStream("/searchdata-mybatis-config.xml");
 			//is =  Class.class.getClassLoader().getResourceAsStream("/resources/searchdata-mybatis-config.xml");
 			//new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/config.txt")));

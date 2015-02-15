@@ -1,6 +1,5 @@
 package com.erpy.main;
 
-import com.erpy.crawler.CrawlSite;
 import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
 import com.erpy.parser.OkMallProc;

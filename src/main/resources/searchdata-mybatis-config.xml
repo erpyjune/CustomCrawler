@@ -4,7 +4,7 @@
         'http://mybatis.org/dtd/mybatis-3-config.dtd'>
 <configuration>
 
-    <properties resource='resources/jdbc.properties'/>
+    <properties resource='jdbc.properties'/>
 
     <typeAliases>
         <typeAlias type='com.erpy.dao.SearchData' alias='SearchData'></typeAlias>
@@ -23,6 +23,6 @@
     </environments>
 
     <mappers>
-        <mapper resource='resources/mapper/SearchDataMapper.xml'/>
+        <mapper resource='mapper/SearchDataMapper.xml'/>
     </mappers>
 </configuration>

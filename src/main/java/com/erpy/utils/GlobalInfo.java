@@ -1,8 +1,8 @@
 package com.erpy.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import org.apache.ibatis.io.Resources;
+
+import java.io.*;
 import java.net.URL;
 import java.util.Properties;
 
@@ -16,18 +16,20 @@ public class GlobalInfo {
     public static final String CP_OKMALL = "okmall";
 
     public GlobalInfo() throws IOException {
-        ClassLoader cl;
-        cl = Thread.currentThread().getContextClassLoader();
-        if (cl == null) {
-            cl = ClassLoader.getSystemClassLoader();
-        }
+//        ClassLoader cl;
+//        cl = Thread.currentThread().getContextClassLoader();
+//        if (cl == null) {
+//            cl = ClassLoader.getSystemClassLoader();
+//        }
+//        URL url = cl.getResource("crawl.properties");
+//        File propFile = new File(url.getPath());
+//        FileInputStream is = new FileInputStream(propFile);
 
-        URL url = cl.getResource("crawl.properties");
-        File propFile = new File(url.getPath());
-        FileInputStream is = new FileInputStream(propFile);
+        InputStream is = getClass().getClassLoader().getResourceAsStream("crawl.properties");
         Properties props = new Properties();
         props.load(is);
         this.saveFilePath = props.getProperty("crawl.save.prefix.path");
+        System.out.println(">> Crawl prefix path : " + this.saveFilePath);
     }
 
     public String getSaveFilePath() {
