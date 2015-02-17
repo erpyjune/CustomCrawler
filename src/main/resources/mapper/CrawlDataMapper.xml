@@ -57,4 +57,8 @@
         DELETE FROM crawl_data WHERE id = #{dataId}
     </delete>
 
+    <delete id='deleteCrawlDataAll'>
+        DELETE FROM crawl_data
+    </delete>
+
 </mapper>

@@ -4,6 +4,7 @@ import com.erpy.DaoFactory.SearchDataMybatisFactory;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by baeonejune on 14. 12. 28..
@@ -50,11 +51,33 @@ public class SearchDataService {
         }
     }
 
-    public void updateSearchData(SearchData crawlData) {
+    public List<SearchData> getAllSearchDataForUpdate(Map<String, String> map) {
         SqlSession sqlSession = SearchDataMybatisFactory.getSqlSessionFactory().openSession();
         try{
-            SearchDataMapper crawlDataMapper = sqlSession.getMapper(SearchDataMapper.class);
-            crawlDataMapper.updateSearchData(crawlData);
+            SearchDataMapper searchDataMapper = sqlSession.getMapper(SearchDataMapper.class);
+            return searchDataMapper.getAllSearchDataForUpdate(map);
+        }finally{
+            sqlSession.close();
+        }
+    }
+
+    public void updateSearchData(SearchData searchData) {
+        SqlSession sqlSession = SearchDataMybatisFactory.getSqlSessionFactory().openSession();
+        try{
+            SearchDataMapper searchDataMapper = sqlSession.getMapper(SearchDataMapper.class);
+            searchDataMapper.updateSearchData(searchData);
+            sqlSession.commit();
+        }finally{
+            sqlSession.close();
+        }
+
+    }
+
+    public void updateSearchDataStatus(SearchData searchData) {
+        SqlSession sqlSession = SearchDataMybatisFactory.getSqlSessionFactory().openSession();
+        try{
+            SearchDataMapper searchDataMapper = sqlSession.getMapper(SearchDataMapper.class);
+            searchDataMapper.updateSearchDataStatus(searchData);
             sqlSession.commit();
         }finally{
             sqlSession.close();

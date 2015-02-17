@@ -73,4 +73,15 @@ public class CrawlDataService {
             sqlSession.close();
         }
     }
+
+    public void deleteCrawlDataAll() {
+        SqlSession sqlSession = CrawlDataMybatisFactory.getSqlSessionFactory().openSession();
+        try{
+            CrawlDataMapper crawlDataMapper = sqlSession.getMapper(CrawlDataMapper.class);
+            crawlDataMapper.deleteCrawlDataAll();
+            sqlSession.commit();
+        }finally{
+            sqlSession.close();
+        }
+    }
 }

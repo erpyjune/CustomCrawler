@@ -10,6 +10,7 @@ public interface CrawlDataMapper {
     public void insertCrawlData(CrawlData crawlData);
     public void updateCrawlData(CrawlData crawlData);
     public void deleteCrawlData(Integer seedId);
+    public void deleteCrawlDataAll();
     public List<CrawlData> getAllCrawlDatas();
     public List<CrawlData> getCrawlDataByCpName(String cpName);
 }

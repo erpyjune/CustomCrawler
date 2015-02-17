@@ -14,6 +14,8 @@ public class SearchData {
     Float salePer;
     String cpName;
     String crawlKeyword;
+    String type;
+    String dataStatus;
 
     public String getProductName() {
         return productName;
@@ -93,5 +95,21 @@ public class SearchData {
 
     public void setCrawlKeyword(String crawlKeyword) {
         this.crawlKeyword = crawlKeyword;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDataStatus() {
+        return dataStatus;
+    }
+
+    public void setDataStatus(String dataStatus) {
+        this.dataStatus = dataStatus;
     }
 }

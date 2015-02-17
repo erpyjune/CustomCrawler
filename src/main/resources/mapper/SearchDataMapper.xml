@@ -32,10 +32,15 @@
         <result property='salePer' 	        column='sale_per'/>
         <result property='cpName' 	        column='cp'/>
         <result property='crawlKeyword' 	column='keyword'/>
+        <result property='dataStatus' 	    column='status'/>
     </resultMap>
 
     <select id='getAllSearchDatas' resultMap='SearchDataResult'>
         SELECT * FROM search
+    </select>
+
+    <select id='getAllSearchDataForUpdate' parameterType='HashMap' resultMap='SearchDataResult'>
+        SELECT * FROM search WHERE status=#{selStatus1} OR status=#{selStatus2}
     </select>
 
     <select id='getSearchDataByCpName' parameterType='String' resultMap='SearchDataResult'>
@@ -43,8 +48,8 @@
     </select>
 
     <insert id='insertSearchData' parameterType='SearchData' useGeneratedKeys='true' keyProperty='dataId'>
-        INSERT INTO search (product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword)
-        VALUES(#{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword})
+        INSERT INTO search (product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, status)
+        VALUES(#{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{dataStatus})
     </insert>
 
     <update id='updateSearchData' parameterType='SearchData'>
@@ -58,13 +63,20 @@
         sale_price   = #{salePrice},
         sale_per     = #{salePer},
         cp           = #{cpName},
-        org_price    = #{cpName},
-        keyword      = #{crawlKeyword}
-        WHERE url = #{contentUrl}
+        keyword      = #{crawlKeyword},
+        status       = #{dataStatus}
+        WHERE id     = #{dataId}
+    </update>
+
+    <update id='updateSearchDataStatus' parameterType="SearchData">
+        UPDATE search
+        SET
+        status = #{dataStatus}
+        WHERE id = #{dataId}
     </update>
 
     <delete id='deleteSearchData' parameterType='String'>
-        DELETE FROM search WHERE cp = #{cpName}
+        DELETE FROM search WHERE url = #{url}
     </delete>
 
 </mapper>

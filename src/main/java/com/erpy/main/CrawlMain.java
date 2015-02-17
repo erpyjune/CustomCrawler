@@ -17,11 +17,14 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * Created by baeonejune on 14. 12. 21..
  */
 public class CrawlMain {
+
+    private static Logger logger = Logger.getLogger(CrawlMain.class.getName());
 
     public static void main(String args[]) throws IOException {
 
@@ -29,28 +32,35 @@ public class CrawlMain {
         String strKeyword;
         String strUrl;
         String strCpName;
+        int seedCount=0;
 
         OkMallProc okMallProc = new OkMallProc();
         SeedService seedService = new SeedService();
 
+        // all crawl_data delete.
+        CrawlDataService crawlDataService = new CrawlDataService();
+        crawlDataService.deleteCrawlDataAll();
+        logger.info("crawl_data table delete all");
+
         // get crawl seeds.
         List<Seed> seedList = seedService.getAllSeeds();
         Iterator iterator = seedList.iterator();
-        while (true) {
-            if (!(iterator.hasNext())) break;
+        while (iterator.hasNext()) {
             seed = (Seed)iterator.next();
             strKeyword = seed.getKeyword();
             strUrl     = seed.getUrl();
             strCpName  = StringUtils.trim(seed.getCpName());
 
-            System.out.println("Url... " + strUrl);
+            logger.info(String.format("[ %d ] seed crawling...", seedCount));
 
             if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
                 okMallProc.setTxtEncode("euc-kr");
                 okMallProc.crawlData(strUrl, strKeyword, strCpName);
             }
+
+            seedCount++;
         }
 
-        System.out.println("Crawling completed!!");
+        logger.info("crawling completed!!");
     }
 }

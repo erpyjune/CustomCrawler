@@ -14,6 +14,7 @@ public class GlobalInfo {
     String saveFilePath;
 
     public static final String CP_OKMALL = "okmall";
+    public static final String CP_FIRST  = "first";
 
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;
