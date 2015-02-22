@@ -21,6 +21,9 @@ public class ExtractProperties {
     private String thumbGroup;
     private String thumbAttr;
     private String thumb;
+    private String SexGroup;
+    private String SexAttr;
+    private String Sex;
 
     public String getListGroup() {
         return listGroup;
@@ -156,5 +159,29 @@ public class ExtractProperties {
 
     public void setThumb(String thumb) {
         this.thumb = thumb;
+    }
+
+    public String getSexGroup() {
+        return SexGroup;
+    }
+
+    public void setSexGroup(String sexGroup) {
+        SexGroup = sexGroup;
+    }
+
+    public String getSexAttr() {
+        return SexAttr;
+    }
+
+    public void setSexAttr(String sexAttr) {
+        SexAttr = sexAttr;
+    }
+
+    public String getSex() {
+        return Sex;
+    }
+
+    public void setSex(String sex) {
+        Sex = sex;
     }
 }

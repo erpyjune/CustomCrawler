@@ -27,22 +27,15 @@ public class CrawlIO {
 
     public boolean executeSaveData() throws IOException {
 
-        if (this.path.length() <= 0) {
+        if (path.length() <= 0) {
             System.out.println("ERROR :: file path is NOT");
             return false;
         }
 
-        //String buffer = new String(this.data.getBytes("euc-kr"), "utf-8");
-
-        //BufferedWriter bw = new BufferedWriter(new FileWriter(this.path));
-        File file = new File(this.path);
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,true), this.encoding));
-        bw.write(this.data);
+        File file = new File(path);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,true), encoding));
+        bw.write(data);
         bw.close();
-
-        String log = String.format("frush file ... size(%s), encoding(%s), path(%s)",
-                this.data.length(), this.encoding, this.path);
-        System.out.println(log);
 
         return true;
     }

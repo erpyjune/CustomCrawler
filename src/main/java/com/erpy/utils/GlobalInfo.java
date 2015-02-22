@@ -29,8 +29,7 @@ public class GlobalInfo {
         InputStream is = getClass().getClassLoader().getResourceAsStream("crawl.properties");
         Properties props = new Properties();
         props.load(is);
-        this.saveFilePath = props.getProperty("crawl.save.prefix.path");
-        System.out.println(">> Crawl prefix path : " + this.saveFilePath);
+        saveFilePath = props.getProperty("crawl.save.prefix.path");
     }
 
     public String getSaveFilePath() {

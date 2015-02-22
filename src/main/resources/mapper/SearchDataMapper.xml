@@ -7,6 +7,7 @@
     <select id='getSearchDataById' parameterType='int' resultType='com.erpy.dao.SearchData'>
         SELECT
         id       as dataId,
+        product_id   as productId,
         product_name as productName,
         brand_name   as brandName,
         url          as contentUrl,
@@ -23,6 +24,7 @@
     <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in seed-mybatis-config.xml and use Alias names. -->
     <resultMap type='SearchData' 		id='SearchDataResult'>
         <id     property='dataId' 		    column='id'/>
+        <result property='productId' 	    column='product_id'/>
         <result property='productName' 	    column='product_name'/>
         <result property='brandName' 	    column='brand_name'/>
         <result property='contentUrl' 	    column='url'/>
@@ -48,13 +50,14 @@
     </select>
 
     <insert id='insertSearchData' parameterType='SearchData' useGeneratedKeys='true' keyProperty='dataId'>
-        INSERT INTO search (product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, status)
-        VALUES(#{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{dataStatus})
+        INSERT INTO search (product_id, product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, status)
+        VALUES(#{productId}, #{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{dataStatus})
     </insert>
 
     <update id='updateSearchData' parameterType='SearchData'>
         UPDATE search
         SET
+        product_id   = #{productId},
         product_name = #{productName},
         brand_name   = #{brandName},
         url          = #{contentUrl},

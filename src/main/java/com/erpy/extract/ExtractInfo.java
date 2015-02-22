@@ -42,6 +42,10 @@ public class ExtractInfo {
         okmall.setThumbGroup(props.getProperty("okmall.select.ThumbGroup"));
         okmall.setThumb(props.getProperty("okmall.select.Thumb"));
         okmall.setThumbAttr(props.getProperty("okmall.attr.Thumb"));
+
+        okmall.setSexGroup(props.getProperty("okmall.select.SexGroup"));
+        okmall.setSex(props.getProperty("okmall.select.Sex"));
+        okmall.setSexAttr(props.getProperty("okmall.attr.Sex"));
     }
     
     public ExtractProperties getOkmallProf() throws Exception {return okmall;}

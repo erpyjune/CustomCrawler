@@ -1,5 +1,6 @@
 package com.erpy.crawler;
 
+import com.erpy.main.IndexingMain;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -10,12 +11,14 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -30,11 +33,14 @@ public class CrawlSite {
     private String crawlUrl;
     private String crawlData;
     private String crawlEncoding="UTF-8"; // UTF-8, EUC-KR
+    private int reponseCode;
     private int socketTimeout=1000;
     private int connectionTimeout=1000;
     private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
     private static final String REFERER = "http://www.google.com/";
     private static final String CONNECTION = "keep-alive";
+
+    private static Logger logger = Logger.getLogger(CrawlSite.class.getName());
 
 
     /*
@@ -71,31 +77,27 @@ public class CrawlSite {
         HttpGet httpGet = new HttpGet(this.crawlUrl);
         HttpEntity entity = null;
         BufferedReader br = null;
-        StringBuffer sb = null;
+        StringBuilder sb = new StringBuilder();
         String line=null;
 
-        httpGet.addHeader("User-Agent", this.USER_AGENT);
-        httpGet.addHeader("Referer", this.REFERER);
-        httpGet.addHeader("Connection", this.CONNECTION);
+        httpGet.addHeader("User-Agent", USER_AGENT);
+        httpGet.addHeader("Referer", REFERER);
+        httpGet.addHeader("Connection", CONNECTION);
 
         CloseableHttpResponse response = httpClient.execute(httpGet);
-
         System.out.println(response.getStatusLine());
 
         try {
             entity = response.getEntity();
             if (entity != null) {
                 br = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), this.crawlEncoding));
-                sb = new StringBuffer();
-                line = "";
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
             }
         } finally {
-            br.close();
+            if(br!=null) br.close();
             response.close();
-
         }
 
         EntityUtils.consume(entity);
@@ -114,9 +116,9 @@ public class CrawlSite {
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(this.crawlUrl);
 
-        request.addHeader("User-Agent", this.USER_AGENT);
-        request.addHeader("Referer", this.REFERER);
-        request.addHeader("Connection", this.CONNECTION);
+        request.addHeader("User-Agent", USER_AGENT);
+        request.addHeader("Referer", REFERER);
+        request.addHeader("Connection", CONNECTION);
 
         HttpResponse response = client.execute(request);
 
@@ -127,7 +129,7 @@ public class CrawlSite {
                 new InputStreamReader(response.getEntity().getContent(), this.crawlEncoding));
 
         String line;
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
@@ -144,25 +146,26 @@ public class CrawlSite {
     }
 
 
-    public void HttpCrawlGetDataTimeout() throws IOException {
+    public int HttpCrawlGetDataTimeout() throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(this.socketTimeout)
-                .setConnectTimeout(this.connectionTimeout)
+                .setSocketTimeout(socketTimeout)
+                .setConnectTimeout(connectionTimeout)
                 .build();
 
         HttpGet httpGet = new HttpGet(this.crawlUrl);
-        httpGet.addHeader("User-Agent", this.USER_AGENT);
-        httpGet.addHeader("Referer", this.REFERER);
-        httpGet.addHeader("Connection", this.CONNECTION);
+        httpGet.addHeader("User-Agent", USER_AGENT);
+        httpGet.addHeader("Referer", REFERER);
+        httpGet.addHeader("Connection", CONNECTION);
 
         httpGet.setConfig(requestConfig);
         CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpGet);
+
         try {
-            HttpEntity httpEntity = closeableHttpResponse.getEntity();
-            System.out.println(closeableHttpResponse.getStatusLine().getStatusCode());
+            //HttpEntity httpEntity = closeableHttpResponse.getEntity();
             BufferedReader rd = new BufferedReader(
                     new InputStreamReader(closeableHttpResponse.getEntity().getContent(), this.crawlEncoding));
+
             String line;
             StringBuffer result = new StringBuffer();
             while ((line = rd.readLine()) != null) {
@@ -178,20 +181,21 @@ public class CrawlSite {
         } finally {
             closeableHttpResponse.close();
         }
+
+        return closeableHttpResponse.getStatusLine().getStatusCode();
     }
 
 
     public void HttpCrawlPostMethod() throws IOException {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(this.crawlUrl);
-
+        HttpPost httpPost = new HttpPost(crawlUrl);
         // add header
-        post.addHeader("User-Agent", this.USER_AGENT);
-        post.addHeader("Referer", this.REFERER);
-        post.setHeader("aaa", "ddd");
-        //post.setHeader("User-Agent", this.USER_AGENT);
-        //post.setHeader("Referer", this.REFERER);
-        //post.setHeader("Content-Length:", "100");
+        httpPost.addHeader("User-Agent", USER_AGENT);
+        httpPost.addHeader("Referer", REFERER);
+//        post.setHeader("aaa", "ddd");
+//        post.setHeader("User-Agent", this.USER_AGENT);
+//        post.setHeader("Referer", this.REFERER);
+//        post.setHeader("Content-Length:", "100");
 
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         urlParameters.add(new BasicNameValuePair("mode", "categorymain"));
@@ -199,10 +203,10 @@ public class CrawlSite {
         urlParameters.add(new BasicNameValuePair("startnum", "41"));
         urlParameters.add(new BasicNameValuePair("endnum", "200"));
 
-        post.setEntity(new UrlEncodedFormEntity(urlParameters));
+        httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
         urlParameters.size();
 
-        HttpResponse response = client.execute(post);
+        HttpResponse response = client.execute(httpPost);
 
         System.out.println("Response Code : "
                 + response.getStatusLine().getStatusCode());
@@ -226,11 +230,68 @@ public class CrawlSite {
     }
 
 
+    public void HttpPostGetData() throws Exception {
+        String jsonQueryString = "{\n" +
+                "\t\"query\" : {\n" +
+                "    \t\"multi_match\": {\n" +
+                "        \t\"query\":                \"nike\",\n" +
+                "        \t\"type\":                 \"best_fields\", \n" +
+                "        \t\"fields\":               [ \"product_name^2\", \"brand_name^1\", \"keyword^1\" ]\n" +
+                "    \t}\n" +
+                "    }\n" +
+                "}";
+        HttpPost httpPost = new HttpPost(crawlUrl);
+        httpPost.addHeader("User-Agent", USER_AGENT);
+        httpPost.addHeader("Referer", REFERER);
+        httpPost.setConfig(RequestConfig.custom().
+                setSocketTimeout(socketTimeout)
+                .setConnectTimeout(connectionTimeout)
+                .build());
+
+//        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+//        urlParameters.add(new BasicNameValuePair("mode", "categorymain"));
+//        urlParameters.add(new BasicNameValuePair("categoryid", "94201"));
+//        urlParameters.add(new BasicNameValuePair("startnum", "41"));
+//        urlParameters.add(new BasicNameValuePair("endnum", "200"));
+//        urlParameters.size();
+
+
+
+        logger.info("jsonquery : " + jsonQueryString);
+        StringEntity stringEntity = new StringEntity(jsonQueryString);
+        httpPost.setEntity(stringEntity);
+//        httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpResponse response = client.execute(httpPost);
+
+        logger.info("repose code : " + response.getStatusLine().getStatusCode());
+
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(response.getEntity().getContent(), this.crawlEncoding));
+
+        StringBuilder result = new StringBuilder();
+        String line = "";
+        while ((line = bufferedReader.readLine()) != null) {
+            result.append(line);
+        }
+
+        if (result.length() <= 0) {
+            this.crawlData = "";
+        } else {
+            this.crawlData = result.toString();
+        }
+
+        bufferedReader.close();
+    }
+
+
+
     public int HttpXPUT() throws IOException {
 
         //String data = "{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}";
         int responseReturnCode;
-        URL url = new URL(this.crawlUrl);
+        URL url = new URL(crawlUrl);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 
         //httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -241,7 +302,7 @@ public class CrawlSite {
         httpConn.setRequestMethod("POST"); // PUT, DELETE, POST, GET
 
         OutputStreamWriter osw = new OutputStreamWriter(httpConn.getOutputStream());
-        osw.write(this.crawlData);
+        osw.write(crawlData);
         osw.flush();
         osw.close();
 

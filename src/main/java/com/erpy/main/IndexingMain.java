@@ -4,13 +4,14 @@ import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
 import com.erpy.parser.OkMallProc;
 import com.erpy.utils.GlobalInfo;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+
 
 /**
  * Created by baeonejune on 14. 12. 30..
@@ -22,10 +23,13 @@ public class IndexingMain {
 
     public static void main (String args[]) throws IOException {
         Map<String,String> statusParamMap = new HashMap<String, String>();
-        SearchData searchData = new SearchData();
+        SearchData searchData;
         SearchDataService searchDataService = new SearchDataService();
         OkMallProc okMallProc = new OkMallProc();
+        String productId;
+        String cpName;
         int indexCount=0;
+        int returnCode;
 
         // select 문 파라메터로 보낼 변수들
         statusParamMap.put("selStatus1","U");
@@ -34,26 +38,34 @@ public class IndexingMain {
         //List<SearchData> searchDataList = searchDataService.getAllSearchDatas();
         List<SearchData> searchDataList = searchDataService.getAllSearchDataForUpdate(statusParamMap);
         Iterator iterator = searchDataList.iterator();
-
         while (true) {
             if (!(iterator.hasNext())) break;
             searchData = (SearchData)iterator.next();
-//            System.out.println(String.format("(%d)%s",searchData.getDataId(), searchData.getCpName()));
-            if (searchData.getCpName()==null) continue;
-            if (searchData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
-                // indexing to elasticsearch engine.
-                okMallProc.indexingOkMall(searchData);
 
-                // update 'I' or 'U' --> 'E'
-                searchData.setDataStatus("E");
-                searchDataService.updateSearchDataStatus(searchData);
-                indexCount++;
+//            logger.info(String.format(" (%s)%s:%s", searchData.getProductId(), searchData.getCpName(),
+//                    searchData.getProductName()));
+
+            if (okMallProc.isDataEmpty(searchData)) {
+                logger.error(" Skip indexing :: data field is null !!");
+                continue;
+            }
+
+            if (searchData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
+
+                // indexing to elasticsearch engine.
+                returnCode = okMallProc.indexingOkMall(searchData);
+                if (returnCode == 200 || returnCode == 201) {
+                    // update 'I' or 'U' --> 'E'
+                    searchData.setDataStatus("E");
+                    searchDataService.updateSearchDataStatus(searchData);
+                    indexCount++;
+                }
             } else {
-                System.out.println("cp name is not equals !!");
+                logger.error(" cp name is not equals !!");
             }
         }
+
         logger.info("=====================================");
-        logger.info("=====================================");
-        logger.info(String.format("[ %d ] indexing completed!!",indexCount));
+        logger.info(String.format(" Index count %d completed!!", indexCount));
     }
 }

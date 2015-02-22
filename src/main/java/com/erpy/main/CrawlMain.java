@@ -1,23 +1,17 @@
 package com.erpy.main;
 
-import com.erpy.crawler.CrawlIO;
-import com.erpy.crawler.CrawlSite;
-import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
 import com.erpy.parser.OkMallProc;
-import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.search.aggregations.bucket.global.Global;
-
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Logger;
+
 
 /**
  * Created by baeonejune on 14. 12. 21..
@@ -40,7 +34,7 @@ public class CrawlMain {
         // all crawl_data delete.
         CrawlDataService crawlDataService = new CrawlDataService();
         crawlDataService.deleteCrawlDataAll();
-        logger.info("crawl_data table delete all");
+        logger.info(" crawl_data table delete all");
 
         // get crawl seeds.
         List<Seed> seedList = seedService.getAllSeeds();
@@ -51,16 +45,16 @@ public class CrawlMain {
             strUrl     = seed.getUrl();
             strCpName  = StringUtils.trim(seed.getCpName());
 
-            logger.info(String.format("[ %d ] seed crawling...", seedCount));
-
             if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
                 okMallProc.setTxtEncode("euc-kr");
+                // 데이터 수집 시작..
                 okMallProc.crawlData(strUrl, strKeyword, strCpName);
             }
-
-            seedCount++;
         }
 
-        logger.info("crawling completed!!");
+        logger.info(" ================== Crawling information ==================");
+        logger.info(String.format(" Total crawling count - %d", okMallProc.getCrawlCount()));
+        logger.info(String.format(" Error crawling count - %d", okMallProc.getCrawlErrorCount()));
+        logger.info(String.format(" Collision file count - %d", okMallProc.getCollisionFileCount()));
     }
 }

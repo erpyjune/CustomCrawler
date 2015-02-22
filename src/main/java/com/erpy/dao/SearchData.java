@@ -4,18 +4,30 @@ package com.erpy.dao;
  * Created by baeonejune on 14. 12. 27..
  */
 public class SearchData {
-    Integer dataId;
-    String productName;
-    String brandName;
-    String contentUrl;
-    String thumbUrl;
-    Integer orgPrice;
-    Integer salePrice;
-    Float salePer;
-    String cpName;
-    String crawlKeyword;
+    Integer dataId=null;
+    String productId=null;
+    String productName=null;
+    String brandName="";
+    String contentUrl=null;
+    String thumbUrl="";
+    Integer orgPrice=0;
+    Integer salePrice=0;
+    Float salePer=0.0f;
+    String cpName=null;
+    String crawlKeyword=null;
+    boolean bMan=false;
+    boolean bWoman=false;
     String type;
     String dataStatus;
+
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;
@@ -95,6 +107,22 @@ public class SearchData {
 
     public void setCrawlKeyword(String crawlKeyword) {
         this.crawlKeyword = crawlKeyword;
+    }
+
+    public boolean isbMan() {
+        return bMan;
+    }
+
+    public void setbMan(boolean bMan) {
+        this.bMan = bMan;
+    }
+
+    public boolean isbWoman() {
+        return bWoman;
+    }
+
+    public void setbWoman(boolean bWoman) {
+        this.bWoman = bWoman;
     }
 
     public String getType() {
