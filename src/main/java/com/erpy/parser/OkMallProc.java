@@ -386,7 +386,7 @@ public class OkMallProc {
 
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "div.item_box div.val_top div.brand_detail_layer p.item_title a span.prName_PrName";
+        String patten = "div.brand_detail_layer p.item_title a span.prName_PrName";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
