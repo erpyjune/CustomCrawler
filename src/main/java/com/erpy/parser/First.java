@@ -2,7 +2,10 @@ package com.erpy.parser;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
-import com.erpy.dao.*;
+import com.erpy.dao.CrawlData;
+import com.erpy.dao.CrawlDataService;
+import com.erpy.dao.SearchData;
+import com.erpy.dao.SearchDataService;
 import com.erpy.extract.ExtractInfo;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DateInfo;
@@ -15,14 +18,14 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
- * Created by baeonejune on 14. 12. 27..
+ * Created by baeonejune on 15. 3. 1..
  */
-public class OkMallProc {
-
+public class First {
     private static Logger logger = Logger.getLogger(OkMallProc.class.getName());
     // for extract.
     private int totalExtractCount=0;
@@ -386,7 +389,7 @@ public class OkMallProc {
 
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "div.brand_detail_layer p.item_title a span.prName_PrName";
+        String patten = "div.list_01 span.sub_img";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
@@ -483,10 +486,11 @@ public class OkMallProc {
         GlobalInfo globalInfo = new GlobalInfo();
         crawlDataService = new CrawlDataService();
 
-        int page=0;
+        int page=1;
         int returnCode;
         long randomNum=0;
         int data_size=0;
+        boolean lastPage=false;
         String strUrl;
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
@@ -499,7 +503,7 @@ public class OkMallProc {
         for(;;) {
 
             // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
-            strUrl = String.format("%s&page=%d", url, page);
+            strUrl = String.format("%s&page_no=%d", url, page);
 
             // set crawling information.
             crawlSite.setCrawlUrl(strUrl);
@@ -515,6 +519,14 @@ public class OkMallProc {
             // 수집한 데이터를 파일로 저장한다.
             randomNum = random.nextInt(918277377);
             crawlSavePath = savePrefixPath + "/" + strCpName + "/" + Long.toString(randomNum) + ".html";
+
+            // DIR check.
+            File dir = new File(savePrefixPath + "/" + strCpName);
+            if (!dir.exists()) {
+                logger.info(" make directory : " + dir);
+                dir.mkdir();
+            }
+
             // 만일 파일이름이 충돌 난다면...
             File f = new File(crawlSavePath);
             if(f.exists()) {
@@ -530,9 +542,9 @@ public class OkMallProc {
             // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
             // 추출된 데이터가 있는지 체크한다.
             data_size = checkDataCount(crawlSavePath, txtEncode);
-            if (data_size <= 0) {
-                logger.info(" This seed last page : " + strUrl);
-                break;
+            if (data_size < 30) {
+                logger.info(String.format(" Data size is(%d). This seed last page : %s",data_size, strUrl));
+                lastPage = true;
             }
 
             // 수집한 메타 데이터를 DB에 저장한다.
@@ -549,6 +561,10 @@ public class OkMallProc {
             page++;
             // 크롤링한 데이터 카운트.
             crawlCount++;
+            // 마지막 페이지이면 끝내고.
+            if (lastPage) break;
+            // page가 100페이지이면 끝난다. 100페이지까지 갈리가 없음.
+            if (page==100) break;
         }
     }
 
@@ -666,17 +682,19 @@ public class OkMallProc {
         return true;
     }
 
-    public void printResultInfo(OkMallProc okMallProc) {
+
+    public void printResultInfo(First first) {
         logger.info(" ================== Extracting information ==================");
-        logger.info(String.format(" Total extract count - %d", okMallProc.getTotalExtractCount()));
-        logger.info(String.format(" Skip count          - %d", okMallProc.getSkipCount()));
-        logger.info(String.format(" Insert count        - %d", okMallProc.getInsertCount()));
-        logger.info(String.format(" Update count        - %d", okMallProc.getUpdateCount()));
-        logger.info(String.format(" Unknoun count       - %d", okMallProc.getUnknownCount()));
+        logger.info(String.format(" Total extract count - %d", first.getTotalExtractCount()));
+        logger.info(String.format(" Skip count          - %d", first.getSkipCount()));
+        logger.info(String.format(" Insert count        - %d", first.getInsertCount()));
+        logger.info(String.format(" Update count        - %d", first.getUpdateCount()));
+        logger.info(String.format(" Unknoun count       - %d", first.getUnknownCount()));
         logger.info(" Extract processing terminated normally!!");
     }
 
-    public void mainExtractProcessing(OkMallProc cp,
+
+    public void mainExtractProcessing(First cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -732,7 +750,7 @@ public class OkMallProc {
     }
 
     public static void main(String[] args) {
-        OkMallProc ok = new OkMallProc();
+        First ok = new First();
         String s = "/product/view.html?no=115505&pID=20000677&UNI=M";
         logger.info(ok.getFieldData(s, "no=", "&"));
     }
