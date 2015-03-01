@@ -39,6 +39,13 @@ public class CrawlSite {
     private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
     private static final String REFERER = "http://www.google.com/";
     private static final String CONNECTION = "keep-alive";
+    private static final String ACCEPT = "text/html, */*; q=0.01";
+    private static final String ACCEPT_LANG = "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4";
+    private static final String Content_Type = "application/x-www-form-urlencoded; charset=UTF-8";
+
+    /*
+        Content-Type:application/x-www-form-urlencoded; charset=UTF-8
+     */
 
     private static Logger logger = Logger.getLogger(CrawlSite.class.getName());
 
@@ -199,9 +206,9 @@ public class CrawlSite {
 
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         urlParameters.add(new BasicNameValuePair("mode", "categorymain"));
-        urlParameters.add(new BasicNameValuePair("categoryid", "94201"));
+        urlParameters.add(new BasicNameValuePair("categoryid", "9420101"));
         urlParameters.add(new BasicNameValuePair("startnum", "41"));
-        urlParameters.add(new BasicNameValuePair("endnum", "200"));
+        urlParameters.add(new BasicNameValuePair("endnum", "80"));
 
         httpPost.setEntity(new UrlEncodedFormEntity(urlParameters));
         urlParameters.size();
@@ -338,42 +345,39 @@ public class CrawlSite {
     }
 
 
-    public void HttpXPut3() throws IOException {
+    public void HttpPostGet() throws IOException {
 
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(this.crawlUrl);
-        String body = "{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}";
+        HttpPost post = new HttpPost(crawlUrl);
 
         // add header
-        System.out.println("url:" + this.crawlUrl);
-        System.out.println("length :" + String.valueOf(body.length()));
+        logger.info(" URL : " + crawlUrl);
 
+        post.addHeader("User-Agent"  , USER_AGENT);
+        post.addHeader("Referer"     , REFERER);
+        post.addHeader("Accept"      , ACCEPT);
+        post.addHeader("Content-Type", Content_Type);
 
-//        post.addHeader("User-Agent", this.USER_AGENT);
-//        post.addHeader("Referer", this.REFERER);
-//        post.addHeader("Content-Length:", String.valueOf(body.length()));
-//        post.setHeader("aaa", "ddd");
-//        post.setHeader("User-Agent", this.USER_AGENT);
-//        post.setHeader("Referer", this.REFERER);
-//        post.setHeader("Content-Length:", "100");
+        post.setConfig(RequestConfig.custom().
+                setSocketTimeout(socketTimeout)
+                .setConnectTimeout(connectionTimeout)
+                .build());
 
-//        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-//        urlParameters.add(new BasicNameValuePair("title", "good morning"));
-//        urlParameters.add(new BasicNameValuePair("name", "erpy"));
-//        urlParameters.add(new BasicNameValuePair("date", "20141230"));
-//        urlParameters.add(new BasicNameValuePair("id", "312"));
+        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+        urlParameters.add(new BasicNameValuePair("categoryid", "9420101"));
+        urlParameters.add(new BasicNameValuePair("startnum", "1"));
+        urlParameters.add(new BasicNameValuePair("endnum", "40"));
+        post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
-        //post.setEntity(new UrlEncodedFormEntity(urlParameters));
+        //post.setEntity(new StringEntity(sendData));
 
-        post.setEntity(new StringEntity(body));
-
+        HttpClient client = HttpClientBuilder.create().build();
         HttpResponse response = client.execute(post);
 
-        System.out.println("Response Code : "
+        logger.info(" Response Code : "
                 + response.getStatusLine().getStatusCode());
 
         BufferedReader rd = new BufferedReader(
-                new InputStreamReader(response.getEntity().getContent(), this.crawlEncoding));
+                new InputStreamReader(response.getEntity().getContent(), crawlEncoding));
 
         StringBuffer result = new StringBuffer();
         String line = "";

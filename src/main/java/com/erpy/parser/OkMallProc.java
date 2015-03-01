@@ -146,6 +146,7 @@ public class OkMallProc {
 
         fileIO.setEncoding(txtEncode);
         fileIO.setPath(filePath);
+        logger.info(String.format(" 데이터 추출할 파일 - %s", filePath));
 
         ////////////////////////////////////////////////////////
         if (filePath==null) {
@@ -309,8 +310,8 @@ public class OkMallProc {
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
-                // key : product id
-                searchDataMap.put(productId, searchData);
+                // key --> prdId + cpName
+                searchDataMap.put(productId + searchData.getCpName(), searchData);
                 totalExtractCount++;
             }
 //            else {
@@ -416,7 +417,7 @@ public class OkMallProc {
                 continue;
             }
 
-            // 기존 추출된 데이터가 이미 존재하는 경우.
+            // 기존 추출된 데이터가 이미 존재하는 경우 key --> prdId + cpName
             if (allMap.containsKey(productId)) {
                 // 기존 데이터에서 하나 꺼내서.
                 searchDataAll = allMap.get(productId);
@@ -430,6 +431,8 @@ public class OkMallProc {
                 if (searchDataAll.getSalePrice().equals(searchDataPart.getSalePrice())
                         && searchDataAll.getProductName().equals(searchDataPart.getProductName())
                         && searchDataAll.getOrgPrice().equals(searchDataPart.getOrgPrice())) {
+
+                    skipCount++;
 
                     // 동일한 데이터가 있으면 아무것도 안한다.
 
@@ -666,13 +669,13 @@ public class OkMallProc {
         return true;
     }
 
-    public void printResultInfo(OkMallProc okMallProc) {
+    public void printResultInfo(OkMallProc cp) {
         logger.info(" ================== Extracting information ==================");
-        logger.info(String.format(" Total extract count - %d", okMallProc.getTotalExtractCount()));
-        logger.info(String.format(" Skip count          - %d", okMallProc.getSkipCount()));
-        logger.info(String.format(" Insert count        - %d", okMallProc.getInsertCount()));
-        logger.info(String.format(" Update count        - %d", okMallProc.getUpdateCount()));
-        logger.info(String.format(" Unknoun count       - %d", okMallProc.getUnknownCount()));
+        logger.info(String.format(" Total extract count - %d", cp.getTotalExtractCount()));
+        logger.info(String.format(" Skip count          - %d", cp.getSkipCount()));
+        logger.info(String.format(" Insert count        - %d", cp.getInsertCount()));
+        logger.info(String.format(" Update count        - %d", cp.getUpdateCount()));
+        logger.info(String.format(" Unknoun count       - %d", cp.getUnknownCount()));
         logger.info(" Extract processing terminated normally!!");
     }
 
@@ -683,14 +686,10 @@ public class OkMallProc {
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
         Map<String, SearchData> newSearchDataMap;
 
-        // set parsing file path.
         cp.setFilePath(crawlData.getSavePath());
-
-        // set keyword.
         cp.setKeyword(crawlData.getCrawlKeyword());
 
-        // extract data.
-        logger.info(String.format(" 데이터 추출할 파일 - %s", crawlData.getSavePath()));
+        // 데이터 추출.
         searchDataMap = cp.extract();
         // 추출된 데이터가 없음당.
         if (searchDataMap.size() <= 0) {
@@ -702,10 +701,6 @@ public class OkMallProc {
         // 비교결과 update, insert할 데이터를 모아서 리턴 한다.
         newSearchDataMap = cp.checkSearchDataValid(allSearchDatasMap, searchDataMap);
         if (newSearchDataMap.size() <= 0) {
-            // skip count 계산.
-            int count = cp.getSkipCount();
-            int mergeCount = count + searchDataMap.size();
-            cp.setSkipCount(mergeCount);
             logger.info(String.format(" 변경되거나 새로 생성된 상품 데이터가 없습니다 - %s", crawlData.getSavePath()));
         }
         else {
@@ -714,7 +709,6 @@ public class OkMallProc {
             // insert or update.
             cp.insertOkMall(newSearchDataMap);
 
-
             // insert 되거나 update된 데이터들을 다시 allSearchDataMap에 입력하여
             // 새로 parsing되서 체크하는 데이터 비교에 반영될 수 있도록 한다.
             String productId;
@@ -722,13 +716,14 @@ public class OkMallProc {
             for(Map.Entry<String, SearchData> entry : newSearchDataMap.entrySet()) {
                 productId = entry.getKey().trim();
                 tmpSD = entry.getValue();
+
+                logger.debug(String.format("Key(%s), PrdName(%s)", productId, tmpSD.getProductName()));
+
                 // insert..
                 allSearchDatasMap.put(productId, tmpSD);
             }
             newSearchDataMap.clear();
         }
-        // print result.
-        cp.printResultInfo(cp);
     }
 
     public static void main(String[] args) {

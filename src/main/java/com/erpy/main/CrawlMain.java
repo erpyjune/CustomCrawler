@@ -49,7 +49,7 @@ public class CrawlMain {
                 OkMallProc okMallProc = new OkMallProc();
                 okMallProc.setTxtEncode("euc-kr");
                 // 데이터 수집 시작..
-//                okMallProc.crawlData(strUrl, strKeyword, strCpName);
+                okMallProc.crawlData(strUrl, strKeyword, strCpName);
 
 //                logger.info(" ================== Crawling information ==================");
 //                logger.info(String.format(" Total crawling count - %d", okMallProc.getCrawlCount()));

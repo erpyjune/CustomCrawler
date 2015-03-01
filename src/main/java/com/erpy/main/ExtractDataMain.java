@@ -19,15 +19,14 @@ public class ExtractDataMain {
 
     private static Logger logger = Logger.getLogger(ExtractDataMain.class.getName());
 
-    public static void main(String args[]) throws Exception {
-        CrawlData crawlData;
-        CrawlDataService crawlDataService = new CrawlDataService();
-        SearchDataService searchDataService = new SearchDataService();
-        Map<String, SearchData> newSearchDataMap;
-
-        ///////////////////////////////////////////////////////////////////
-        // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
+    ///////////////////////////////////////////////////////////////////
+    // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
+    // key = cpName + productId
+    ///////////////////////////////////////////////////////////////////
+    private static Map<String, SearchData> getAllProductKey() throws Exception {
         Map<String, SearchData> allSearchDatasMap = new HashMap<String, SearchData>();
+        SearchDataService searchDataService = new SearchDataService();
+
         List<SearchData> searchDataList = searchDataService.getAllSearchDatas();
         Iterator searchDataListIt = searchDataList.iterator();
         SearchData sd;
@@ -38,11 +37,22 @@ public class ExtractDataMain {
             if (allSearchDatasMap.containsKey(sd.getProductId())) {
                 existCount++;
             }
-//            logger.debug(String.format(" product_id(%s)(%s)", sd.getProductId(), sd.getContentUrl()));
-            allSearchDatasMap.put(sd.getProductId(), sd);
+            logger.debug(String.format(" All DB Set Key(%s%s)", sd.getProductId(), sd.getCpName()));
+            allSearchDatasMap.put(sd.getProductId() + sd.getCpName(), sd);
         }
+        logger.debug(String.format(" 기존 모든 데이터 크기 - Total(%d), Exist(%d)", allSearchDatasMap.size(), existCount));
+        return allSearchDatasMap;
+    }
 
-//        logger.debug(String.format(" 기존 모든 데이터 크기 - Total(%d), Exist(%d)", allSearchDatasMap.size(), existCount));
+    public static void main(String args[]) throws Exception {
+        CrawlData crawlData;
+        CrawlDataService crawlDataService = new CrawlDataService();
+
+        First first = new First();
+        OkMallProc okMallProc = new OkMallProc();
+
+        // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
+        Map<String, SearchData> allSearchDatasMap = getAllProductKey();
 
         // crawling한 원본 데이터를 db에서 하나씩 가져온다.
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
@@ -53,15 +63,16 @@ public class ExtractDataMain {
             crawlData = (CrawlData) iterator.next();
 
             if (crawlData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
-                OkMallProc okMallProc = new OkMallProc();
                 okMallProc.mainExtractProcessing(okMallProc, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_FIRST)) {
-                First first = new First();
                 first.mainExtractProcessing(first,crawlData,allSearchDatasMap);
             } else {
                 logger.warn(" other cp occurred!!");
             }
         }
+
+        okMallProc.printResultInfo(okMallProc);
+        first.printResultInfo(first);
     }
 }

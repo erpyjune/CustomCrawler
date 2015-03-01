@@ -40,8 +40,11 @@ public class First {
 
     private String filePath;
     private String keyword;
-    private String txtEncode="euc-kr";
+    private String txtEncode="utf-8";
     private static CrawlDataService crawlDataService;
+    //
+    private static final String prefixContentUrl = "http://www.chocammall.co.kr/shop/base/product/viewProductDetail.do?goods_no=";
+    private static final String prefixHost = "http://www.chocammall.co.kr";
 
 
     public String getFilePath() {
@@ -141,7 +144,6 @@ public class First {
         Document document;
         String strItem;
         String productId;
-        boolean isMan=false, isWoman=false;
         Elements listE;
         Document docu;
         String strLinkUrl=null;
@@ -149,6 +151,8 @@ public class First {
 
         fileIO.setEncoding(txtEncode);
         fileIO.setPath(filePath);
+
+        logger.debug(String.format(" 데이터 추출할 파일 - %s", filePath));
 
         ////////////////////////////////////////////////////////
         if (filePath==null) {
@@ -163,124 +167,70 @@ public class First {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select(extractInfo.getOkmallProf().getListGroup());
+        elements = doc.select("li");
         for (Element element : elements) {
 
             productId=null;
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
 
+
             // Link
-            listE = document.select(extractInfo.getOkmallProf().getLinkGroup());
+            listE = document.select("span.sub_img");
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getLink());
+                elementsLink = docu.select("a");
                 for (Element elink : elementsLink) {
-                    strItem = elink.attr(extractInfo.getOkmallProf().getLinkAttr());
+                    strItem = elink.attr("href");
                     strLinkUrl = strItem; // Used map key.
-                    searchData.setContentUrl(strItem);
-
-//                    System.out.println(String.format(">> Link : %s", strItem));
+                    logger.debug(String.format(" >> Link : %s", strItem));
                 }
                 // extract productID
-                productId = getFieldData(strLinkUrl,"no=", "&").trim();
+                productId = getFieldData(strLinkUrl,"viewProductDetail(", ")").trim();
+                searchData.setContentUrl(prefixContentUrl + productId);
+                logger.debug(String.format(" >> Link : %s", prefixContentUrl + productId));
                 searchData.setProductId(productId);
             }
 
             // Thumb link
-            listE = document.select(extractInfo.getOkmallProf().getThumbGroup());
+            listE = document.select("span.sub_img a");
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getThumb());
+                elementsLink = docu.select("img ");
                 for (Element elink : elementsLink) {
-                    strItem = elink.attr(extractInfo.getOkmallProf().getThumbAttr());
-                    searchData.setThumbUrl(strItem);
-//                    System.out.println(String.format(">> Thumb : %s", strItem));
-                }
-            }
-
-            // Sex
-            listE = document.select(extractInfo.getOkmallProf().getSexGroup());
-            for (Element et : listE) {
-                docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getSex());
-                isMan = false;
-                isWoman = false;
-                for (Element elink : elementsLink) {
-                    strItem = elink.attr(extractInfo.getOkmallProf().getSexAttr());
-                    if (strItem.contains("남성용")) isMan=true;
-                    if (strItem.contains("여성용")) isWoman=true;
-//                    searchData.setThumbUrl(strItem);
-//                    System.out.println(String.format(">> Sex : %s", strItem));
-                }
-
-                // 남성용, 여성용, 남녀공통
-                if (isMan && !isWoman) searchData.setbMan(true);
-                if (!isMan && isWoman) searchData.setbWoman(true);
-                if (isMan && isWoman) {
-                    searchData.setbMan(true);
-                    searchData.setbWoman(true);
-                }
-
-//                if (!isMan && !isWoman) logger.info("체크불량");
-//                if (isMan && !isWoman) logger.info("남성용");
-//                if (!isMan && isWoman) logger.info("여성용");
-//                if (isMan && isWoman) logger.info("남성 여성 공용");
-            }
-
-            // brand name
-            //listE = document.select("div.val_top");
-            listE = document.select(extractInfo.getOkmallProf().getBrandNameGroup());
-            for (Element et : listE) {
-                docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getBrandName());
-                for (Element elink : elementsLink) {
-                    strItem = elink.text();
-                    strItem = strItem.replace("[","").replace("]", "").replace("\"", " ").replace("'", " ");
-                    searchData.setBrandName(strItem);
+                    strItem = elink.attr("src");
+                    searchData.setThumbUrl(prefixHost + strItem);
+                    logger.debug(String.format(" >> Thumb : %s", prefixHost + strItem));
+                    // 큰 이미지 : http://www.chocammall.co.kr/resources/product_image/201403/20140304_113005_0.jpg
+                    // 작은 이미지 : http://www.chocammall.co.kr/resources/product_image/201403/20140304_113005_2.jpg
                 }
             }
 
             // product name
-            listE = document.select(extractInfo.getOkmallProf().getProductNameGroup());
+            listE = document.select("li span.product_name");
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getProductName());
+                elementsLink = docu.select("a");
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
                     strItem = strItem.replace("\"", " ").replace("'", " ");
+                    logger.debug(String.format(" >> title(%s)", strItem));
                     searchData.setProductName(strItem);
-                    searchData.setCpName("okmall");
-                    searchData.setCrawlKeyword(isSexKeywordAdd(keyword, isMan, isWoman));
-                }
-            }
-
-            // sale per
-            listE = document.select(extractInfo.getOkmallProf().getSalePerGroup());
-            for (Element et : listE) {
-                docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getSalePer());
-                for (Element elink : elementsLink) {
-                    strItem = elink.text().trim();
-                    strItem = strItem.replace("%", "").replace(" ", "");
-                    if (isAllFloatChar(strItem)) {
-                        searchData.setSalePer(Float.parseFloat(strItem));
-                        break;
-                    } else {
-                        logger.error(String.format(" Extract [sale per] data is NOT valid - %s", strItem));
-                    }
+                    searchData.setCpName("first");
+                    searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
                 }
             }
 
             // org price
-            listE = document.select(extractInfo.getOkmallProf().getOrgPriceGroup());
+            listE = document.select("li");
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getOrgOrgPrice());
+                elementsLink = docu.select("span.sale_price");
                 for (Element elink : elementsLink) {
                     strItem = elink.text().trim();
                     strItem = strItem.replace("원","").replace(",", "");
                     if (isAllDigitChar(strItem)) {
+                        logger.debug(String.format(" >> price(%s)", strItem));
                         searchData.setOrgPrice(Integer.parseInt(strItem));
                         break;
                     } else {
@@ -291,38 +241,18 @@ public class First {
                 }
             }
 
-            // sale price
-            listE = document.select(extractInfo.getOkmallProf().getSalePriceGroup());
-            for (Element et : listE) {
-                docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getSalePrice());
-                for (Element elink : elementsLink) {
-                    strItem = elink.text().trim();
-                    strItem = strItem.replace("원","").replace(",","").replace(" ", "");
-                    if (isAllDigitChar(strItem)) {
-                        searchData.setSalePrice(Integer.parseInt(strItem));
-                        break;
-                    } else {
-                        // sale price는 없을경우 77777777 입력한다. 하지만 에러는 프린트 한다.
-                        searchData.setSalePrice(77777777);
-                        logger.error(String.format(" Extract [sale price] data is NOT valid - %s", strItem));
-                    }
-                }
-            }
+            // sale price가 없을경우 org price 값을 넣어준다.
+            searchData.setSalePrice(searchData.getOrgPrice());
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
                 // key : product id
-                searchDataMap.put(productId, searchData);
+                searchDataMap.put(productId + searchData.getCpName(), searchData);
                 totalExtractCount++;
             }
-//            else {
-//                logger.error(String.format(" 추출된 상품 데이터가 없습니다 - %s", filePath));
-//                logger.error(element.outerHtml().toString());
-//            }
         }
 
-        logger.info(String.format(" %d 건의 데이터 추출 완료",searchDataMap.size()));
+        logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
         return searchDataMap;
     }
@@ -383,7 +313,6 @@ public class First {
             else {
                 logger.error(String.format(" data biz is not (inset or update) %d", sd.getDataId()));
             }
-
         }
     }
 
@@ -433,6 +362,8 @@ public class First {
                 if (searchDataAll.getSalePrice().equals(searchDataPart.getSalePrice())
                         && searchDataAll.getProductName().equals(searchDataPart.getProductName())
                         && searchDataAll.getOrgPrice().equals(searchDataPart.getOrgPrice())) {
+
+                    skipCount++;
 
                     // 동일한 데이터가 있으면 아무것도 안한다.
 
@@ -683,13 +614,13 @@ public class First {
     }
 
 
-    public void printResultInfo(First first) {
+    public void printResultInfo(First cp) {
         logger.info(" ================== Extracting information ==================");
-        logger.info(String.format(" Total extract count - %d", first.getTotalExtractCount()));
-        logger.info(String.format(" Skip count          - %d", first.getSkipCount()));
-        logger.info(String.format(" Insert count        - %d", first.getInsertCount()));
-        logger.info(String.format(" Update count        - %d", first.getUpdateCount()));
-        logger.info(String.format(" Unknoun count       - %d", first.getUnknownCount()));
+        logger.info(String.format(" Total extract count - %d", cp.getTotalExtractCount()));
+        logger.info(String.format(" Skip count          - %d", cp.getSkipCount()));
+        logger.info(String.format(" Insert count        - %d", cp.getInsertCount()));
+        logger.info(String.format(" Update count        - %d", cp.getUpdateCount()));
+        logger.info(String.format(" Unknoun count       - %d", cp.getUnknownCount()));
         logger.info(" Extract processing terminated normally!!");
     }
 
@@ -701,16 +632,11 @@ public class First {
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
         Map<String, SearchData> newSearchDataMap;
 
-        // set parsing file path.
         cp.setFilePath(crawlData.getSavePath());
-
-        // set keyword.
         cp.setKeyword(crawlData.getCrawlKeyword());
 
-        // extract data.
-        logger.info(String.format(" 데이터 추출할 파일 - %s", crawlData.getSavePath()));
+        // 데이터 추출.
         searchDataMap = cp.extract();
-        // 추출된 데이터가 없음당.
         if (searchDataMap.size() <= 0) {
             logger.error(String.format(" 이 파일은 추출된 데이터가 없습니다 (%s)",crawlData.getSavePath()));
             return ;
@@ -720,18 +646,11 @@ public class First {
         // 비교결과 update, insert할 데이터를 모아서 리턴 한다.
         newSearchDataMap = cp.checkSearchDataValid(allSearchDatasMap, searchDataMap);
         if (newSearchDataMap.size() <= 0) {
-            // skip count 계산.
-            int count = cp.getSkipCount();
-            int mergeCount = count + searchDataMap.size();
-            cp.setSkipCount(mergeCount);
             logger.info(String.format(" 변경되거나 새로 생성된 상품 데이터가 없습니다 - %s", crawlData.getSavePath()));
         }
         else {
-
-            ////////////////////////////////////////
-            // insert or update.
+            // db에 추출한 데이터를 넣는다.
             cp.insertOkMall(newSearchDataMap);
-
 
             // insert 되거나 update된 데이터들을 다시 allSearchDataMap에 입력하여
             // 새로 parsing되서 체크하는 데이터 비교에 반영될 수 있도록 한다.
@@ -740,13 +659,13 @@ public class First {
             for(Map.Entry<String, SearchData> entry : newSearchDataMap.entrySet()) {
                 productId = entry.getKey().trim();
                 tmpSD = entry.getValue();
+
+                logger.debug(String.format("Key(%s), PrdName(%s)", productId, tmpSD.getProductName()));
                 // insert..
                 allSearchDatasMap.put(productId, tmpSD);
             }
             newSearchDataMap.clear();
         }
-        // print result.
-        cp.printResultInfo(cp);
     }
 
     public static void main(String[] args) {
