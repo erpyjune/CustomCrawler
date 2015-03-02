@@ -2,7 +2,10 @@ package com.erpy.parser;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
-import com.erpy.dao.*;
+import com.erpy.dao.CrawlData;
+import com.erpy.dao.CrawlDataService;
+import com.erpy.dao.SearchData;
+import com.erpy.dao.SearchDataService;
 import com.erpy.extract.ExtractInfo;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DateInfo;
@@ -15,15 +18,15 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
- * Created by baeonejune on 14. 12. 27..
+ * Created by baeonejune on 15. 3. 1..
  */
-public class OkMallProc {
-
-    private static Logger logger = Logger.getLogger(OkMallProc.class.getName());
+public class CampingMall {
+    private static Logger logger = Logger.getLogger(CampingMall.class.getName());
     // for extract.
     private int totalExtractCount=0;
     private int skipCount=0;
@@ -37,8 +40,11 @@ public class OkMallProc {
 
     private String filePath;
     private String keyword;
-    private String txtEncode="euc-kr";
+    private String txtEncode="utf-8";
     private static CrawlDataService crawlDataService;
+    //
+    private static final String prefixContentUrl = "http://www.chocammall.co.kr/shop/base/product/viewProductDetail.do?goods_no=";
+    private static final String prefixHost = "http://www.chocammall.co.kr";
 
 
     public String getFilePath() {
@@ -138,7 +144,6 @@ public class OkMallProc {
         Document document;
         String strItem;
         String productId;
-        boolean isMan=false, isWoman=false;
         Elements listE;
         Document docu;
         String strLinkUrl=null;
@@ -146,7 +151,8 @@ public class OkMallProc {
 
         fileIO.setEncoding(txtEncode);
         fileIO.setPath(filePath);
-        logger.info(String.format(" 데이터 추출할 파일 - %s", filePath));
+
+        logger.debug(String.format(" 데이터 추출할 파일 - %s", filePath));
 
         ////////////////////////////////////////////////////////
         if (filePath==null) {
@@ -161,124 +167,70 @@ public class OkMallProc {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select(extractInfo.getOkmallProf().getListGroup());
+        elements = doc.select("li");
         for (Element element : elements) {
 
             productId=null;
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
 
+
             // Link
-            listE = document.select(extractInfo.getOkmallProf().getLinkGroup());
+            listE = document.select("span.sub_img");
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getLink());
+                elementsLink = docu.select("a");
                 for (Element elink : elementsLink) {
-                    strItem = elink.attr(extractInfo.getOkmallProf().getLinkAttr());
+                    strItem = elink.attr("href");
                     strLinkUrl = strItem; // Used map key.
-                    searchData.setContentUrl(strItem);
-
-//                    System.out.println(String.format(">> Link : %s", strItem));
+                    logger.debug(String.format(" >> Link : %s", strItem));
                 }
                 // extract productID
-                productId = getFieldData(strLinkUrl,"no=", "&").trim();
+                productId = getFieldData(strLinkUrl,"viewProductDetail(", ")").trim();
+                searchData.setContentUrl(prefixContentUrl + productId);
+                logger.debug(String.format(" >> Link : %s", prefixContentUrl + productId));
                 searchData.setProductId(productId);
             }
 
             // Thumb link
-            listE = document.select(extractInfo.getOkmallProf().getThumbGroup());
+            listE = document.select("span.sub_img a");
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getThumb());
+                elementsLink = docu.select("img ");
                 for (Element elink : elementsLink) {
-                    strItem = elink.attr(extractInfo.getOkmallProf().getThumbAttr());
-                    searchData.setThumbUrl(strItem);
-//                    System.out.println(String.format(">> Thumb : %s", strItem));
-                }
-            }
-
-            // Sex
-            listE = document.select(extractInfo.getOkmallProf().getSexGroup());
-            for (Element et : listE) {
-                docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getSex());
-                isMan = false;
-                isWoman = false;
-                for (Element elink : elementsLink) {
-                    strItem = elink.attr(extractInfo.getOkmallProf().getSexAttr());
-                    if (strItem.contains("남성용")) isMan=true;
-                    if (strItem.contains("여성용")) isWoman=true;
-//                    searchData.setThumbUrl(strItem);
-//                    System.out.println(String.format(">> Sex : %s", strItem));
-                }
-
-                // 남성용, 여성용, 남녀공통
-                if (isMan && !isWoman) searchData.setbMan(true);
-                if (!isMan && isWoman) searchData.setbWoman(true);
-                if (isMan && isWoman) {
-                    searchData.setbMan(true);
-                    searchData.setbWoman(true);
-                }
-
-//                if (!isMan && !isWoman) logger.info("체크불량");
-//                if (isMan && !isWoman) logger.info("남성용");
-//                if (!isMan && isWoman) logger.info("여성용");
-//                if (isMan && isWoman) logger.info("남성 여성 공용");
-            }
-
-            // brand name
-            //listE = document.select("div.val_top");
-            listE = document.select(extractInfo.getOkmallProf().getBrandNameGroup());
-            for (Element et : listE) {
-                docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getBrandName());
-                for (Element elink : elementsLink) {
-                    strItem = elink.text();
-                    strItem = strItem.replace("[","").replace("]", "").replace("\"", " ").replace("'", " ");
-                    searchData.setBrandName(strItem);
+                    strItem = elink.attr("src");
+                    searchData.setThumbUrl(prefixHost + strItem);
+                    logger.debug(String.format(" >> Thumb : %s", prefixHost + strItem));
+                    // 큰 이미지 : http://www.chocammall.co.kr/resources/product_image/201403/20140304_113005_0.jpg
+                    // 작은 이미지 : http://www.chocammall.co.kr/resources/product_image/201403/20140304_113005_2.jpg
                 }
             }
 
             // product name
-            listE = document.select(extractInfo.getOkmallProf().getProductNameGroup());
+            listE = document.select("li span.product_name");
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getProductName());
+                elementsLink = docu.select("a");
                 for (Element elink : elementsLink) {
                     strItem = elink.text();
                     strItem = strItem.replace("\"", " ").replace("'", " ");
+                    logger.debug(String.format(" >> title(%s)", strItem));
                     searchData.setProductName(strItem);
-                    searchData.setCpName("okmall");
-                    searchData.setCrawlKeyword(isSexKeywordAdd(keyword, isMan, isWoman));
-                }
-            }
-
-            // sale per
-            listE = document.select(extractInfo.getOkmallProf().getSalePerGroup());
-            for (Element et : listE) {
-                docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getSalePer());
-                for (Element elink : elementsLink) {
-                    strItem = elink.text().trim();
-                    strItem = strItem.replace("%", "").replace(" ", "");
-                    if (isAllFloatChar(strItem)) {
-                        searchData.setSalePer(Float.parseFloat(strItem));
-                        break;
-                    } else {
-                        logger.error(String.format(" Extract [sale per] data is NOT valid - %s", strItem));
-                    }
+                    searchData.setCpName("first");
+                    searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
                 }
             }
 
             // org price
-            listE = document.select(extractInfo.getOkmallProf().getOrgPriceGroup());
+            listE = document.select("li");
             for (Element et : listE) {
                 docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getOrgOrgPrice());
+                elementsLink = docu.select("span.sale_price");
                 for (Element elink : elementsLink) {
                     strItem = elink.text().trim();
                     strItem = strItem.replace("원","").replace(",", "");
                     if (isAllDigitChar(strItem)) {
+                        logger.debug(String.format(" >> price(%s)", strItem));
                         searchData.setOrgPrice(Integer.parseInt(strItem));
                         break;
                     } else {
@@ -289,38 +241,18 @@ public class OkMallProc {
                 }
             }
 
-            // sale price
-            listE = document.select(extractInfo.getOkmallProf().getSalePriceGroup());
-            for (Element et : listE) {
-                docu = Jsoup.parse(et.outerHtml());
-                elementsLink = docu.select(extractInfo.getOkmallProf().getSalePrice());
-                for (Element elink : elementsLink) {
-                    strItem = elink.text().trim();
-                    strItem = strItem.replace("원","").replace(",","").replace(" ", "");
-                    if (isAllDigitChar(strItem)) {
-                        searchData.setSalePrice(Integer.parseInt(strItem));
-                        break;
-                    } else {
-                        // sale price는 없을경우 77777777 입력한다. 하지만 에러는 프린트 한다.
-                        searchData.setSalePrice(77777777);
-                        logger.error(String.format(" Extract [sale price] data is NOT valid - %s", strItem));
-                    }
-                }
-            }
+            // sale price가 없을경우 org price 값을 넣어준다.
+            searchData.setSalePrice(searchData.getOrgPrice());
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
-                // key --> prdId + cpName
+                // key : product id
                 searchDataMap.put(productId + searchData.getCpName(), searchData);
                 totalExtractCount++;
             }
-//            else {
-//                logger.error(String.format(" 추출된 상품 데이터가 없습니다 - %s", filePath));
-//                logger.error(element.outerHtml().toString());
-//            }
         }
 
-        logger.info(String.format(" %d 건의 데이터 추출 완료",searchDataMap.size()));
+        logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
         return searchDataMap;
     }
@@ -381,13 +313,12 @@ public class OkMallProc {
             else {
                 logger.error(String.format(" data biz is not (inset or update) %d", sd.getDataId()));
             }
-
         }
     }
 
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "div.brand_detail_layer p.item_title a span.prName_PrName";
+        String patten = "div.list_01 span.sub_img";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
@@ -417,7 +348,7 @@ public class OkMallProc {
                 continue;
             }
 
-            // 기존 추출된 데이터가 이미 존재하는 경우 key --> prdId + cpName
+            // 기존 추출된 데이터가 이미 존재하는 경우.
             if (allMap.containsKey(productId)) {
                 // 기존 데이터에서 하나 꺼내서.
                 searchDataAll = allMap.get(productId);
@@ -486,10 +417,11 @@ public class OkMallProc {
         GlobalInfo globalInfo = new GlobalInfo();
         crawlDataService = new CrawlDataService();
 
-        int page=0;
+        int page=1;
         int returnCode;
         long randomNum=0;
         int data_size=0;
+        boolean lastPage=false;
         String strUrl;
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
@@ -518,6 +450,14 @@ public class OkMallProc {
             // 수집한 데이터를 파일로 저장한다.
             randomNum = random.nextInt(918277377);
             crawlSavePath = savePrefixPath + "/" + strCpName + "/" + Long.toString(randomNum) + ".html";
+
+            // DIR check.
+            File dir = new File(savePrefixPath + "/" + strCpName);
+            if (!dir.exists()) {
+                logger.info(" make directory : " + dir);
+                dir.mkdir();
+            }
+
             // 만일 파일이름이 충돌 난다면...
             File f = new File(crawlSavePath);
             if(f.exists()) {
@@ -533,9 +473,9 @@ public class OkMallProc {
             // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
             // 추출된 데이터가 있는지 체크한다.
             data_size = checkDataCount(crawlSavePath, txtEncode);
-            if (data_size <= 0) {
-                logger.info(" This seed last page : " + strUrl);
-                break;
+            if (data_size < 30) {
+                logger.info(String.format(" Data size is(%d). This seed last page : %s",data_size, strUrl));
+                lastPage = true;
             }
 
             // 수집한 메타 데이터를 DB에 저장한다.
@@ -552,6 +492,10 @@ public class OkMallProc {
             page++;
             // 크롤링한 데이터 카운트.
             crawlCount++;
+            // 마지막 페이지이면 끝내고.
+            if (lastPage) break;
+            // page가 100페이지이면 끝난다. 100페이지까지 갈리가 없음.
+            if (page==100) break;
         }
     }
 
@@ -669,7 +613,8 @@ public class OkMallProc {
         return true;
     }
 
-    public void printResultInfo(OkMallProc cp) {
+
+    public void printResultInfo(First cp) {
         logger.info(" ================== Extracting information ==================");
         logger.info(String.format(" Total extract count - %d", cp.getTotalExtractCount()));
         logger.info(String.format(" Skip count          - %d", cp.getSkipCount()));
@@ -679,7 +624,8 @@ public class OkMallProc {
         logger.info(" Extract processing terminated normally!!");
     }
 
-    public void mainExtractProcessing(OkMallProc cp,
+
+    public void mainExtractProcessing(First cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -691,7 +637,6 @@ public class OkMallProc {
 
         // 데이터 추출.
         searchDataMap = cp.extract();
-        // 추출된 데이터가 없음당.
         if (searchDataMap.size() <= 0) {
             logger.error(String.format(" 이 파일은 추출된 데이터가 없습니다 (%s)",crawlData.getSavePath()));
             return ;
@@ -704,9 +649,7 @@ public class OkMallProc {
             logger.info(String.format(" 변경되거나 새로 생성된 상품 데이터가 없습니다 - %s", crawlData.getSavePath()));
         }
         else {
-
-            ////////////////////////////////////////
-            // insert or update.
+            // db에 추출한 데이터를 넣는다.
             cp.insertOkMall(newSearchDataMap);
 
             // insert 되거나 update된 데이터들을 다시 allSearchDataMap에 입력하여
@@ -718,7 +661,6 @@ public class OkMallProc {
                 tmpSD = entry.getValue();
 
                 logger.debug(String.format("Key(%s), PrdName(%s)", productId, tmpSD.getProductName()));
-
                 // insert..
                 allSearchDatasMap.put(productId, tmpSD);
             }

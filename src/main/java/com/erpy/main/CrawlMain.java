@@ -3,6 +3,7 @@ package com.erpy.main;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
+import com.erpy.parser.CampingMall;
 import com.erpy.parser.First;
 import com.erpy.parser.OkMallProc;
 import com.erpy.utils.GlobalInfo;
@@ -50,22 +51,16 @@ public class CrawlMain {
                 okMallProc.setTxtEncode("euc-kr");
                 // 데이터 수집 시작..
                 okMallProc.crawlData(strUrl, strKeyword, strCpName);
-
-//                logger.info(" ================== Crawling information ==================");
-//                logger.info(String.format(" Total crawling count - %d", okMallProc.getCrawlCount()));
-//                logger.info(String.format(" Error crawling count - %d", okMallProc.getCrawlErrorCount()));
-//                logger.info(String.format(" Collision file count - %d", okMallProc.getCollisionFileCount()));
-            }
-            else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
+            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
                 First first = new First();
                 first.setTxtEncode("utf-8");
                 first.crawlData(strUrl, strKeyword, strCpName);
-
-//                logger.info(" ================== Crawling information ==================");
-//                logger.info(String.format(" Total crawling count - %d", first.getCrawlCount()));
-//                logger.info(String.format(" Error crawling count - %d", first.getCrawlErrorCount()));
-//                logger.info(String.format(" Collision file count - %d", first.getCollisionFileCount()));
+            } else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
+                CampingMall cp = new CampingMall();
+                cp.setTxtEncode("euc-kr");
+                cp.crawlData(strUrl, strKeyword, strCpName);
             }
+
         }
     }
 }

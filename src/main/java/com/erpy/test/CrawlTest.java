@@ -12,6 +12,8 @@ public class CrawlTest {
         cw.setCrawlUrl("http://www.sbclub.co.kr/search_brandproductlist.html");
 //        cw.setCrawlUrl("http://www.sbclub.co.kr/category01.html?categoryid=9420102");
         cw.setCrawlEncode("UTF-8");
+        cw.setConnectionTimeout(1000);
+        cw.setSocketTimeout(5000);
 
 //        cw.HttpCrawlGetDataTimeout();
         cw.HttpPostGet();

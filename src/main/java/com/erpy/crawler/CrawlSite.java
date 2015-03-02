@@ -1,17 +1,14 @@
 package com.erpy.crawler;
 
-import com.erpy.main.IndexingMain;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -20,7 +17,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -118,7 +118,6 @@ public class CrawlSite {
         return this.crawlData;
     }
 
-
     public String HttpCrawlGetMethod2() throws IOException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(this.crawlUrl);
@@ -151,7 +150,6 @@ public class CrawlSite {
 
         return this.crawlData;
     }
-
 
     public int HttpCrawlGetDataTimeout() throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -292,8 +290,6 @@ public class CrawlSite {
         bufferedReader.close();
     }
 
-
-
     public int HttpXPUT() throws IOException {
 
         //String data = "{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}";
@@ -320,35 +316,9 @@ public class CrawlSite {
         return responseReturnCode;
     }
 
-    public int HttpXGET() throws IOException {
-        int responseReturnCode;
-        URL url = new URL(this.crawlUrl);
-        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-
-        //httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        httpConn.setDoOutput(true);
-        httpConn.setDoInput(true);
-        httpConn.setConnectTimeout(5000);
-        httpConn.setReadTimeout(5000);
-        httpConn.setRequestMethod("GET"); // PUT, DELETE, POST, GET
-
-        OutputStreamWriter osw = new OutputStreamWriter(httpConn.getOutputStream());
-        osw.write(this.crawlData);
-        osw.flush();
-        osw.close();
-
-        //System.out.println("HTTP Response Code : " + httpConn.getResponseCode());
-        responseReturnCode = httpConn.getResponseCode();
-        httpConn.disconnect();
-
-        return responseReturnCode;
-    }
-
-
     public void HttpPostGet() throws IOException {
 
         HttpPost post = new HttpPost(crawlUrl);
-
         // add header
         logger.info(" URL : " + crawlUrl);
 
@@ -364,8 +334,8 @@ public class CrawlSite {
 
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         urlParameters.add(new BasicNameValuePair("categoryid", "9420101"));
-        urlParameters.add(new BasicNameValuePair("startnum", "1"));
-        urlParameters.add(new BasicNameValuePair("endnum", "40"));
+        urlParameters.add(new BasicNameValuePair("startnum", "41"));
+        urlParameters.add(new BasicNameValuePair("endnum", "80"));
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
         //post.setEntity(new StringEntity(sendData));
@@ -379,40 +349,17 @@ public class CrawlSite {
         BufferedReader rd = new BufferedReader(
                 new InputStreamReader(response.getEntity().getContent(), crawlEncoding));
 
-        StringBuffer result = new StringBuffer();
-        String line = "";
+        StringBuilder result = new StringBuilder();
+        String line;
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
+        rd.close();
 
         if (result.length() <= 0) {
             this.crawlData = "";
         } else {
             this.crawlData = result.toString();
-        }
-
-        rd.close();
-    }
-
-
-    public void HttpCrawlGetBuilder() throws IOException {
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet(this.crawlUrl);
-
-        // add request header
-        httpGet.addHeader("User-Agent", USER_AGENT);
-        HttpResponse httpResponse = httpClient.execute(httpGet);
-
-        System.out.println("Response Code : "
-                + httpResponse.getStatusLine().getStatusCode());
-
-        BufferedReader rd = new BufferedReader(
-                new InputStreamReader(httpResponse.getEntity().getContent()));
-
-        StringBuffer result = new StringBuffer();
-        String line = "";
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
         }
     }
 }

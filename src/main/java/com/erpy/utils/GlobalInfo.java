@@ -15,6 +15,7 @@ public class GlobalInfo {
 
     public static final String CP_OKMALL = "okmall";
     public static final String CP_FIRST  = "first";
+    public static final String CP_CAMPINGMALL  = "campingmall";
 
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;

@@ -26,7 +26,7 @@ import java.util.Random;
  * Created by baeonejune on 15. 3. 1..
  */
 public class First {
-    private static Logger logger = Logger.getLogger(OkMallProc.class.getName());
+    private static Logger logger = Logger.getLogger(First.class.getName());
     // for extract.
     private int totalExtractCount=0;
     private int skipCount=0;
@@ -666,11 +666,5 @@ public class First {
             }
             newSearchDataMap.clear();
         }
-    }
-
-    public static void main(String[] args) {
-        First ok = new First();
-        String s = "/product/view.html?no=115505&pID=20000677&UNI=M";
-        logger.info(ok.getFieldData(s, "no=", "&"));
     }
 }
