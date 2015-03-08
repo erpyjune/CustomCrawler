@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Created by baeonejune on 15. 3. 1..
+ * Created by baeonejune on 15. 3. 8..
  */
-public class CampingMall {
+public class SB {
     private static Logger logger = Logger.getLogger(CampingMall.class.getName());
     // for extract.
     private int totalExtractCount=0;
@@ -207,16 +207,16 @@ public class CampingMall {
             // org price
             listE = document.select("div[style=\"height:10px;\"] strike");
             for (Element et : listE) {
-                    strItem = et.text().trim().replace("원", "").replace(",", "");
-                    if (isAllDigitChar(strItem)) {
-                        logger.debug(String.format(" >> price(%s)", strItem));
-                        searchData.setOrgPrice(Integer.parseInt(strItem));
-                        break;
-                    } else {
-                        // org price가 없는것은 에러 이다.
-                        // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
-                        logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
-                    }
+                strItem = et.text().trim().replace("원", "").replace(",", "");
+                if (isAllDigitChar(strItem)) {
+                    logger.debug(String.format(" >> price(%s)", strItem));
+                    searchData.setOrgPrice(Integer.parseInt(strItem));
+                    break;
+                } else {
+                    // org price가 없는것은 에러 이다.
+                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
+                    logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
+                }
             }
 
             // sale price

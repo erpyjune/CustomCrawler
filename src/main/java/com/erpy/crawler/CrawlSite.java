@@ -24,7 +24,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by baeonejune on 14. 11. 30..
@@ -33,52 +35,50 @@ public class CrawlSite {
     private String crawlUrl;
     private String crawlData;
     private String crawlEncoding="UTF-8"; // UTF-8, EUC-KR
+
+    // POST data form param.
+    Map<String, String> postFormDataParam = new HashMap<String, String>();
+
     private int reponseCode;
     private int socketTimeout=1000;
     private int connectionTimeout=1000;
-    private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
-    private static final String REFERER = "http://www.google.com/";
-    private static final String CONNECTION = "keep-alive";
-    private static final String ACCEPT = "text/html, */*; q=0.01";
-    private static final String ACCEPT_LANG = "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4";
-    private static final String Content_Type = "application/x-www-form-urlencoded; charset=UTF-8";
-
-    /*
-        Content-Type:application/x-www-form-urlencoded; charset=UTF-8
-     */
+    private String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
+    private String REFERER = "http://www.google.com/";
+    private String CONNECTION = "keep-alive";
+    private String ACCEPT = "text/html, */*; q=0.01";
+    private String ACCEPT_LANG = "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4";
+    private String Content_Type = "application/x-www-form-urlencoded; charset=UTF-8";
 
     private static Logger logger = Logger.getLogger(CrawlSite.class.getName());
 
-
-    /*
-        set method.
-     */
+    // set method.
     public void setCrawlUrl(String url) {
         this.crawlUrl = url;
     }
     public void setCrawlEncode(String type) {
         this.crawlEncoding = type;
     }
-
     public void setSocketTimeout(int socketTimeout) {
         this.socketTimeout = socketTimeout;
     }
-
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
     }
-
-    /*
-            get method.
-         */
     public String getCrawlData() {
         return this.crawlData;
     }
-
     public void setCrawlData(String crawlData) {
         this.crawlData = crawlData;
     }
 
+    public int getReponseCode() {
+        return reponseCode;
+    }
+    public void addPostRequestParam(String name, String value) {
+        postFormDataParam.put(name, value);
+    }
+
+    // crawling method...
     public String HttpCrawlGetMethod1() throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(this.crawlUrl);
@@ -92,7 +92,9 @@ public class CrawlSite {
         httpGet.addHeader("Connection", CONNECTION);
 
         CloseableHttpResponse response = httpClient.execute(httpGet);
-        System.out.println(response.getStatusLine());
+        reponseCode = response.getStatusLine().getStatusCode();
+
+        logger.info(" Response Code : " + response.getStatusLine());
 
         try {
             entity = response.getEntity();
@@ -131,6 +133,8 @@ public class CrawlSite {
         System.out.println("Response Code : "
                 + response.getStatusLine().getStatusCode());
 
+        reponseCode = response.getStatusLine().getStatusCode();
+
         BufferedReader rd = new BufferedReader(
                 new InputStreamReader(response.getEntity().getContent(), this.crawlEncoding));
 
@@ -165,6 +169,7 @@ public class CrawlSite {
 
         httpGet.setConfig(requestConfig);
         CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpGet);
+        reponseCode = closeableHttpResponse.getStatusLine().getStatusCode();
 
         try {
             //HttpEntity httpEntity = closeableHttpResponse.getEntity();
@@ -216,6 +221,8 @@ public class CrawlSite {
         System.out.println("Response Code : "
                 + response.getStatusLine().getStatusCode());
 
+        reponseCode =response.getStatusLine().getStatusCode();
+
         BufferedReader rd = new BufferedReader(
                 new InputStreamReader(response.getEntity().getContent(), this.crawlEncoding));
 
@@ -261,7 +268,6 @@ public class CrawlSite {
 //        urlParameters.size();
 
 
-
         logger.info("jsonquery : " + jsonQueryString);
         StringEntity stringEntity = new StringEntity(jsonQueryString);
         httpPost.setEntity(stringEntity);
@@ -271,6 +277,7 @@ public class CrawlSite {
         HttpResponse response = client.execute(httpPost);
 
         logger.info("repose code : " + response.getStatusLine().getStatusCode());
+        reponseCode =response.getStatusLine().getStatusCode();
 
         BufferedReader bufferedReader = new BufferedReader(
                 new InputStreamReader(response.getEntity().getContent(), this.crawlEncoding));
@@ -316,26 +323,37 @@ public class CrawlSite {
         return responseReturnCode;
     }
 
-    public void HttpPostGet() throws IOException {
 
+    public void HttpPostGet() throws IOException {
+        String name, value;
         HttpPost post = new HttpPost(crawlUrl);
         // add header
         logger.info(" URL : " + crawlUrl);
 
-        post.addHeader("User-Agent"  , USER_AGENT);
-        post.addHeader("Referer"     , REFERER);
-        post.addHeader("Accept"      , ACCEPT);
-        post.addHeader("Content-Type", Content_Type);
+        post.setHeader("Accept", "text/html, */*; q=0.01");
+        post.setHeader("Accept-Encoding", "gzip, deflate");
+        post.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36");
+        post.setHeader("Connection", "keep-alive");
+        post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        post.setHeader("Cookie", "PHPSESSID=iqb0ttht5da4f0nnpc8ocn0r41; _gat=1; _ga=GA1.3.604294877.1425211068");
+        post.setHeader("Host", "sbclub.co.kr");
+        post.setHeader("Referer", "http://sbclub.co.kr/hotsale.html");
+        post.setHeader("X-Requested-With", "XMLHttpRequest");
 
         post.setConfig(RequestConfig.custom().
                 setSocketTimeout(socketTimeout)
                 .setConnectTimeout(connectionTimeout)
                 .build());
 
+        // set param
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        urlParameters.add(new BasicNameValuePair("categoryid", "9420101"));
-        urlParameters.add(new BasicNameValuePair("startnum", "41"));
-        urlParameters.add(new BasicNameValuePair("endnum", "80"));
+        for(Map.Entry<String, String> entry : postFormDataParam.entrySet()) {
+            name  = entry.getKey();
+            value = entry.getValue();
+
+            logger.info(String.format(" name(%s), value(%s)", name, value));
+            urlParameters.add(new BasicNameValuePair(name, value));
+        }
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
         //post.setEntity(new StringEntity(sendData));
@@ -345,6 +363,8 @@ public class CrawlSite {
 
         logger.info(" Response Code : "
                 + response.getStatusLine().getStatusCode());
+
+        reponseCode =response.getStatusLine().getStatusCode();
 
         BufferedReader rd = new BufferedReader(
                 new InputStreamReader(response.getEntity().getContent(), crawlEncoding));

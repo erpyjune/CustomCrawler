@@ -4,6 +4,7 @@ import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
+import com.erpy.parser.CampingMall;
 import com.erpy.parser.First;
 import com.erpy.parser.OkMallProc;
 import com.erpy.utils.GlobalInfo;
@@ -48,8 +49,10 @@ public class ExtractDataMain {
         CrawlData crawlData;
         CrawlDataService crawlDataService = new CrawlDataService();
 
+        // cp
         First first = new First();
         OkMallProc okMallProc = new OkMallProc();
+        CampingMall campingMall = new CampingMall();
 
         // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
         Map<String, SearchData> allSearchDatasMap = getAllProductKey();
@@ -62,7 +65,10 @@ public class ExtractDataMain {
 
             crawlData = (CrawlData) iterator.next();
 
-            if (crawlData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
+            if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL)) {
+                campingMall.mainExtractProcessing(campingMall, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
                 okMallProc.mainExtractProcessing(okMallProc, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_FIRST)) {

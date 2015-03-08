@@ -46,21 +46,26 @@ public class CrawlMain {
             strUrl     = seed.getUrl();
             strCpName  = StringUtils.trim(seed.getCpName());
 
-            if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
-                OkMallProc okMallProc = new OkMallProc();
-                okMallProc.setTxtEncode("euc-kr");
-                // 데이터 수집 시작..
-                okMallProc.crawlData(strUrl, strKeyword, strCpName);
-            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
-                First first = new First();
-                first.setTxtEncode("utf-8");
-                first.crawlData(strUrl, strKeyword, strCpName);
-            } else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
+            if (strCpName.equals(GlobalInfo.CP_SBMALL)) {
                 CampingMall cp = new CampingMall();
                 cp.setTxtEncode("euc-kr");
                 cp.crawlData(strUrl, strKeyword, strCpName);
             }
-
+//            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
+//                CampingMall cp = new CampingMall();
+//                cp.setTxtEncode("euc-kr");
+//                cp.crawlData(strUrl, strKeyword, strCpName);
+//            }
+//            else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
+//                OkMallProc okMallProc = new OkMallProc();
+//                okMallProc.setTxtEncode("euc-kr");
+//                // 데이터 수집 시작..
+//                okMallProc.crawlData(strUrl, strKeyword, strCpName);
+//            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
+//                First first = new First();
+//                first.setTxtEncode("utf-8");
+//                first.crawlData(strUrl, strKeyword, strCpName);
+//            }
         }
     }
 }
