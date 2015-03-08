@@ -6,6 +6,7 @@ import com.erpy.dao.SeedService;
 import com.erpy.parser.CampingMall;
 import com.erpy.parser.First;
 import com.erpy.parser.OkMallProc;
+import com.erpy.parser.SB;
 import com.erpy.utils.GlobalInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -46,9 +47,9 @@ public class CrawlMain {
             strUrl     = seed.getUrl();
             strCpName  = StringUtils.trim(seed.getCpName());
 
-            if (strCpName.equals(GlobalInfo.CP_SBMALL)) {
-                CampingMall cp = new CampingMall();
-                cp.setTxtEncode("euc-kr");
+            if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
+                SB cp = new SB();
+                cp.setTxtEncode("utf-8");
                 cp.crawlData(strUrl, strKeyword, strCpName);
             }
 //            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {

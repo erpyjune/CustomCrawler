@@ -77,6 +77,9 @@ public class CrawlSite {
     public void addPostRequestParam(String name, String value) {
         postFormDataParam.put(name, value);
     }
+    public void clearPostRequestParam() {
+        postFormDataParam.clear();
+    }
 
     // crawling method...
     public String HttpCrawlGetMethod1() throws IOException {
@@ -328,7 +331,7 @@ public class CrawlSite {
         String name, value;
         HttpPost post = new HttpPost(crawlUrl);
         // add header
-        logger.info(" URL : " + crawlUrl);
+        logger.info(" Request URL : " + crawlUrl);
 
         post.setHeader("Accept", "text/html, */*; q=0.01");
         post.setHeader("Accept-Encoding", "gzip, deflate");

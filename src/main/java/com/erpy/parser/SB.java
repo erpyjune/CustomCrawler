@@ -26,7 +26,7 @@ import java.util.Random;
  * Created by baeonejune on 15. 3. 8..
  */
 public class SB {
-    private static Logger logger = Logger.getLogger(CampingMall.class.getName());
+    private static Logger logger = Logger.getLogger(SB.class.getName());
     // for extract.
     private int totalExtractCount=0;
     private int skipCount=0;
@@ -42,9 +42,10 @@ public class SB {
     private String keyword;
     private String txtEncode="euc-kr";
     private static CrawlDataService crawlDataService;
-    //
-    private static final String prefixContentUrl = "http://www.campingmall.co.kr/shop/goods/goods_view.php?&goodsno=";
-    private static final String prefixHostThumbUrl = "http://www.campingmall.co.kr";
+
+    private static final String postRequestUrl = "http://sbclub.co.kr/search_brandproductlist.html";
+    private static final String prefixContentUrl = "";
+    private static final String prefixHostThumbUrl = "";
 
 
     public String getFilePath() {
@@ -308,7 +309,7 @@ public class SB {
 
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "div[style=\"width:180px;height:50px;padding-top:3px;\"] a";
+        String patten = "p.title";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
@@ -407,35 +408,49 @@ public class SB {
         GlobalInfo globalInfo = new GlobalInfo();
         crawlDataService = new CrawlDataService();
 
-        int page=1;
+        int startPage=1;
+        int endPage=40;
+        int pageSize=40;
         int returnCode;
         long randomNum=0;
         int data_size=0;
         boolean lastPage=false;
-        String strUrl;
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
         crawlSite.setSocketTimeout(5000);
-        crawlSite.setCrawlEncode(txtEncode);
+        crawlSite.setCrawlEncode("UTF-8");
+        crawlSite.setCrawlUrl(postRequestUrl);
+
+        // seed url에서 category id만 추출해서 post request 호출할때 사용한다.
+        // seed url에 category id가 없으면 에러임.
+        // url --> http://sbclub.co.kr/category01.html?categoryid=94202
+        String categoryId = getFieldData(url, "html?categoryid=");
+        if (categoryId==null) {
+            logger.error(" Caterory ID를 추출하지 못했습니다.");
+            return;
+        }
 
         for(;;) {
-
-            // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
-            strUrl = String.format("%s&page=%d", url, page);
-
-            // set crawling information.
-            crawlSite.setCrawlUrl(strUrl);
+            // set page, category
+            crawlSite.addPostRequestParam("mode", "categorymain");
+            crawlSite.addPostRequestParam("categoryid", categoryId);
+            crawlSite.addPostRequestParam("startnum", String.valueOf(startPage));
+            crawlSite.addPostRequestParam("endnum", String.valueOf(endPage));
+            logger.info(String.format(" Crawling start(%d), end(%d), cate(%s)", startPage, endPage, categoryId));
 
             // Crawliing...
-            returnCode = crawlSite.HttpCrawlGetDataTimeout();
-            if (returnCode != 200 && returnCode != 201) {
-                logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
+            crawlSite.HttpPostGet();
+            if (crawlSite.getReponseCode() != 200 && crawlSite.getReponseCode() != 201) {
+                logger.error(String.format(" 데이터를 수집 못했음 - %s", url));
                 crawlErrorCount++;
                 continue;
             }
+
+            // clear request param
+            crawlSite.clearPostRequestParam();
 
             // 수집한 데이터를 파일로 저장한다.
             randomNum = random.nextInt(918277377);
@@ -464,7 +479,8 @@ public class SB {
             // 추출된 데이터가 있는지 체크한다.
             data_size = checkDataCount(crawlSavePath, txtEncode);
             if (data_size <= 0) {
-                logger.info(String.format(" Data size is(%d). This seed last page : %s",data_size, strUrl));
+                logger.info(String.format(" Data size is(%d). start(%d), end(%d), cate(%s)",
+                        data_size, startPage, endPage, categoryId));
                 lastPage = true;
             }
 
@@ -472,23 +488,26 @@ public class SB {
             if (data_size == 0) break;
 
             // 수집한 메타 데이터를 DB에 저장한다.
-            crawlData.setSeedUrl(strUrl);
+            crawlData.setSeedUrl(String.format("%s?categoryid=%s&startnum=%d&endnum=%d",
+                    url, categoryId, startPage, endPage));
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
             crawlData.setCpName(strCpName);
             crawlData.setCrawlKeyword(strKeyword);
             // 크롤링한 메타데이터를 db에 저장한다.
             crawlDataService.insertCrawlData(crawlData);
-            logger.info(String.format(" Crawling ( %d ) %s", data_size, strUrl));
+            logger.info(String.format(" Crawling ( %d ) start(%d), end(%d), cate(%s)",
+                    data_size, startPage, endPage, categoryId));
 
-            // page를 증가 시킨다.
-            page++;
             // 크롤링한 데이터 카운트.
             crawlCount++;
+
             // 마지막 페이지이면 끝내고.
             if (lastPage) break;
-            // page가 100페이지이면 끝난다. 100페이지까지 갈리가 없음.
-            if (page==100) break;
+
+            // page를 증가 시킨다.
+            startPage = startPage + pageSize;
+            endPage   = endPage + pageSize;
         }
     }
 
@@ -505,9 +524,9 @@ public class SB {
 
 
     private String getFieldData(String src, String startTag) {
-        if (src==null || startTag==null) return "";
+        if (src==null || startTag==null) return null;
         int spos = src.indexOf(startTag);
-        if (spos<0) return "";
+        if (spos<0) return null;
         String tag = src.substring(spos+startTag.length());
         return tag;
     }
@@ -675,15 +694,26 @@ public class SB {
         CrawlSite crawl = new CrawlSite();
         CampingMall cp = new CampingMall();
 
-        crawl.setCrawlUrl("http://www.campingmall.co.kr/shop/goods/goods_list.php?&category=002");
-        crawl.setCrawlEncode("euc-kr");
-        crawl.HttpCrawlGetDataTimeout();
+        crawl.setCrawlUrl("http://sbclub.co.kr/search_brandproductlist.html");
+//        crawl.setCrawlEncode("euc-kr");
+        crawl.addPostRequestParam("mode", "categorymain");
+        crawl.addPostRequestParam("categoryid", "94202");
+        crawl.addPostRequestParam("startnum", "1");
+        crawl.addPostRequestParam("endnum", "40");
+
+        crawl.HttpPostGet();
+
+//        System.out.println(crawl.getCrawlData());
+//        System.exit(1);
 
         Document doc = Jsoup.parse(crawl.getCrawlData());
-        Elements elements = doc.select("td[width=\"25%\"");
+        Elements elements = doc.select("p.title");
+        int total=0;
         for (Element element : elements) {
 
             Document document = Jsoup.parse(element.outerHtml());
+            logger.info(" "+element.outerHtml());
+            logger.info(" =======================================");
 
             // thumb
             Elements elist = document.select("img[width=180]");
@@ -712,12 +742,12 @@ public class SB {
             // sale price
             Elements eSalePrice = document.select("div[style=\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\"] b");
             for (Element eitem : eSalePrice) {
-                System.out.println(eitem.text().replace(",",""));
-                System.out.println("-----------------------------------");
+//                System.out.println(eitem.text().replace(",",""));
+//                System.out.println("-----------------------------------");
             }
+            total++;
         }
 
-
-        logger.info(" end test !!");
+        logger.info(" Total : " + total);
     }
 }
