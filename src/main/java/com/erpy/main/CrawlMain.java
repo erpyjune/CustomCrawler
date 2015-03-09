@@ -23,7 +23,7 @@ public class CrawlMain {
 
     private static Logger logger = Logger.getLogger(CrawlMain.class.getName());
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws Exception {
 
         Seed seed;
         String strKeyword;
@@ -49,7 +49,6 @@ public class CrawlMain {
 
             if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
                 SB cp = new SB();
-                cp.setTxtEncode("utf-8");
                 cp.crawlData(strUrl, strKeyword, strCpName);
             }
 //            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
@@ -68,5 +67,7 @@ public class CrawlMain {
 //                first.crawlData(strUrl, strKeyword, strCpName);
 //            }
         }
+
+        logger.info(" End crawling !!");
     }
 }

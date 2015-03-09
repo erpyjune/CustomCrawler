@@ -399,7 +399,51 @@ public class SB {
     }
 
 
-    public void crawlData(String url, String strKeyword, String strCpName) throws IOException {
+    // 수집한 html을 파일로 저장 한다.
+    private String flushCrawlFile(String cpName, String gpath, CrawlSite cp, CrawlIO io) throws Exception {
+        Random random = new Random();
+        int randomNum = random.nextInt(918277377);
+        String crawlSavePath = gpath + "/" + cpName + "/" + Long.toString(randomNum) + ".html";
+
+        // cp 디렉토리 체크.
+        File dir = new File(gpath + "/" + cpName);
+        if (!dir.exists()) {
+            logger.info(" make directory : " + dir);
+            dir.mkdir();
+        }
+
+        // 만일 파일이름이 충돌 난다면 ERROR.
+        File f = new File(crawlSavePath);
+        if(f.exists()) {
+            logger.error(String.format(" 저장할 파일 이름이 충돌 납니다 - %s ", crawlSavePath));
+            collisionFileCount++;
+        }
+
+        io.setSaveDataInfo(cp.getCrawlData(), crawlSavePath, txtEncode);
+        io.executeSaveData();
+
+        return crawlSavePath;
+    }
+
+
+    // 수집한 정보에 대한 메타데이터를 DB에 저장한다.
+    // 다운로드한 파일 path 정보가 주요 정보이다.
+    private void insertToDBcrawlMetaData(CrawlData crawlData, String crawlSavePath, String cp, String keyword,
+                                         String url, String categoryId, int startPage, int endPage) {
+        DateInfo dateInfo = new DateInfo();
+
+        crawlData.setSeedUrl(String.format("%s?categoryid=%s&startnum=%d&endnum=%d",
+                url, categoryId, startPage, endPage));
+        crawlData.setCrawlDate(dateInfo.getCurrDateTime());
+        crawlData.setSavePath(crawlSavePath);
+        crawlData.setCpName(cp);
+        crawlData.setCrawlKeyword(keyword);
+        // 크롤링한 메타데이터를 db에 저장한다.
+        crawlDataService.insertCrawlData(crawlData);
+    }
+
+
+    public void crawlData(String url, String strKeyword, String strCpName) throws Exception {
         Random random = new Random();
         DateInfo dateInfo = new DateInfo();
         CrawlSite crawlSite = new CrawlSite();
@@ -411,14 +455,12 @@ public class SB {
         int startPage=1;
         int endPage=40;
         int pageSize=40;
-        int returnCode;
-        long randomNum=0;
         int data_size=0;
         boolean lastPage=false;
         String crawlSavePath;
-        String savePrefixPath = globalInfo.getSaveFilePath();
 
-        // 환경 셋팅
+
+        // crawling 기본 환경 셋팅.
         crawlSite.setConnectionTimeout(5000);
         crawlSite.setSocketTimeout(5000);
         crawlSite.setCrawlEncode("UTF-8");
@@ -434,14 +476,15 @@ public class SB {
         }
 
         for(;;) {
-            // set page, category
+            // Request param setting.
+            // page, category, start page, end page.
             crawlSite.addPostRequestParam("mode", "categorymain");
             crawlSite.addPostRequestParam("categoryid", categoryId);
             crawlSite.addPostRequestParam("startnum", String.valueOf(startPage));
             crawlSite.addPostRequestParam("endnum", String.valueOf(endPage));
             logger.info(String.format(" Crawling start(%d), end(%d), cate(%s)", startPage, endPage, categoryId));
 
-            // Crawliing...
+            // crawling.
             crawlSite.HttpPostGet();
             if (crawlSite.getReponseCode() != 200 && crawlSite.getReponseCode() != 201) {
                 logger.error(String.format(" 데이터를 수집 못했음 - %s", url));
@@ -452,28 +495,8 @@ public class SB {
             // clear request param
             crawlSite.clearPostRequestParam();
 
-            // 수집한 데이터를 파일로 저장한다.
-            randomNum = random.nextInt(918277377);
-            crawlSavePath = savePrefixPath + "/" + strCpName + "/" + Long.toString(randomNum) + ".html";
-
-            // DIR check.
-            File dir = new File(savePrefixPath + "/" + strCpName);
-            if (!dir.exists()) {
-                logger.info(" make directory : " + dir);
-                dir.mkdir();
-            }
-
-            // 만일 파일이름이 충돌 난다면...
-            File f = new File(crawlSavePath);
-            if(f.exists()) {
-                logger.error(String.format(" 저장할 파일 이름이 충돌 납니다 - %s ", crawlSavePath));
-                collisionFileCount++;
-                continue;
-            }
-
-            crawlIO.setSaveDataInfo(crawlSite.getCrawlData(), crawlSavePath, txtEncode);
-            // 크롤링한 데이터를 파일로 저장한다.
-            crawlIO.executeSaveData();
+            // 크롤링한 데이터를 저장
+            crawlSavePath = flushCrawlFile(strCpName, globalInfo.getSaveFilePath(), crawlSite, crawlIO);
 
             // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
             // 추출된 데이터가 있는지 체크한다.
@@ -490,12 +513,8 @@ public class SB {
             // 수집한 메타 데이터를 DB에 저장한다.
             crawlData.setSeedUrl(String.format("%s?categoryid=%s&startnum=%d&endnum=%d",
                     url, categoryId, startPage, endPage));
-            crawlData.setCrawlDate(dateInfo.getCurrDateTime());
-            crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
-            // 크롤링한 메타데이터를 db에 저장한다.
-            crawlDataService.insertCrawlData(crawlData);
+
+            insertToDBcrawlMetaData(crawlData, crawlSavePath,strCpName, strKeyword, url, categoryId, startPage, endPage);
             logger.info(String.format(" Crawling ( %d ) start(%d), end(%d), cate(%s)",
                     data_size, startPage, endPage, categoryId));
 

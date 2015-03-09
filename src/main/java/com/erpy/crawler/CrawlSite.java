@@ -70,15 +70,18 @@ public class CrawlSite {
     public void setCrawlData(String crawlData) {
         this.crawlData = crawlData;
     }
-
     public int getReponseCode() {
         return reponseCode;
     }
+
     public void addPostRequestParam(String name, String value) {
         postFormDataParam.put(name, value);
     }
     public void clearPostRequestParam() {
         postFormDataParam.clear();
+    }
+    public Map<String, String> getPostRequestParam() {
+        return postFormDataParam;
     }
 
     // crawling method...
