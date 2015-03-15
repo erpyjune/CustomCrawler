@@ -168,72 +168,82 @@ public class SB {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("td[width=\"25%\"");
+//        elements = doc.select("p.img a");
+        elements = doc.select("li");
         for (Element element : elements) {
 
-            productId=null;
+            if (!element.outerHtml().contains("target=\"_self\"")) {
+                continue;
+            }
+
+//            logger.info(element.outerHtml());
+//            logger.info("***************************************");
+
+            productId = null;
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
 
-
-            // Thumb link
-            listE = document.select("img[width=180]");
+            // thumb
+            listE = document.select("p.img a img");
             for (Element et : listE) {
-                strItem = et.attr("src").replace("..","");
-                searchData.setThumbUrl(prefixHostThumbUrl + strItem);
-                logger.debug(String.format(" >> Thumb : %s", prefixHostThumbUrl + strItem));
+//                logger.info(et.outerHtml());
+//                logger.info("******************************************");
+                strItem = et.attr("src");
+                logger.info(" thumb : " + strItem);
+                searchData.setThumbUrl("http://sbclub.co.kr" + strItem);
             }
 
-            // link
-            listE = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+            // set link, productId
+            listE = document.select("p.title a");
             for (Element et : listE) {
-                strLinkUrl = et.attr("href");
-                // extract productID
-                productId = getFieldData(strLinkUrl,"php?&goodsno=").trim();
-                searchData.setContentUrl(prefixContentUrl + productId);
-                logger.debug(String.format(" >> Link : %s", prefixContentUrl + productId));
-                searchData.setProductId(productId);
+//                logger.info(et.outerHtml());
+//                logger.info("******************************************");
+                strItem = et.attr("href");
+                logger.info(" link : " + strItem);
+
+                // get key
+                String brandcode = getFieldData(strItem, "brandcode=","&");
+                String pid = getFieldData(strItem, "pid=");
+                productId = brandcode + "-" + pid;
+
+                searchData.setContentUrl("http://sbclub.co.kr/" + strItem);
             }
 
             // product name
-            listE = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+            listE = document.select("p.title a");
             for (Element et : listE) {
-                strItem = et.text();
-                logger.debug(String.format(" >> title(%s)", strItem));
+//                logger.info(et.outerHtml());
+//                logger.info("******************************************");
+                strItem = htmlCleaner(et.textNodes().toString());
+                logger.info(" title : " + strItem);
+
                 searchData.setProductName(strItem);
-                searchData.setCpName("campingmall");
-                searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
             }
 
-            // org price
-            listE = document.select("div[style=\"height:10px;\"] strike");
+            // set org price, sale price.
+            listE = document.select("p.title a span");
             for (Element et : listE) {
-                strItem = et.text().trim().replace("원", "").replace(",", "");
-                if (isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> price(%s)", strItem));
-                    searchData.setOrgPrice(Integer.parseInt(strItem));
-                    break;
-                } else {
-                    // org price가 없는것은 에러 이다.
-                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
-                    logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
-                }
+//                logger.info(et.outerHtml());
+//                logger.info("******************************************");
+                strItem = clearPriceField(et.text());
+                logger.info(" price : " + strItem);
+
+                searchData.setOrgPrice(Integer.parseInt(strItem));
             }
 
-            // sale price
-            listE = document.select("div[style=\\\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\\\"] b");
-            for (Element et : listE) {
-                strItem = et.text().trim().replace("원", "").replace(",", "");
-                if (isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> price(%s)", strItem));
-                    searchData.setSalePrice(Integer.parseInt(strItem));
-                    break;
-                } else {
-                    // org price가 없는것은 에러 이다.
-                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
-                    logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
-                }
-            }
+            // set product id
+            searchData.setProductId(productId);
+            // org price = sale price
+            searchData.setSalePrice(searchData.getOrgPrice());
+            // sale per
+            searchData.setSalePer(0F);
+            // cp name
+            searchData.setCpName("sbclub");
+            // keyword
+            searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
+
+            logger.info(" ******************************************");
+
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
@@ -551,11 +561,11 @@ public class SB {
     }
 
 
-    public int indexingOkMall(SearchData searchData) throws IOException {
+    public int indexing(SearchData searchData) throws IOException {
 
         int returnCode;
         StringBuffer sb = new StringBuffer();
-        StringBuffer indexUrl = new StringBuffer("http://localhost:9200/shop/okmall/");
+        StringBuffer indexUrl = new StringBuffer("http://localhost:9200/shop/sbclub/");
         CrawlSite crawlSite = new CrawlSite();
 
         sb.append("{");
@@ -653,6 +663,16 @@ public class SB {
         return true;
     }
 
+    public String clearPriceField(String p) {
+        if (p==null) return "";
+        return  p.replace(" ","").replace(",", "").replace("원","");
+    }
+
+    public String htmlCleaner(String s) {
+        if (s==null) return "";
+        return s.replace("&lt;","<").replace("&gt;",">").replace("[","").replace("]","").replace(","," ");
+    }
+
 
     public void printResultInfo(First cp) {
         logger.info(" ================== Extracting information ==================");
@@ -665,7 +685,7 @@ public class SB {
     }
 
 
-    public void mainExtractProcessing(CampingMall cp,
+    public void mainExtractProcessing(SB cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 

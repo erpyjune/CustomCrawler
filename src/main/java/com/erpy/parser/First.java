@@ -216,8 +216,6 @@ public class First {
                     strItem = strItem.replace("\"", " ").replace("'", " ");
                     logger.debug(String.format(" >> title(%s)", strItem));
                     searchData.setProductName(strItem);
-                    searchData.setCpName("first");
-                    searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
                 }
             }
 
@@ -241,6 +239,10 @@ public class First {
                 }
             }
 
+            // cp name
+            searchData.setCpName("first");
+            // keyword
+            searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
             // sale price가 없을경우 org price 값을 넣어준다.
             searchData.setSalePrice(searchData.getOrgPrice());
 

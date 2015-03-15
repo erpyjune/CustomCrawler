@@ -200,8 +200,6 @@ public class CampingMall {
                 strItem = et.text();
                 logger.debug(String.format(" >> title(%s)", strItem));
                 searchData.setProductName(strItem);
-                searchData.setCpName("campingmall");
-                searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
             }
 
             // org price
@@ -233,6 +231,11 @@ public class CampingMall {
                     logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
                 }
             }
+
+            // set cp name.
+            searchData.setCpName("campingmall");
+            // set keyword.
+            searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
