@@ -189,7 +189,7 @@ public class DICamping {
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 // extract productID
-                productId = getFieldData(strLinkUrl,"branduid","&").trim();
+                productId = getFieldData(strLinkUrl,"branduid=","&").trim();
                 searchData.setContentUrl(prefixContentUrl + strLinkUrl);
                 logger.debug(String.format(" >> Link (%s)", prefixContentUrl + strLinkUrl));
                 logger.debug(String.format(" >> PrdID (%s)", productId));
@@ -209,7 +209,7 @@ public class DICamping {
             for (Element et : listE) {
                 strItem = et.text().trim().replace("원", "").replace(",", "");
                 if (isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> price (%s)", strItem));
+                    logger.debug(String.format(" >> org price (%s)", strItem));
                     searchData.setOrgPrice(Integer.parseInt(strItem));
                     break;
                 } else {
@@ -219,10 +219,57 @@ public class DICamping {
                 }
             }
 
-            // set sale price
-            searchData.setSalePrice(searchData.getOrgPrice());
+            // sale price
+            listE = document.select("li.prd-price2");
+            for (Element et : listE) {
+                strItem = et.text().trim().replace("원", "").replace(",", "");
+                if (isAllDigitChar(strItem)) {
+                    logger.debug(String.format(" >> sale price (%s)", strItem));
+                    searchData.setSalePrice(Integer.parseInt(strItem));
+                    break;
+                } else {
+                    // org price가 없는것은 에러 이다.
+                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
+                    logger.error(String.format(" Extract [sale price] data is NOT valid - %s", strItem));
+                }
+            }
+
+            // 이벤트 할인 행사면 추출 필드가 달라진다.
+            // 이벤트 할인일 경우 org price, sale price 추출 위치가 달라진다.
+            // event의 경우 org price
+            listE = document.select("li s");
+            for (Element et : listE) {
+                strItem = et.text().trim().replace("원", "").replace(",", "");
+                if (isAllDigitChar(strItem)) {
+                    logger.debug(String.format(" >> event org price (%s)", strItem));
+                    searchData.setOrgPrice(Integer.parseInt(strItem));
+                    break;
+                } else {
+                    // org price가 없는것은 에러 이다.
+                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
+                    logger.error(String.format(" Extract [event org price] data is NOT valid (%s)", strItem));
+                }
+            }
+
+            // 이벤트 할인 행사면 추출 필드가 달라진다.
+            // 이벤트 할인일 경우 org price, sale price 추출 위치가 달라진다.
+            // event의 경우 org price
+            listE = document.select("li font b");
+            for (Element et : listE) {
+                strItem = et.text().trim().replace("원", "").replace(",", "").replace("이벤트가","").replace(" ","").replace(":","");
+                if (isAllDigitChar(strItem)) {
+                    logger.debug(String.format(" >> event sale price (%s)", strItem));
+                    searchData.setSalePrice(Integer.parseInt(strItem));
+                    break;
+                } else {
+                    // org price가 없는것은 에러 이다.
+                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
+                    logger.error(String.format(" Extract [event sale price] data is NOT valid (%s)", strItem));
+                }
+            }
+
             // set sale per
-            searchData.setSalePer(0.0F);
+            searchData.setSalePer(100.0F);
             // set cp name.
             searchData.setCpName(GlobalInfo.CP_DICAMPING);
             // set keyword.
@@ -631,6 +678,7 @@ public class DICamping {
         cp.setFilePath(crawlData.getSavePath());
         cp.setKeyword(crawlData.getCrawlKeyword());
 
+        /////////////////////////////
         // 데이터 추출.
         searchDataMap = cp.extract();
         if (searchDataMap.size() <= 0) {
