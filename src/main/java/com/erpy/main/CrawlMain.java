@@ -3,15 +3,10 @@ package com.erpy.main;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
-import com.erpy.parser.CampingMall;
-import com.erpy.parser.First;
-import com.erpy.parser.OkMallProc;
 import com.erpy.parser.SB;
 import com.erpy.utils.GlobalInfo;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,7 +40,7 @@ public class CrawlMain {
             seed = (Seed)iterator.next();
             strKeyword = seed.getKeyword();
             strUrl     = seed.getUrl();
-            strCpName  = StringUtils.trim(seed.getCpName());
+            strCpName  = seed.getCpName().trim();
 
             if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
                 SB cp = new SB();

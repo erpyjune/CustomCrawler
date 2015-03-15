@@ -2,12 +2,10 @@ package com.erpy.utils;
 
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.String;
 import java.util.StringTokenizer;
 
 /**
@@ -37,7 +35,7 @@ public class UpdateSeed {
         BufferedReader br = new BufferedReader(fr);
         StringTokenizer stringTokenizer=null;
         while((buffer=br.readLine())!=null) {
-            s = StringUtils.trim(buffer);
+            s = buffer.trim();
             if (s.length() == 0) {
                 continue;
             }
@@ -47,7 +45,7 @@ public class UpdateSeed {
             index = 0;
             stringTokenizer = new StringTokenizer(buffer,"|");
             while(stringTokenizer.hasMoreTokens()) {
-                token = StringUtils.trim(stringTokenizer.nextToken());
+                token = stringTokenizer.nextToken().trim();
                 System.out.println("token:"+token);
                 System.out.println("cp_name:"+args[1]);
 

@@ -189,7 +189,7 @@ public class SB {
 //                logger.info(et.outerHtml());
 //                logger.info("******************************************");
                 strItem = et.attr("src");
-                logger.info(" thumb : " + strItem);
+                logger.debug(" thumb : " + strItem);
                 searchData.setThumbUrl("http://sbclub.co.kr" + strItem);
             }
 
@@ -199,7 +199,7 @@ public class SB {
 //                logger.info(et.outerHtml());
 //                logger.info("******************************************");
                 strItem = et.attr("href");
-                logger.info(" link : " + strItem);
+                logger.debug(" link : " + strItem);
 
                 // get key
                 String brandcode = getFieldData(strItem, "brandcode=","&");
@@ -215,7 +215,7 @@ public class SB {
 //                logger.info(et.outerHtml());
 //                logger.info("******************************************");
                 strItem = htmlCleaner(et.textNodes().toString());
-                logger.info(" title : " + strItem);
+                logger.debug(" title : " + strItem);
 
                 searchData.setProductName(strItem);
             }
@@ -226,7 +226,7 @@ public class SB {
 //                logger.info(et.outerHtml());
 //                logger.info("******************************************");
                 strItem = clearPriceField(et.text());
-                logger.info(" price : " + strItem);
+                logger.debug(" price : " + strItem);
 
                 searchData.setOrgPrice(Integer.parseInt(strItem));
             }
@@ -242,7 +242,7 @@ public class SB {
             // keyword
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
 
-            logger.info(" ******************************************");
+            logger.debug(" ******************************************");
 
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
