@@ -3,6 +3,7 @@ package com.erpy.main;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
+import com.erpy.parser.DICamping;
 import com.erpy.parser.SB;
 import com.erpy.utils.GlobalInfo;
 import org.apache.log4j.Logger;
@@ -42,10 +43,14 @@ public class CrawlMain {
             strUrl     = seed.getUrl();
             strCpName  = seed.getCpName().trim();
 
-            if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
-                SB cp = new SB();
+            if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
+                DICamping cp = new DICamping();
                 cp.crawlData(strUrl, strKeyword, strCpName);
             }
+//            else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
+//                SB cp = new SB();
+//                cp.crawlData(strUrl, strKeyword, strCpName);
+//            }
 //            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
 //                CampingMall cp = new CampingMall();
 //                cp.setTxtEncode("euc-kr");

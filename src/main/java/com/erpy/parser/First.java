@@ -240,7 +240,7 @@ public class First {
             }
 
             // cp name
-            searchData.setCpName("first");
+            searchData.setCpName(GlobalInfo.CP_FIRST);
             // keyword
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
             // sale price가 없을경우 org price 값을 넣어준다.

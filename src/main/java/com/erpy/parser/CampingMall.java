@@ -233,7 +233,7 @@ public class CampingMall {
             }
 
             // set cp name.
-            searchData.setCpName("campingmall");
+            searchData.setCpName(GlobalInfo.CP_CAMPINGMALL);
             // set keyword.
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
 

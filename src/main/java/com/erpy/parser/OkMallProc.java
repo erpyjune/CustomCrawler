@@ -248,7 +248,6 @@ public class OkMallProc {
                     strItem = elink.text();
                     strItem = strItem.replace("\"", " ").replace("'", " ");
                     searchData.setProductName(strItem);
-                    searchData.setCpName("okmall");
                     searchData.setCrawlKeyword(isSexKeywordAdd(keyword, isMan, isWoman));
                 }
             }
@@ -307,6 +306,9 @@ public class OkMallProc {
                     }
                 }
             }
+
+            // set cp name
+            searchData.setCpName(GlobalInfo.CP_OKMALL);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {

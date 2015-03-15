@@ -43,8 +43,8 @@ public class DICamping {
     private String txtEncode="euc-kr";
     private static CrawlDataService crawlDataService;
     //
-    private static final String prefixContentUrl = "http://www.campingmall.co.kr/shop/goods/goods_view.php?&goodsno=";
-    private static final String prefixHostThumbUrl = "http://www.campingmall.co.kr";
+    private static final String prefixContentUrl = "http://www.dicamping.co.kr";
+    private static final String prefixHostThumbUrl = "http://www.dicamping.co.kr";
 
 
     public String getFilePath() {
@@ -166,8 +166,9 @@ public class DICamping {
         // 데이터 parsing을 위해 jsoup 객체로 읽는다.
         Document doc = Jsoup.parse(htmlContent);
 
+        /////////////////////////////////////////
         // 파싱 시작.
-        elements = doc.select("td[width=\"25%\"");
+        elements = doc.select("dl.item-list2");
         for (Element element : elements) {
 
             productId=null;
@@ -176,38 +177,39 @@ public class DICamping {
 
 
             // Thumb link
-            listE = document.select("img[width=180]");
+            listE = document.select("a img.MS_prod_img_m");
             for (Element et : listE) {
-                strItem = et.attr("src").replace("..","");
+                strItem = et.attr("src");
                 searchData.setThumbUrl(prefixHostThumbUrl + strItem);
-                logger.debug(String.format(" >> Thumb : %s", prefixHostThumbUrl + strItem));
+                logger.debug(String.format(" >> Thumb (%s)", prefixHostThumbUrl + strItem));
             }
 
             // link
-            listE = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+            listE = document.select("a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 // extract productID
-                productId = getFieldData(strLinkUrl,"php?&goodsno=").trim();
-                searchData.setContentUrl(prefixContentUrl + productId);
-                logger.debug(String.format(" >> Link : %s", prefixContentUrl + productId));
+                productId = getFieldData(strLinkUrl,"branduid","&").trim();
+                searchData.setContentUrl(prefixContentUrl + strLinkUrl);
+                logger.debug(String.format(" >> Link (%s)", prefixContentUrl + strLinkUrl));
+                logger.debug(String.format(" >> PrdID (%s)", productId));
                 searchData.setProductId(productId);
             }
 
             // product name
-            listE = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+            listE = document.select("img");
             for (Element et : listE) {
-                strItem = et.text();
-                logger.debug(String.format(" >> title(%s)", strItem));
+                strItem = et.attr("title");
+                logger.debug(String.format(" >> title (%s)", strItem));
                 searchData.setProductName(strItem);
             }
 
             // org price
-            listE = document.select("div[style=\"height:10px;\"] strike");
+            listE = document.select("strike");
             for (Element et : listE) {
                 strItem = et.text().trim().replace("원", "").replace(",", "");
                 if (isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> price(%s)", strItem));
+                    logger.debug(String.format(" >> price (%s)", strItem));
                     searchData.setOrgPrice(Integer.parseInt(strItem));
                     break;
                 } else {
@@ -217,23 +219,12 @@ public class DICamping {
                 }
             }
 
-            // sale price
-            listE = document.select("div[style=\\\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\\\"] b");
-            for (Element et : listE) {
-                strItem = et.text().trim().replace("원", "").replace(",", "");
-                if (isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> price(%s)", strItem));
-                    searchData.setSalePrice(Integer.parseInt(strItem));
-                    break;
-                } else {
-                    // org price가 없는것은 에러 이다.
-                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
-                    logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
-                }
-            }
-
+            // set sale price
+            searchData.setSalePrice(searchData.getOrgPrice());
+            // set sale per
+            searchData.setSalePer(0.0F);
             // set cp name.
-            searchData.setCpName("campingmall");
+            searchData.setCpName(GlobalInfo.CP_DICAMPING);
             // set keyword.
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
 
@@ -630,7 +621,7 @@ public class DICamping {
     }
 
 
-    public void mainExtractProcessing(CampingMall cp,
+    public void mainExtractProcessing(DICamping cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
