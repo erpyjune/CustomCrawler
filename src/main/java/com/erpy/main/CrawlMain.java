@@ -3,8 +3,7 @@ package com.erpy.main;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
-import com.erpy.parser.DICamping;
-import com.erpy.parser.SB;
+import com.erpy.parser.*;
 import com.erpy.utils.GlobalInfo;
 import org.apache.log4j.Logger;
 
@@ -43,29 +42,33 @@ public class CrawlMain {
             strUrl     = seed.getUrl();
             strCpName  = seed.getCpName().trim();
 
-            if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
+            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
+                CCamping cp = new CCamping();
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
                 DICamping cp = new DICamping();
                 cp.crawlData(strUrl, strKeyword, strCpName);
             }
-//            else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
-//                SB cp = new SB();
-//                cp.crawlData(strUrl, strKeyword, strCpName);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
-//                CampingMall cp = new CampingMall();
-//                cp.setTxtEncode("euc-kr");
-//                cp.crawlData(strUrl, strKeyword, strCpName);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
-//                OkMallProc okMallProc = new OkMallProc();
-//                okMallProc.setTxtEncode("euc-kr");
-//                // 데이터 수집 시작..
-//                okMallProc.crawlData(strUrl, strKeyword, strCpName);
-//            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
-//                First first = new First();
-//                first.setTxtEncode("utf-8");
-//                first.crawlData(strUrl, strKeyword, strCpName);
-//            }
+            else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
+                SB cp = new SB();
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
+                CampingMall cp = new CampingMall();
+                cp.setTxtEncode("euc-kr");
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
+                OkMallProc okMallProc = new OkMallProc();
+                okMallProc.setTxtEncode("euc-kr");
+                // 데이터 수집 시작..
+                okMallProc.crawlData(strUrl, strKeyword, strCpName);
+            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
+                First first = new First();
+                first.setTxtEncode("utf-8");
+                first.crawlData(strUrl, strKeyword, strCpName);
+            }
         }
 
         logger.info(" End crawling !!");

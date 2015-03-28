@@ -176,8 +176,7 @@ public class OkMallProc {
                 for (Element elink : elementsLink) {
                     strItem = elink.attr(extractInfo.getOkmallProf().getLinkAttr());
                     strLinkUrl = strItem; // Used map key.
-                    searchData.setContentUrl(strItem);
-
+                    searchData.setContentUrl("http://www.okmall.com"+strItem);
 //                    System.out.println(String.format(">> Link : %s", strItem));
                 }
                 // extract productID
@@ -498,7 +497,7 @@ public class OkMallProc {
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
-        crawlSite.setSocketTimeout(5000);
+        crawlSite.setSocketTimeout(10000);
         crawlSite.setCrawlEncode(txtEncode);
 
         for(;;) {
@@ -510,11 +509,16 @@ public class OkMallProc {
             crawlSite.setCrawlUrl(strUrl);
 
             // Crawliing...
-            returnCode = crawlSite.HttpCrawlGetDataTimeout();
-            if (returnCode != 200 && returnCode != 201) {
-                logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
-                crawlErrorCount++;
-                continue;
+            try {
+                returnCode = crawlSite.HttpCrawlGetDataTimeout();
+                if (returnCode != 200 && returnCode != 201) {
+                    logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
+                    crawlErrorCount++;
+                    continue;
+                }
+            }
+            catch (Exception e) {
+                logger.error(e);
             }
 
             // 수집한 데이터를 파일로 저장한다.
@@ -588,7 +592,7 @@ public class OkMallProc {
         sb.append("\"").append(searchData.getBrandName()).append("\",");
 
         sb.append("\"url\" : ");
-        sb.append("\"http://www.okmall.com").append(searchData.getContentUrl()).append("\",");
+        sb.append("\"").append(searchData.getContentUrl()).append("\",");
 
         sb.append("\"thumb\" : ");
         sb.append("\"").append(searchData.getThumbUrl()).append("\",");

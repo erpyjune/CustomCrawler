@@ -53,6 +53,7 @@ public class ExtractDataMain {
         CampingMall campingMall = new CampingMall();
         SB sbclub = new SB();
         DICamping di = new DICamping();
+        CCamping cc = new CCamping();
 
         // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
         Map<String, SearchData> allSearchDatasMap = getAllProductKey();
@@ -65,7 +66,10 @@ public class ExtractDataMain {
 
             crawlData = (CrawlData) iterator.next();
 
-            if (crawlData.getCpName().equals(GlobalInfo.CP_DICAMPING)) {
+            if (crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) {
+                cc.mainExtractProcessing(cc, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_DICAMPING)) {
                 di.mainExtractProcessing(di, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SBCLUB)) {

@@ -25,8 +25,8 @@ import java.util.Random;
 /**
  * Created by baeonejune on 15. 3. 15..
  */
-public class DICamping {
-    private static Logger logger = Logger.getLogger(DICamping.class.getName());
+public class CCamping {
+    private static Logger logger = Logger.getLogger(CCamping.class.getName());
     // for extract.
     private int totalExtractCount=0;
     private int skipCount=0;
@@ -43,8 +43,8 @@ public class DICamping {
     private String txtEncode="euc-kr";
     private static CrawlDataService crawlDataService;
     //
-    private static final String prefixContentUrl = "http://www.dicamping.co.kr";
-    private static final String prefixHostThumbUrl = "http://www.dicamping.co.kr";
+    private static final String prefixContentUrl = "http://www.ccamping.co.kr/shop";
+    private static final String prefixHostThumbUrl = "http://www.ccamping.co.kr/shop";
 
 
     public String getFilePath() {
@@ -168,8 +168,11 @@ public class DICamping {
 
         /////////////////////////////////////////
         // 파싱 시작.
-        elements = doc.select("dl.item-list2");
+        elements = doc.select("td[width=\"25%\"]");
         for (Element element : elements) {
+
+            logger.debug(element.outerHtml());
+            logger.debug("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
             productId=null;
             SearchData searchData = new SearchData();
@@ -177,19 +180,19 @@ public class DICamping {
 
 
             // Thumb link
-            listE = document.select("a img.MS_prod_img_m");
+            listE = document.select("div.thumbnail img");
             for (Element et : listE) {
-                strItem = et.attr("src");
+                strItem = et.attr("src").replace("..","");
                 searchData.setThumbUrl(prefixHostThumbUrl + strItem);
                 logger.debug(String.format(" >> Thumb (%s)", prefixHostThumbUrl + strItem));
             }
 
             // link
-            listE = document.select("a");
+            listE = document.select("div[style=\"padding:12px;  \"] a");
             for (Element et : listE) {
-                strLinkUrl = et.attr("href");
+                strLinkUrl = et.attr("href").replace("..","");
                 // extract productID
-                productId = getFieldData(strLinkUrl,"branduid=","&").trim();
+                productId = getFieldData(strLinkUrl,"goodsno=","&").trim();
                 searchData.setContentUrl(prefixContentUrl + strLinkUrl);
                 logger.debug(String.format(" >> Link (%s)", prefixContentUrl + strLinkUrl));
                 logger.debug(String.format(" >> PrdID (%s)", productId));
@@ -197,9 +200,9 @@ public class DICamping {
             }
 
             // product name
-            listE = document.select("img");
+            listE = document.select("div[style=\"padding:12px;  \"] a");
             for (Element et : listE) {
-                strItem = et.attr("title");
+                strItem = et.text().trim();
                 logger.debug(String.format(" >> title (%s)", strItem));
                 searchData.setProductName(strItem);
             }
@@ -220,7 +223,7 @@ public class DICamping {
             }
 
             // sale price
-            listE = document.select("li.prd-price2");
+            listE = document.select("div[style=\"padding:0 0 3px 0px; color:#315ed2; \"]");
             for (Element et : listE) {
                 strItem = et.text().trim().replace("원", "").replace(",", "");
                 if (isAllDigitChar(strItem)) {
@@ -234,44 +237,10 @@ public class DICamping {
                 }
             }
 
-            // 이벤트 할인 행사면 추출 필드가 달라진다.
-            // 이벤트 할인일 경우 org price, sale price 추출 위치가 달라진다.
-            // event의 경우 org price
-            listE = document.select("li s");
-            for (Element et : listE) {
-                strItem = et.text().trim().replace("원", "").replace(",", "");
-                if (isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> event org price (%s)", strItem));
-                    searchData.setOrgPrice(Integer.parseInt(strItem));
-                    break;
-                } else {
-                    // org price가 없는것은 에러 이다.
-                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
-                    logger.error(String.format(" Extract [event org price] data is NOT valid (%s)", strItem));
-                }
-            }
-
-            // 이벤트 할인 행사면 추출 필드가 달라진다.
-            // 이벤트 할인일 경우 org price, sale price 추출 위치가 달라진다.
-            // event의 경우 org price
-            listE = document.select("li font b");
-            for (Element et : listE) {
-                strItem = et.text().trim().replace("원", "").replace(",", "").replace("이벤트가","").replace(" ","").replace(":","");
-                if (isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> event sale price (%s)", strItem));
-                    searchData.setSalePrice(Integer.parseInt(strItem));
-                    break;
-                } else {
-                    // org price가 없는것은 에러 이다.
-                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
-                    logger.error(String.format(" Extract [event sale price] data is NOT valid (%s)", strItem));
-                }
-            }
-
             // set sale per
             searchData.setSalePer(100.0F);
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_DICAMPING);
+            searchData.setCpName(GlobalInfo.CP_CCAMPING);
             // set keyword.
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
 
@@ -349,7 +318,7 @@ public class DICamping {
 
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "dl.item-list2";
+        String patten = "td[width=\"25%\"]";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
@@ -459,7 +428,7 @@ public class DICamping {
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
-        crawlSite.setSocketTimeout(5000);
+        crawlSite.setSocketTimeout(9000);
         crawlSite.setCrawlEncode(txtEncode);
 
         for(;;) {
@@ -470,13 +439,19 @@ public class DICamping {
             // set crawling information.
             crawlSite.setCrawlUrl(strUrl);
 
-            // Crawliing...
-            returnCode = crawlSite.HttpCrawlGetDataTimeout();
-            if (returnCode != 200 && returnCode != 201) {
-                logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
-                crawlErrorCount++;
-                continue;
+            try {
+                // Crawliing...
+                returnCode = crawlSite.HttpCrawlGetDataTimeout();
+                if (returnCode != 200 && returnCode != 201) {
+                    logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
+                    crawlErrorCount++;
+                    continue;
+                }
             }
+            catch (Exception e) {
+            logger.error(e);
+            }
+
 
             // 수집한 데이터를 파일로 저장한다.
             randomNum = random.nextInt(918277377);
@@ -501,6 +476,7 @@ public class DICamping {
             // 크롤링한 데이터를 파일로 저장한다.
             crawlIO.executeSaveData();
 
+            /////////////////////////////////////////////////////////////
             // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
             // 추출된 데이터가 있는지 체크한다.
             data_size = checkDataCount(crawlSavePath, txtEncode);
@@ -668,7 +644,7 @@ public class DICamping {
     }
 
 
-    public void mainExtractProcessing(DICamping cp,
+    public void mainExtractProcessing(CCamping cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -758,6 +734,7 @@ public class DICamping {
                 System.out.println("-----------------------------------");
             }
         }
+
 
         logger.info(" end test !!");
     }

@@ -32,7 +32,9 @@ public class IndexingMain {
         int returnCode;
 
         // select 문 파라메터로 보낼 변수들
-        statusParamMap.put("selStatus1","U");
+//        statusParamMap.put("selStatus1","U");
+//        statusParamMap.put("selStatus2","I");
+        statusParamMap.put("selStatus1","E");
         statusParamMap.put("selStatus2","I");
 
         //List<SearchData> searchDataList = searchDataService.getAllSearchDatas();
@@ -50,7 +52,12 @@ public class IndexingMain {
                 continue;
             }
 
-            if (searchData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
+            if (searchData.getCpName().equals(GlobalInfo.CP_OKMALL) ||
+                    searchData.getCpName().equals(GlobalInfo.CP_CCAMPING) ||
+                    searchData.getCpName().equals(GlobalInfo.CP_DICAMPING) ||
+                    searchData.getCpName().equals(GlobalInfo.CP_SBCLUB) ||
+                    searchData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL) ||
+                    searchData.getCpName().equals(GlobalInfo.CP_FIRST)) {
 
                 // indexing to elasticsearch engine.
                 returnCode = okMallProc.indexingOkMall(searchData);
@@ -61,7 +68,7 @@ public class IndexingMain {
                     indexCount++;
                 }
             } else {
-                logger.error(" cp name is not equals !!");
+                logger.error(" Skip cp name is - " + searchData.getCpName());
             }
         }
 

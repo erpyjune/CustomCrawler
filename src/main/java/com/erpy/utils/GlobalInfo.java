@@ -18,6 +18,7 @@ public class GlobalInfo {
     public static final String CP_CAMPINGMALL  = "campingmall";
     public static final String CP_SBCLUB  = "sbclub";
     public static final String CP_DICAMPING  = "dicamping";
+    public static final String CP_CCAMPING  = "ccamping";
 
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;
