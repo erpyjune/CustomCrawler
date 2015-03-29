@@ -518,7 +518,7 @@ public class OkMallProc {
                 }
             }
             catch (Exception e) {
-                logger.error(e);
+                logger.error(e.getStackTrace());
             }
 
             // 수집한 데이터를 파일로 저장한다.

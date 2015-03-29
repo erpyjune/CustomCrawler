@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by baeonejune on 15. 3. 1..
@@ -199,7 +200,7 @@ public class First {
                 elementsLink = docu.select("img ");
                 for (Element elink : elementsLink) {
                     strItem = elink.attr("src");
-                    searchData.setThumbUrl(prefixHost + strItem);
+                    searchData.setThumbUrl(prefixHost + strItem.replace("_2.jpg","_0.jpg"));
                     logger.debug(String.format(" >> Thumb : %s", prefixHost + strItem));
                     // 큰 이미지 : http://www.chocammall.co.kr/resources/product_image/201403/20140304_113005_0.jpg
                     // 작은 이미지 : http://www.chocammall.co.kr/resources/product_image/201403/20140304_113005_2.jpg
@@ -442,11 +443,16 @@ public class First {
             crawlSite.setCrawlUrl(strUrl);
 
             // Crawliing...
-            returnCode = crawlSite.HttpCrawlGetDataTimeout();
-            if (returnCode != 200 && returnCode != 201) {
-                logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
-                crawlErrorCount++;
-                continue;
+            try {
+                returnCode = crawlSite.HttpCrawlGetDataTimeout();
+                if (returnCode != 200 && returnCode != 201) {
+                    logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
+                    crawlErrorCount++;
+                    continue;
+                }
+            }
+            catch (Exception e) {
+                logger.error(e.getStackTrace());
             }
 
             // 수집한 데이터를 파일로 저장한다.

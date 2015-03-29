@@ -495,11 +495,16 @@ public class SB {
             logger.info(String.format(" Crawling start(%d), end(%d), cate(%s)", startPage, endPage, categoryId));
 
             // crawling.
-            crawlSite.HttpPostGet();
-            if (crawlSite.getReponseCode() != 200 && crawlSite.getReponseCode() != 201) {
-                logger.error(String.format(" 데이터를 수집 못했음 - %s", url));
-                crawlErrorCount++;
-                continue;
+            try {
+                crawlSite.HttpPostGet();
+                if (crawlSite.getReponseCode() != 200 && crawlSite.getReponseCode() != 201) {
+                    logger.error(String.format(" 데이터를 수집 못했음 - %s", url));
+                    crawlErrorCount++;
+                    continue;
+                }
+            }
+            catch (Exception e) {
+                logger.error(e.getStackTrace());
             }
 
             // clear request param

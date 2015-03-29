@@ -449,7 +449,7 @@ public class CCamping {
                 }
             }
             catch (Exception e) {
-            logger.error(e);
+                logger.error(e.getStackTrace());
             }
 
 

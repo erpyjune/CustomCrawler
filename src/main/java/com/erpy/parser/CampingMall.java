@@ -433,11 +433,16 @@ public class CampingMall {
             crawlSite.setCrawlUrl(strUrl);
 
             // Crawliing...
-            returnCode = crawlSite.HttpCrawlGetDataTimeout();
-            if (returnCode != 200 && returnCode != 201) {
-                logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
-                crawlErrorCount++;
-                continue;
+            try {
+                returnCode = crawlSite.HttpCrawlGetDataTimeout();
+                if (returnCode != 200 && returnCode != 201) {
+                    logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
+                    crawlErrorCount++;
+                    continue;
+                }
+            }
+            catch (Exception e) {
+                logger.error(e.getStackTrace());
             }
 
             // 수집한 데이터를 파일로 저장한다.
