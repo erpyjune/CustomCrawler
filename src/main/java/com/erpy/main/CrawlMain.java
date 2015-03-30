@@ -24,7 +24,7 @@ public class CrawlMain {
         String strKeyword;
         String strUrl;
         String strCpName;
-        int seedCount=0;
+        int seedCount = 0;
 
         SeedService seedService = new SeedService();
 
@@ -37,38 +37,36 @@ public class CrawlMain {
         List<Seed> seedList = seedService.getAllSeeds();
         Iterator iterator = seedList.iterator();
         while (iterator.hasNext()) {
-            seed = (Seed)iterator.next();
+            seed = (Seed) iterator.next();
             strKeyword = seed.getKeyword();
-            strUrl     = seed.getUrl();
-            strCpName  = seed.getCpName().trim();
+            strUrl = seed.getUrl();
+            strCpName = seed.getCpName().trim();
 
-            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
-                CCamping cp = new CCamping();
+//            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
+//                CCamping cp = new CCamping();
+//                cp.crawlData(strUrl, strKeyword, strCpName);
+//            } else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
+//                DICamping cp = new DICamping();
+//                cp.crawlData(strUrl, strKeyword, strCpName);
+//            } else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
+//                SB cp = new SB();
+//                cp.crawlData(strUrl, strKeyword, strCpName);
+//            } else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
+//                CampingMall cp = new CampingMall();
+//                cp.setTxtEncode("euc-kr");
+//                cp.crawlData(strUrl, strKeyword, strCpName);
+//            } else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
+//                OkMallProc okMallProc = new OkMallProc();
+//                okMallProc.setTxtEncode("euc-kr");
+//                okMallProc.crawlData(strUrl, strKeyword, strCpName);
+//            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
+//                First first = new First();
+//                first.setTxtEncode("utf-8");
+//                first.crawlData(strUrl, strKeyword, strCpName);
+//            } else if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
+                CampingOn cp = new CampingOn();
                 cp.crawlData(strUrl, strKeyword, strCpName);
-            }
-            else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
-                DICamping cp = new DICamping();
-                cp.crawlData(strUrl, strKeyword, strCpName);
-            }
-            else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
-                SB cp = new SB();
-                cp.crawlData(strUrl, strKeyword, strCpName);
-            }
-            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
-                CampingMall cp = new CampingMall();
-                cp.setTxtEncode("euc-kr");
-                cp.crawlData(strUrl, strKeyword, strCpName);
-            }
-            else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
-                OkMallProc okMallProc = new OkMallProc();
-                okMallProc.setTxtEncode("euc-kr");
-                // 데이터 수집 시작..
-                okMallProc.crawlData(strUrl, strKeyword, strCpName);
-            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
-                First first = new First();
-                first.setTxtEncode("utf-8");
-                first.crawlData(strUrl, strKeyword, strCpName);
-            }
+//            }
         }
 
         logger.info(" End crawling !!");

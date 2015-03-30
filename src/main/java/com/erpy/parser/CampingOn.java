@@ -6,27 +6,27 @@ import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
-import com.erpy.extract.ExtractInfo;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
+import com.erpy.utils.GlobalUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 /**
- * Created by baeonejune on 15. 3. 1..
+ * Created by baeonejune on 15. 3. 30..
  */
-public class CampingMall {
-    private static Logger logger = Logger.getLogger(CampingMall.class.getName());
+public class CampingOn {
+    private static Logger logger = Logger.getLogger(CampingOn.class.getName());
+    private GlobalUtils globalUtils = new GlobalUtils();
     // for extract.
     private int totalExtractCount=0;
     private int skipCount=0;
@@ -43,8 +43,8 @@ public class CampingMall {
     private String txtEncode="euc-kr";
     private static CrawlDataService crawlDataService;
     //
-    private static final String prefixContentUrl = "http://www.campingmall.co.kr/shop/goods/goods_view.php?&goodsno=";
-    private static final String prefixHostThumbUrl = "http://www.campingmall.co.kr";
+    private static final String prefixContentUrl = "http://www.campingon.co.kr/shop/goods/goods_view.php?goodsno=";
+    private static final String prefixHostThumbUrl = "http://www.campingon.co.kr";
 
 
     public String getFilePath() {
@@ -137,15 +137,12 @@ public class CampingMall {
 
     public Map<String, SearchData> extract() throws Exception {
         FileIO fileIO = new FileIO();
-        ExtractInfo extractInfo = new ExtractInfo();
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
         Elements elements;
-        Elements elementsLink;
         Document document;
         String strItem;
         String productId;
         Elements listE;
-        Document docu;
         String strLinkUrl=null;
 
 
@@ -157,7 +154,7 @@ public class CampingMall {
         ////////////////////////////////////////////////////////
         if (filePath==null) {
             logger.fatal(" FilePath is null !!");
-            System.exit(-1);
+            throw new Exception("Extract file path is null!!");
         }
 
         // 분석할 파일을 하나 읽어 온다.
@@ -167,7 +164,7 @@ public class CampingMall {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("td[width=\"25%\"");
+        elements = doc.select("td[width=\"20%\"]");
         for (Element element : elements) {
 
             productId="";
@@ -175,26 +172,26 @@ public class CampingMall {
             document = Jsoup.parse(element.outerHtml());
 
             // Thumb link
-            listE = document.select("img[width=180]");
+            listE = document.select("img[width=150]");
             for (Element et : listE) {
                 strItem = et.attr("src").replace("..","/shop");
-                searchData.setThumbUrl(prefixHostThumbUrl + strItem);
+                searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("_s.jpg","_m.jpg"));
                 logger.debug(String.format(" >> Thumb : %s", prefixHostThumbUrl + strItem));
             }
 
             // link
-            listE = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+            listE = document.select("div[style=\"padding:5px 0 0 0; font-size:11px;\"] a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 // extract productID
-                productId = getFieldData(strLinkUrl,"php?&goodsno=").trim();
+                productId = globalUtils.getFieldData(strLinkUrl, "php?goodsno=","&").trim();
                 searchData.setContentUrl(prefixContentUrl + productId);
                 logger.debug(String.format(" >> Link : %s", prefixContentUrl + productId));
                 searchData.setProductId(productId);
             }
 
             // product name
-            listE = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+            listE = document.select("div[style=\"padding:5px 0 0 0; font-size:11px;\"] a");
             for (Element et : listE) {
                 strItem = et.text();
                 logger.debug(String.format(" >> title(%s)", strItem));
@@ -202,25 +199,25 @@ public class CampingMall {
             }
 
             // org price
-            listE = document.select("div[style=\"height:10px;\"] strike");
+            listE = document.select("div span strike");
             for (Element et : listE) {
-                    strItem = et.text().trim().replace("원", "").replace(",", "");
-                    if (isAllDigitChar(strItem)) {
-                        logger.debug(String.format(" >> price(%s)", strItem));
-                        searchData.setOrgPrice(Integer.parseInt(strItem));
-                        break;
-                    } else {
-                        // org price가 없는것은 에러 이다.
-                        // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
-                        logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
-                    }
+                strItem = et.text().trim().replace("원", "").replace(",", "");
+                if (globalUtils.isAllDigitChar(strItem)) {
+                    logger.debug(String.format(" >> price(%s)", strItem));
+                    searchData.setOrgPrice(Integer.parseInt(strItem));
+                    break;
+                } else {
+                    // org price가 없는것은 에러 이다.
+                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
+                    logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
+                }
             }
 
             // sale price
-            listE = document.select("div[style=\\\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\\\"] b");
+            listE = document.select("div[style=\"padding-bottom:3px; font-size:11px; color:#bc0000;\"] b");
             for (Element et : listE) {
                 strItem = et.text().trim().replace("원", "").replace(",", "");
-                if (isAllDigitChar(strItem)) {
+                if (globalUtils.isAllDigitChar(strItem)) {
                     logger.debug(String.format(" >> price(%s)", strItem));
                     searchData.setSalePrice(Integer.parseInt(strItem));
                     break;
@@ -232,12 +229,12 @@ public class CampingMall {
             }
 
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_CAMPINGMALL);
+            searchData.setCpName(GlobalInfo.CP_CAMPINGON);
             // set keyword.
-            searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
+            searchData.setCrawlKeyword(keyword);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
-            if (!isDataEmpty(searchData)) {
+            if (!globalUtils.isDataEmpty(searchData)) {
                 // key : product id
                 searchDataMap.put(productId + searchData.getCpName(), searchData);
                 totalExtractCount++;
@@ -249,14 +246,8 @@ public class CampingMall {
         return searchDataMap;
     }
 
-    private String isSexKeywordAdd(String crawlKeyword, boolean bMan, boolean bWoman) {
-        StringBuilder sb = new StringBuilder(crawlKeyword);
-        if (bMan) sb.append(" 남자");
-        if (bWoman) sb.append(" 여자");
-        return sb.toString();
-    }
 
-    public void insertOkMall(Map<String, SearchData> sdAll) throws IOException {
+    public void updateToDB(Map<String, SearchData> sdAll) throws IOException {
         SearchDataService searchDataService = new SearchDataService();
         SearchData sd;
 
@@ -308,7 +299,7 @@ public class CampingMall {
 
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "div[style=\"width:180px;height:50px;padding-top:3px;\"] a";
+        String patten = "td[width=\"20%\"] a";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
@@ -332,7 +323,7 @@ public class CampingMall {
             productId = entry.getKey();
             searchDataPart = entry.getValue();
 
-            if (isDataEmpty(searchDataPart)) {
+            if (globalUtils.isDataEmpty(searchDataPart)) {
                 logger.error(String.format(" Null 데이터가 있어서 skip 합니다 (%s)",
                         searchDataPart.getProductId()));
                 continue;
@@ -342,7 +333,7 @@ public class CampingMall {
             if (allMap.containsKey(productId)) {
                 // 기존 데이터에서 하나 꺼내서.
                 searchDataAll = allMap.get(productId);
-                if (isDataEmpty(searchDataAll)) {
+                if (globalUtils.isDataEmpty(searchDataAll)) {
                     logger.error(String.format(" 기존 데이중에 Null 데이터가 있어서 skip 합니다. prdid(%s)",
                             searchDataAll.getProductId()));
                     continue;
@@ -418,22 +409,18 @@ public class CampingMall {
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
-        crawlSite.setSocketTimeout(5000);
+        crawlSite.setSocketTimeout(10000);
         crawlSite.setCrawlEncode(txtEncode);
 
         for(;;) {
-
             // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
             strUrl = String.format("%s&page=%d", url, page);
-
-            // set crawling information.
             crawlSite.setCrawlUrl(strUrl);
 
-            // Crawliing...
             try {
                 returnCode = crawlSite.HttpCrawlGetDataTimeout();
                 if (returnCode != 200 && returnCode != 201) {
-                    logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
+                    logger.error(String.format(" 데이터를 수집 못했음. HTTP RET [%d] - %s", returnCode, strUrl));
                     crawlErrorCount++;
                     continue;
                 }
@@ -442,22 +429,16 @@ public class CampingMall {
                 logger.error(e.getStackTrace());
             }
 
-            // 수집한 데이터를 파일로 저장한다.
-            randomNum = random.nextInt(918277377);
-            crawlSavePath = savePrefixPath + "/" + strCpName + "/" + Long.toString(randomNum) + ".html";
-
-            // DIR check.
-            File dir = new File(savePrefixPath + "/" + strCpName);
-            if (!dir.exists()) {
-                logger.info(" make directory : " + dir);
-                dir.mkdir();
+            // cp 디렉토리가 없으면 생성한다.
+            if (!globalUtils.saveDirCheck(savePrefixPath, strCpName)) {
+                logger.error(String.format(" Crawling data save dir make check fail !!"));
+                continue;
             }
 
-            // 만일 파일이름이 충돌 난다면...
-            File f = new File(crawlSavePath);
-            if(f.exists()) {
-                logger.error(String.format(" 저장할 파일 이름이 충돌 납니다 - %s ", crawlSavePath));
-                collisionFileCount++;
+            // save file path가 충돌나면 continue 한다.
+            crawlSavePath = globalUtils.makeSaveFilePath(savePrefixPath, strCpName, random.nextInt(918277377));
+            if (!globalUtils.isSaveFilePathCollision(crawlSavePath)) {
+                logger.error(String.format(" Crawling save file path is collision !!"));
                 continue;
             }
 
@@ -470,11 +451,8 @@ public class CampingMall {
             data_size = checkDataCount(crawlSavePath, txtEncode);
             if (data_size <= 0) {
                 logger.info(String.format(" Data size is(%d). This seed last page : %s",data_size, strUrl));
-                lastPage = true;
+                break;
             }
-
-            // 추출 개수가 0 이면 해당 url을 insert 하지 않는다.
-            if (data_size == 0) break;
 
             // 수집한 메타 데이터를 DB에 저장한다.
             crawlData.setSeedUrl(strUrl);
@@ -490,138 +468,13 @@ public class CampingMall {
             page++;
             // 크롤링한 데이터 카운트.
             crawlCount++;
-            // 마지막 페이지이면 끝내고.
-            if (lastPage) break;
             // page가 100페이지이면 끝난다. 100페이지까지 갈리가 없음.
             if (page==100) break;
         }
     }
 
 
-    private String getFieldData(String src, String startTag, String endTag) {
-        if (src==null || startTag==null || endTag==null) return "";
-        int spos = src.indexOf(startTag);
-        if (spos<=0) return "";
-        int epos = src.indexOf(endTag, spos);
-        String tag = src.substring(spos+startTag.length(), epos);
-
-        return tag;
-    }
-
-
-    private String getFieldData(String src, String startTag) {
-        if (src==null || startTag==null) return "";
-        int spos = src.indexOf(startTag);
-        if (spos<0) return "";
-        String tag = src.substring(spos+startTag.length());
-        return tag;
-    }
-
-
-    public int indexingOkMall(SearchData searchData) throws IOException {
-
-        int returnCode;
-        StringBuffer sb = new StringBuffer();
-        StringBuffer indexUrl = new StringBuffer("http://localhost:9200/shop/okmall/");
-        CrawlSite crawlSite = new CrawlSite();
-
-        sb.append("{");
-
-        sb.append("\"dataid\" : ");
-        sb.append("\"").append(searchData.getDataId()).append("\",");
-
-        sb.append("\"product_name\" : ");
-        sb.append("\"").append(searchData.getProductName()).append("\",");
-
-        sb.append("\"brand_name\" : ");
-        sb.append("\"").append(searchData.getBrandName()).append("\",");
-
-        sb.append("\"url\" : ");
-        sb.append("\"http://www.okmall.com").append(searchData.getContentUrl()).append("\",");
-
-        sb.append("\"thumb\" : ");
-        sb.append("\"").append(searchData.getThumbUrl()).append("\",");
-
-        sb.append("\"org_price\" : ");
-        sb.append(" ").append(searchData.getOrgPrice()).append(",");
-
-        sb.append("\"sale_price\" : ");
-        sb.append(" ").append(searchData.getSalePrice()).append(",");
-
-        sb.append("\"sale_per\" : ");
-        sb.append(" ").append(searchData.getSalePer()).append(",");
-
-        sb.append("\"cp\" : ");
-        sb.append("\"").append(searchData.getCpName()).append("\",");
-
-        sb.append("\"keyword\" : ");
-        sb.append("\"").append(searchData.getCrawlKeyword()).append("\"");
-
-        sb.append("}");
-
-        // set docid
-        indexUrl.append(searchData.getProductId());
-        // set crawl url
-        crawlSite.setCrawlUrl(indexUrl.toString());
-        // set crawl url data
-        crawlSite.setCrawlData(sb.toString());
-
-        // indexing request
-        returnCode = crawlSite.HttpXPUT();
-
-        if (returnCode == 200 || returnCode == 201) {
-            logger.info(String.format(" Indexing [ %d ] %s - %s",
-                    returnCode,
-                    searchData.getProductId(),
-                    searchData.getProductName()));
-        }
-        else {
-            logger.error(String.format(" Indexing [ %d ] %s - %s",
-                    returnCode,
-                    searchData.getProductId(),
-                    searchData.getProductName()));
-        }
-
-        return returnCode;
-    }
-
-    public boolean isDataEmpty(SearchData sd) {
-        if (sd.getOrgPrice()==null) return true;
-        if (sd.getSalePrice()==null) return true;
-        if (sd.getProductName()==null) return true;
-        if (sd.getProductId()==null) return true;
-        if (sd.getCpName()==null) return true;
-        if (sd.getContentUrl()==null) return true;
-        if (sd.getThumbUrl()==null) return true;
-
-        if (sd.getProductName().isEmpty()) return true;
-        if (sd.getCpName().isEmpty()) return true;
-        if (sd.getContentUrl().isEmpty()) return true;
-        if (sd.getThumbUrl().isEmpty()) return true;
-
-        return false;
-    }
-
-    public static boolean isAllDigitChar(String s) {
-        for (char ch : s.toCharArray()) {
-            if (!Character.isDigit(ch)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean isAllFloatChar(String s) {
-        for (char ch : s.toCharArray()) {
-            if (!Character.isDigit(ch) && !(ch == '.')) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    public void printResultInfo(First cp) {
+    public void printResultInfo(CampingOn cp) {
         logger.info(" ================== Extracting information ==================");
         logger.info(String.format(" Total extract count - %d", cp.getTotalExtractCount()));
         logger.info(String.format(" Skip count          - %d", cp.getSkipCount()));
@@ -632,7 +485,7 @@ public class CampingMall {
     }
 
 
-    public void mainExtractProcessing(CampingMall cp,
+    public void mainExtractProcessing(CampingOn cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -657,7 +510,7 @@ public class CampingMall {
         }
         else {
             // db에 추출한 데이터를 넣는다.
-            cp.insertOkMall(newSearchDataMap);
+            cp.updateToDB(newSearchDataMap);
 
             // insert 되거나 update된 데이터들을 다시 allSearchDataMap에 입력하여
             // 새로 parsing되서 체크하는 데이터 비교에 반영될 수 있도록 한다.
@@ -673,56 +526,5 @@ public class CampingMall {
             }
             newSearchDataMap.clear();
         }
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        CrawlSite crawl = new CrawlSite();
-        CampingMall cp = new CampingMall();
-
-        crawl.setCrawlUrl("http://www.campingmall.co.kr/shop/goods/goods_list.php?&category=002");
-        crawl.setCrawlEncode("euc-kr");
-        crawl.HttpCrawlGetDataTimeout();
-
-        Document doc = Jsoup.parse(crawl.getCrawlData());
-        Elements elements = doc.select("td[width=\"25%\"");
-        for (Element element : elements) {
-
-            Document document = Jsoup.parse(element.outerHtml());
-
-            // thumb
-            Elements elist = document.select("img[width=180]");
-            for (Element eitem : elist) {
-//                System.out.println(eitem.attr("src").replace("..",""));
-//                System.out.println("-----------------------------------");
-            }
-
-            // title & link
-            Elements elink = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
-            for (Element eitem : elink) {
-                // link
-//                System.out.println(eitem.attr("href"));
-                // title
-//                System.out.println(eitem.text());
-//                System.out.println("-----------------------------------");
-            }
-
-            // org price
-            Elements ePrice = document.select("div[style=\"height:10px;\"] strike");
-            for (Element eitem : ePrice) {
-//                System.out.println(eitem.text().replace(",",""));
-//                System.out.println("-----------------------------------");
-            }
-
-            // sale price
-            Elements eSalePrice = document.select("div[style=\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\"] b");
-            for (Element eitem : eSalePrice) {
-                System.out.println(eitem.text().replace(",",""));
-                System.out.println("-----------------------------------");
-            }
-        }
-
-
-        logger.info(" end test !!");
     }
 }

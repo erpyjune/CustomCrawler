@@ -57,4 +57,8 @@ public class FileIO {
     public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
+
+    public void flushRandomFileName() throws Exception {
+
+    }
 }
