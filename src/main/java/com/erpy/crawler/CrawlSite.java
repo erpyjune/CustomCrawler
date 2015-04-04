@@ -34,13 +34,13 @@ import java.util.Map;
 public class CrawlSite {
     private String crawlUrl;
     private String crawlData;
-    private String crawlEncoding="UTF-8"; // UTF-8, EUC-KR
+    private String crawlEncoding="euc-kr"; // UTF-8, EUC-KR
 
     // POST data form param.
     Map<String, String> postFormDataParam = new HashMap<String, String>();
 
     private int reponseCode;
-    private int socketTimeout=1000;
+    private int socketTimeout=10000;
     private int connectionTimeout=1000;
     private String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
     private String REFERER = "http://www.google.com/";
