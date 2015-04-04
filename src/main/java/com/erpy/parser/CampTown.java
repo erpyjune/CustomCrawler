@@ -22,10 +22,10 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Created by baeonejune on 15. 3. 30..
+ * Created by baeonejune on 15. 4. 4..
  */
-public class CampingOn {
-    private static Logger logger = Logger.getLogger(CampingOn.class.getName());
+public class CampTown {
+    private static Logger logger = Logger.getLogger(CampTown.class.getName());
     private GlobalUtils globalUtils = new GlobalUtils();
     // for extract.
     private int totalExtractCount=0;
@@ -43,8 +43,8 @@ public class CampingOn {
     private String txtEncode="euc-kr";
     private static CrawlDataService crawlDataService;
     //
-    private static final String prefixContentUrl = "http://www.campingon.co.kr/shop/goods/goods_view.php?goodsno=";
-    private static final String prefixHostThumbUrl = "http://www.campingon.co.kr";
+    private static final String prefixContentUrl = "http://www.camptown.co.kr/goods/view?no=";
+    private static final String prefixHostThumbUrl = "http://www.camptown.co.kr";
 
 
     public String getFilePath() {
@@ -489,7 +489,7 @@ public class CampingOn {
     }
 
 
-    public void mainExtractProcessing(CampingOn cp,
+    public void mainExtractProcessing(CampTown cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -529,6 +529,94 @@ public class CampingOn {
                 allSearchDatasMap.put(productId, tmpSD);
             }
             newSearchDataMap.clear();
+        }
+    }
+
+    //=============================================================
+    public static void main(String args[]) throws Exception {
+        Elements elements;
+        Document document;
+        String strItem;
+        String productId;
+        Elements listE;
+        String strLinkUrl = null;
+        CrawlSite crawlSite = new CrawlSite();
+        GlobalUtils globalUtils = new GlobalUtils();
+        int index=0;
+
+        crawlSite.setCrawlUrl("http://www.camptown.co.kr/goods/catalog?code=0006");
+        int returnCode = crawlSite.HttpCrawlGetDataTimeout();
+        String htmlContent = crawlSite.getCrawlData();
+
+//        logger.info(crawlSite.getCrawlData());
+//        logger.info(String.format(" crawl contents size : %d", crawlSite.getCrawlData().length()));
+
+        // 데이터 parsing을 위해 jsoup 객체로 읽는다.
+        Document doc = Jsoup.parse(htmlContent);
+
+        // 파싱 시작.
+        elements = doc.select("td[width=\"130\"]");
+        for (Element element : elements) {
+            productId = "";
+            document = Jsoup.parse(element.outerHtml());
+
+            index++;
+//            logger.info(element.outerHtml());
+
+            // Thumb link
+            listE = document.select("table tr td span a img");
+            for (Element et : listE) {
+                strItem = et.attr("src");
+                if (strItem.indexOf("list2.jpg") > 0) {
+                    logger.info(prefixHostThumbUrl + strItem.replace("list2.jpg", "view.jpg"));
+                } else {
+                    logger.info(prefixHostThumbUrl + strItem);
+                }
+            }
+
+            // link
+            listE = document.select("table tr td span a");
+            for (Element et : listE) {
+                strLinkUrl = et.attr("href");
+                if (strLinkUrl.length()>0) {
+                    productId = globalUtils.getFieldData(strLinkUrl, "goods/view?no=");
+                    logger.info(" url : " + prefixContentUrl + productId);
+                }
+            }
+
+            // product name
+            listE = document.select("span[style=\"color:#333333;font-family:dotum;font-size:10pt;font-weight:normal;text-decoration:none;\"]");
+            for (Element et : listE) {
+                strItem = et.text();
+                logger.info(" title : " + strItem);
+            }
+
+            // org price
+            listE = document.select("span[style=\"color:#666666;font-weight:normal;text-decoration:line-through;\"]");
+            for (Element et : listE) {
+                strItem = et.text().replace("원", "").replace(",", "").trim();
+                if (GlobalUtils.isAllDigitChar(strItem)) {
+                    logger.info(String.format(" >> org price(%s)", strItem));
+                    break;
+                } else {
+                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
+                }
+            }
+
+            // sale price
+            listE = document.select("span[style=\"color:#cc6666;font-weight:bold;text-decoration:none;\"]");
+            for (Element et : listE) {
+                strItem = et.text().replace("원", "").replace(",", "").trim();
+                if (GlobalUtils.isAllDigitChar(strItem)) {
+                    logger.info(String.format(" >> sale price(%s)", strItem));
+                    break;
+                } else {
+                    logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));
+                }
+            }
+
+            logger.info("=======================================================================");
+            logger.info(String.format(" index : %d", index));
         }
     }
 }

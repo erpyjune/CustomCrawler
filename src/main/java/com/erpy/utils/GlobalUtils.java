@@ -41,7 +41,7 @@ public class GlobalUtils {
     public String getFieldData(String src, String startTag, String endTag) {
         if (src==null || startTag==null || endTag==null) return "";
         int spos = src.indexOf(startTag);
-        if (spos<=0) return "";
+        if (spos<0) return "";
         int epos = src.indexOf(endTag, spos);
         return src.substring(spos+startTag.length(), epos);
     }
