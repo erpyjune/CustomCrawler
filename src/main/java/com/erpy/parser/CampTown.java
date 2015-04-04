@@ -146,16 +146,13 @@ public class CampTown {
         String strLinkUrl=null;
 
 
-        fileIO.setEncoding(txtEncode);
-        fileIO.setPath(filePath);
-
-        logger.debug(String.format(" 데이터 추출할 파일 - %s", filePath));
-
-        ////////////////////////////////////////////////////////
         if (filePath==null) {
             logger.fatal(" FilePath is null !!");
             throw new Exception("Extract file path is null!!");
         }
+
+        fileIO.setEncoding(txtEncode);
+        fileIO.setPath(filePath);
 
         // 분석할 파일을 하나 읽어 온다.
         String htmlContent = fileIO.getFileContent();
@@ -164,7 +161,7 @@ public class CampTown {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("td[width=\"20%\"]");
+        elements = doc.select("td[width=\"130\"]");
         for (Element element : elements) {
 
             productId="";
@@ -172,68 +169,70 @@ public class CampTown {
             document = Jsoup.parse(element.outerHtml());
 
             // Thumb link
-            listE = document.select("img[width=150]");
+            listE = document.select("table tr td span a img");
             for (Element et : listE) {
-                strItem = et.attr("src").replace("..","/shop");
-                if (strItem.indexOf("_s.jsp")>0) {
-                    searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("_s.jpg","_m.jpg"));
+                strItem = et.attr("src");
+                if (strItem.indexOf("list2.jpg") > 0) {
+                    searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("list2.jpg", "view.jpg"));
                 } else {
                     searchData.setThumbUrl(prefixHostThumbUrl + strItem);
                 }
-                logger.debug(String.format(" >> Thumb : %s", prefixHostThumbUrl + strItem));
+                logger.debug(String.format(" >> Thumb : %s", searchData.getThumbUrl()));
             }
 
             // link
-            listE = document.select("div[style=\"padding:5px 0 0 0; font-size:11px;\"] a");
+            listE = document.select("table tr td span a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
-                // extract productID
-                productId = globalUtils.getFieldData(strLinkUrl, "php?goodsno=","&").trim();
-                searchData.setContentUrl(prefixContentUrl + productId);
-                logger.debug(String.format(" >> Link : %s", prefixContentUrl + productId));
-                searchData.setProductId(productId);
+                if (strLinkUrl.length()>0) {
+                    productId = globalUtils.getFieldData(strLinkUrl, "goods/view?no=").trim();
+                    searchData.setContentUrl(prefixContentUrl + productId);
+                    searchData.setProductId(productId);
+                    logger.debug(String.format(" >> Link : %s", searchData.getContentUrl()));
+                }
             }
 
             // product name
-            listE = document.select("div[style=\"padding:5px 0 0 0; font-size:11px;\"] a");
+            listE = document.select("span[style=\"color:#333333;font-family:dotum;font-size:10pt;font-weight:normal;text-decoration:none;\"]");
             for (Element et : listE) {
-                strItem = et.text();
-                logger.debug(String.format(" >> title(%s)", strItem));
-                searchData.setProductName(strItem);
+                searchData.setProductName(et.text().trim());
+                logger.debug(String.format(" >> title(%s)", searchData.getProductName()));
             }
 
             // org price
-            listE = document.select("div span strike");
+            listE = document.select("span[style=\"color:#666666;font-weight:normal;text-decoration:line-through;\"]");
             for (Element et : listE) {
-                strItem = et.text().trim().replace("원", "").replace(",", "");
-                if (globalUtils.isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> price(%s)", strItem));
+                strItem = et.text().replace("원", "").replace(",", "").trim();
+                if (GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setOrgPrice(Integer.parseInt(strItem));
+                    logger.debug(String.format(" >> org price(%s)", searchData.getOrgPrice()));
                     break;
                 } else {
-                    // org price가 없는것은 에러 이다.
-                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
                     logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
                 }
             }
 
             // sale price
-            listE = document.select("div[style=\"padding-bottom:3px; font-size:11px; color:#bc0000;\"] b");
+            listE = document.select("span[style=\"color:#cc6666;font-weight:bold;text-decoration:none;\"]");
             for (Element et : listE) {
-                strItem = et.text().trim().replace("원", "").replace(",", "");
-                if (globalUtils.isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> price(%s)", strItem));
+                strItem = et.text().replace("원", "").replace(",", "").trim();
+                if (GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setSalePrice(Integer.parseInt(strItem));
+                    searchData.setSalePer(0.0F);
+                    logger.debug(String.format(" >> sale price(%s)", searchData.getSalePrice()));
                     break;
                 } else {
-                    // org price가 없는것은 에러 이다.
-                    // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
-                    logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
+                    logger.error(String.format(" Extract [sale price] data is NOT valid - %s", strItem));
                 }
             }
 
+            // sale price만 있을 경우 org price에 값을 채운다.
+            if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
+                searchData.setOrgPrice(searchData.getSalePrice());
+            }
+
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_CAMPINGON);
+            searchData.setCpName(GlobalInfo.CP_CampTown);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
 
@@ -303,7 +302,7 @@ public class CampTown {
 
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "td[width=\"20%\"] a";
+        String patten = "span[style=\"color:#333333;font-family:dotum;font-size:10pt;font-weight:normal;text-decoration:none;\"]";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
@@ -544,7 +543,7 @@ public class CampTown {
         GlobalUtils globalUtils = new GlobalUtils();
         int index=0;
 
-        crawlSite.setCrawlUrl("http://www.camptown.co.kr/goods/catalog?code=0006");
+        crawlSite.setCrawlUrl("http://camptown.firstmall.kr/goods/catalog?code=0008");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 

@@ -58,6 +58,7 @@ public class IndexingMain {
                     searchData.getCpName().equals(GlobalInfo.CP_SBCLUB) ||
                     searchData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL) ||
                     searchData.getCpName().equals(GlobalInfo.CP_CAMPINGON) ||
+                    searchData.getCpName().equals(GlobalInfo.CP_CampTown) ||
                     searchData.getCpName().equals(GlobalInfo.CP_FIRST)) {
 
                 // indexing to elasticsearch engine.

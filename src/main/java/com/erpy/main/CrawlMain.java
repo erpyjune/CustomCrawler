@@ -64,9 +64,12 @@ public class CrawlMain {
 //                first.setTxtEncode("utf-8");
 //                first.crawlData(strUrl, strKeyword, strCpName);
 //            } else if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
-                CampingOn cp = new CampingOn();
+//                CampingOn cp = new CampingOn();
+//                cp.crawlData(strUrl, strKeyword, strCpName);
+            if (strCpName.equals(GlobalInfo.CP_CampTown)) {
+                CampTown cp = new CampTown();
                 cp.crawlData(strUrl, strKeyword, strCpName);
-//            }
+            }
         }
 
         logger.info(" End crawling !!");
