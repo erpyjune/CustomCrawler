@@ -246,6 +246,10 @@ public class CCamping {
                 }
             }
 
+            if (searchData.getSalePrice()>0 && searchData.getOrgPrice()==0) {
+                searchData.setOrgPrice(searchData.getSalePrice());
+            }
+
             // set sale per
             searchData.setSalePer(100.0F);
             // set cp name.
@@ -403,7 +407,6 @@ public class CCamping {
             }
             // 동일한 product id가 없는 경우
             else {
-                logger.info(String.format(" INSERT SET %s", searchDataPart.getProductId()));
                 searchDataPart.setType("insert");
                 searchDataPart.setDataStatus("I");
                 newSearchDataMap.put(productId, searchDataPart);

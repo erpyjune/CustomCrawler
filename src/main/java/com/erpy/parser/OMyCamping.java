@@ -390,7 +390,6 @@ public class OMyCamping {
             }
             // 동일한 product id가 없는 경우
             else {
-                logger.info(String.format(" INSERT SET %s", searchDataPart.getProductId()));
                 searchDataPart.setType("insert");
                 searchDataPart.setDataStatus("I");
                 newSearchDataMap.put(productId, searchDataPart);
@@ -624,7 +623,6 @@ public class OMyCamping {
             for (Element et : listE) {
                 strItem = et.text().replace("won", "").replace(",", "").trim();
                 if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> sale price(%s)", strItem));
                     break;
                 } else {
                     logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));

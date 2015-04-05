@@ -10,6 +10,7 @@ import com.erpy.extract.ExtractInfo;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
+import com.erpy.utils.GlobalUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -243,6 +244,10 @@ public class DICamping {
                 }
             }
 
+            if (searchData.getSalePrice()>0 && searchData.getOrgPrice()==0) {
+                searchData.setOrgPrice(searchData.getSalePrice());
+            }
+
             // 이벤트 할인 행사면 추출 필드가 달라진다.
             // 이벤트 할인일 경우 org price, sale price 추출 위치가 달라진다.
             // event의 경우 org price
@@ -438,7 +443,6 @@ public class DICamping {
             }
             // 동일한 product id가 없는 경우
             else {
-                logger.info(String.format(" INSERT SET %s", searchDataPart.getProductId()));
                 searchDataPart.setType("insert");
                 searchDataPart.setDataStatus("I");
                 newSearchDataMap.put(productId, searchDataPart);
@@ -735,51 +739,92 @@ public class DICamping {
 
 
     public static void main(String[] args) throws Exception {
-        CrawlSite crawl = new CrawlSite();
-        CampingMall cp = new CampingMall();
+        Elements elements;
+        Document document;
+        String strItem;
+        String productId;
+        Elements listE;
+        String strLinkUrl = null;
+        CrawlSite crawlSite = new CrawlSite();
+        GlobalUtils globalUtils = new GlobalUtils();
+        int index = 0;
 
-        crawl.setCrawlUrl("http://www.campingmall.co.kr/shop/goods/goods_list.php?&category=002");
-        crawl.setCrawlEncode("euc-kr");
-        crawl.HttpCrawlGetDataTimeout();
+        crawlSite.setCrawlEncode("euc-kr");
+        crawlSite.setCrawlUrl("http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&type=N&mcode=002&page=2");
+        int returnCode = crawlSite.HttpCrawlGetDataTimeout();
+        String htmlContent = crawlSite.getCrawlData();
 
-        Document doc = Jsoup.parse(crawl.getCrawlData());
-        Elements elements = doc.select("td[width=\"25%\"");
+//        logger.info(crawlSite.getCrawlData());
+//        logger.info(String.format(" crawl contents size : %d", crawlSite.getCrawlData().length()));
+
+        // 데이터 parsing을 위해 jsoup 객체로 읽는다.
+        Document doc = Jsoup.parse(htmlContent);
+
+        // 파싱 시작.
+        elements = doc.select("li[id*=anchorBoxId_]");
         for (Element element : elements) {
+            productId = "";
+            document = Jsoup.parse(element.outerHtml());
 
-            Document document = Jsoup.parse(element.outerHtml());
+            index++;
+//            logger.info(element.outerHtml());
 
-            // thumb
-            Elements elist = document.select("img[width=180]");
-            for (Element eitem : elist) {
-//                System.out.println(eitem.attr("src").replace("..",""));
-//                System.out.println("-----------------------------------");
+            // Thumb link
+            listE = document.select("a[class=\"prdImg\"] img");
+            for (Element et : listE) {
+                strItem = et.attr("src");
+                if (strItem.contains("small")) {
+                    logger.info(String.format("[%d]%s", index, prefixHostThumbUrl + strItem.replace("small", "big")));
+                } else {
+                    logger.info(String.format("[%d]%s", index, prefixHostThumbUrl + strItem));
+                }
+                break;
             }
 
-            // title & link
-            Elements elink = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
-            for (Element eitem : elink) {
-                // link
-//                System.out.println(eitem.attr("href"));
-                // title
-//                System.out.println(eitem.text());
-//                System.out.println("-----------------------------------");
+            // link
+            listE = document.select("a[name*=anchorBoxName]");
+            for (Element et : listE) {
+                strLinkUrl = et.attr("href");
+                if (strLinkUrl.length() > 0) {
+                    productId = globalUtils.getFieldData(strLinkUrl, "product_no=", "&");
+                    logger.info(String.format("[%s]%s", productId, prefixContentUrl + productId));
+                    break;
+                }
+            }
+
+            // product name
+            listE = document.select("a span");
+            for (Element et : listE) {
+                strItem = et.text().trim();
+                logger.info(String.format(" title :(%s) ", strItem));
             }
 
             // org price
-            Elements ePrice = document.select("div[style=\"height:10px;\"] strike");
-            for (Element eitem : ePrice) {
-//                System.out.println(eitem.text().replace(",",""));
-//                System.out.println("-----------------------------------");
+            listE = document.select("span[style=\"font-size:13px;color:#555555;font-weight:bold;\"]");
+            for (Element et : listE) {
+                strItem = et.text().replace("원", "").replace(",", "").trim();
+                if (GlobalUtils.isAllDigitChar(strItem)) {
+                    logger.info(String.format(" >> org price(%s)", strItem));
+                    break;
+                } else {
+                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
+                }
             }
 
-            // sale price
-            Elements eSalePrice = document.select("div[style=\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\"] b");
-            for (Element eitem : eSalePrice) {
-                System.out.println(eitem.text().replace(",",""));
-                System.out.println("-----------------------------------");
-            }
+//            // sale price
+//            listE = document.select("div[style*=color:#ed5d55;] b");
+//            for (Element et : listE) {
+//                strItem = et.text().replace("원", "").replace("won","").replace(",", "").replace("<b>","").replace("</b>","").trim();
+//                if (GlobalUtils.isAllDigitChar(strItem)) {
+//                    logger.info(String.format(" >> sale price(%s)", strItem));
+//                    break;
+//                } else {
+//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
+//                }
+//            }
+
+            index++;
+            logger.info("=======================================================================");
         }
-
-        logger.info(" end test !!");
     }
 }

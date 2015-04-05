@@ -390,7 +390,6 @@ public class Aldebaran {
             }
             // 동일한 product id가 없는 경우
             else {
-                logger.info(String.format(" INSERT SET %s", searchDataPart.getProductId()));
                 searchDataPart.setType("insert");
                 searchDataPart.setDataStatus("I");
                 newSearchDataMap.put(productId, searchDataPart);
