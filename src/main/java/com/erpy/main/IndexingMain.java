@@ -52,16 +52,17 @@ public class IndexingMain {
                 continue;
             }
 
-            if (searchData.getCpName().equals(GlobalInfo.CP_OKMALL) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_CCAMPING) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_DICAMPING) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_SBCLUB) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_CAMPINGON) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_CampTown) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_Aldebaran) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_OMyCamping) ||
-                    searchData.getCpName().equals(GlobalInfo.CP_FIRST)) {
+//            if (searchData.getCpName().equals(GlobalInfo.CP_OKMALL) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_CCAMPING) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_DICAMPING) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_SBCLUB) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_CAMPINGON) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_CampTown) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_Aldebaran) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_OMyCamping) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_CampI) ||
+//                    searchData.getCpName().equals(GlobalInfo.CP_FIRST)) {
 
                 // indexing to elasticsearch engine.
                 returnCode = okMallProc.indexingOkMall(searchData);
@@ -71,9 +72,9 @@ public class IndexingMain {
                     searchDataService.updateSearchDataStatus(searchData);
                     indexCount++;
                 }
-            } else {
-                logger.error(" Skip cp name is - " + searchData.getCpName());
-            }
+//            } else {
+//                logger.error(" Skip cp name is - " + searchData.getCpName());
+//            }
         }
 
         logger.info("=====================================");

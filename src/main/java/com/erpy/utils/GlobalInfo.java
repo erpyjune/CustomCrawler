@@ -23,6 +23,8 @@ public class GlobalInfo {
     public static final String CP_CampTown  = "camptown";
     public static final String CP_Aldebaran  = "aldebaran";
     public static final String CP_OMyCamping  = "omycamping";
+    public static final String CP_CampI  = "campi";
+    public static final String CP_Camping365  = "camping365";
 
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;

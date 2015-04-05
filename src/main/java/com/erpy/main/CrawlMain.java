@@ -73,9 +73,17 @@ public class CrawlMain {
 //                Aldebaran cp = new Aldebaran();
 //                cp.crawlData(strUrl, strKeyword, strCpName);
 //            }
-            if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
-                OMyCamping omy = new OMyCamping();
-                omy.crawlData(strUrl, strKeyword, strCpName);
+//            if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
+//                OMyCamping omy = new OMyCamping();
+//                omy.crawlData(strUrl, strKeyword, strCpName);
+//            }
+//            if (strCpName.equals(GlobalInfo.CP_CampI)) {
+//                CampI cmpi = new CampI();
+//                cmpi.crawlData(strUrl, strKeyword, strCpName);
+//            }
+            if (strCpName.equals(GlobalInfo.CP_Camping365)) {
+                Camping365 cp365 = new Camping365();
+                cp365.crawlData(strUrl, strKeyword, strCpName);
             }
         }
 
