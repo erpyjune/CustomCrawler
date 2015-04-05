@@ -24,10 +24,10 @@ import java.util.Random;
 /**
  * Created by baeonejune on 15. 4. 5..
  */
-public class LeisureMan {
-    private static final String prefixContentUrl = "http://www.leisureman.co.kr/product/detail.html?product_no=";
+public class WeekEnders {
+    private static final String prefixContentUrl = "http://www.weekenders.co.kr/product/detail.html?product_no=";
     private static final String prefixHostThumbUrl = "";
-    private static Logger logger = Logger.getLogger(LeisureMan.class.getName());
+    private static Logger logger = Logger.getLogger(WeekEnders.class.getName());
     private static CrawlDataService crawlDataService;
     private GlobalUtils globalUtils = new GlobalUtils();
     // for extract.
@@ -158,7 +158,7 @@ public class LeisureMan {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("li[id*=anchorBoxId_]");
+        elements = doc.select("li[class*=xans-record-]");
         for (Element element : elements) {
 
             productId="";
@@ -166,11 +166,11 @@ public class LeisureMan {
             document = Jsoup.parse(element.outerHtml());
 
             // Thumb link
-            listE = document.select("a[class=\"prdImg\"] img");
+            listE = document.select("a.prdImg img[width=\"180\"]");
             for (Element et : listE) {
                 strItem = et.attr("src");
-                if (strItem.contains("small")) {
-                    searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("small", "big"));
+                if (strItem.contains("medium")) {
+                    searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("medium", "big"));
                 } else {
                     searchData.setThumbUrl(prefixHostThumbUrl + strItem);
                 }
@@ -178,7 +178,7 @@ public class LeisureMan {
             }
 
             // link
-            listE = document.select("a[name*=anchorBoxName]");
+            listE = document.select("a[class=\"name\"]");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
@@ -190,17 +190,17 @@ public class LeisureMan {
             }
 
             // product name
-            listE = document.select("a span");
+            listE = document.select("a[class=\"name\"]");
             for (Element et : listE) {
                 searchData.setProductName(et.text().trim());
                 logger.debug(String.format(" >> title (%s)", searchData.getProductName()));
             }
 
             // org price
-            listE = document.select("span[style=\"font-size:13px;color:#555555;font-weight:bold;\"]");
+            listE = document.select("span[class=\"custom\"]");
             for (Element et : listE) {
                 strItem = et.text().replace("원", "").replace("won","").replace(",", "").trim();
-                if (GlobalUtils.isAllDigitChar(strItem)) {
+                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setOrgPrice(Integer.parseInt(strItem));
                     logger.debug(String.format(" >> org price (%s)", searchData.getOrgPrice()));
                     break;
@@ -211,21 +211,21 @@ public class LeisureMan {
                 }
             }
 
-//            // sale price
-//            listE = document.select("div[style*=color:#ed5d55;] b");
-//            for (Element et : listE) {
-//                strItem = et.text().replace("원","").replace("won", "").replace(",", "").trim();
-//                if (GlobalUtils.isAllDigitChar(strItem)) {
-//                    searchData.setSalePrice(Integer.parseInt(strItem));
-//                    searchData.setSalePer(0.0F);
-//                    logger.info(String.format(" >> sale price(%s)", searchData.getSalePrice()));
-//                    break;
-//                } else {
-//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
-//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", searchData.getProductName()));
-//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", crawlData.getSeedUrl()));
-//                }
-//            }
+            // sale price
+            listE = document.select("strong[class=\"price\"]");
+            for (Element et : listE) {
+                strItem = et.text().replace("원","").replace("won", "").replace(",", "").trim();
+                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
+                    searchData.setSalePrice(Integer.parseInt(strItem));
+                    searchData.setSalePer(0.0F);
+                    logger.info(String.format(" >> sale price(%s)", searchData.getSalePrice()));
+                    break;
+                } else {
+                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
+                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", searchData.getProductName()));
+                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", crawlData.getSeedUrl()));
+                }
+            }
 
             // sale price만 있을 경우 org price에 값을 채운다.
             if (searchData.getOrgPrice()>0 && searchData.getSalePrice()==0) {
@@ -233,7 +233,7 @@ public class LeisureMan {
             }
 
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_LeisureMan);
+            searchData.setCpName(GlobalInfo.CP_WeekEnders);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
 
@@ -301,7 +301,7 @@ public class LeisureMan {
     }
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "span[style=\"font-size:13px;color:#555555;font-weight:bold;\"]";
+        String patten = "a[class=\"name\"]";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
@@ -466,7 +466,7 @@ public class LeisureMan {
             // 크롤링한 데이터 카운트.
             crawlCount++;
             // page가 100페이지이면 끝난다. 100페이지까지 갈리가 없음.
-            if (page==20) break;
+            if (page==13) break;
         }
     }
 
@@ -480,7 +480,7 @@ public class LeisureMan {
         logger.info(" Extract processing terminated normally!!");
     }
 
-    public void mainExtractProcessing(LeisureMan cp,
+    public void mainExtractProcessing(WeekEnders cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -535,7 +535,7 @@ public class LeisureMan {
         int index=0;
 
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://www.leisureman.co.kr/product/list.html?cate_no=65");
+        crawlSite.setCrawlUrl("http://www.weekenders.co.kr/product/list.html?cate_no=89");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 
@@ -546,7 +546,7 @@ public class LeisureMan {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("li[id*=anchorBoxId_]");
+        elements = doc.select("li[class*=xans-record-]");
         for (Element element : elements) {
             productId = "";
             document = Jsoup.parse(element.outerHtml());
@@ -555,11 +555,11 @@ public class LeisureMan {
 //            logger.info(element.outerHtml());
 
             // Thumb link
-            listE = document.select("a[class=\"prdImg\"] img");
+            listE = document.select("a.prdImg img[width=\"180\"]");
             for (Element et : listE) {
                 strItem = et.attr("src");
-                if (strItem.contains("small")) {
-                    logger.info(String.format("[%d]%s", index, prefixHostThumbUrl + strItem.replace("small", "big")));
+                if (strItem.contains("medium")) {
+                    logger.info(String.format("[%d]%s", index, prefixHostThumbUrl + strItem.replace("medium", "big")));
                 } else {
                     logger.info(String.format("[%d]%s", index, prefixHostThumbUrl + strItem));
                 }
@@ -567,7 +567,7 @@ public class LeisureMan {
             }
 
             // link
-            listE = document.select("a[name*=anchorBoxName]");
+            listE = document.select("a[class=\"name\"]");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
@@ -578,14 +578,14 @@ public class LeisureMan {
             }
 
             // product name
-            listE = document.select("a span");
+            listE = document.select("a[class=\"name\"]");
             for (Element et : listE) {
                 strItem = et.text().trim();
                 logger.info(String.format(" title :(%s) ", strItem));
             }
 
             // org price
-            listE = document.select("span[style=\"font-size:13px;color:#555555;font-weight:bold;\"]");
+            listE = document.select("span[class=\"custom\"]");
             for (Element et : listE) {
                 strItem = et.text().replace("원", "").replace(",", "").trim();
                 if (GlobalUtils.isAllDigitChar(strItem)) {
@@ -596,17 +596,17 @@ public class LeisureMan {
                 }
             }
 
-//            // sale price
-//            listE = document.select("div[style*=color:#ed5d55;] b");
-//            for (Element et : listE) {
-//                strItem = et.text().replace("원", "").replace("won","").replace(",", "").replace("<b>","").replace("</b>","").trim();
-//                if (GlobalUtils.isAllDigitChar(strItem)) {
-//                    logger.info(String.format(" >> sale price(%s)", strItem));
-//                    break;
-//                } else {
-//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
-//                }
-//            }
+            // sale price
+            listE = document.select("strong[class=\"price\"]");
+            for (Element et : listE) {
+                strItem = et.text().replace("원", "").replace("won","").replace(",", "").replace("<b>","").replace("</b>","").trim();
+                if (GlobalUtils.isAllDigitChar(strItem)) {
+                    logger.info(String.format(" >> sale price(%s)", strItem));
+                    break;
+                } else {
+                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
+                }
+            }
 
             index++;
             logger.info("=======================================================================");

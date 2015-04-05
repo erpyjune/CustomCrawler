@@ -60,6 +60,8 @@ public class ExtractDataMain {
         OMyCamping omy = new OMyCamping();
         CampI cmpi = new CampI();
         Camping365 cp365 = new Camping365();
+        LeisureMan lsm = new LeisureMan();
+        WeekEnders wk = new WeekEnders();
 
         // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
         Map<String, SearchData> allSearchDatasMap = getAllProductKey();
@@ -105,8 +107,14 @@ public class ExtractDataMain {
 //            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampI)) {
 //                cmpi.mainExtractProcessing(cmpi,crawlData,allSearchDatasMap);
 //            }
-            if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) {
-                cp365.mainExtractProcessing(cp365,crawlData,allSearchDatasMap);
+//            if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) {
+//                cp365.mainExtractProcessing(cp365,crawlData,allSearchDatasMap);
+//            }
+//            else if (crawlData.getCpName().equals(GlobalInfo.CP_LeisureMan)) {
+//                lsm.mainExtractProcessing(lsm,crawlData,allSearchDatasMap);
+//            }
+            if (crawlData.getCpName().equals(GlobalInfo.CP_WeekEnders)) {
+                wk.mainExtractProcessing(wk, crawlData, allSearchDatasMap);
             }
             else {
                 logger.warn(" other cp occurred!!");

@@ -69,21 +69,30 @@ public class CrawlMain {
 //            } else if (strCpName.equals(GlobalInfo.CP_CampTown)) {
 //                CampTown cp = new CampTown();
 //                cp.crawlData(strUrl, strKeyword, strCpName);
-//            if (strCpName.equals(GlobalInfo.CP_Aldebaran)) {
+//            }
+//            elseif (strCpName.equals(GlobalInfo.CP_Aldebaran)) {
 //                Aldebaran cp = new Aldebaran();
 //                cp.crawlData(strUrl, strKeyword, strCpName);
 //            }
-//            if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
+//            else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
 //                OMyCamping omy = new OMyCamping();
 //                omy.crawlData(strUrl, strKeyword, strCpName);
 //            }
-//            if (strCpName.equals(GlobalInfo.CP_CampI)) {
+//            else if (strCpName.equals(GlobalInfo.CP_CampI)) {
 //                CampI cmpi = new CampI();
 //                cmpi.crawlData(strUrl, strKeyword, strCpName);
 //            }
-            if (strCpName.equals(GlobalInfo.CP_Camping365)) {
-                Camping365 cp365 = new Camping365();
-                cp365.crawlData(strUrl, strKeyword, strCpName);
+//            else if (strCpName.equals(GlobalInfo.CP_Camping365)) {
+//                Camping365 cp365 = new Camping365();
+//                cp365.crawlData(strUrl, strKeyword, strCpName);
+//            }
+//            else if (strCpName.equals(GlobalInfo.CP_LeisureMan)) {
+//                LeisureMan lsm = new LeisureMan();
+//                lsm.crawlData(strUrl, strKeyword, strCpName);
+//            }
+            if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
+                WeekEnders wk = new WeekEnders();
+                wk.crawlData(strUrl, strKeyword, strCpName);
             }
         }
 
