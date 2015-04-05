@@ -41,11 +41,20 @@ public class DICamping {
     private String filePath;
     private String keyword;
     private String txtEncode="euc-kr";
+    private String seedUrl;
     private static CrawlDataService crawlDataService;
     //
     private static final String prefixContentUrl = "http://www.dicamping.co.kr";
     private static final String prefixHostThumbUrl = "http://www.dicamping.co.kr";
 
+
+    public String getSeedUrl() {
+        return seedUrl;
+    }
+
+    public void setSeedUrl(String seedUrl) {
+        this.seedUrl = seedUrl;
+    }
 
     public String getFilePath() {
         return filePath;
@@ -268,12 +277,18 @@ public class DICamping {
                 }
             }
 
+            if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
+                searchData.setOrgPrice(searchData.getSalePrice());
+            }
+
             // set sale per
             searchData.setSalePer(100.0F);
             // set cp name.
             searchData.setCpName(GlobalInfo.CP_DICAMPING);
             // set keyword.
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
+            // set seedUrl
+            searchData.setSeedUrl(seedUrl);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
@@ -682,6 +697,7 @@ public class DICamping {
 
         cp.setFilePath(crawlData.getSavePath());
         cp.setKeyword(crawlData.getCrawlKeyword());
+        cp.setSeedUrl(crawlData.getSeedUrl());
 
         /////////////////////////////
         // 데이터 추출.

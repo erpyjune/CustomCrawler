@@ -27,7 +27,7 @@ import java.util.Random;
 public class CampingPlus {
     private static final String prefixContentUrl = "http://www.camping-plus.co.kr/mall/m_mall_detail.php?ps_goid=";
     private static final String prefixHostThumbUrl = "http://www.camping-plus.co.kr";
-    private static Logger logger = Logger.getLogger(WeekEnders.class.getName());
+    private static Logger logger = Logger.getLogger(CampingPlus.class.getName());
     private static CrawlDataService crawlDataService;
     private GlobalUtils globalUtils = new GlobalUtils();
     // for extract.
@@ -43,6 +43,15 @@ public class CampingPlus {
     private String filePath;
     private String keyword;
     private String txtEncode="utf-8";
+    private String seedUrl;
+
+    public String getSeedUrl() {
+        return seedUrl;
+    }
+
+    public void setSeedUrl(String seedUrl) {
+        this.seedUrl = seedUrl;
+    }
 
     public String getFilePath() {
         return filePath;
@@ -202,7 +211,7 @@ public class CampingPlus {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setOrgPrice(Integer.parseInt(strItem));
-                    logger.debug(String.format(" >> org price (%s)", searchData.getOrgPrice()));
+//                    logger.debug(String.format(" >> org price (%s)", searchData.getOrgPrice()));
                     break;
                 } else {
                     logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));
@@ -212,13 +221,13 @@ public class CampingPlus {
             }
 
             // sale price
-            listE = document.select("strong[class=\"price\"]");
+            listE = document.select("div.price_");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setSalePrice(Integer.parseInt(strItem));
                     searchData.setSalePer(0.0F);
-                    logger.info(String.format(" >> sale price(%s)", searchData.getSalePrice()));
+//                    logger.info(String.format(" >> sale price(%s)", searchData.getSalePrice()));
                     break;
                 } else {
                     logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
@@ -227,15 +236,19 @@ public class CampingPlus {
                 }
             }
 
-            // sale price만 있을 경우 org price에 값을 채운다.
             if (searchData.getOrgPrice()>0 && searchData.getSalePrice()==0) {
                 searchData.setSalePrice(searchData.getOrgPrice());
+            }
+            if (searchData.getSalePrice()>0 && searchData.getOrgPrice()==0) {
+                searchData.setOrgPrice(searchData.getSalePrice());
             }
 
             // set cp name.
             searchData.setCpName(GlobalInfo.CP_CampingPlus);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
+            // set seed url
+            searchData.setSeedUrl(seedUrl);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!globalUtils.isDataEmpty(searchData)) {
@@ -270,9 +283,8 @@ public class CampingPlus {
             }
             else if (sd.getType().equals("insert")) {
 
-                logger.info(String.format(" INSERTED : %s|%f|%d|%d|%s|%s",
+                logger.info(String.format(" INSERTED : %s|%d|%d|%s|%s",
                         sd.getProductId(),
-                        sd.getSalePer(),
                         sd.getSalePrice(),
                         sd.getOrgPrice(),
                         sd.getProductName(),
@@ -374,7 +386,6 @@ public class CampingPlus {
             }
             // 동일한 product id가 없는 경우
             else {
-                logger.info(String.format(" INSERT SET %s", searchDataPart.getProductId()));
                 searchDataPart.setType("insert");
                 searchDataPart.setDataStatus("I");
                 newSearchDataMap.put(productId, searchDataPart);
@@ -489,6 +500,7 @@ public class CampingPlus {
 
         cp.setFilePath(crawlData.getSavePath());
         cp.setKeyword(crawlData.getCrawlKeyword());
+        cp.setSeedUrl(crawlData.getSeedUrl());
 
         // 데이터 추출.
         searchDataMap = cp.extract(crawlData);
@@ -535,7 +547,7 @@ public class CampingPlus {
         int index=0;
 
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03010000");
+        crawlSite.setCrawlUrl("http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03030000&page=1");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 

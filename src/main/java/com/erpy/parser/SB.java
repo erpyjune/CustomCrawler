@@ -10,6 +10,7 @@ import com.erpy.extract.ExtractInfo;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
+import com.erpy.utils.GlobalUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,12 +42,20 @@ public class SB {
     private String filePath;
     private String keyword;
     private String txtEncode="euc-kr";
+    private String seedUrl;
     private static CrawlDataService crawlDataService;
 
     private static final String postRequestUrl = "http://sbclub.co.kr/search_brandproductlist.html";
     private static final String prefixContentUrl = "";
     private static final String prefixHostThumbUrl = "";
 
+    public String getSeedUrl() {
+        return seedUrl;
+    }
+
+    public void setSeedUrl(String seedUrl) {
+        this.seedUrl = seedUrl;
+    }
 
     public String getFilePath() {
         return filePath;
@@ -140,6 +149,7 @@ public class SB {
         FileIO fileIO = new FileIO();
         ExtractInfo extractInfo = new ExtractInfo();
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
+        GlobalUtils globalUtils = new GlobalUtils();
         Elements elements;
         Elements elementsLink;
         Document document;
@@ -168,16 +178,12 @@ public class SB {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-//        elements = doc.select("p.img a");
         elements = doc.select("li");
         for (Element element : elements) {
 
             if (!element.outerHtml().contains("target=\"_self\"")) {
                 continue;
             }
-
-//            logger.info(element.outerHtml());
-//            logger.info("***************************************");
 
             productId = null;
             SearchData searchData = new SearchData();
@@ -186,8 +192,6 @@ public class SB {
             // thumb
             listE = document.select("p.img a img");
             for (Element et : listE) {
-//                logger.info(et.outerHtml());
-//                logger.info("******************************************");
                 strItem = et.attr("src");
                 logger.debug(" thumb : " + strItem);
                 searchData.setThumbUrl("http://sbclub.co.kr" + strItem);
@@ -196,8 +200,6 @@ public class SB {
             // set link, productId
             listE = document.select("p.title a");
             for (Element et : listE) {
-//                logger.info(et.outerHtml());
-//                logger.info("******************************************");
                 strItem = et.attr("href");
                 logger.debug(" link : " + strItem);
 
@@ -205,42 +207,39 @@ public class SB {
                 String brandcode = getFieldData(strItem, "brandcode=","&");
                 String pid = getFieldData(strItem, "pid=");
                 productId = brandcode + "-" + pid;
-
                 searchData.setContentUrl("http://sbclub.co.kr/" + strItem);
             }
 
             // product name
             listE = document.select("p.title a");
             for (Element et : listE) {
-//                logger.info(et.outerHtml());
-//                logger.info("******************************************");
-                strItem = htmlCleaner(et.textNodes().toString());
+                strItem = globalUtils.htmlCleaner(et.textNodes().toString());
                 logger.debug(" title : " + strItem);
-
                 searchData.setProductName(strItem);
             }
 
             // set org price, sale price.
             listE = document.select("p.title a span");
             for (Element et : listE) {
-//                logger.info(et.outerHtml());
-//                logger.info("******************************************");
                 strItem = clearPriceField(et.text());
                 logger.debug(" price : " + strItem);
-
                 searchData.setOrgPrice(Integer.parseInt(strItem));
             }
 
+            // set sale price
+            searchData.setSalePrice(searchData.getOrgPrice());
             // set product id
             searchData.setProductId(productId);
             // org price = sale price
             searchData.setSalePrice(searchData.getOrgPrice());
             // sale per
-            searchData.setSalePer(0F);
+            searchData.setSalePer(0.0F);
             // cp name
             searchData.setCpName("sbclub");
             // keyword
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
+            // set seed url
+            searchData.setSeedUrl(seedUrl);
 
             logger.debug(" ******************************************");
 
@@ -670,14 +669,8 @@ public class SB {
 
     public String clearPriceField(String p) {
         if (p==null) return "";
-        return  p.replace(" ","").replace(",", "").replace("원","");
+        return  p.replace(" ", "").replace(",", "").replace("원","");
     }
-
-    public String htmlCleaner(String s) {
-        if (s==null) return "";
-        return s.replace("&lt;","<").replace("&gt;",">").replace("[","").replace("]","").replace(","," ");
-    }
-
 
     public void printResultInfo(First cp) {
         logger.info(" ================== Extracting information ==================");
@@ -699,6 +692,7 @@ public class SB {
 
         cp.setFilePath(crawlData.getSavePath());
         cp.setKeyword(crawlData.getCrawlKeyword());
+        cp.setSeedUrl(crawlData.getSeedUrl());
 
         // 데이터 추출.
         searchDataMap = cp.extract();
@@ -737,59 +731,67 @@ public class SB {
     public static void main(String[] args) throws Exception {
         CrawlSite crawl = new CrawlSite();
         CampingMall cp = new CampingMall();
+        GlobalUtils globalUtils = new GlobalUtils();
 
+        // http://sbclub.co.kr/category01.html?categoryid=94201?categoryid=94201&startnum=41&endnum=80
         crawl.setCrawlUrl("http://sbclub.co.kr/search_brandproductlist.html");
-//        crawl.setCrawlEncode("euc-kr");
+        crawl.setCrawlEncode("utf-8");
         crawl.addPostRequestParam("mode", "categorymain");
-        crawl.addPostRequestParam("categoryid", "94202");
-        crawl.addPostRequestParam("startnum", "1");
-        crawl.addPostRequestParam("endnum", "40");
+        crawl.addPostRequestParam("categoryid", "94201");
+        crawl.addPostRequestParam("startnum", "41");
+        crawl.addPostRequestParam("endnum", "80");
 
         crawl.HttpPostGet();
 
-//        System.out.println(crawl.getCrawlData());
-//        System.exit(1);
+//        logger.info(String.format(" crawl size (%d)", crawl.getCrawlData().length()));
+//        logger.info(crawl.getCrawlData());
 
-        Document doc = Jsoup.parse(crawl.getCrawlData());
-        Elements elements = doc.select("p.title");
         int total=0;
+        Document doc = Jsoup.parse(crawl.getCrawlData());
+        Elements elements = doc.select("li");
         for (Element element : elements) {
-
             Document document = Jsoup.parse(element.outerHtml());
-            logger.info(" "+element.outerHtml());
-            logger.info(" =======================================");
+//            logger.info(" "+element.outerHtml());
+//            logger.info(" =======================================");
 
             // thumb
-            Elements elist = document.select("img[width=180]");
+            Elements elist = document.select("p.img a img");
             for (Element eitem : elist) {
-//                System.out.println(eitem.attr("src").replace("..",""));
-//                System.out.println("-----------------------------------");
+                logger.info(" thumb : http://sbclub.co.kr" + eitem.attr("src"));
             }
 
-            // title & link
-            Elements elink = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+            // link
+            Elements elink = document.select("p.title a");
             for (Element eitem : elink) {
-                // link
-//                System.out.println(eitem.attr("href"));
-                // title
-//                System.out.println(eitem.text());
-//                System.out.println("-----------------------------------");
+                String strItem = eitem.attr("href");
+                String brandcode = globalUtils.getFieldData(strItem, "brandcode=", "&");
+                String pid = globalUtils.getFieldData(strItem, "pid=");
+                String productId = brandcode + "-" + pid;
+                logger.info(" url : http://sbclub.co.kr/" + strItem);
+            }
+
+            // product name
+            Elements listE = document.select("p.title a");
+            for (Element et : listE) {
+                String strItem = globalUtils.htmlCleaner(et.textNodes().toString());
+                logger.info(" title : " + strItem);
             }
 
             // org price
-            Elements ePrice = document.select("div[style=\"height:10px;\"] strike");
+            Elements ePrice = document.select("p.title a span");
             for (Element eitem : ePrice) {
-//                System.out.println(eitem.text().replace(",",""));
-//                System.out.println("-----------------------------------");
+                String strItem = globalUtils.priceDataCleaner(eitem.text());
+                logger.info(String.format(" org price : %s", strItem));
             }
 
-            // sale price
-            Elements eSalePrice = document.select("div[style=\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\"] b");
-            for (Element eitem : eSalePrice) {
-//                System.out.println(eitem.text().replace(",",""));
-//                System.out.println("-----------------------------------");
-            }
+//            // sale price
+//            Elements eSalePrice = document.select("div[style=\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\"] b");
+//            for (Element eitem : eSalePrice) {
+//                logger.info(String.format("%s", eitem.text().replace(",","")));
+//            }
+
             total++;
+            logger.info(" ===========================================================");
         }
 
         logger.info(" Total : " + total);

@@ -90,9 +90,15 @@ public class GlobalUtils {
     }
 
     public String priceDataCleaner(String s) {
+        if (s==null) return "";
         return s.replace("원", "").replace("won","").replace(",", "").
                 replace("<b>","").replace("</b>","").replace("판매가","").replace(" ","").
                 replace(":","").trim();
+    }
+
+    public String htmlCleaner(String s) {
+        if (s==null) return "";
+        return s.replace("&lt;", "<").replace("&gt;",">").replace("[","").replace("]", "").replace(",", " ");
     }
 
     public int indexingES(SearchData searchData) throws Exception {

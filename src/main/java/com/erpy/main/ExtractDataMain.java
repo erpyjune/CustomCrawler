@@ -63,6 +63,7 @@ public class ExtractDataMain {
         LeisureMan lsm = new LeisureMan();
         WeekEnders wk = new WeekEnders();
         CampingPlus cplus = new CampingPlus();
+        SnowPeak sp = new SnowPeak();
 
         // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
         Map<String, SearchData> allSearchDatasMap = getAllProductKey();
@@ -75,50 +76,53 @@ public class ExtractDataMain {
 
             crawlData = (CrawlData) iterator.next();
 
-//            if (crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) {
-//                cc.mainExtractProcessing(cc, crawlData, allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_DICAMPING)) {
-//                di.mainExtractProcessing(di, crawlData, allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_SBCLUB)) {
-//                sbclub.mainExtractProcessing(sbclub, crawlData, allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL)) {
-//                campingMall.mainExtractProcessing(campingMall, crawlData, allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
-//                okMallProc.mainExtractProcessing(okMallProc, crawlData, allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_FIRST)) {
-//                first.mainExtractProcessing(first,crawlData,allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampTown)) {
-//                ct.mainExtractProcessing(ct,crawlData,allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGON)) {
+            if (crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) {
+                cc.mainExtractProcessing(cc, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_DICAMPING)) {
+                di.mainExtractProcessing(di, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_SBCLUB)) {
+                sbclub.mainExtractProcessing(sbclub, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL)) {
+                campingMall.mainExtractProcessing(campingMall, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
+                okMallProc.mainExtractProcessing(okMallProc, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_FIRST)) {
+                first.mainExtractProcessing(first,crawlData,allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampTown)) {
+                ct.mainExtractProcessing(ct,crawlData,allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGON)) {
 //                co.mainExtractProcessing(co,crawlData,allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_Aldebaran)) {
-//                alde.mainExtractProcessing(alde,crawlData,allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_OMyCamping)) {
-//                omy.mainExtractProcessing(omy,crawlData,allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampI)) {
-//                cmpi.mainExtractProcessing(cmpi,crawlData,allSearchDatasMap);
-//            }
-//            if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) {
-//                cp365.mainExtractProcessing(cp365,crawlData,allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_LeisureMan)) {
-//                lsm.mainExtractProcessing(lsm,crawlData,allSearchDatasMap);
-//            }
-//            else if (crawlData.getCpName().equals(GlobalInfo.CP_WeekEnders)) {
-//                wk.mainExtractProcessing(wk, crawlData, allSearchDatasMap);
-//            }
-            if (crawlData.getCpName().equals(GlobalInfo.CP_CampingPlus)) {
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_Aldebaran)) {
+                alde.mainExtractProcessing(alde,crawlData,allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_OMyCamping)) {
+                omy.mainExtractProcessing(omy,crawlData,allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampI)) {
+                cmpi.mainExtractProcessing(cmpi,crawlData,allSearchDatasMap);
+            }
+            if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) {
+                cp365.mainExtractProcessing(cp365,crawlData,allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_LeisureMan)) {
+                lsm.mainExtractProcessing(lsm,crawlData,allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_WeekEnders)) {
+                wk.mainExtractProcessing(wk, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampingPlus)) {
                 cplus.mainExtractProcessing(cplus, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {
+//                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);
             }
             else {
                 logger.warn(" other cp occurred!!");

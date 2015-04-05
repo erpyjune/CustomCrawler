@@ -41,11 +41,20 @@ public class CCamping {
     private String filePath;
     private String keyword;
     private String txtEncode="euc-kr";
+    private String seedUrl;
     private static CrawlDataService crawlDataService;
     //
     private static final String prefixContentUrl = "http://www.ccamping.co.kr/shop";
     private static final String prefixHostThumbUrl = "http://www.ccamping.co.kr/shop";
 
+
+    public String getSeedUrl() {
+        return seedUrl;
+    }
+
+    public void setSeedUrl(String seedUrl) {
+        this.seedUrl = seedUrl;
+    }
 
     public String getFilePath() {
         return filePath;
@@ -243,6 +252,8 @@ public class CCamping {
             searchData.setCpName(GlobalInfo.CP_CCAMPING);
             // set keyword.
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
+            // seed url
+            searchData.setSeedUrl(seedUrl);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
@@ -653,6 +664,7 @@ public class CCamping {
 
         cp.setFilePath(crawlData.getSavePath());
         cp.setKeyword(crawlData.getCrawlKeyword());
+        cp.setSeedUrl(crawlData.getSeedUrl());
 
         /////////////////////////////
         // 데이터 추출.

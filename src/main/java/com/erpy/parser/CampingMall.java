@@ -10,6 +10,7 @@ import com.erpy.extract.ExtractInfo;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
+import com.erpy.utils.GlobalUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,6 +42,7 @@ public class CampingMall {
     private String filePath;
     private String keyword;
     private String txtEncode="euc-kr";
+    private String seedUrl;
     private static CrawlDataService crawlDataService;
     //
     private static final String prefixContentUrl = "http://www.campingmall.co.kr/shop/goods/goods_view.php?&goodsno=";
@@ -69,6 +71,14 @@ public class CampingMall {
 
     public void setTxtEncode(String txtEncode) {
         this.txtEncode = txtEncode;
+    }
+
+    public String getSeedUrl() {
+        return seedUrl;
+    }
+
+    public void setSeedUrl(String seedUrl) {
+        this.seedUrl = seedUrl;
     }
 
     public int getTotalExtractCount() {
@@ -139,6 +149,7 @@ public class CampingMall {
         FileIO fileIO = new FileIO();
         ExtractInfo extractInfo = new ExtractInfo();
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
+        GlobalUtils globalUtils = new GlobalUtils();
         Elements elements;
         Elements elementsLink;
         Document document;
@@ -204,9 +215,9 @@ public class CampingMall {
             // org price
             listE = document.select("div[style=\"height:10px;\"] strike");
             for (Element et : listE) {
-                    strItem = et.text().trim().replace("원", "").replace(",", "");
+                    strItem = globalUtils.priceDataCleaner(et.text());
                     if (isAllDigitChar(strItem)) {
-                        logger.debug(String.format(" >> price(%s)", strItem));
+                        logger.debug(String.format(" >> sale price(%s)", strItem));
                         searchData.setOrgPrice(Integer.parseInt(strItem));
                         break;
                     } else {
@@ -217,11 +228,11 @@ public class CampingMall {
             }
 
             // sale price
-            listE = document.select("div[style=\\\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\\\"] b");
+            listE = document.select("div[style=\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\"] b");
             for (Element et : listE) {
-                strItem = et.text().trim().replace("원", "").replace(",", "");
+                strItem = globalUtils.priceDataCleaner(et.text());
                 if (isAllDigitChar(strItem)) {
-                    logger.debug(String.format(" >> price(%s)", strItem));
+                    logger.debug(String.format(" >> sale price(%s)", strItem));
                     searchData.setSalePrice(Integer.parseInt(strItem));
                     break;
                 } else {
@@ -231,10 +242,16 @@ public class CampingMall {
                 }
             }
 
+            if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
+                searchData.setOrgPrice(searchData.getSalePrice());
+            }
+
             // set cp name.
             searchData.setCpName(GlobalInfo.CP_CAMPINGMALL);
             // set keyword.
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
+            // set seedUrl
+            searchData.setSeedUrl(seedUrl);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
@@ -641,6 +658,7 @@ public class CampingMall {
 
         cp.setFilePath(crawlData.getSavePath());
         cp.setKeyword(crawlData.getCrawlKeyword());
+        cp.setSeedUrl(crawlData.getSeedUrl());
 
         // 데이터 추출.
         searchDataMap = cp.extract();
@@ -680,7 +698,7 @@ public class CampingMall {
         CrawlSite crawl = new CrawlSite();
         CampingMall cp = new CampingMall();
 
-        crawl.setCrawlUrl("http://www.campingmall.co.kr/shop/goods/goods_list.php?&category=002");
+        crawl.setCrawlUrl("http://www.campingmall.co.kr/shop/goods/goods_list.php?category=002004&page=1");
         crawl.setCrawlEncode("euc-kr");
         crawl.HttpCrawlGetDataTimeout();
 
@@ -693,35 +711,35 @@ public class CampingMall {
             // thumb
             Elements elist = document.select("img[width=180]");
             for (Element eitem : elist) {
-//                System.out.println(eitem.attr("src").replace("..",""));
-//                System.out.println("-----------------------------------");
+                System.out.println("thumb : " + eitem.attr("src").replace("..",""));
             }
 
-            // title & link
+            // link
             Elements elink = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
             for (Element eitem : elink) {
                 // link
-//                System.out.println(eitem.attr("href"));
-                // title
-//                System.out.println(eitem.text());
-//                System.out.println("-----------------------------------");
+                System.out.println("link : " + eitem.attr("href"));
+            }
+
+            // title
+            elink = document.select("div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+            for (Element eitem : elink) {
+                System.out.println("title : " + eitem.text());
             }
 
             // org price
             Elements ePrice = document.select("div[style=\"height:10px;\"] strike");
             for (Element eitem : ePrice) {
-//                System.out.println(eitem.text().replace(",",""));
-//                System.out.println("-----------------------------------");
+                System.out.println("org price : " + eitem.text().replace(",",""));
             }
 
             // sale price
             Elements eSalePrice = document.select("div[style=\"color:#ff4e00;font-size:16px;width:180pxheight:18px;\"] b");
             for (Element eitem : eSalePrice) {
-                System.out.println(eitem.text().replace(",",""));
-                System.out.println("-----------------------------------");
+                System.out.println("sale price : " + eitem.text().replace(",",""));
+                System.out.println("----------------------------------------------------------");
             }
         }
-
 
         logger.info(" end test !!");
     }

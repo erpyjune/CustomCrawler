@@ -7,6 +7,7 @@ import com.erpy.extract.ExtractInfo;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
+import com.erpy.utils.GlobalUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -38,8 +39,16 @@ public class OkMallProc {
     private String filePath;
     private String keyword;
     private String txtEncode="euc-kr";
+    private String seedUrl;
     private static CrawlDataService crawlDataService;
 
+    public String getSeedUrl() {
+        return seedUrl;
+    }
+
+    public void setSeedUrl(String seedUrl) {
+        this.seedUrl = seedUrl;
+    }
 
     public String getFilePath() {
         return filePath;
@@ -306,8 +315,14 @@ public class OkMallProc {
                 }
             }
 
+            if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
+                searchData.setOrgPrice(searchData.getSalePrice());
+            }
+
             // set cp name
             searchData.setCpName(GlobalInfo.CP_OKMALL);
+            // set seed url
+            searchData.setSeedUrl(seedUrl);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!isDataEmpty(searchData)) {
@@ -486,6 +501,7 @@ public class OkMallProc {
         CrawlData crawlData = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
         crawlDataService = new CrawlDataService();
+        GlobalUtils globalUtils = new GlobalUtils();
 
         int page=0;
         int returnCode;
@@ -501,14 +517,9 @@ public class OkMallProc {
         crawlSite.setCrawlEncode(txtEncode);
 
         for(;;) {
-
-            // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
             strUrl = String.format("%s&page=%d", url, page);
-
-            // set crawling information.
             crawlSite.setCrawlUrl(strUrl);
 
-            // Crawliing...
             try {
                 returnCode = crawlSite.HttpCrawlGetDataTimeout();
                 if (returnCode != 200 && returnCode != 201) {
@@ -518,17 +529,20 @@ public class OkMallProc {
                 }
             }
             catch (Exception e) {
+                logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
                 logger.error(e.getStackTrace());
             }
 
-            // 수집한 데이터를 파일로 저장한다.
-            randomNum = random.nextInt(918277377);
-            crawlSavePath = savePrefixPath + "/" + strCpName + "/" + Long.toString(randomNum) + ".html";
-            // 만일 파일이름이 충돌 난다면...
-            File f = new File(crawlSavePath);
-            if(f.exists()) {
-                logger.error(String.format(" 저장할 파일 이름이 충돌 납니다 - %s ", crawlSavePath));
-                collisionFileCount++;
+            // cp 디렉토리가 없으면 생성한다.
+            if (!globalUtils.saveDirCheck(savePrefixPath, strCpName)) {
+                logger.error(String.format(" Crawling data save dir make check fail !!"));
+                continue;
+            }
+
+            // save file path가 충돌나면 continue 한다.
+            crawlSavePath = globalUtils.makeSaveFilePath(savePrefixPath, strCpName, random.nextInt(918277377));
+            if (!globalUtils.isSaveFilePathCollision(crawlSavePath)) {
+                logger.error(String.format(" Crawling save file path is collision !!"));
                 continue;
             }
 
@@ -575,7 +589,7 @@ public class OkMallProc {
 
     public int indexingOkMall(SearchData searchData) throws IOException {
 
-        int returnCode;
+        int returnCode=0;
         StringBuffer sb = new StringBuffer();
         StringBuffer indexUrl = new StringBuffer("http://localhost:9200/shop/okmall/");
         CrawlSite crawlSite = new CrawlSite();
@@ -622,19 +636,22 @@ public class OkMallProc {
         crawlSite.setCrawlData(sb.toString());
 
         // indexing request
-        returnCode = crawlSite.HttpXPUT();
-
-        if (returnCode == 200 || returnCode == 201) {
-            logger.info(String.format(" Indexing [ %d ] %s %s",
-                    returnCode,
-                    searchData.getCpName(),
-                    searchData.getProductName()));
-        }
-        else {
-            logger.error(String.format(" Indexing [ %d ] %s %s",
-                    returnCode,
-                    searchData.getCpName(),
-                    searchData.getProductName()));
+        try {
+            returnCode = crawlSite.HttpXPUT();
+            if (returnCode == 200 || returnCode == 201) {
+                logger.info(String.format(" Indexing [ %d ] %s %s",
+                        returnCode,
+                        searchData.getCpName(),
+                        searchData.getProductName()));
+            }
+            else {
+                logger.error(String.format(" Indexing [ %d ] %s %s",
+                        returnCode,
+                        searchData.getCpName(),
+                        searchData.getProductName()));
+            }
+        } catch (Exception e) {
+            logger.error(e.getStackTrace());
         }
 
         return returnCode;
@@ -694,6 +711,7 @@ public class OkMallProc {
 
         cp.setFilePath(crawlData.getSavePath());
         cp.setKeyword(crawlData.getCrawlKeyword());
+        cp.setSeedUrl(crawlData.getSeedUrl());
 
         // 데이터 추출.
         searchDataMap = cp.extract();

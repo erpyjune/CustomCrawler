@@ -41,11 +41,19 @@ public class CampTown {
     private String filePath;
     private String keyword;
     private String txtEncode="utf-8";
+    private String seedUrl;
     private static CrawlDataService crawlDataService;
     //
     private static final String prefixContentUrl = "http://www.camptown.co.kr/goods/view?no=";
     private static final String prefixHostThumbUrl = "http://www.camptown.co.kr";
 
+    public String getSeedUrl() {
+        return seedUrl;
+    }
+
+    public void setSeedUrl(String seedUrl) {
+        this.seedUrl = seedUrl;
+    }
 
     public String getFilePath() {
         return filePath;
@@ -235,6 +243,8 @@ public class CampTown {
             searchData.setCpName(GlobalInfo.CP_CampTown);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
+            // set seed url
+            searchData.setSeedUrl(seedUrl);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!globalUtils.isDataEmpty(searchData)) {
@@ -497,6 +507,7 @@ public class CampTown {
 
         cp.setFilePath(crawlData.getSavePath());
         cp.setKeyword(crawlData.getCrawlKeyword());
+        cp.setSeedUrl(crawlData.getSeedUrl());
 
         // 데이터 추출.
         searchDataMap = cp.extract();

@@ -17,6 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -24,10 +25,10 @@ import java.util.Random;
 /**
  * Created by baeonejune on 15. 4. 5..
  */
-public class Camping365 {
-    private static Logger logger = Logger.getLogger(Camping365.class.getName());
-    private static final String prefixContentUrl = "http://www.camping365.co.kr/shop/goods/goods_view.php?goodsno=";
-    private static final String prefixHostThumbUrl = "http://www.camping365.co.kr";
+public class SnowPeak {
+    private static final String prefixContentUrl = "http://snowpeak.co.kr/mall/";
+    private static final String prefixHostThumbUrl = "http://snowpeak.co.kr";
+    private static Logger logger = Logger.getLogger(SnowPeak.class.getName());
     private static CrawlDataService crawlDataService;
     private GlobalUtils globalUtils = new GlobalUtils();
     // for extract.
@@ -167,7 +168,7 @@ public class Camping365 {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("td[style=\"border:solid 1px #e5e5e5;\"]");
+        elements = doc.select("li a");
         for (Element element : elements) {
 
             productId="";
@@ -175,41 +176,45 @@ public class Camping365 {
             document = Jsoup.parse(element.outerHtml());
 
             // Thumb link
-            listE = document.select("div a img[width=130]");
+            listE = document.select("a span.thumb img");
             for (Element et : listE) {
                 strItem = et.attr("src");
-                if (strItem.contains("..")) {
-                    searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("..", "/shop"));
+                if (strItem.contains("another_loop")) {
+                    searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("./shop_image", "/mall/shop_image"));
                 } else {
-                    searchData.setThumbUrl(prefixHostThumbUrl + strItem);
+                    searchData.setThumbUrl(prefixHostThumbUrl + URLEncoder.encode(strItem, "UTF-8"));
                 }
                 logger.debug(String.format(" >> Thumb (%s)", searchData.getThumbUrl()));
             }
 
             // link
-            listE = document.select("div[style=\"text-align:center;\"] a");
+            listE = document.select("a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "goodsno=","&");
-                    searchData.setContentUrl(prefixContentUrl + productId);
+                    productId = globalUtils.getFieldData(strLinkUrl, "list_no=");
                     searchData.setProductId(productId);
+                    if (strLinkUrl.contains(" ")) {
+                        searchData.setContentUrl(prefixContentUrl + URLEncoder.encode(strLinkUrl,"UTF-8"));
+                    } else {
+                        searchData.setContentUrl(prefixContentUrl + URLEncoder.encode(strLinkUrl, "UTF-8"));
+                    }
                     logger.debug(String.format(" >> Link (%s)", searchData.getContentUrl()));
                 }
             }
 
             // product name
-            listE = document.select("div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]");
+            listE = document.select("span.name");
             for (Element et : listE) {
                 searchData.setProductName(et.text().trim());
                 logger.debug(String.format(" >> title (%s)", searchData.getProductName()));
             }
 
             // org price
-            listE = document.select("strike[style*=font-size:11px;]");
+            listE = document.select("span.price");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace("won","").replace(",", "").trim();
-                if (GlobalUtils.isAllDigitChar(strItem)) {
+                strItem = globalUtils.priceDataCleaner(et.text());
+                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setOrgPrice(Integer.parseInt(strItem));
                     logger.debug(String.format(" >> org price (%s)", searchData.getOrgPrice()));
                     break;
@@ -220,31 +225,29 @@ public class Camping365 {
                 }
             }
 
-            // sale price
-            listE = document.select("div[style*=color:#ed5d55;] b");
-            for (Element et : listE) {
-                strItem = et.text().replace("원","").replace("won", "").replace(",", "").trim();
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    searchData.setSalePrice(Integer.parseInt(strItem));
-                    searchData.setSalePer(0.0F);
-                    logger.info(String.format(" >> sale price(%s)", searchData.getSalePrice()));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
-                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", searchData.getProductName()));
-                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", crawlData.getSeedUrl()));
-                }
-            }
+//            // sale price
+//            listE = document.select("strong[class=\"price\"]");
+//            for (Element et : listE) {
+//                strItem = globalUtils.priceDataCleaner(et.text());
+//                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
+//                    searchData.setSalePrice(Integer.parseInt(strItem));
+//                    searchData.setSalePer(0.0F);
+//                    logger.info(String.format(" >> sale price(%s)", searchData.getSalePrice()));
+//                    break;
+//                } else {
+//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
+//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", searchData.getProductName()));
+//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", crawlData.getSeedUrl()));
+//                }
+//            }
 
+            // sale price만 있을 경우 org price에 값을 채운다.
             if (searchData.getOrgPrice()>0 && searchData.getSalePrice()==0) {
                 searchData.setSalePrice(searchData.getOrgPrice());
             }
-            if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
-                searchData.setOrgPrice(searchData.getSalePrice());
-            }
 
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_Camping365);
+            searchData.setCpName(GlobalInfo.CP_SnowPeak);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
             // set seed url
@@ -314,7 +317,7 @@ public class Camping365 {
     }
 
     public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]";
+        String patten = "span.price";
         FileIO fileIO = new FileIO();
         fileIO.setPath(path);
         fileIO.setEncoding(readEncoding);
@@ -417,7 +420,7 @@ public class Camping365 {
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
 
-        // 환경 셋팅
+
         crawlSite.setCrawlEncode("euc-kr");
         crawlSite.setConnectionTimeout(5000);
         crawlSite.setSocketTimeout(10000);
@@ -479,7 +482,7 @@ public class Camping365 {
             // 크롤링한 데이터 카운트.
             crawlCount++;
             // page가 100페이지이면 끝난다. 100페이지까지 갈리가 없음.
-            if (page==20) break;
+            if (page==13) break;
         }
     }
 
@@ -493,7 +496,7 @@ public class Camping365 {
         logger.info(" Extract processing terminated normally!!");
     }
 
-    public void mainExtractProcessing(Camping365 cp,
+    public void mainExtractProcessing(SnowPeak cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -537,7 +540,6 @@ public class Camping365 {
         }
     }
 
-    //=============================================================
     public static void main(String args[]) throws Exception {
         Elements elements;
         Document document;
@@ -550,7 +552,7 @@ public class Camping365 {
         int index=0;
 
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://www.camping365.co.kr/shop/goods/goods_list.php?&category=015001");
+        crawlSite.setCrawlUrl("http://snowpeak.co.kr/mall/product_list.html?s_m_code=01&s_l_code=01&s_m_name=%C5%D9%C6%AE&s_l_name=%B7%A3%B5%E5%BA%EA%B8%AE%C1%EE");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 
@@ -561,7 +563,7 @@ public class Camping365 {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("td[style=\"border:solid 1px #e5e5e5;\"]");
+        elements = doc.select("li a");
         for (Element element : elements) {
             productId = "";
             document = Jsoup.parse(element.outerHtml());
@@ -570,11 +572,11 @@ public class Camping365 {
 //            logger.info(element.outerHtml());
 
             // Thumb link
-            listE = document.select("div a img[width=130]");
+            listE = document.select("a span.thumb img");
             for (Element et : listE) {
                 strItem = et.attr("src");
-                if (strItem.contains("..")) {
-                    logger.info(String.format("[%d]%s", index, prefixHostThumbUrl + strItem.replace("..", "/shop")));
+                if (strItem.contains("./shop_image")) {
+                    logger.info(String.format("[%d]%s", index, prefixHostThumbUrl + strItem.replace("./shop_image", "/mall/shop_image")));
                 } else {
                     logger.info(String.format("[%d]%s", index, prefixHostThumbUrl + strItem));
                 }
@@ -582,28 +584,32 @@ public class Camping365 {
             }
 
             // link
-            listE = document.select("div[style=\"text-align:center;\"] a");
+            listE = document.select("a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "goodsno=","&");
-                    logger.info(String.format("[%s]%s", productId, prefixContentUrl + productId));
+                    productId = globalUtils.getFieldData(strLinkUrl, "list_no=", "&");
+                    if (strLinkUrl.contains(" ")) {
+                        logger.info(String.format("[%s]%s", productId, prefixContentUrl + strLinkUrl.replace(" ","%20")));
+                    } else {
+                        logger.info(String.format("[%s]%s", productId, prefixContentUrl + strLinkUrl));
+                    }
                     break;
                 }
             }
 
             // product name
-            listE = document.select("div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]");
+            listE = document.select("span.name");
             for (Element et : listE) {
                 strItem = et.text().trim();
                 logger.info(String.format(" title :(%s) ", strItem));
             }
 
             // org price
-            listE = document.select("strike[style*=font-size:11px;]");
+            listE = document.select("span.price");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
-                if (GlobalUtils.isAllDigitChar(strItem)) {
+                strItem = globalUtils.priceDataCleaner(et.text());
+                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
                     logger.info(String.format(" >> org price(%s)", strItem));
                     break;
                 } else {
@@ -611,17 +617,17 @@ public class Camping365 {
                 }
             }
 
-            // sale price
-            listE = document.select("div[style*=color:#ed5d55;] b");
-            for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace("won","").replace(",", "").replace("<b>","").replace("</b>","").trim();
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> sale price(%s)", strItem));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
-                }
-            }
+//            // sale price
+//            listE = document.select("div.price_");
+//            for (Element et : listE) {
+//                strItem = globalUtils.priceDataCleaner(et.text());
+//                if (GlobalUtils.isAllDigitChar(strItem)) {
+//                    logger.info(String.format(" >> sale price(%s)", strItem));
+//                    break;
+//                } else {
+//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
+//                }
+//            }
 
             index++;
             logger.info("=======================================================================");

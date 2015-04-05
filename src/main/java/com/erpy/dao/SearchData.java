@@ -17,6 +17,7 @@ public class SearchData {
     String crawlKeyword=null;
     boolean bMan=false;
     boolean bWoman=false;
+    String seedUrl="";
     String type;
     String dataStatus;
 
@@ -123,6 +124,14 @@ public class SearchData {
 
     public void setbWoman(boolean bWoman) {
         this.bWoman = bWoman;
+    }
+
+    public String getSeedUrl() {
+        return seedUrl;
+    }
+
+    public void setSeedUrl(String seedUrl) {
+        this.seedUrl = seedUrl;
     }
 
     public String getType() {

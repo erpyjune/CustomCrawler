@@ -42,62 +42,66 @@ public class CrawlMain {
             strUrl = seed.getUrl();
             strCpName = seed.getCpName().trim();
 
-//            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
-//                CCamping cp = new CCamping();
-//                cp.crawlData(strUrl, strKeyword, strCpName);
-//            } else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
-//                DICamping cp = new DICamping();
-//                cp.crawlData(strUrl, strKeyword, strCpName);
-//            } else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
-//                SB cp = new SB();
-//                cp.crawlData(strUrl, strKeyword, strCpName);
-//            } else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
-//                CampingMall cp = new CampingMall();
-//                cp.setTxtEncode("euc-kr");
-//                cp.crawlData(strUrl, strKeyword, strCpName);
-//            } else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
-//                OkMallProc okMallProc = new OkMallProc();
-//                okMallProc.setTxtEncode("euc-kr");
-//                okMallProc.crawlData(strUrl, strKeyword, strCpName);
-//            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
-//                First first = new First();
-//                first.setTxtEncode("utf-8");
-//                first.crawlData(strUrl, strKeyword, strCpName);
+            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
+                CCamping cp = new CCamping();
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            } else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
+                DICamping cp = new DICamping();
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            } else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
+                SB cp = new SB();
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            } else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
+                CampingMall cp = new CampingMall();
+                cp.setTxtEncode("euc-kr");
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            } else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
+                OkMallProc okMallProc = new OkMallProc();
+                okMallProc.setTxtEncode("euc-kr");
+                okMallProc.crawlData(strUrl, strKeyword, strCpName);
+            } else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
+                First first = new First();
+                first.setTxtEncode("utf-8");
+                first.crawlData(strUrl, strKeyword, strCpName);
 //            } else if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
 //                CampingOn cp = new CampingOn();
 //                cp.crawlData(strUrl, strKeyword, strCpName);
-//            } else if (strCpName.equals(GlobalInfo.CP_CampTown)) {
-//                CampTown cp = new CampTown();
-//                cp.crawlData(strUrl, strKeyword, strCpName);
-//            }
-//            elseif (strCpName.equals(GlobalInfo.CP_Aldebaran)) {
-//                Aldebaran cp = new Aldebaran();
-//                cp.crawlData(strUrl, strKeyword, strCpName);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
-//                OMyCamping omy = new OMyCamping();
-//                omy.crawlData(strUrl, strKeyword, strCpName);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_CampI)) {
-//                CampI cmpi = new CampI();
-//                cmpi.crawlData(strUrl, strKeyword, strCpName);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_Camping365)) {
-//                Camping365 cp365 = new Camping365();
-//                cp365.crawlData(strUrl, strKeyword, strCpName);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_LeisureMan)) {
-//                LeisureMan lsm = new LeisureMan();
-//                lsm.crawlData(strUrl, strKeyword, strCpName);
-//            }
-//            if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
-//                WeekEnders wk = new WeekEnders();
-//                wk.crawlData(strUrl, strKeyword, strCpName);
-//            }
-            if (strCpName.equals(GlobalInfo.CP_CampingPlus)) {
+            } else if (strCpName.equals(GlobalInfo.CP_CampTown)) {
+                CampTown cp = new CampTown();
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_Aldebaran)) {
+                Aldebaran cp = new Aldebaran();
+                cp.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
+                OMyCamping omy = new OMyCamping();
+                omy.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CampI)) {
+                CampI cmpi = new CampI();
+                cmpi.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_Camping365)) {
+                Camping365 cp365 = new Camping365();
+                cp365.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_LeisureMan)) {
+                LeisureMan lsm = new LeisureMan();
+                lsm.crawlData(strUrl, strKeyword, strCpName);
+            }
+            if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
+                WeekEnders wk = new WeekEnders();
+                wk.crawlData(strUrl, strKeyword, strCpName);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CampingPlus)) {
                 CampingPlus cplus = new CampingPlus();
                 cplus.crawlData(strUrl, strKeyword, strCpName);
             }
+//            else if (strCpName.equals(GlobalInfo.CP_SnowPeak)) {
+//                SnowPeak sp = new SnowPeak();
+//                sp.crawlData(strUrl, strKeyword, strCpName);
+//            }
         }
 
         logger.info(" End crawling !!");
