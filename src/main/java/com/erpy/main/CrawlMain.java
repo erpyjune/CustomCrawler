@@ -90,9 +90,13 @@ public class CrawlMain {
 //                LeisureMan lsm = new LeisureMan();
 //                lsm.crawlData(strUrl, strKeyword, strCpName);
 //            }
-            if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
-                WeekEnders wk = new WeekEnders();
-                wk.crawlData(strUrl, strKeyword, strCpName);
+//            if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
+//                WeekEnders wk = new WeekEnders();
+//                wk.crawlData(strUrl, strKeyword, strCpName);
+//            }
+            if (strCpName.equals(GlobalInfo.CP_CampingPlus)) {
+                CampingPlus cplus = new CampingPlus();
+                cplus.crawlData(strUrl, strKeyword, strCpName);
             }
         }
 

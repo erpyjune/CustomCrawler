@@ -89,6 +89,12 @@ public class GlobalUtils {
         return true;
     }
 
+    public String priceDataCleaner(String s) {
+        return s.replace("원", "").replace("won","").replace(",", "").
+                replace("<b>","").replace("</b>","").replace("판매가","").replace(" ","").
+                replace(":","").trim();
+    }
+
     public int indexingES(SearchData searchData) throws Exception {
         int returnCode;
         StringBuffer sb = new StringBuffer();
