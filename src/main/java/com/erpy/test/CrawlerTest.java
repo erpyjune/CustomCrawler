@@ -1,7 +1,8 @@
-package com.erpy.utils;
+package com.erpy.test;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
+import com.erpy.utils.GlobalInfo;
 
 import java.io.IOException;
 

@@ -2,7 +2,11 @@ package com.erpy.utils;
 
 import com.erpy.crawler.CrawlSite;
 import com.erpy.dao.SearchData;
+import com.erpy.io.FileIO;
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +42,15 @@ public class GlobalUtils {
         return true;
     }
 
+    public static boolean isAllFloatChar(String s) {
+        for (char ch : s.toCharArray()) {
+            if (!Character.isDigit(ch) && !(ch == '.')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public String getFieldData(String src, String startTag, String endTag) {
         if (src==null || startTag==null || endTag==null) return "";
         int spos = src.indexOf(startTag);
@@ -51,15 +64,6 @@ public class GlobalUtils {
         int spos = src.indexOf(startTag);
         if (spos<0) return "";
         return src.substring(spos+startTag.length());
-    }
-
-    public static boolean isAllFloatChar(String s) {
-        for (char ch : s.toCharArray()) {
-            if (!Character.isDigit(ch) && !(ch == '.')) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public String makeSaveFilePath(String prefixPath, String cpName, Integer randomNumber) {
@@ -93,12 +97,30 @@ public class GlobalUtils {
         if (s==null) return "";
         return s.replace("원", "").replace("won","").replace(",", "").
                 replace("<b>","").replace("</b>","").replace("판매가","").replace(" ","").
-                replace(":","").trim();
+                replace(":","").replace("이벤트가","").trim();
     }
 
     public String htmlCleaner(String s) {
         if (s==null) return "";
-        return s.replace("&lt;", "<").replace("&gt;",">").replace("[","").replace("]", "").replace(",", " ");
+        return s.replace("&lt;", "<").replace("&gt;",">").replace("[", "").replace("]", "").replace(",", " ");
+    }
+
+    public int checkDataCount(String path, String pattern, String readEncoding) throws IOException {
+        FileIO fileIO = new FileIO();
+        fileIO.setPath(path);
+        fileIO.setEncoding(readEncoding);
+
+        String data = fileIO.getFileContent();
+        Document doc = Jsoup.parse(data);
+        Elements elements = doc.select(pattern);
+        return elements.size();
+    }
+
+    public String isSexKeywordAdd(String crawlKeyword, boolean bMan, boolean bWoman) {
+        StringBuilder sb = new StringBuilder(crawlKeyword);
+        if (bMan) sb.append(" 남자");
+        if (bWoman) sb.append(" 여자");
+        return sb.toString();
     }
 
     public int indexingES(SearchData searchData) throws Exception {

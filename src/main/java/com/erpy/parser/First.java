@@ -8,8 +8,7 @@ import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
 import com.erpy.extract.ExtractInfo;
 import com.erpy.io.FileIO;
-import com.erpy.utils.DateInfo;
-import com.erpy.utils.GlobalInfo;
+import com.erpy.utils.*;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,12 +27,17 @@ import java.util.concurrent.ExecutionException;
  */
 public class First {
     private static Logger logger = Logger.getLogger(First.class.getName());
+    private CrawlDataService crawlDataService = new CrawlDataService();
+    private GlobalUtils globalUtils = new GlobalUtils();
+    private ValidChecker validChecker = new ValidChecker();
+    private DB db = new DB();
     // for extract.
     private int totalExtractCount=0;
     private int skipCount=0;
     private int insertCount=0;
     private int updateCount=0;
     private int unknownCount=0;
+    private static final String pattern = "div.list_01 span.sub_img";
     // for crawling.
     private int crawlCount=0;
     private int crawlErrorCount=0;
@@ -43,7 +47,7 @@ public class First {
     private String keyword;
     private String txtEncode="utf-8";
     private String seedUrl;
-    private static CrawlDataService crawlDataService;
+
     //
     private static final String prefixContentUrl = "http://www.chocammall.co.kr/shop/base/product/viewProductDetail.do?goods_no=";
     private static final String prefixHost = "http://www.chocammall.co.kr";
@@ -146,7 +150,6 @@ public class First {
 
     public Map<String, SearchData> extract() throws Exception {
         FileIO fileIO = new FileIO();
-        ExtractInfo extractInfo = new ExtractInfo();
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
         Elements elements;
         Elements elementsLink;
@@ -195,7 +198,7 @@ public class First {
                     logger.debug(String.format(" >> Link : %s", strItem));
                 }
                 // extract productID
-                productId = getFieldData(strLinkUrl,"viewProductDetail(", ")").trim();
+                productId = globalUtils.getFieldData(strLinkUrl, "viewProductDetail(", ")").trim();
                 searchData.setContentUrl(prefixContentUrl + productId);
                 logger.debug(String.format(" >> Link : %s", prefixContentUrl + productId));
                 searchData.setProductId(productId);
@@ -236,7 +239,7 @@ public class First {
                 for (Element elink : elementsLink) {
                     strItem = elink.text().trim();
                     strItem = strItem.replace("원","").replace(",", "");
-                    if (isAllDigitChar(strItem)) {
+                    if (GlobalUtils.isAllDigitChar(strItem)) {
                         logger.debug(String.format(" >> price(%s)", strItem));
                         searchData.setOrgPrice(Integer.parseInt(strItem));
                         break;
@@ -251,14 +254,14 @@ public class First {
             // cp name
             searchData.setCpName(GlobalInfo.CP_FIRST);
             // keyword
-            searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
+            searchData.setCrawlKeyword(globalUtils.isSexKeywordAdd(keyword, false, false));
             // sale price가 없을경우 org price 값을 넣어준다.
             searchData.setSalePrice(searchData.getOrgPrice());
             // set seed url
             searchData.setSeedUrl(seedUrl);
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
-            if (!isDataEmpty(searchData)) {
+            if (!globalUtils.isDataEmpty(searchData)) {
                 // key : product id
                 searchDataMap.put(productId + searchData.getCpName(), searchData);
                 totalExtractCount++;
@@ -268,150 +271,6 @@ public class First {
         logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
         return searchDataMap;
-    }
-
-
-    private String isSexKeywordAdd(String crawlKeyword, boolean bMan, boolean bWoman) {
-        StringBuilder sb = new StringBuilder(crawlKeyword);
-        if (bMan) sb.append(" 남자");
-        if (bWoman) sb.append(" 여자");
-        return sb.toString();
-    }
-
-
-    public void insertOkMall(Map<String, SearchData> sdAll) throws IOException {
-        SearchDataService searchDataService = new SearchDataService();
-        SearchData sd;
-
-        for(Map.Entry<String, SearchData> entry : sdAll.entrySet()) {
-            //strUrlLink = entry.getKey();
-            sd = entry.getValue();
-
-            // insert or update 타입이 없는 경우
-            if (sd.getType().isEmpty()) {
-                logger.warn(String.format(" UPDATED(empty) : (%s)(%s)(%s)",
-                        sd.getProductId(),
-                        sd.getProductName(),
-                        sd.getContentUrl()));
-
-                searchDataService.insertSearchData(sd);
-                unknownCount++;
-            }
-            else if (sd.getType().equals("insert")) {
-
-                logger.info(String.format(" INSERTED : %s|%f|%d|%d|%s|%s",
-                        sd.getProductId(),
-                        sd.getSalePer(),
-                        sd.getSalePrice(),
-                        sd.getOrgPrice(),
-                        sd.getProductName(),
-                        sd.getContentUrl()));
-
-                searchDataService.insertSearchData(sd);
-                insertCount++;
-            }
-            else if (sd.getType().equals("update")) {
-
-                logger.info(String.format(" UPDATED : %s|%f|%d|%d|%s|%s",
-                        sd.getProductId(),
-                        sd.getSalePer(),
-                        sd.getSalePrice(),
-                        sd.getOrgPrice(),
-                        sd.getProductName(),
-                        sd.getContentUrl()));
-
-                searchDataService.updateSearchData(sd);
-                updateCount++;
-            }
-            else {
-                logger.error(String.format(" data biz is not (inset or update) %d", sd.getDataId()));
-            }
-        }
-    }
-
-
-    public int checkDataCount(String path, String readEncoding) throws IOException {
-        String patten = "div.list_01 span.sub_img";
-        FileIO fileIO = new FileIO();
-        fileIO.setPath(path);
-        fileIO.setEncoding(readEncoding);
-
-        String data = fileIO.getFileContent();
-        Document doc = Jsoup.parse(data);
-        Elements elements = doc.select(patten);
-        return elements.size();
-    }
-
-
-    public Map<String, SearchData> checkSearchDataValid(
-            Map<String, SearchData> allMap, Map<String, SearchData> partMap) throws Exception {
-
-        String productId;
-        SearchData searchDataPart;
-        SearchData searchDataAll;
-        Map<String, SearchData> newSearchDataMap = new HashMap<String, SearchData>();
-
-        for(Map.Entry<String, SearchData> entry : partMap.entrySet()) {
-            productId = entry.getKey();
-            searchDataPart = entry.getValue();
-
-            if (isDataEmpty(searchDataPart)) {
-                logger.error(String.format(" Null 데이터가 있어서 skip 합니다 (%s)",
-                        searchDataPart.getProductId()));
-                continue;
-            }
-
-            // 기존 추출된 데이터가 이미 존재하는 경우.
-            if (allMap.containsKey(productId)) {
-                // 기존 데이터에서 하나 꺼내서.
-                searchDataAll = allMap.get(productId);
-                if (isDataEmpty(searchDataAll)) {
-                    logger.error(String.format(" 기존 데이중에 Null 데이터가 있어서 skip 합니다. prdid(%s)",
-                            searchDataAll.getProductId()));
-                    continue;
-                }
-
-                // 동일한 데이터가 있는지 비교한다.
-                if (searchDataAll.getSalePrice().equals(searchDataPart.getSalePrice())
-                        && searchDataAll.getProductName().equals(searchDataPart.getProductName())
-                        && searchDataAll.getOrgPrice().equals(searchDataPart.getOrgPrice())) {
-
-                    skipCount++;
-
-                    // 동일한 데이터가 있으면 아무것도 안한다.
-
-//                    logger.info(String.format(" SAME DATA (%s)(%d)(%d)(%s)",
-//                            searchDataAll.getProductId(),
-//                            searchDataAll.getSalePrice(),
-//                            searchDataAll.getOrgPrice(),
-//                            searchDataAll.getProductName()));
-                }
-                // product id는 동일하지만 필드 값이 다른경우.
-                else {
-                    logger.info(String.format(" UPDATE SET (%s)(%f)(%d)(%d)(%s)(%s)",
-                            searchDataPart.getProductId(),
-                            searchDataPart.getSalePer(),
-                            searchDataPart.getSalePrice(),
-                            searchDataPart.getOrgPrice(),
-                            searchDataPart.getProductName(),
-                            searchDataPart.getContentUrl()));
-
-                    searchDataPart.setType("update");
-                    searchDataPart.setDataStatus("U");
-                    // 변경된 데이터가 있기 때문에 해당 db에 업데이트를 하기 위해 id 셋팅.
-                    searchDataPart.setDataId(searchDataAll.getDataId());
-                    newSearchDataMap.put(productId, searchDataPart);
-                }
-            }
-            // 동일한 product id가 없는 경우
-            else {
-                searchDataPart.setType("insert");
-                searchDataPart.setDataStatus("I");
-                newSearchDataMap.put(productId, searchDataPart);
-            }
-        }
-
-        return newSearchDataMap;
     }
 
 
@@ -427,12 +286,11 @@ public class First {
         CrawlIO crawlIO = new CrawlIO();
         CrawlData crawlData = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
-        crawlDataService = new CrawlDataService();
 
         int page=1;
         int returnCode;
-        long randomNum=0;
-        int data_size=0;
+        long randomNum;
+        int data_size;
         boolean lastPage=false;
         String strUrl;
         String crawlSavePath;
@@ -489,7 +347,7 @@ public class First {
 
             // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
             // 추출된 데이터가 있는지 체크한다.
-            data_size = checkDataCount(crawlSavePath, txtEncode);
+            data_size = globalUtils.checkDataCount(crawlSavePath, pattern, txtEncode);
             if (data_size < 30) {
                 logger.info(String.format(" Data size is(%d). This seed last page : %s",data_size, strUrl));
                 lastPage = true;
@@ -517,120 +375,6 @@ public class First {
     }
 
 
-    private String getFieldData(String src, String startTag, String endTag) {
-        if (src==null || startTag==null || endTag==null) return "";
-        int spos = src.indexOf(startTag);
-        if (spos<=0) return "";
-        int epos = src.indexOf(endTag, spos);
-        String tag = src.substring(spos+startTag.length(), epos);
-
-        return tag;
-    }
-
-
-    public int indexingOkMall(SearchData searchData) throws IOException {
-
-        int returnCode;
-        StringBuffer sb = new StringBuffer();
-        StringBuffer indexUrl = new StringBuffer("http://localhost:9200/shop/okmall/");
-        CrawlSite crawlSite = new CrawlSite();
-
-        sb.append("{");
-
-        sb.append("\"dataid\" : ");
-        sb.append("\"").append(searchData.getDataId()).append("\",");
-
-        sb.append("\"product_name\" : ");
-        sb.append("\"").append(searchData.getProductName()).append("\",");
-
-        sb.append("\"brand_name\" : ");
-        sb.append("\"").append(searchData.getBrandName()).append("\",");
-
-        sb.append("\"url\" : ");
-        sb.append("\"http://www.okmall.com").append(searchData.getContentUrl()).append("\",");
-
-        sb.append("\"thumb\" : ");
-        sb.append("\"").append(searchData.getThumbUrl()).append("\",");
-
-        sb.append("\"org_price\" : ");
-        sb.append(" ").append(searchData.getOrgPrice()).append(",");
-
-        sb.append("\"sale_price\" : ");
-        sb.append(" ").append(searchData.getSalePrice()).append(",");
-
-        sb.append("\"sale_per\" : ");
-        sb.append(" ").append(searchData.getSalePer()).append(",");
-
-        sb.append("\"cp\" : ");
-        sb.append("\"").append(searchData.getCpName()).append("\",");
-
-        sb.append("\"keyword\" : ");
-        sb.append("\"").append(searchData.getCrawlKeyword()).append("\"");
-
-        sb.append("}");
-
-        // set docid
-        indexUrl.append(searchData.getProductId());
-        // set crawl url
-        crawlSite.setCrawlUrl(indexUrl.toString());
-        // set crawl url data
-        crawlSite.setCrawlData(sb.toString());
-
-        // indexing request
-        returnCode = crawlSite.HttpXPUT();
-
-        if (returnCode == 200 || returnCode == 201) {
-            logger.info(String.format(" Indexing [ %d ] %s - %s",
-                    returnCode,
-                    searchData.getProductId(),
-                    searchData.getProductName()));
-        }
-        else {
-            logger.error(String.format(" Indexing [ %d ] %s - %s",
-                    returnCode,
-                    searchData.getProductId(),
-                    searchData.getProductName()));
-        }
-
-        return returnCode;
-    }
-
-    public boolean isDataEmpty(SearchData sd) {
-        if (sd.getOrgPrice()==null) return true;
-        if (sd.getSalePrice()==null) return true;
-        if (sd.getProductName()==null) return true;
-        if (sd.getProductId()==null) return true;
-        if (sd.getCpName()==null) return true;
-        if (sd.getContentUrl()==null) return true;
-        if (sd.getThumbUrl()==null) return true;
-
-        if (sd.getProductName().isEmpty()) return true;
-        if (sd.getCpName().isEmpty()) return true;
-        if (sd.getContentUrl().isEmpty()) return true;
-        if (sd.getThumbUrl().isEmpty()) return true;
-
-        return false;
-    }
-
-    public static boolean isAllDigitChar(String s) {
-        for (char ch : s.toCharArray()) {
-            if (!Character.isDigit(ch)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean isAllFloatChar(String s) {
-        for (char ch : s.toCharArray()) {
-            if (!Character.isDigit(ch) && !(ch == '.')) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
     public void printResultInfo(First cp) {
         logger.info(" ================== Extracting information ==================");
         logger.info(String.format(" Total extract count - %d", cp.getTotalExtractCount()));
@@ -646,7 +390,7 @@ public class First {
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
-        Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
+        Map<String, SearchData> searchDataMap;
         Map<String, SearchData> newSearchDataMap;
 
         cp.setFilePath(crawlData.getSavePath());
@@ -662,13 +406,13 @@ public class First {
 
         // DB에 들어있는 데이터와 쇼핑몰에서 가져온 데이터를 비교한다.
         // 비교결과 update, insert할 데이터를 모아서 리턴 한다.
-        newSearchDataMap = cp.checkSearchDataValid(allSearchDatasMap, searchDataMap);
+        newSearchDataMap = validChecker.checkSearchDataValid(allSearchDatasMap, searchDataMap);
         if (newSearchDataMap.size() <= 0) {
             logger.info(String.format(" 변경되거나 새로 생성된 상품 데이터가 없습니다 - %s", crawlData.getSavePath()));
         }
         else {
             // db에 추출한 데이터를 넣는다.
-            cp.insertOkMall(newSearchDataMap);
+            db.updateToDB(newSearchDataMap);
 
             // insert 되거나 update된 데이터들을 다시 allSearchDataMap에 입력하여
             // 새로 parsing되서 체크하는 데이터 비교에 반영될 수 있도록 한다.

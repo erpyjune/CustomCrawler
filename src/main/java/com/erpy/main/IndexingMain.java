@@ -4,6 +4,7 @@ import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
 import com.erpy.parser.OkMallProc;
 import com.erpy.utils.GlobalInfo;
+import com.erpy.utils.GlobalUtils;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -21,11 +22,12 @@ public class IndexingMain {
     private static Logger logger = Logger.getLogger(IndexingMain.class.getName());
     private static final String IndexingUrl = "http://localhost:9200/shop/";
 
-    public static void main (String args[]) throws IOException {
+    public static void main (String args[]) throws Exception {
         Map<String,String> statusParamMap = new HashMap<String, String>();
         SearchData searchData;
         SearchDataService searchDataService = new SearchDataService();
         OkMallProc okMallProc = new OkMallProc();
+        GlobalUtils globalUtils = new GlobalUtils();
         String productId;
         String cpName;
         int indexCount=0;
@@ -47,7 +49,7 @@ public class IndexingMain {
 //            logger.info(String.format(" (%s)%s:%s", searchData.getProductId(), searchData.getCpName(),
 //                    searchData.getProductName()));
 
-            if (okMallProc.isDataEmpty(searchData)) {
+            if (globalUtils.isDataEmpty(searchData)) {
                 logger.error(" Skip indexing :: data field is null !!");
                 continue;
             }
@@ -65,7 +67,7 @@ public class IndexingMain {
 //                    searchData.getCpName().equals(GlobalInfo.CP_FIRST)) {
 
                 // indexing to elasticsearch engine.
-                returnCode = okMallProc.indexingOkMall(searchData);
+                returnCode = globalUtils.indexingES(searchData);
                 if (returnCode == 200 || returnCode == 201) {
                     // update 'I' or 'U' --> 'E'
                     searchData.setDataStatus("E");
