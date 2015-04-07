@@ -40,7 +40,7 @@ public class OkMallProc {
 
     private String filePath;
     private String keyword;
-    private String txtEncode="euc-kr";
+    private String txtEncode="utf-8";
     private String seedUrl;
 
     public String getSeedUrl() {

@@ -76,49 +76,53 @@ public class ExtractDataMain {
 
             crawlData = (CrawlData) iterator.next();
 
-            if (crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) {
+
+            if (!crawlData.getCpName().equals(GlobalInfo.CP_CampingPlus)) continue;
+
+
+            if (crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) { // 수집이 안됨.
                 cc.mainExtractProcessing(cc, crawlData, allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_DICAMPING)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_DICAMPING)) { // 확인
                 di.mainExtractProcessing(di, crawlData, allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_SBCLUB)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_SBCLUB)) { // 파싱 안됨
                 sbclub.mainExtractProcessing(sbclub, crawlData, allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL)) { // 확인
                 campingMall.mainExtractProcessing(campingMall, crawlData, allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_OKMALL)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_OKMALL)) { // 확인
                 okMallProc.mainExtractProcessing(okMallProc, crawlData, allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_FIRST)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_FIRST)) { // 확인
                 first.mainExtractProcessing(first,crawlData,allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampTown)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampTown)) { // 확인
                 ct.mainExtractProcessing(ct,crawlData,allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGON)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGON)) { // 썸네일 이슈
 //                co.mainExtractProcessing(co,crawlData,allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_Aldebaran)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_Aldebaran)) { // yes
                 alde.mainExtractProcessing(alde,crawlData,allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_OMyCamping)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_OMyCamping)) { //yes
                 omy.mainExtractProcessing(omy,crawlData,allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampI)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampI)) { //yes
                 cmpi.mainExtractProcessing(cmpi,crawlData,allSearchDatasMap);
             }
-            if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) {
+            if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) {    // yes
                 cp365.mainExtractProcessing(cp365,crawlData,allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_LeisureMan)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_LeisureMan)) { // yes
                 lsm.mainExtractProcessing(lsm,crawlData,allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_WeekEnders)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_WeekEnders)) { // yes
                 wk.mainExtractProcessing(wk, crawlData, allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampingPlus)) {
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampingPlus)) { // yes
                 cplus.mainExtractProcessing(cplus, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {

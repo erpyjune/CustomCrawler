@@ -44,7 +44,7 @@ public class CampingMall {
 
     private String filePath;
     private String keyword;
-    private String txtEncode="euc-kr";
+    private String txtEncode="utf-8";
     private String seedUrl;
     //
     private static final String prefixContentUrl = "http://www.campingmall.co.kr/shop/goods/goods_view.php?&goodsno=";

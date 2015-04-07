@@ -69,11 +69,11 @@ public class CrawlMain {
             strCpName = seed.getCpName().trim();
 
 
-            if (!strCpName.equals(GlobalInfo.CP_SBCLUB)) continue;;
+            if (!strCpName.equals(GlobalInfo.CP_CampingPlus)) continue;;
 
 
-            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
-                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "td[width=\"25%\"]");
+            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) { // 수집 되는게 없네.
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:0 0 3px 0px; color:#315ed2; \"]");
                 crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
@@ -92,8 +92,8 @@ public class CrawlMain {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div.brand_detail_layer p.item_title a span.prName_PrName");
                 crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
-            if (strCpName.equals(GlobalInfo.CP_FIRST)) {
-                crawlIO.setCrawlIO("page_no", 30, "euc-kr", "utf-8", "div.list_01 span.sub_img");
+            if (strCpName.equals(GlobalInfo.CP_FIRST)) { // complete
+                crawlIO.setCrawlIO("page_no", 30, "utf-8", "utf-8", "div.list_01 span.sub_img");
                 crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
@@ -109,7 +109,7 @@ public class CrawlMain {
                 crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
-                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div[style=\"padding:3\"] a");
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:3\"] a");
                 crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             if (strCpName.equals(GlobalInfo.CP_CampI)) {
