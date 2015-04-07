@@ -11,19 +11,21 @@
         date     as crawlDate,
         savepath as savePath,
         cp       as cpName,
-        keyword  as crawlKeyword
+        keyword  as crawlKeyword,
+        md5      as hashMD5
         FROM crawl_data
         WHERE id = #{dataId}
     </select>
 
     <!-- Instead of referencing Fully Qualified Class Names we can register Aliases in seed-mybatis-config.xml and use Alias names. -->
-    <resultMap type='CrawlData' 		id='CrawlDataResult'>
-        <id     property='dataId' 		column='id'/>
-        <result property='seedUrl' 	    column='url'/>
-        <result property='crawlDate' 	column='date'/>
-        <result property='savePath' 	column='savepath'/>
-        <result property='cpName' 	    column='cp'/>
-        <result property='crawlKeyword' column='keyword'/>
+    <resultMap type='CrawlData' 		 id='CrawlDataResult'>
+        <id     property='dataId' 		 column='id'/>
+        <result property='seedUrl' 	     column='url'/>
+        <result property='crawlDate' 	 column='date'/>
+        <result property='savePath' 	 column='savepath'/>
+        <result property='cpName' 	     column='cp'/>
+        <result property='crawlKeyword'  column='keyword'/>
+        <result property='hashMD5'       column='md5'/>
     </resultMap>
 
     <select id='getAllCrawlDatas' resultMap='CrawlDataResult'>
@@ -35,8 +37,8 @@
     </select>
 
     <insert id='insertCrawlData' parameterType='CrawlData' useGeneratedKeys='true' keyProperty='dataId'>
-        INSERT INTO crawl_data(url, date, savepath, cp, keyword)
-        VALUES(#{seedUrl}, #{crawlDate}, #{savePath}, #{cpName}, #{crawlKeyword})
+        INSERT INTO crawl_data(url, date, savepath, cp, keyword, md5)
+        VALUES(#{seedUrl}, #{crawlDate}, #{savePath}, #{cpName}, #{crawlKeyword}, #{hashMD5})
         <!--
             VALUES(#{emailId}, #{password}, #{firstName}, #{lastName})
         -->
@@ -49,7 +51,8 @@
         date      = #{crawlDate},
         savepath  = #{savePath},
         cp        = #{cpName},
-        keyword   = #{crawlKeyword}
+        keyword   = #{crawlKeyword},
+        md5       = #{hashMD5}
         WHERE id = #{dataId}
     </update>
 

@@ -66,33 +66,6 @@ public class GlobalUtils {
         return src.substring(spos+startTag.length());
     }
 
-    public String makeSaveFilePath(String prefixPath, String cpName, Integer randomNumber) {
-        return prefixPath + "/" + cpName + "/" + Integer.toString(randomNumber) + ".html";
-    }
-
-    public boolean saveDirCheck(String savePrefixPath, String cpName) {
-        try {
-            File dir = new File(savePrefixPath + "/" + cpName);
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-        }
-        catch (Exception e) {
-            logger.error(e.getStackTrace());
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isSaveFilePathCollision(String filePath) {
-        File f = new File(filePath);
-        if(f.exists()) {
-            logger.error(String.format(" 저장할 파일 이름이 충돌 납니다 - %s ", filePath));
-            return false;
-        }
-        return true;
-    }
-
     public String priceDataCleaner(String s) {
         if (s==null) return "";
         return s.replace("원", "").replace("won","").replace(",", "").
@@ -105,12 +78,22 @@ public class GlobalUtils {
         return s.replace("&lt;", "<").replace("&gt;",">").replace("[", "").replace("]", "").replace(",", " ");
     }
 
-    public int checkDataCount(String path, String pattern, String readEncoding) throws IOException {
-        FileIO fileIO = new FileIO();
-        fileIO.setPath(path);
-        fileIO.setEncoding(readEncoding);
+//    public int checkDataCount(String path, String pattern, String readEncoding) throws IOException {
+//        FileIO fileIO = new FileIO();
+//        fileIO.setPath(path);
+//        fileIO.setEncoding(readEncoding);
+//
+//        String data = fileIO.getFileContent();
+//        Document doc = Jsoup.parse(data);
+//        Elements elements = doc.select(pattern);
+//        return elements.size();
+//    }
 
-        String data = fileIO.getFileContent();
+    public int checkDataCountContent(String data, String pattern) throws IOException {
+        if (pattern==null || pattern.length()==0) {
+            logger.error(" pattern is NULL !!");
+            return 0;
+        }
         Document doc = Jsoup.parse(data);
         Elements elements = doc.select(pattern);
         return elements.size();
@@ -123,10 +106,25 @@ public class GlobalUtils {
         return sb.toString();
     }
 
+    public String MD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte anArray : array) {
+                sb.append(Integer.toHexString((anArray & 0xFF) | 0x100).substring(1, 3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            logger.error(String.format(" Hash value generated - (%s)", md5));
+        }
+        return "";
+    }
+
     public int indexingES(SearchData searchData) throws Exception {
         int returnCode;
-        StringBuffer sb = new StringBuffer();
-        StringBuffer indexUrl = new StringBuffer("http://localhost:9200/shop/okmall/");
+        StringBuilder sb = new StringBuilder();
+        StringBuilder indexUrl = new StringBuilder("http://localhost:9200/shop/okmall/");
         CrawlSite crawlSite = new CrawlSite();
 
         sb.append("{");
@@ -169,7 +167,6 @@ public class GlobalUtils {
         crawlSite.setCrawlUrl(indexUrl.toString());
         // set crawl url data
         crawlSite.setCrawlData(sb.toString());
-
         // indexing request
         returnCode = crawlSite.HttpXPUT();
 
@@ -185,7 +182,6 @@ public class GlobalUtils {
                     searchData.getProductId(),
                     searchData.getProductName()));
         }
-
         return returnCode;
     }
 }

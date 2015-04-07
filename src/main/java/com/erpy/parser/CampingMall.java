@@ -344,7 +344,7 @@ public class CampingMall {
 
             // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
             // 추출된 데이터가 있는지 체크한다.
-            data_size = globalUtils.checkDataCount(crawlSavePath, pattern, txtEncode);
+            data_size = globalUtils.checkDataCountContent(crawlSavePath, pattern);
             if (data_size <= 0) {
                 logger.info(String.format(" Data size is(%d). This seed last page : %s",data_size, strUrl));
                 lastPage = true;

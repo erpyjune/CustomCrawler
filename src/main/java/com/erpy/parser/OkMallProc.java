@@ -358,7 +358,7 @@ public class OkMallProc {
     }
 
 
-    public void crawlData(String url, String strKeyword, String strCpName) throws IOException {
+    public void crawlData(String url, String strKeyword, String strCpName) throws Exception {
         Random random = new Random();
         DateInfo dateInfo = new DateInfo();
         CrawlSite crawlSite = new CrawlSite();
@@ -397,14 +397,14 @@ public class OkMallProc {
             }
 
             // cp 디렉토리가 없으면 생성한다.
-            if (!globalUtils.saveDirCheck(savePrefixPath, strCpName)) {
+            if (!crawlIO.saveDirCheck(savePrefixPath, strCpName)) {
                 logger.error(" Crawling data save dir make check fail !!");
                 continue;
             }
 
             // save file path가 충돌나면 continue 한다.
-            crawlSavePath = globalUtils.makeSaveFilePath(savePrefixPath, strCpName, random.nextInt(918277377));
-            if (!globalUtils.isSaveFilePathCollision(crawlSavePath)) {
+            crawlSavePath = crawlIO.makeSaveFilePath(savePrefixPath, strCpName, random.nextInt(918277377));
+            if (!crawlIO.isSaveFilePathCollision(crawlSavePath)) {
                 logger.error(" Crawling save file path is collision !!");
                 continue;
             }
@@ -415,7 +415,7 @@ public class OkMallProc {
 
             // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
             // 추출된 데이터가 있는지 체크한다.
-            data_size = globalUtils.checkDataCount(crawlSavePath, pattern, txtEncode);
+            data_size = globalUtils.checkDataCountContent(crawlSavePath, pattern);
             if (data_size <= 0) {
                 logger.info(" This seed last page : " + strUrl);
                 break;

@@ -4,12 +4,13 @@ package com.erpy.dao;
  * Created by baeonejune on 14. 12. 21..
  */
 public class CrawlData {
-    Integer     dataId;
-    String      seedUrl;
-    String      crawlDate;
-    String      savePath;
-    String      cpName;
-    String      crawlKeyword;
+    Integer dataId;
+    String seedUrl;
+    String crawlDate;
+    String savePath;
+    String cpName;
+    String crawlKeyword;
+    String hashMD5;
 
     public Integer getDataId() {
         return dataId;
@@ -57,5 +58,13 @@ public class CrawlData {
 
     public void setCrawlKeyword(String crawlKeyword) {
         this.crawlKeyword = crawlKeyword;
+    }
+
+    public String getHashMD5() {
+        return hashMD5;
+    }
+
+    public void setHashMD5(String hashMD5) {
+        this.hashMD5 = hashMD5;
     }
 }
