@@ -26,7 +26,6 @@ import java.util.Random;
  */
 public class CCamping {
     private static Logger logger = Logger.getLogger(CCamping.class.getName());
-    private CrawlDataService crawlDataService = new CrawlDataService();
     private GlobalUtils globalUtils = new GlobalUtils();
     private ValidChecker validChecker = new ValidChecker();
     private DB db = new DB();
@@ -36,7 +35,6 @@ public class CCamping {
     private int insertCount=0;
     private int updateCount=0;
     private int unknownCount=0;
-    private static final String pattern = "td[width=\"25%\"]";
     // for crawling.
     private int crawlCount=0;
     private int crawlErrorCount=0;
@@ -279,105 +277,6 @@ public class CCamping {
         if (bMan) sb.append(" 남자");
         if (bWoman) sb.append(" 여자");
         return sb.toString();
-    }
-
-
-    public String makeUrlPage(String url, int page)  {
-        return String.format("%s&page=%d", url, page);
-    }
-
-
-//    public void crawlData(String url, String strKeyword, String strCpName,
-//                          Map<String, CrawlData> allCrawlDatasMap) throws Exception {
-//
-//        Random random         = new Random();
-//        DateInfo dateInfo     = new DateInfo();
-//        CrawlIO crawlIO       = new CrawlIO();
-//        CrawlSite crawlSite   = new CrawlSite();
-//        CrawlData crawlData   = new CrawlData();
-//        GlobalInfo globalInfo = new GlobalInfo();
-//
-//        int page=1;
-//        int returnCode;
-//        int data_size;
-//        String strUrl;
-//        String crawlSavePath;
-//        String savePrefixPath = globalInfo.getSaveFilePath();
-//
-//        // 환경 셋팅
-//        crawlSite.setConnectionTimeout(5000);
-//        crawlSite.setSocketTimeout(10000);
-//        crawlSite.setCrawlEncode(txtEncode);
-//
-//        for(;;) {
-//            // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
-//            strUrl = String.format("%s&page=%d", url, page);
-//            // set crawling information.
-//            crawlSite.setCrawlUrl(strUrl);
-//
-//            try {
-//                returnCode = crawlSite.HttpCrawlGetDataTimeout();
-//                if (returnCode != 200 && returnCode != 201) {
-//                    logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
-//                    crawlErrorCount++;
-//                    continue;
-//                }
-//            }
-//            catch (Exception e) {
-//                logger.error(e.getStackTrace());
-//            }
-//
-//            /////////////////////////////////////////////////////////////
-//            // 추출된 데이터가 없으면 마지막 페이지 더 이상 page 증가 없이 종료한다.
-//            data_size = globalUtils.checkDataCountContent(crawlSite.getCrawlData(), pattern);
-//            if (data_size <= 0) {
-////                logger.info(String.format(" Data size is(%d). This seed last page : %s", crawlSite.getCrawlData().length(), strUrl));
-//                break;
-//            }
-//
-//            // 동일한 데이터가 있으면 next page로 이동한다.
-//            if (crawlIO.isSameCrawlData(allCrawlDatasMap, globalUtils.MD5(crawlSite.getCrawlData()) + strCpName)) {
-//                page++;
-//                logger.info(String.format(" Crawling data is same SKIP - (%s) ", url));
-//                continue;
-//            }
-//
-//            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, txtEncode);
-//            if (crawlSavePath.length()==0) {
-//                logger.error(" Crawling data flush disk error !!");
-//                page++;
-//                continue;
-//            }
-//
-//            // 수집한 메타 데이터를 DB에 저장한다.
-//            crawlData.setSeedUrl(strUrl);
-//            crawlData.setCrawlDate(dateInfo.getCurrDateTime());
-//            crawlData.setSavePath(crawlSavePath);
-//            crawlData.setCpName(strCpName);
-//            crawlData.setCrawlKeyword(strKeyword);
-//            crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
-//            // 크롤링한 메타데이터를 db에 저장한다.
-//            crawlDataService.insertCrawlData(crawlData);
-//            logger.info(String.format(" Crawled ( %d ) %s", data_size, strUrl));
-//
-//            // page를 증가 시킨다.
-//            page++;
-//            // 크롤링한 데이터 카운트.
-//            crawlCount++;
-//            // page가 11 페이지이면 끝난다. 11 페이지까지 갈리가 없음.
-//            if (page >= MAX_PAGE) break;
-//        }
-//    }
-
-
-    public void printResultInfo(First cp) {
-        logger.info(" ================== Extracting information ==================");
-        logger.info(String.format(" Total extract count - %d", cp.getTotalExtractCount()));
-        logger.info(String.format(" Skip count          - %d", cp.getSkipCount()));
-        logger.info(String.format(" Insert count        - %d", cp.getInsertCount()));
-        logger.info(String.format(" Update count        - %d", cp.getUpdateCount()));
-        logger.info(String.format(" Unknoun count       - %d", cp.getUnknownCount()));
-        logger.info(" Extract processing terminated normally!!");
     }
 
 

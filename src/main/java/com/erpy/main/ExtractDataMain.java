@@ -128,8 +128,6 @@ public class ExtractDataMain {
                 logger.warn(" other cp occurred!!");
             }
         }
-
-        okMallProc.printResultInfo(okMallProc);
-        first.printResultInfo(first);
+        logger.info(" End!");
     }
 }

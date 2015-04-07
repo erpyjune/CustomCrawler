@@ -328,7 +328,8 @@ public class SB {
     }
 
 
-    public void crawlData(String url, String strKeyword, String strCpName) throws Exception {
+    public void crawlData(String url, String strKeyword, String strCpName,
+                          Map<String, CrawlData> allCrawlDatasMap) throws Exception {
         CrawlSite crawlSite = new CrawlSite();
         CrawlIO crawlIO = new CrawlIO();
         CrawlData crawlData = new CrawlData();

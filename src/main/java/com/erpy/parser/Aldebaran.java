@@ -24,7 +24,6 @@ import java.util.Random;
  */
 public class Aldebaran {
     private static Logger logger = Logger.getLogger(Aldebaran.class.getName());
-    private CrawlDataService crawlDataService = new CrawlDataService();
     private GlobalUtils globalUtils = new GlobalUtils();
     private ValidChecker validChecker = new ValidChecker();
     private DB db = new DB();
@@ -35,7 +34,6 @@ public class Aldebaran {
     private int insertCount=0;
     private int updateCount=0;
     private int unknownCount=0;
-    private static final String pattern = "li[class=\"item xans-record-\"]";
 
     // for crawling.
     private int crawlCount=0;
@@ -265,103 +263,6 @@ public class Aldebaran {
         logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
         return searchDataMap;
-    }
-
-
-    public String makeUrlPage(String url, int page)  {
-        return String.format("%s&page=%d", url, page);
-    }
-
-    public void crawlData(String url, String strKeyword, String strCpName) throws Exception {
-        Random random = new Random();
-        DateInfo dateInfo = new DateInfo();
-        CrawlSite crawlSite = new CrawlSite();
-        CrawlIO crawlIO = new CrawlIO();
-        CrawlData crawlData = new CrawlData();
-        GlobalInfo globalInfo = new GlobalInfo();
-
-        int page=1;
-        int returnCode;
-        int data_size;
-        String strUrl;
-        String crawlSavePath;
-        String savePrefixPath = globalInfo.getSaveFilePath();
-
-        // 환경 셋팅
-        crawlSite.setConnectionTimeout(5000);
-        crawlSite.setSocketTimeout(10000);
-        crawlSite.setCrawlEncode(txtEncode);
-
-        for(;;) {
-            // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
-            strUrl = String.format("%s&page=%d", url, page);
-            crawlSite.setCrawlUrl(strUrl);
-
-            try {
-                returnCode = crawlSite.HttpCrawlGetDataTimeout();
-                if (returnCode != 200 && returnCode != 201) {
-                    logger.error(String.format(" 데이터를 수집 못했음. HTTP RET [%d] - %s", returnCode, strUrl));
-                    crawlErrorCount++;
-                    continue;
-                }
-            }
-            catch (Exception e) {
-                logger.error(e.getStackTrace());
-            }
-
-            // cp 디렉토리가 없으면 생성한다.
-            if (!crawlIO.saveDirCheck(savePrefixPath, strCpName)) {
-                logger.error(" Crawling data save dir make check fail !!");
-                continue;
-            }
-
-            // save file path가 충돌나면 continue 한다.
-            crawlSavePath = crawlIO.makeSaveFilePath(savePrefixPath, strCpName, random.nextInt(918277377));
-            if (!crawlIO.isSaveFilePathCollision(crawlSavePath)) {
-                logger.error(" Crawling save file path is collision !!");
-                continue;
-            }
-
-            crawlIO.setSaveDataInfo(crawlSite.getCrawlData(), crawlSavePath, txtEncode);
-            // 크롤링한 데이터를 파일로 저장한다.
-            crawlIO.executeSaveData();
-
-            // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
-            // 추출된 데이터가 있는지 체크한다.
-            data_size = globalUtils.checkDataCountContent(crawlSavePath, pattern);
-            if (data_size <= 0) {
-                logger.info(String.format(" Data size is(%d). This seed last page : %s",data_size, strUrl));
-                break;
-            }
-
-            // 수집한 메타 데이터를 DB에 저장한다.
-            crawlData.setSeedUrl(strUrl);
-            crawlData.setCrawlDate(dateInfo.getCurrDateTime());
-            crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
-            // 크롤링한 메타데이터를 db에 저장한다.
-            crawlDataService.insertCrawlData(crawlData);
-            logger.info(String.format(" Crawling ( %d ) %s", data_size, strUrl));
-
-            // page를 증가 시킨다.
-            page++;
-            // 크롤링한 데이터 카운트.
-            crawlCount++;
-            // page가 100페이지이면 끝난다. 100페이지까지 갈리가 없음.
-            if (page==20) break;
-        }
-    }
-
-
-    public void printResultInfo(CampingOn cp) {
-        logger.info(" ================== Extracting information ==================");
-        logger.info(String.format(" Total extract count - %d", cp.getTotalExtractCount()));
-        logger.info(String.format(" Skip count          - %d", cp.getSkipCount()));
-        logger.info(String.format(" Insert count        - %d", cp.getInsertCount()));
-        logger.info(String.format(" Update count        - %d", cp.getUpdateCount()));
-        logger.info(String.format(" Unknoun count       - %d", cp.getUnknownCount()));
-        logger.info(" Extract processing terminated normally!!");
     }
 
 

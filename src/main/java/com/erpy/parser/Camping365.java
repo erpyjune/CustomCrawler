@@ -26,24 +26,23 @@ public class Camping365 {
     private static Logger logger = Logger.getLogger(Camping365.class.getName());
     private static final String prefixContentUrl = "http://www.camping365.co.kr/shop/goods/goods_view.php?goodsno=";
     private static final String prefixHostThumbUrl = "http://www.camping365.co.kr";
-    private CrawlDataService crawlDataService = new CrawlDataService();
     private GlobalUtils globalUtils = new GlobalUtils();
     private ValidChecker validChecker = new ValidChecker();
     private DB db = new DB();
     // for extract.
-    private int totalExtractCount=0;
-    private int skipCount=0;
-    private int insertCount=0;
-    private int updateCount=0;
-    private int unknownCount=0;
-    private static final String pattern = "div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]";
+    private int totalExtractCount = 0;
+    private int skipCount = 0;
+    private int insertCount = 0;
+    private int updateCount = 0;
+    private int unknownCount = 0;
+
     // for crawling.
-    private int crawlCount=0;
-    private int crawlErrorCount=0;
-    private int collisionFileCount=0;
+    private int crawlCount = 0;
+    private int crawlErrorCount = 0;
+    private int collisionFileCount = 0;
     private String filePath;
     private String keyword;
-    private String txtEncode="utf-8";
+    private String txtEncode = "utf-8";
     private String seedUrl;
 
     public String getSeedUrl() {
@@ -153,7 +152,7 @@ public class Camping365 {
         String strLinkUrl;
 
 
-        if (filePath==null) {
+        if (filePath == null) {
             logger.fatal(" FilePath is null !!");
             throw new Exception("Extract file path is null!!");
         }
@@ -171,7 +170,7 @@ public class Camping365 {
         elements = doc.select("td[style=\"border:solid 1px #e5e5e5;\"]");
         for (Element element : elements) {
 
-            productId="";
+            productId = "";
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
 
@@ -191,8 +190,8 @@ public class Camping365 {
             listE = document.select("div[style=\"text-align:center;\"] a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
-                if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "goodsno=","&");
+                if (strLinkUrl.length() > 0) {
+                    productId = globalUtils.getFieldData(strLinkUrl, "goodsno=", "&");
                     searchData.setContentUrl(prefixContentUrl + productId);
                     searchData.setProductId(productId);
                     logger.debug(String.format(" >> Link (%s)", searchData.getContentUrl()));
@@ -209,7 +208,7 @@ public class Camping365 {
             // org price
             listE = document.select("strike[style*=font-size:11px;]");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace("won","").replace(",", "").trim();
+                strItem = et.text().replace("원", "").replace("won", "").replace(",", "").trim();
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setOrgPrice(Integer.parseInt(strItem));
                     logger.debug(String.format(" >> org price (%s)", searchData.getOrgPrice()));
@@ -224,7 +223,7 @@ public class Camping365 {
             // sale price
             listE = document.select("div[style*=color:#ed5d55;] b");
             for (Element et : listE) {
-                strItem = et.text().replace("원","").replace("won", "").replace(",", "").trim();
+                strItem = et.text().replace("원", "").replace("won", "").replace(",", "").trim();
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setSalePrice(Integer.parseInt(strItem));
                     searchData.setSalePer(0.0F);
@@ -236,10 +235,10 @@ public class Camping365 {
                 }
             }
 
-            if (searchData.getOrgPrice()>0 && searchData.getSalePrice()==0) {
+            if (searchData.getOrgPrice() > 0 && searchData.getSalePrice() == 0) {
                 searchData.setSalePrice(searchData.getOrgPrice());
             }
-            if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
+            if (searchData.getOrgPrice() == 0 && searchData.getSalePrice() > 0) {
                 searchData.setOrgPrice(searchData.getSalePrice());
             }
 
@@ -263,100 +262,6 @@ public class Camping365 {
         return searchDataMap;
     }
 
-    public String makeUrlPage(String url, int page)  {
-        return String.format("%s&page=%d", url, page);
-    }
-
-    public void crawlData(String url, String strKeyword, String strCpName) throws Exception {
-        Random random = new Random();
-        DateInfo dateInfo = new DateInfo();
-        CrawlSite crawlSite = new CrawlSite();
-        CrawlIO crawlIO = new CrawlIO();
-        CrawlData crawlData = new CrawlData();
-        GlobalInfo globalInfo = new GlobalInfo();
-
-        int page=1;
-        int returnCode;
-        int data_size;
-        String strUrl;
-        String crawlSavePath;
-        String savePrefixPath = globalInfo.getSaveFilePath();
-
-        // 환경 셋팅
-        crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setConnectionTimeout(5000);
-        crawlSite.setSocketTimeout(10000);
-
-        for(;;) {
-            // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
-            strUrl = String.format("%s&page=%d", url, page);
-            crawlSite.setCrawlUrl(strUrl);
-
-            try {
-                returnCode = crawlSite.HttpCrawlGetDataTimeout();
-                if (returnCode != 200 && returnCode != 201) {
-                    logger.error(String.format(" 데이터를 수집 못했음. HTTP RET [%d] - %s", returnCode, strUrl));
-                    crawlErrorCount++;
-                    continue;
-                }
-            }
-            catch (Exception e) {
-                logger.error(e.getStackTrace());
-            }
-
-            // cp 디렉토리가 없으면 생성한다.
-            if (!crawlIO.saveDirCheck(savePrefixPath, strCpName)) {
-                logger.error(" Crawling data save dir make check fail !!");
-                continue;
-            }
-
-            // save file path가 충돌나면 continue 한다.
-            crawlSavePath = crawlIO.makeSaveFilePath(savePrefixPath, strCpName, random.nextInt(918277377));
-            if (!crawlIO.isSaveFilePathCollision(crawlSavePath)) {
-                logger.error(" Crawling save file path is collision !!");
-                continue;
-            }
-
-            crawlIO.setSaveDataInfo(crawlSite.getCrawlData(), crawlSavePath, txtEncode);
-            // 크롤링한 데이터를 파일로 저장한다.
-            crawlIO.executeSaveData();
-
-            // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
-            // 추출된 데이터가 있는지 체크한다.
-            data_size = globalUtils.checkDataCountContent(crawlSavePath, pattern);
-            if (data_size <= 0) {
-                logger.info(String.format(" Data size is(%d). This seed last page : %s",data_size, strUrl));
-                break;
-            }
-
-            // 수집한 메타 데이터를 DB에 저장한다.
-            crawlData.setSeedUrl(strUrl);
-            crawlData.setCrawlDate(dateInfo.getCurrDateTime());
-            crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
-            // 크롤링한 메타데이터를 db에 저장한다.
-            crawlDataService.insertCrawlData(crawlData);
-            logger.info(String.format(" Crawling ( %d ) %s", data_size, strUrl));
-
-            // page와 offset을 증가 시킨다.
-            page++;
-            // 크롤링한 데이터 카운트.
-            crawlCount++;
-            // page가 100페이지이면 끝난다. 100페이지까지 갈리가 없음.
-            if (page==20) break;
-        }
-    }
-
-    public void printResultInfo(CampingOn cp) {
-        logger.info(" ================== Extracting information ==================");
-        logger.info(String.format(" Total extract count - %d", cp.getTotalExtractCount()));
-        logger.info(String.format(" Skip count          - %d", cp.getSkipCount()));
-        logger.info(String.format(" Insert count        - %d", cp.getInsertCount()));
-        logger.info(String.format(" Update count        - %d", cp.getUpdateCount()));
-        logger.info(String.format(" Unknoun count       - %d", cp.getUnknownCount()));
-        logger.info(" Extract processing terminated normally!!");
-    }
 
     public void mainExtractProcessing(Camping365 cp,
                                       CrawlData crawlData,
@@ -372,8 +277,8 @@ public class Camping365 {
         // 데이터 추출.
         searchDataMap = cp.extract(crawlData);
         if (searchDataMap.size() <= 0) {
-            logger.error(String.format(" 이 파일은 추출된 데이터가 없습니다 (%s)",crawlData.getSavePath()));
-            return ;
+            logger.error(String.format(" 이 파일은 추출된 데이터가 없습니다 (%s)", crawlData.getSavePath()));
+            return;
         }
 
         // DB에 들어있는 데이터와 쇼핑몰에서 가져온 데이터를 비교한다.
@@ -381,8 +286,7 @@ public class Camping365 {
         newSearchDataMap = validChecker.checkSearchDataValid(allSearchDatasMap, searchDataMap);
         if (newSearchDataMap.size() <= 0) {
             logger.info(String.format(" 변경되거나 새로 생성된 상품 데이터가 없습니다 - %s", crawlData.getSavePath()));
-        }
-        else {
+        } else {
             // db에 추출한 데이터를 넣는다.
             db.updateToDB(newSearchDataMap);
 
@@ -390,7 +294,7 @@ public class Camping365 {
             // 새로 parsing되서 체크하는 데이터 비교에 반영될 수 있도록 한다.
             String productId;
             SearchData tmpSD;
-            for(Map.Entry<String, SearchData> entry : newSearchDataMap.entrySet()) {
+            for (Map.Entry<String, SearchData> entry : newSearchDataMap.entrySet()) {
                 productId = entry.getKey().trim();
                 tmpSD = entry.getValue();
 
@@ -412,7 +316,7 @@ public class Camping365 {
         String strLinkUrl;
         CrawlSite crawlSite = new CrawlSite();
         GlobalUtils globalUtils = new GlobalUtils();
-        int index=0;
+        int index = 0;
 
         crawlSite.setCrawlEncode("euc-kr");
         crawlSite.setCrawlUrl("http://www.camping365.co.kr/shop/goods/goods_list.php?&category=015001");
@@ -450,8 +354,8 @@ public class Camping365 {
             listE = document.select("div[style=\"text-align:center;\"] a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
-                if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "goodsno=","&");
+                if (strLinkUrl.length() > 0) {
+                    productId = globalUtils.getFieldData(strLinkUrl, "goodsno=", "&");
                     logger.info(String.format("[%s]%s", productId, prefixContentUrl + productId));
                     break;
                 }
@@ -479,7 +383,7 @@ public class Camping365 {
             // sale price
             listE = document.select("div[style*=color:#ed5d55;] b");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace("won","").replace(",", "").replace("<b>","").replace("</b>","").trim();
+                strItem = et.text().replace("원", "").replace("won", "").replace(",", "").replace("<b>", "").replace("</b>", "").trim();
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     logger.info(String.format(" >> sale price(%s)", strItem));
                     break;

@@ -38,6 +38,14 @@ public class CrawlIO {
         this.crawlEncoding = encoding;
     }
 
+    public void setCrawlIO(String pageType, int extractDataCount, String crawlEncoding, String saveEncoding, String countExtPattern) {
+        this.pageType = pageType;
+        this.extractDataCount = extractDataCount;
+        this.crawlEncoding = crawlEncoding;
+        this.saveEncoding = saveEncoding;
+        this.pattern = countExtPattern;
+    }
+
     public void setSaveEncoding(String saveEncoding) {
         this.saveEncoding = saveEncoding;
     }
@@ -154,10 +162,12 @@ public class CrawlIO {
         CrawlData crawlData   = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
 
-        boolean isLastPage=false;
+
         int page=1;
+        int offset=0;
         int returnCode;
         int data_size;
+        boolean isLastPage=false;
         String strUrl;
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
@@ -169,7 +179,7 @@ public class CrawlIO {
 
         for(;;) {
             // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
-            strUrl = String.format("%s&%s=%d", url, pageType, page);
+            strUrl = String.format("%s&%s=%d&offset=%d", url, pageType, page, offset);
             // set crawling information.
             crawlSite.setCrawlUrl(strUrl);
 
@@ -178,7 +188,6 @@ public class CrawlIO {
                 if (returnCode != 200 && returnCode != 201) {
                     logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
                     crawlErrorCount++;
-                    continue;
                 }
             }
             catch (Exception e) {
@@ -193,8 +202,9 @@ public class CrawlIO {
 
             // 동일한 데이터가 있으면 next page로 이동한다.
             if (crawlIO.isSameCrawlData(allCrawlDatasMap, globalUtils.MD5(crawlSite.getCrawlData()) + strCpName)) {
-                page++;
+                if (page++ > MAX_PAGE) break;
                 logger.info(String.format(" Skip crawling data - (%s) ", strUrl));
+                if (isLastPage) break; // for first
                 continue;
             }
 
@@ -202,7 +212,7 @@ public class CrawlIO {
             crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
-                page++;
+                if (page++ > MAX_PAGE) break;
                 continue;
             }
 
@@ -219,12 +229,12 @@ public class CrawlIO {
 
             // for 캠핑퍼스트
             if (isLastPage) break;
-            // page를 증가 시킨다.
-            page++;
             // 크롤링한 데이터 카운트.
             crawledCount++;
             // page가 11 페이지이면 끝난다. 11 페이지까지 갈리가 없음.
-            if (page >= MAX_PAGE) break;
+            if (page++ > MAX_PAGE) break;
+            // for campI
+            offset += 32;
         }
     }
 }
