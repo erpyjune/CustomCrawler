@@ -32,7 +32,7 @@ public class SB {
     private int insertCount=0;
     private int updateCount=0;
     private int unknownCount=0;
-    private static final String pattern = "p.title";
+    private static final String pattern = "p.title a";
     // for crawling.
     private int crawlCount=0;
     private int crawlErrorCount=0;
@@ -40,11 +40,12 @@ public class SB {
 
     private String filePath;
     private String keyword;
-    private String txtEncode="euc-kr";
+    private String txtEncode="utf-8";
     private String seedUrl;
     private CrawlDataService crawlDataService = new CrawlDataService();
     private GlobalUtils globalUtils = new GlobalUtils();
     private ValidChecker validChecker = new ValidChecker();
+    private CrawlIO crawlIO = new CrawlIO();
     private DB db = new DB();
 
     private static final String postRequestUrl = "http://sbclub.co.kr/search_brandproductlist.html";
@@ -179,11 +180,11 @@ public class SB {
         elements = doc.select("li");
         for (Element element : elements) {
 
-            if (!element.outerHtml().contains("target=\"_self\"")) {
-                continue;
-            }
+//            if (!element.outerHtml().contains("target=\'_self\'")) {
+//                continue;
+//            }
 
-            productId = null;
+            productId="";
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
 
@@ -191,7 +192,7 @@ public class SB {
             listE = document.select("p.img a img");
             for (Element et : listE) {
                 strItem = et.attr("src");
-                logger.debug(" thumb : " + strItem);
+//                logger.info(" thumb : " + strItem);
                 searchData.setThumbUrl("http://sbclub.co.kr" + strItem);
             }
 
@@ -199,7 +200,7 @@ public class SB {
             listE = document.select("p.title a");
             for (Element et : listE) {
                 strItem = et.attr("href");
-                logger.debug(" link : " + strItem);
+//                logger.info(" link : " + strItem);
 
                 // get key
                 String brandcode = globalUtils.getFieldData(strItem, "brandcode=", "&");
@@ -212,7 +213,7 @@ public class SB {
             listE = document.select("p.title a");
             for (Element et : listE) {
                 strItem = globalUtils.htmlCleaner(et.textNodes().toString());
-                logger.debug(" title : " + strItem);
+//                logger.info(" title : " + strItem);
                 searchData.setProductName(strItem);
             }
 
@@ -220,7 +221,7 @@ public class SB {
             listE = document.select("p.title a span");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
-                logger.debug(" price : " + strItem);
+//                logger.info(" price : " + strItem);
                 searchData.setOrgPrice(Integer.parseInt(strItem));
             }
 
@@ -238,8 +239,10 @@ public class SB {
             searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
             // set seed url
             searchData.setSeedUrl(seedUrl);
+            // set hash
 
-            logger.debug(" ******************************************");
+
+//            logger.debug(" ******************************************");
 
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
@@ -249,8 +252,6 @@ public class SB {
                 totalExtractCount++;
             }
         }
-
-        logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
         return searchDataMap;
     }
@@ -331,7 +332,6 @@ public class SB {
     public void crawlData(String url, String strKeyword, String strCpName,
                           Map<String, CrawlData> allCrawlDatasMap) throws Exception {
         CrawlSite crawlSite = new CrawlSite();
-        CrawlIO crawlIO = new CrawlIO();
         CrawlData crawlData = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
         crawlDataService = new CrawlDataService();
@@ -345,8 +345,8 @@ public class SB {
 
 
         // crawling 기본 환경 셋팅.
-        crawlSite.setConnectionTimeout(5000);
-        crawlSite.setSocketTimeout(5000);
+        crawlSite.setConnectionTimeout(3000);
+        crawlSite.setSocketTimeout(10000);
         crawlSite.setCrawlEncode("UTF-8");
         crawlSite.setCrawlUrl(postRequestUrl);
 
@@ -366,10 +366,10 @@ public class SB {
             crawlSite.addPostRequestParam("categoryid", categoryId);
             crawlSite.addPostRequestParam("startnum", String.valueOf(startPage));
             crawlSite.addPostRequestParam("endnum", String.valueOf(endPage));
-            logger.info(String.format(" Crawling start(%d), end(%d), cate(%s)", startPage, endPage, categoryId));
+//            logger.info(String.format(" Crawling start(%d), end(%d), cate(%s)", startPage, endPage, categoryId));
 
-            // crawling.
             try {
+                // go crawling.
                 crawlSite.HttpPostGet();
                 if (crawlSite.getReponseCode() != 200 && crawlSite.getReponseCode() != 201) {
                     logger.error(String.format(" 데이터를 수집 못했음 - %s", url));
@@ -379,6 +379,24 @@ public class SB {
             }
             catch (Exception e) {
                 logger.error(e.getStackTrace());
+                continue;
+            }
+
+            // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
+            // 추출된 데이터가 있는지 체크한다.
+            data_size = globalUtils.checkDataCountContent(crawlSite.getCrawlData(), pattern);
+            if (data_size == 0) {
+//                logger.info(String.format(" Data size is(%d). start(%d), end(%d), cate(%s)", data_size, startPage, endPage, categoryId));
+                break;
+            }
+
+            // 동일한 데이터가 있으면 next page로 이동한다.
+            if (crawlIO.isSameCrawlData(allCrawlDatasMap, globalUtils.MD5(crawlSite.getCrawlData()) + strCpName)) {
+                if ((startPage + pageSize) > 440) break; // 11 page 이상이면 break.
+                startPage = startPage + pageSize;
+                endPage   = endPage + pageSize;
+                logger.info(String.format(" Skip crawling data - startPage(%d), endPage(%d)  ", startPage, endPage));
+                continue;
             }
 
             // clear request param
@@ -387,31 +405,16 @@ public class SB {
             // 크롤링한 데이터를 저장
             crawlSavePath = flushCrawlFile(strCpName, globalInfo.getSaveFilePath(), crawlSite, crawlIO);
 
-            // 추출된 데이터가 없으면 page 증가를 엄추고 새로운 seed로 다시 수집하기 위해
-            // 추출된 데이터가 있는지 체크한다.
-            data_size = globalUtils.checkDataCountContent(crawlSavePath, pattern);
-            if (data_size <= 0) {
-                logger.info(String.format(" Data size is(%d). start(%d), end(%d), cate(%s)",
-                        data_size, startPage, endPage, categoryId));
-                lastPage = true;
-            }
-
-            // 추출 개수가 0 이면 해당 url을 insert 하지 않는다.
-            if (data_size == 0) break;
-
             // 수집한 메타 데이터를 DB에 저장한다.
-            crawlData.setSeedUrl(String.format("%s?categoryid=%s&startnum=%d&endnum=%d",
-                    url, categoryId, startPage, endPage));
+            crawlData.setSeedUrl(String.format("%s?categoryid=%s&startnum=%d&endnum=%d", url, categoryId, startPage, endPage));
+            // set hash data
+            crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
 
-            insertToDBcrawlMetaData(crawlData, crawlSavePath,strCpName, strKeyword, url, categoryId, startPage, endPage);
-            logger.info(String.format(" Crawling ( %d ) start(%d), end(%d), cate(%s)",
-                    data_size, startPage, endPage, categoryId));
+            insertToDBcrawlMetaData(crawlData, crawlSavePath, strCpName, strKeyword, url, categoryId, startPage, endPage);
+            logger.info(String.format(" Crawled (%d) (%s) start(%d), end(%d), cate(%s)", data_size, strCpName, startPage, endPage, categoryId));
 
             // 크롤링한 데이터 카운트.
             crawlCount++;
-
-            // 마지막 페이지이면 끝내고.
-            if (lastPage) break;
 
             // page를 증가 시킨다.
             startPage = startPage + pageSize;

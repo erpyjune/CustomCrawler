@@ -69,11 +69,11 @@ public class CrawlMain {
             strCpName = seed.getCpName().trim();
 
 
-            if (!strCpName.equals(GlobalInfo.CP_CampingPlus)) continue;;
+            if (!strCpName.equals(GlobalInfo.CP_CCAMPING)) continue;
 
 
-            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) { // 수집 되는게 없네.
-                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:0 0 3px 0px; color:#315ed2; \"]");
+            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style*=\"padding:0 0 3px 0px; color:#315ed2; \"]");
                 crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
@@ -81,7 +81,7 @@ public class CrawlMain {
                 crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
-                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "p.title");
+//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "p.title");
                 sb.crawlData(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {

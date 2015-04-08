@@ -77,7 +77,7 @@ public class ExtractDataMain {
             crawlData = (CrawlData) iterator.next();
 
 
-            if (!crawlData.getCpName().equals(GlobalInfo.CP_CampingPlus)) continue;
+            if (!crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) continue;
 
 
             if (crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) { // 수집이 안됨.
@@ -86,7 +86,7 @@ public class ExtractDataMain {
             else if (crawlData.getCpName().equals(GlobalInfo.CP_DICAMPING)) { // 확인
                 di.mainExtractProcessing(di, crawlData, allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_SBCLUB)) { // 파싱 안됨
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_SBCLUB)) { // yes
                 sbclub.mainExtractProcessing(sbclub, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGMALL)) { // 확인
@@ -113,7 +113,7 @@ public class ExtractDataMain {
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CampI)) { //yes
                 cmpi.mainExtractProcessing(cmpi,crawlData,allSearchDatasMap);
             }
-            if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) {    // yes
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) {    // yes
                 cp365.mainExtractProcessing(cp365,crawlData,allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_LeisureMan)) { // yes
@@ -129,9 +129,9 @@ public class ExtractDataMain {
 //                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);
             }
             else {
-                logger.warn(" other cp occurred!!");
+                logger.error(String.format(" Other cp occurred!! - (%s)", crawlData.getCpName()));
             }
         }
-        logger.info(" End!");
+        logger.info(" Extract end!");
     }
 }

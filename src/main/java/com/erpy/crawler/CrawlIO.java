@@ -46,6 +46,10 @@ public class CrawlIO {
         this.pattern = countExtPattern;
     }
 
+    public static int getMAX_PAGE() {
+        return MAX_PAGE;
+    }
+
     public void setSaveEncoding(String saveEncoding) {
         this.saveEncoding = saveEncoding;
     }
@@ -179,6 +183,7 @@ public class CrawlIO {
 
         for(;;) {
             // page는 0부터 시작해서 추출된 데이터가 없을때까지 증가 시킨다.
+            // snowppeak 사이트가 offset을 사용한다. 그외 사이트는 상관 없음.
             strUrl = String.format("%s&%s=%d&offset=%d", url, pageType, page, offset);
             // set crawling information.
             crawlSite.setCrawlUrl(strUrl);

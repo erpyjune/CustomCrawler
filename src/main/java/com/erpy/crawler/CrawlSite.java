@@ -333,9 +333,8 @@ public class CrawlSite {
     public void HttpPostGet() throws IOException {
         String name, value;
         HttpPost post = new HttpPost(crawlUrl);
-        // add header
-        logger.info(" Request URL : " + crawlUrl);
 
+        // add header
         post.setHeader("Accept", "text/html, */*; q=0.01");
         post.setHeader("Accept-Encoding", "gzip, deflate");
         post.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36");
@@ -357,7 +356,7 @@ public class CrawlSite {
             name  = entry.getKey();
             value = entry.getValue();
 
-            logger.info(String.format(" name(%s), value(%s)", name, value));
+//            logger.info(String.format(" name(%s), value(%s)", name, value));
             urlParameters.add(new BasicNameValuePair(name, value));
         }
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
@@ -367,8 +366,7 @@ public class CrawlSite {
         HttpClient client = HttpClientBuilder.create().build();
         HttpResponse response = client.execute(post);
 
-        logger.info(" Response Code : "
-                + response.getStatusLine().getStatusCode());
+//        logger.info(" Response Code : " + response.getStatusLine().getStatusCode());
 
         reponseCode =response.getStatusLine().getStatusCode();
 

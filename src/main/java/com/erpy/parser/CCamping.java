@@ -42,7 +42,7 @@ public class CCamping {
 
     private String filePath;
     private String keyword;
-    private String txtEncode="euc-kr";
+    private String txtEncode="utf-8";
     private String seedUrl;
 
     //
@@ -179,14 +179,9 @@ public class CCamping {
         // 파싱 시작.
         elements = doc.select("td[width=\"25%\"]");
         for (Element element : elements) {
-
-            logger.debug(element.outerHtml());
-            logger.debug("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
-            productId=null;
+            productId="";
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
-
 
             // Thumb link
             listE = document.select("div.thumbnail img");
@@ -197,7 +192,7 @@ public class CCamping {
             }
 
             // link
-            listE = document.select("div[style=\"padding:12px;  \"] a");
+            listE = document.select("div[style*=\"padding:12px;  \"] a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href").replace("..","");
                 // extract productID
@@ -209,7 +204,7 @@ public class CCamping {
             }
 
             // product name
-            listE = document.select("div[style=\"padding:12px;  \"] a");
+            listE = document.select("div[style*=\"padding:12px;  \"] a");
             for (Element et : listE) {
                 strItem = et.text().trim();
                 logger.debug(String.format(" >> title (%s)", strItem));
@@ -232,7 +227,7 @@ public class CCamping {
             }
 
             // sale price
-            listE = document.select("div[style=\"padding:0 0 3px 0px; color:#315ed2; \"]");
+            listE = document.select("div[style*=\"padding:0 0 3px 0px; color:#315ed2; \"]");
             for (Element et : listE) {
                 strItem = et.text().trim().replace("원", "").replace(",", "");
                 if (GlobalUtils.isAllDigitChar(strItem)) {
