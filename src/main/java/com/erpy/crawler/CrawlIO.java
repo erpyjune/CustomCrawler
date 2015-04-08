@@ -25,6 +25,7 @@ public class CrawlIO {
     private int extractDataCount=0;
 
     private static final int MAX_PAGE = 11;
+    private static final int MAX_CRAWL_ERROR_COUNT=3;
     private int crawlErrorCount=0;
     private int crawledCount=0;
 
@@ -166,11 +167,11 @@ public class CrawlIO {
         CrawlData crawlData   = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
 
-
         int page=1;
         int offset=0;
         int returnCode;
         int data_size;
+        int crawlErrorCount=0;
         boolean isLastPage=false;
         String strUrl;
         String crawlSavePath;
@@ -196,7 +197,13 @@ public class CrawlIO {
                 }
             }
             catch (Exception e) {
-                logger.error(e.getStackTrace());
+                if (crawlErrorCount > MAX_CRAWL_ERROR_COUNT) {
+                    logger.error(String.format(" Crawling timeout occured max crawling count[%d] overed & this url skip!!", crawlErrorCount));
+                    break;
+                }
+                crawlErrorCount++;
+                logger.error(String.format(" Crawling timeout occured !! - Retry(%d)", crawlErrorCount));
+                continue;
             }
 
             /////////////////////////////////////////////////////////////

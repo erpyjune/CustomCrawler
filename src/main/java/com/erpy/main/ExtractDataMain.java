@@ -77,7 +77,7 @@ public class ExtractDataMain {
             crawlData = (CrawlData) iterator.next();
 
 
-            if (!crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) continue;
+//            if (!crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) continue;
 
 
             if (crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) { // 수집이 안됨.

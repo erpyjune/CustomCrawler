@@ -4,6 +4,7 @@ import com.erpy.crawler.CrawlSite;
 import com.erpy.dao.SearchData;
 import com.erpy.io.FileIO;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -63,31 +64,20 @@ public class GlobalUtils {
         if (src==null || startTag==null) return "";
         int spos = src.indexOf(startTag);
         if (spos<0) return "";
-        return src.substring(spos+startTag.length());
+        return src.substring(spos + startTag.length());
     }
 
     public String priceDataCleaner(String s) {
         if (s==null) return "";
         return s.replace("원", "").replace("won","").replace(",", "").
-                replace("<b>","").replace("</b>","").replace("판매가","").replace(" ","").
-                replace(":","").replace("이벤트가","").trim();
+                replace("<b>","").replace("</b>","").replace("판매가", "").replace(" ","").
+                replace(":", "").replace("이벤트가","").trim();
     }
 
     public String htmlCleaner(String s) {
         if (s==null) return "";
         return s.replace("&lt;", "<").replace("&gt;",">").replace("[", "").replace("]", "").replace(",", " ");
     }
-
-//    public int checkDataCount(String path, String pattern, String readEncoding) throws IOException {
-//        FileIO fileIO = new FileIO();
-//        fileIO.setPath(path);
-//        fileIO.setEncoding(readEncoding);
-//
-//        String data = fileIO.getFileContent();
-//        Document doc = Jsoup.parse(data);
-//        Elements elements = doc.select(pattern);
-//        return elements.size();
-//    }
 
     public int checkDataCountContent(String data, String pattern) throws IOException {
         if (pattern==null || pattern.length()==0) {
@@ -127,19 +117,20 @@ public class GlobalUtils {
         StringBuilder indexUrl = new StringBuilder("http://localhost:9200/shop/okmall/");
         CrawlSite crawlSite = new CrawlSite();
 
+
         sb.append("{");
 
         sb.append("\"dataid\" : ");
         sb.append("\"").append(searchData.getDataId()).append("\",");
 
         sb.append("\"product_name\" : ");
-        sb.append("\"").append(searchData.getProductName()).append("\",");
+        sb.append("\"").append(JSONObject.escape(searchData.getProductName())).append("\",");
 
         sb.append("\"brand_name\" : ");
-        sb.append("\"").append(searchData.getBrandName()).append("\",");
+        sb.append("\"").append(JSONObject.escape(searchData.getBrandName())).append("\",");
 
         sb.append("\"url\" : ");
-        sb.append("\"http://www.okmall.com").append(searchData.getContentUrl()).append("\",");
+        sb.append("\"").append(searchData.getContentUrl()).append("\",");
 
         sb.append("\"thumb\" : ");
         sb.append("\"").append(searchData.getThumbUrl()).append("\",");
