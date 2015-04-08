@@ -162,14 +162,16 @@ public class GlobalUtils {
         returnCode = crawlSite.HttpXPUT();
 
         if (returnCode == 200 || returnCode == 201) {
-            logger.info(String.format(" Indexing [ %d ] %s - %s",
+            logger.info(String.format(" Indexing [ %d ] %s|%s|%s",
                     returnCode,
+                    searchData.getCpName(),
                     searchData.getProductId(),
                     searchData.getProductName()));
         }
         else {
-            logger.error(String.format(" Indexing [ %d ] %s - %s",
+            logger.error(String.format(" Indexing [ %d ] %s|%s|%s",
                     returnCode,
+                    searchData.getCpName(),
                     searchData.getProductId(),
                     searchData.getProductName()));
         }

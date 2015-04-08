@@ -34,9 +34,7 @@ public class IndexingMain {
         int returnCode;
 
         // select 문 파라메터로 보낼 변수들
-//        statusParamMap.put("selStatus1","U");
-//        statusParamMap.put("selStatus2","I");
-        statusParamMap.put("selStatus1","E");
+        statusParamMap.put("selStatus1","U");
         statusParamMap.put("selStatus2","I");
 
         //List<SearchData> searchDataList = searchDataService.getAllSearchDatas();
