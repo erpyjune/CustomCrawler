@@ -1,7 +1,8 @@
-package com.erpy.utils;
+package com.erpy.main;
 
 import com.erpy.dao.Seed;
 import com.erpy.dao.SeedService;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,24 +13,21 @@ import java.util.StringTokenizer;
  * Created by baeonejune on 14. 12. 21..
  */
 public class UpdateSeed {
-    private static SeedService seedService;
-
-    public static void main (String args[]) throws IOException {
+    private static Logger logger = Logger.getLogger(UpdateSeed.class.getName());
+    public static void main (String args[]) throws Exception {
         String buffer;
         String s;
         String token;
         Integer index;
 
         if (args.length != 2) {
-            System.out.println("(USAGE) seed_file_path cp_name");
+            logger.error(" (USAGE) seed_file_path cp_name");
             System.exit(0);
         }
 
         Seed seed = new Seed();
         seed.setCpName(args[1]);
-        seedService = new SeedService();
-
-        System.out.println("seed_file_path : " + args[0]);
+        SeedService seedService = new SeedService();
 
         FileReader fr = new FileReader(args[0]);
         BufferedReader br = new BufferedReader(fr);
@@ -40,25 +38,28 @@ public class UpdateSeed {
                 continue;
             }
 
-            System.out.println(buffer);
+//            logger.info(" "+buffer);
 
             index = 0;
+            seed.setUrl("");
+            seed.setKeyword("");
             stringTokenizer = new StringTokenizer(buffer,"|");
             while(stringTokenizer.hasMoreTokens()) {
                 token = stringTokenizer.nextToken().trim();
-                System.out.println("token:"+token);
-                System.out.println("cp_name:"+args[1]);
-
                 if (index == 0) {
-                    seed.setKeyword(token);
+                    seed.setKeyword(token.trim());
                 } else {
-                    seed.setUrl(token);
+                    seed.setUrl(token.trim());
                 }
                 index++;
             }
 
-            seedService.insertSeed(seed);
-            System.out.println("---------------------------------");
+            if (seed.getUrl().length()>0) {
+                logger.info(" Keyword : " + seed.getKeyword());
+                logger.info(" Url     : " + seed.getUrl());
+                seedService.insertSeed(seed);
+                logger.info(" --------------------------------------------------------------");
+            }
         }
 
         fr.close();

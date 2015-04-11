@@ -64,6 +64,11 @@ public class ExtractDataMain {
         WeekEnders wk = new WeekEnders();
         CampingPlus cplus = new CampingPlus();
         SnowPeak sp = new SnowPeak();
+        String argsCPname="";
+
+        if (args.length > 0) {
+            argsCPname = args[1];
+        }
 
         // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
         Map<String, SearchData> allSearchDatasMap = getAllProductKey();
@@ -76,9 +81,9 @@ public class ExtractDataMain {
 
             crawlData = (CrawlData) iterator.next();
 
-
-//            if (!crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) continue;
-
+            if (argsCPname.length()>0) {
+                if (!crawlData.getCpName().equals(argsCPname)) continue;
+            }
 
             if (crawlData.getCpName().equals(GlobalInfo.CP_CCAMPING)) { // 수집이 안됨.
                 cc.mainExtractProcessing(cc, crawlData, allSearchDatasMap);

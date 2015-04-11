@@ -48,11 +48,16 @@ public class CrawlMain {
         String strKeyword;
         String strUrl;
         String strCpName;
+        String argsCPname="";
         int seedCount = 0;
 
 
         CrawlIO crawlIO = new CrawlIO();
         SB sb = new SB();
+
+        if (args.length > 0) {
+            argsCPname = args[1];
+        }
 
         // 기존 저장된 모든 crawl data를 loading 한다.
         Map<String, CrawlData> allCrawlDatas = getAllCrawlDatas();
@@ -68,17 +73,17 @@ public class CrawlMain {
             strUrl = seed.getUrl();
             strCpName = seed.getCpName().trim();
 
-
-//            if (!strCpName.equals(GlobalInfo.CP_CCAMPING)) continue;
-
+            if (argsCPname.length()>0) {
+                if (!strCpName.equals(argsCPname)) continue;
+            }
 
             if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style*=\"padding:0 0 3px 0px; color:#315ed2; \"]");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "dl.item-list2");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
 //                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "p.title");
@@ -86,51 +91,55 @@ public class CrawlMain {
             }
             else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div.brand_detail_layer p.item_title a span.prName_PrName");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_FIRST)) { // complete
                 crawlIO.setCrawlIO("page_no", 30, "utf-8", "utf-8", "div.list_01 span.sub_img");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "td[width=\"20%\"] a");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_CampTown)) {
                 crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span[style=\"color:#333333;font-family:dotum;font-size:10pt;font-weight:normal;text-decoration:none;\"]");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_Aldebaran)) {
                 crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "li[class=\"item xans-record-\"]");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:3\"] a");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_CampI)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "td[width=130] a font[STYLE=\"color:#555555;font-size:12px;font-style:normal;font-weight:normal\"]");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_Camping365)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_LeisureMan)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "span[style=\"font-size:13px;color:#555555;font-weight:bold;\"]");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
                 crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "a[class=\"name\"]");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_CampingPlus)) {
                 crawlIO.setCrawlIO("ps_page", 0, "euc-kr", "utf-8", "div[style=\"padding-top:8px;text-align:center\"]");
-                crawlIO.crawling(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CooPang)) {
+                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span.plp-square-img");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));

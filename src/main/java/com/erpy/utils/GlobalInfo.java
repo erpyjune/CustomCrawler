@@ -29,6 +29,7 @@ public class GlobalInfo {
     public static final String CP_WeekEnders  = "weekenders";
     public static final String CP_CampingPlus  = "campingplus";
     public static final String CP_SnowPeak  = "snowpeak";
+    public static final String CP_CooPang  = "coopang";
 
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;
