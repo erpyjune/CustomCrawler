@@ -1,9 +1,7 @@
 package com.erpy.utils;
 
-import org.apache.ibatis.io.Resources;
-
-import java.io.*;
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**

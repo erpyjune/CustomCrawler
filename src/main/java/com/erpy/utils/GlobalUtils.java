@@ -2,14 +2,12 @@ package com.erpy.utils;
 
 import com.erpy.crawler.CrawlSite;
 import com.erpy.dao.SearchData;
-import com.erpy.io.FileIO;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
