@@ -1,0 +1,16 @@
+여성 의류 상의 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104485
+# cat=fashion&sub_cat=fashion_female&cat_srl=104485&order=popular&page=1
+
+여성 의류 원피스 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104497
+# cat=fashion&sub_cat=fashion_female&cat_srl=104497&order=popular&page=1
+
+여성 의류 하의 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104501
+여성 이지웨어 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104505
+여성 아우터 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104509
+여성 언더웨어 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104513
+
+TV/세탁기/냉장고 | http://m.ticketmonster.co.kr/deal?cat=shopping&subcat=shopping_electronic&filter=112385
+생활가전 | http://m.ticketmonster.co.kr/deal?cat=shopping&subcat=shopping_electronic&filter=104437
+
+
+

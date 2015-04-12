@@ -30,6 +30,7 @@ public class GlobalInfo {
 
     public static final String CP_CooPang  = "coopang";
     public static final String CP_WeMef  = "wemef";
+    public static final String CP_Timon  = "timon";
 
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;

@@ -6,6 +6,7 @@ import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
 import com.erpy.parser.*;
 import com.erpy.social.Coopang;
+import com.erpy.social.Timon;
 import com.erpy.social.WeMef;
 import com.erpy.utils.GlobalInfo;
 import org.apache.log4j.Logger;
@@ -69,6 +70,7 @@ public class ExtractDataMain {
         // social
         Coopang coopang = new Coopang();
         WeMef weMef = new WeMef();
+        Timon timon = new Timon();
 
 
         String argsCPname="";
@@ -141,6 +143,9 @@ public class ExtractDataMain {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_WeMef)) { // yes
                 weMef.mainExtractProcessing(weMef, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_Timon)) { // yes
+                timon.mainExtractProcessing(timon, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {
 //                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);
