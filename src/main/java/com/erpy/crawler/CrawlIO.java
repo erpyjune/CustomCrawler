@@ -506,10 +506,9 @@ public class CrawlIO {
     // snowppeak 사이트가 offset을 사용한다. 그외 사이트는 상관 없음.
     public String makeNextPageUrl(String cpName, String crawlStartUrl, String pagingType, int page, int offset) {
         String nextUrl;
-
         if (cpName.equals(GlobalInfo.CP_CooPang)) {
             nextUrl = String.format("%s?%s=%d", crawlStartUrl, pagingType, page);
-        } else if (cpName.equals(GlobalInfo.CP_WeMef)) {
+        } else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_Timon)) {
             nextUrl = String.format("%s", crawlStartUrl);
         } else {
             nextUrl = String.format("%s&%s=%d&offset=%d", crawlStartUrl, pagingType, page, offset);
