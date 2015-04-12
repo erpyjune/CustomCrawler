@@ -5,6 +5,7 @@ import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
 import com.erpy.parser.*;
+import com.erpy.social.Coopang;
 import com.erpy.utils.GlobalInfo;
 import org.apache.log4j.Logger;
 
@@ -64,10 +65,12 @@ public class ExtractDataMain {
         WeekEnders wk = new WeekEnders();
         CampingPlus cplus = new CampingPlus();
         SnowPeak sp = new SnowPeak();
-        String argsCPname="";
+        Coopang coopang = new Coopang();
 
+
+        String argsCPname="";
         if (args.length > 0) {
-            argsCPname = args[1];
+            argsCPname = args[0];
         }
 
         // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
@@ -129,6 +132,9 @@ public class ExtractDataMain {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CampingPlus)) { // yes
                 cplus.mainExtractProcessing(cplus, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CooPang)) { // yes
+                coopang.mainExtractProcessing(coopang, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {
 //                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);

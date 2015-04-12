@@ -13,6 +13,8 @@ public class SearchData {
     Integer orgPrice=0;
     Integer salePrice=0;
     Float salePer=0.0f;
+    int sellCount=0;
+    boolean isFreeShipping=false;
     String cpName=null;
     String crawlKeyword=null;
     boolean bMan=false;
@@ -148,5 +150,21 @@ public class SearchData {
 
     public void setDataStatus(String dataStatus) {
         this.dataStatus = dataStatus;
+    }
+
+    public boolean isFreeShipping() {
+        return isFreeShipping;
+    }
+
+    public void setIsFreeShipping(boolean isFreeShipping) {
+        this.isFreeShipping = isFreeShipping;
+    }
+
+    public int getSellCount() {
+        return sellCount;
+    }
+
+    public void setSellCount(int sellCount) {
+        this.sellCount = sellCount;
     }
 }

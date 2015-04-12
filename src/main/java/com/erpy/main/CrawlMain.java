@@ -56,7 +56,7 @@ public class CrawlMain {
         SB sb = new SB();
 
         if (args.length > 0) {
-            argsCPname = args[1];
+            argsCPname = args[0];
         }
 
         // 기존 저장된 모든 crawl data를 loading 한다.

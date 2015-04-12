@@ -67,9 +67,9 @@ public class GlobalUtils {
 
     public String priceDataCleaner(String s) {
         if (s==null) return "";
-        return s.replace("원", "").replace("won","").replace(",", "").
-                replace("<b>","").replace("</b>","").replace("판매가", "").replace(" ","").
-                replace(":", "").replace("이벤트가","").trim();
+        return s.replace("원", "").replace("won", "").replace(",", "").
+                replace("<b>", "").replace("</b>", "").replace("판매가", "").replace(" ","").
+                replace(":", "").replace("이벤트가", "").replace("개 구매중","").replace("개구매중","").replace("%","").trim();
     }
 
     public String htmlCleaner(String s) {
