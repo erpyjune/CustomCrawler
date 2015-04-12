@@ -5,18 +5,18 @@ package com.erpy.dao;
  */
 public class SearchData {
     Integer dataId=null;
-    String productId=null;
-    String productName=null;
+    String productId="";
+    String productName="";
     String brandName="";
-    String contentUrl=null;
+    String contentUrl="";
     String thumbUrl="";
     Integer orgPrice=0;
     Integer salePrice=0;
     Float salePer=0.0f;
     int sellCount=0;
-    boolean isFreeShipping=false;
-    String cpName=null;
-    String crawlKeyword=null;
+    String shippingHow="";
+    String cpName="";
+    String crawlKeyword="";
     boolean bMan=false;
     boolean bWoman=false;
     String seedUrl="";
@@ -152,19 +152,19 @@ public class SearchData {
         this.dataStatus = dataStatus;
     }
 
-    public boolean isFreeShipping() {
-        return isFreeShipping;
-    }
-
-    public void setIsFreeShipping(boolean isFreeShipping) {
-        this.isFreeShipping = isFreeShipping;
-    }
-
     public int getSellCount() {
         return sellCount;
     }
 
     public void setSellCount(int sellCount) {
         this.sellCount = sellCount;
+    }
+
+    public String getShippingHow() {
+        return shippingHow;
+    }
+
+    public void setShippingHow(String shippingHow) {
+        this.shippingHow = shippingHow;
     }
 }

@@ -4,3 +4,64 @@
 출산유아동 | http://m.coupang.com/nm/paging/plp/211
 스포츠 | http://m.coupang.com/nm/paging/plp/301
 뷰티 | http://m.coupang.com/nm/paging/plp/228
+스포츠패션 | http://m.coupang.com/nm/paging/plp/229
+식품 | http://m.coupang.com/nm/paging/plp/227
+생활 주방 | http://m.coupang.com/nm/paging/plp/226
+홈데코 취미 | http://m.coupang.com/nm/paging/plp/225
+도서문구 | http://m.coupang.com/nm/paging/plp/231
+가전 디지털 | http://m.coupang.com/nm/paging/plp/223
+쿠팡 글로벌 | http://m.coupang.com/nm/paging/plp/222
+e쿠폰 | http://m.coupang.com/nm/paging/plp/221
+쇼핑베스트 | http://m.coupang.com/nm/paging/plp/102
+
+해외여행 동남아 | http://m.coupang.com/nm/paging/plp/139
+해외여행 괌/사이판/남태평양 | http://m.coupang.com/nm/paging/plp/142
+해외여행 중국/홍콩/대만 | http://m.coupang.com/nm/paging/plp/141
+해외여행 일본 | http://m.coupang.com/nm/paging/plp/140
+해외여행 미주/유럽/하와이 | http://m.coupang.com/nm/paging/plp/372
+해외여행 허니문 | http://m.coupang.com/nm/paging/plp/373
+해외여행 입장권 | http://m.coupang.com/nm/paging/plp/1268
+항공권 자유여행 | http://m.coupang.com/nm/paging/plp/14475
+
+호텔 서울 | http://m.coupang.com/nm/paging/plp/4193
+호텔 경기/인천 | http://m.coupang.com/nm/paging/plp/14481
+호텔 강원 | http://m.coupang.com/nm/paging/plp/4194
+호텔 부산 | http://m.coupang.com/nm/paging/plp/14482
+호텔 경상 | http://m.coupang.com/nm/paging/plp/4195
+호텔 충청 | http://m.coupang.com/nm/paging/plp/4196
+호텔 전라 | http://m.coupang.com/nm/paging/plp/14483
+호텔 제주 | http://m.coupang.com/nm/paging/plp/4197
+호텔 롯데 | http://m.coupang.com/nm/paging/plp/4192
+
+리조트 서울/경기 | http://m.coupang.com/nm/paging/plp/4199
+리조트 강원도 | http://m.coupang.com/nm/paging/plp/4200
+리조트 경상 | http://m.coupang.com/nm/paging/plp/4201
+리조트 충청/전라 | http://m.coupang.com/nm/paging/plp/4202
+리조트 제주 | http://m.coupang.com/nm/paging/plp/4203
+
+펜션/캠핑 경기/인천 | http://m.coupang.com/nm/paging/plp/380
+펜션/캠핑 강원 | http://m.coupang.com/nm/paging/plp/381
+펜션/캠핑 경상 | http://m.coupang.com/nm/paging/plp/382
+펜션/캠핑 전라 | http://m.coupang.com/nm/paging/plp/383
+펜션/캠핑 제주 | http://m.coupang.com/nm/paging/plp/384
+
+레저/입장권 | http://m.coupang.com/nm/paging/plp/376
+
+국내여행 서울/경기 | http://m.coupang.com/nm/paging/plp/391
+국내여행 강원/경상 | http://m.coupang.com/nm/paging/plp/392
+국내여행 충청/전라 | http://m.coupang.com/nm/paging/plp/393
+
+제주 여행 | http://m.coupang.com/nm/paging/plp/378
+
+맛집 | http://m.coupang.com/nm/paging/plp/167-1049
+뷰티 | http://m.coupang.com/nm/paging/plp/309-1049
+패션 | http://m.coupang.com/nm/paging/plp/310-1049
+교육 | http://m.coupang.com/nm/paging/plp/311-1049
+기타 | http://m.coupang.com/nm/paging/plp/312-1049
+
+
+
+
+
+
+

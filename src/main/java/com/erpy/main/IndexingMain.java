@@ -26,12 +26,12 @@ public class IndexingMain {
         Map<String,String> statusParamMap = new HashMap<String, String>();
         SearchData searchData;
         SearchDataService searchDataService = new SearchDataService();
-        OkMallProc okMallProc = new OkMallProc();
         GlobalUtils globalUtils = new GlobalUtils();
-        String productId;
-        String cpName;
+        String cpName="";
         int indexCount=0;
         int returnCode;
+
+        if (args.length>0) cpName = args[0];
 
         // select 문 파라메터로 보낼 변수들
         statusParamMap.put("selStatus1","U");
@@ -51,6 +51,13 @@ public class IndexingMain {
                 logger.error(" Skip indexing :: data field is null !!");
                 continue;
             }
+
+
+            if (cpName.length()>0) {
+                if (!cpName.equals(searchData.getCpName())) continue;
+            }
+
+
 
 //            if (searchData.getCpName().equals(GlobalInfo.CP_OKMALL) ||
 //                    searchData.getCpName().equals(GlobalInfo.CP_CCAMPING) ||

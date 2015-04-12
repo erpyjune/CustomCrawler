@@ -6,6 +6,7 @@ import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
 import com.erpy.parser.*;
 import com.erpy.social.Coopang;
+import com.erpy.social.WeMef;
 import com.erpy.utils.GlobalInfo;
 import org.apache.log4j.Logger;
 
@@ -65,7 +66,9 @@ public class ExtractDataMain {
         WeekEnders wk = new WeekEnders();
         CampingPlus cplus = new CampingPlus();
         SnowPeak sp = new SnowPeak();
+        // social
         Coopang coopang = new Coopang();
+        WeMef weMef = new WeMef();
 
 
         String argsCPname="";
@@ -135,6 +138,9 @@ public class ExtractDataMain {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CooPang)) { // yes
                 coopang.mainExtractProcessing(coopang, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_WeMef)) { // yes
+                weMef.mainExtractProcessing(weMef, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {
 //                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);

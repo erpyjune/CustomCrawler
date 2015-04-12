@@ -69,7 +69,8 @@ public class GlobalUtils {
         if (s==null) return "";
         return s.replace("원", "").replace("won", "").replace(",", "").
                 replace("<b>", "").replace("</b>", "").replace("판매가", "").replace(" ","").
-                replace(":", "").replace("이벤트가", "").replace("개 구매중","").replace("개구매중","").replace("%","").trim();
+                replace(":", "").replace("이벤트가", "").replace("개 구매중","").replace("개구매중","").
+                replace("%","").replace("~","").replace("개","").trim();
     }
 
     public String htmlCleaner(String s) {

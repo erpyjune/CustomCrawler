@@ -4,25 +4,25 @@ import com.erpy.crawler.CrawlSite;
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.SearchData;
 import com.erpy.io.FileIO;
-import com.erpy.parser.Aldebaran;
 import com.erpy.utils.DB;
 import com.erpy.utils.GlobalInfo;
 import com.erpy.utils.GlobalUtils;
 import com.erpy.utils.ValidChecker;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
- * Created by baeonejune on 15. 4. 11..
+ * Created by baeonejune on 15. 4. 12..
  */
-public class Coopang {
-    private static Logger logger = Logger.getLogger(Coopang.class.getName());
+public class WeMef {
+    private static Logger logger = Logger.getLogger(WeMef.class.getName());
     private GlobalUtils globalUtils = new GlobalUtils();
     private ValidChecker validChecker = new ValidChecker();
     private DB db = new DB();
@@ -45,7 +45,7 @@ public class Coopang {
     private String seedUrl;
 
     //
-    private static final String prefixContentUrl = "http://m.coupang.com/nm/products/";
+    private static final String prefixContentUrl = "http://m.wemakeprice.com/m/deal/adeal/";
     private static final String prefixHostThumbUrl = "";
 
     public String getSeedUrl() {
@@ -153,7 +153,8 @@ public class Coopang {
         String productId;
         Elements listE;
         String strLinkUrl;
-        float salePer=0.0F;
+        String productName1="", productName2="";
+        float salePer;
 
 
         if (filePath==null) {
@@ -172,53 +173,82 @@ public class Coopang {
             return searchDataMap;
         }
 
+        //////////////////////////////////////////////
         // 데이터 parsing을 위해 jsoup 객체로 읽는다.
+        //////////////////////////////////////////////
         Document doc = Jsoup.parse(htmlContent);
 
-        // 파싱 시작.
+        //////////////////////////////////////////////
+        // Start parsing.
+        //////////////////////////////////////////////
         elements = doc.select("li");
         for (Element element : elements) {
+
+            // 이 문구가 없으면 skip.
+            if (!element.outerHtml().contains("<p class=\"dt\">")) continue;
 
             productId="";
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
 
+            //////////////////////////////////////////////
             // Thumb link
-            listE = document.select("img.loading");
+            //////////////////////////////////////////////
+            listE = document.select("a.img p.pic img");
             for (Element et : listE) {
-                strItem = et.attr("s");
+                strItem = et.attr("src");
                 searchData.setThumbUrl(strItem);
                 logger.debug(String.format(" >> Thumb : (%s)", searchData.getThumbUrl()));
             }
 
+            //////////////////////////////////////////////
             // link
-            listE = document.select("a");
+            //////////////////////////////////////////////
+            listE = document.select("li a.img");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "/nm/products/");
+                    productId = globalUtils.getFieldData(strLinkUrl, "adeal/");
                     searchData.setContentUrl(prefixContentUrl + productId);
                     searchData.setProductId(productId);
                     logger.debug(String.format(" >> Link : (%s)", searchData.getContentUrl()));
                 }
             }
 
+            //////////////////////////////////////////////
             // shipping
-            listE = document.select("span.badge-shipping.free-shipping");
+            //////////////////////////////////////////////
+            listE = document.select("p.spec span.pu");
             for (Element et : listE) {
                 searchData.setShippingHow(et.text().trim());
                 logger.debug(String.format(" >> shipping (%s)", searchData.getShippingHow()));
             }
 
-            // product name
-            listE = document.select("dt");
+            //////////////////////////////////////////////
+            // product name1
+            //////////////////////////////////////////////
+            listE = document.select("div.info p.dt");
             for (Element et : listE) {
-                searchData.setProductName(et.text().trim());
-                logger.debug(String.format(" >> title(%s)", searchData.getProductName()));
+                productName1 = et.text().trim();
+//                logger.debug(String.format(" >> title1(%s)", productName1));
             }
 
+            //////////////////////////////////////////////
+            // product name2
+            //////////////////////////////////////////////
+            listE = document.select("div.info p.p1");
+            for (Element et : listE) {
+                productName2 = et.text().trim();
+//                logger.debug(String.format(" >> title2(%s)", productName2));
+            }
+
+            searchData.setProductName(productName1 + " " + productName2);
+            logger.debug(String.format(" >> product name (%s)", searchData.getProductName()));
+
+            //////////////////////////////////////////////
             // org price
-            listE = document.select("dd.original-price del");
+            //////////////////////////////////////////////
+            listE = document.select("div.info p.oldp");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
@@ -232,8 +262,10 @@ public class Coopang {
                 }
             }
 
+            //////////////////////////////////////////////
             // sale price
-            listE = document.select("dd.sale-price");
+            //////////////////////////////////////////////
+            listE = document.select("div.info p.newp");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
@@ -248,8 +280,10 @@ public class Coopang {
                 }
             }
 
+            //////////////////////////////////////////////
             // sell count
-            listE = document.select("dd.square-sale-count");
+            //////////////////////////////////////////////
+            listE = document.select("div.info p.bought");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
@@ -263,34 +297,38 @@ public class Coopang {
                 }
             }
 
-            // sale per
-            listE = document.select("dd.discount-rate");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
-                    searchData.setSalePer(Float.parseFloat(strItem));
-                    logger.debug(String.format(" >> sale per(%s)", searchData.getSalePer()));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [sale per] data is NOT valid - (%s)", strItem));
-                    logger.error(String.format(" Extract [sale per] product name      - (%s)", searchData.getProductName()));
-                    logger.error(String.format(" Extract [sale per] seed url          - (%s)", crawlData.getSeedUrl()));
-                }
-            }
+//            // sale per
+//            listE = document.select("dd.discount-rate");
+//            for (Element et : listE) {
+//                strItem = globalUtils.priceDataCleaner(et.text());
+//                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
+//                    searchData.setSalePer(Float.parseFloat(strItem));
+//                    logger.debug(String.format(" >> sale per(%s)", searchData.getSalePer()));
+//                    break;
+//                } else {
+//                    logger.error(String.format(" Extract [sale per] data is NOT valid - (%s)", strItem));
+//                    logger.error(String.format(" Extract [sale per] product name      - (%s)", searchData.getProductName()));
+//                    logger.error(String.format(" Extract [sale per] seed url          - (%s)", crawlData.getSeedUrl()));
+//                }
+//            }
 
+            //////////////////////////////////////////////
             // sale per
+            //////////////////////////////////////////////
             if (searchData.getSalePer()==0 && searchData.getSalePrice()>0 && searchData.getOrgPrice()>0) {
                 salePer = searchData.getSalePrice() / searchData.getOrgPrice() * 100;
                 searchData.setSalePer(salePer);
             }
 
+            //////////////////////////////////////////////
             // sale price만 있을 경우 org price에 값을 채운다.
+            //////////////////////////////////////////////
             if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
                 searchData.setOrgPrice(searchData.getSalePrice());
             }
 
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_CooPang);
+            searchData.setCpName(GlobalInfo.CP_WeMef);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
             // set seed url
@@ -306,13 +344,44 @@ public class Coopang {
             }
         }
 
+        String pageDataAnalisys = globalUtils.getFieldData(htmlContent, "var d_l =", "var d_c_l_id");
+        logger.info(String.format(" pageDataAnalisys length : %d", pageDataAnalisys.length()));
+
         logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
         return searchDataMap;
     }
 
 
-    public void mainExtractProcessing(Coopang cp,
+    private Map<String, SearchData> extractJsonData(String source) throws Exception {
+        Map<String, SearchData> map = new HashMap<String, SearchData>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+
+        byte[] jsonData = source.trim().getBytes();
+        JsonNode rootNode = objectMapper.readTree(jsonData);
+        Iterator<JsonNode> iter = rootNode.iterator();
+        while(iter.hasNext()) {
+            SearchData searchData = new SearchData();
+            JsonNode node = iter.next();
+
+            searchData.setProductId(node.path("deal_id").asText() + "/" + node.path("location_id").asText());
+            searchData.setThumbUrl(node.path("img_deal_list2").asText());
+
+            System.out.println(node.path("deal_id").asText());
+            System.out.println(node.path("main_name").asText());
+            System.out.println(node.path("img_deal_list2").asText());
+            System.out.println(node.path("line_summary").asText());
+            System.out.println(node.path("price").asText());
+            System.out.println(node.path("price_org").asText());
+            System.out.println(node.path("cnt_shopping").asText());
+            System.out.println(node.path("update_time").asText());
+        }
+        return map;
+    }
+
+
+    public void mainExtractProcessing(WeMef cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -368,7 +437,7 @@ public class Coopang {
         int index=0;
 
         crawlSite.setCrawlEncode("utf-8");
-        crawlSite.setCrawlUrl("http://m.coupang.com/nm/paging/plp/103?page=2");
+        crawlSite.setCrawlUrl("http://m.wemakeprice.com/m/main/100200/100208");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 
@@ -382,45 +451,54 @@ public class Coopang {
         elements = doc.select("li");
         for (Element element : elements) {
             document = Jsoup.parse(element.outerHtml());
+            if (!element.outerHtml().contains("<p class=\"dt\">")) continue;
+
             index++;
 //            logger.info(element.outerHtml());
 
             // Thumb link
-            listE = document.select("img.loading");
+            listE = document.select("a.img p.pic img");
             for (Element et : listE) {
-                strItem = et.attr("s");
+                strItem = et.attr("src");
                 logger.info(strItem);
             }
 
             // link
-            listE = document.select("a");
+            listE = document.select("li a.img");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "/nm/products/");
+                    productId = globalUtils.getFieldData(strLinkUrl, "adeal/");
                     logger.info(" url : " + prefixContentUrl + productId);
                     break;
                 }
             }
 
             // shipping
-            listE = document.select("span.badge-shipping.free-shipping");
+            listE = document.select("p.spec span.pu");
             for (Element et : listE) {
                 strItem = et.text().trim();
                 logger.info(" shipping : " + strItem);
             }
 
-            // product name
-            listE = document.select("dt");
+            // product name1
+            listE = document.select("div.info p.dt");
             for (Element et : listE) {
                 strItem = et.text().trim();
-                logger.info(" title : " + strItem);
+                logger.info(" title1 : " + strItem);
+            }
+
+            // product name2
+            listE = document.select("div.info p.p1");
+            for (Element et : listE) {
+                strItem = et.text().trim();
+                logger.info(" title2 : " + strItem);
             }
 
             // org price
-            listE = document.select("dd.original-price");
+            listE = document.select("div.info p.oldp");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
+                strItem = globalUtils.priceDataCleaner(et.text());
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     logger.info(String.format(" >> org price(%s)", strItem));
                     break;
@@ -430,9 +508,9 @@ public class Coopang {
             }
 
             // sale price
-            listE = document.select("dd.sale-price");
+            listE = document.select("div.info p.newp");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
+                strItem = globalUtils.priceDataCleaner(et.text());
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     logger.info(String.format(" >> sale price(%s)", strItem));
                     break;
@@ -442,9 +520,9 @@ public class Coopang {
             }
 
             // sell count
-            listE = document.select("dd.square-sale-count");
+            listE = document.select("div.info p.bought");
             for (Element et : listE) {
-                strItem = et.text().replace("개 구매중", "").replace(",", "").trim();
+                strItem = globalUtils.priceDataCleaner(et.text());
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     logger.info(String.format(" >> sell count(%s)", strItem));
                     break;

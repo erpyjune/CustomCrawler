@@ -141,6 +141,10 @@ public class CrawlMain {
                 crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span.plp-square-img");
                 crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
+            else if (strCpName.equals(GlobalInfo.CP_WeMef)) {
+                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.dt");
+                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
             else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));
             }
