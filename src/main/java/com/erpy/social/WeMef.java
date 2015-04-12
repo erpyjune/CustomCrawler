@@ -344,8 +344,10 @@ public class WeMef {
             }
         }
 
-        String pageDataAnalisys = globalUtils.getFieldData(htmlContent, "var d_l =", "var d_c_l_id");
+        String pageDataAnalisys = globalUtils.getFieldData(htmlContent, "var d_l =", "var d_c_l_id").trim();
         logger.info(String.format(" pageDataAnalisys length : %d", pageDataAnalisys.length()));
+        Map<String, SearchData> nextListMap;
+        nextListMap = extractJsonData(pageDataAnalisys);
 
         logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
@@ -358,6 +360,11 @@ public class WeMef {
         ObjectMapper objectMapper = new ObjectMapper();
         List<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
 
+//        System.out.println("ERPY start");
+//        System.out.println(source);
+//        System.out.println("ERPY end");
+//        System.exit(-1);
+
         byte[] jsonData = source.trim().getBytes();
         JsonNode rootNode = objectMapper.readTree(jsonData);
         Iterator<JsonNode> iter = rootNode.iterator();
@@ -365,17 +372,27 @@ public class WeMef {
             SearchData searchData = new SearchData();
             JsonNode node = iter.next();
 
-            searchData.setProductId(node.path("deal_id").asText() + "/" + node.path("location_id").asText());
-            searchData.setThumbUrl(node.path("img_deal_list2").asText());
+//            searchData.setProductId(node.path("deal_id").asText() + "/" + node.path("location_id").asText());
+//            searchData.setThumbUrl(node.path("img_deal_list2").asText());
 
+            System.out.println(prefixContentUrl + node.path("deal_id").asText() + "/" + node.path("location_id").asText());
             System.out.println(node.path("deal_id").asText());
-            System.out.println(node.path("main_name").asText());
-            System.out.println(node.path("img_deal_list2").asText());
-            System.out.println(node.path("line_summary").asText());
-            System.out.println(node.path("price").asText());
-            System.out.println(node.path("price_org").asText());
-            System.out.println(node.path("cnt_shopping").asText());
-            System.out.println(node.path("update_time").asText());
+            System.out.println(node.path("location_id").asText());
+            System.out.println("title 1 : "+node.path("main_name").asText());
+            System.out.println("http://image.wemakeprice.com/" + node.path("img_deal_list2").asText());
+            System.out.println("title 2 : " + node.path("line_summary").asText());
+            System.out.println("price : " + node.path("price").asText());
+            System.out.println("sale per : " + node.path("dc_rate").asText());
+            System.out.println("org_price : "+node.path("price_org").asText());
+            System.out.println("sell count : "+node.path("qty_saled").asText());
+            System.out.println("ship_price_type : "+node.path("ship_price_type").asText());
+            System.out.println("price_free_ship : "+node.path("price_free_ship").asText());
+            System.out.println("courier_company : "+node.path("courier_company").asText());
+            System.out.println("card_discount_comment : "+node.path("card_discount_comment").asText());
+            System.out.println("update_time : "+node.path("update_time").asText());
+            System.out.println("mobile_sticker : "+node.path("mobile_sticker").asText().replace("<span class=\"deliv2\">","").
+                    replace("</span>","").replace("<span class=\"pu\">",""));
+            System.out.println("===========================================");
         }
         return map;
     }
