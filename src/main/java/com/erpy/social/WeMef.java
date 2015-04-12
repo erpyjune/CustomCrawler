@@ -202,13 +202,13 @@ public class WeMef {
             }
 
             //////////////////////////////////////////////
-            // link
+            // content link
             //////////////////////////////////////////////
             listE = document.select("li a.img");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "adeal/");
+                    productId = globalUtils.getFieldData(strLinkUrl, "adeal/").replace("/","-");
                     searchData.setContentUrl(prefixContentUrl + productId);
                     searchData.setProductId(productId);
                     logger.debug(String.format(" >> Link : (%s)", searchData.getContentUrl()));
@@ -216,7 +216,7 @@ public class WeMef {
             }
 
             //////////////////////////////////////////////
-            // shipping
+            // shipping info.
             //////////////////////////////////////////////
             listE = document.select("p.spec span.pu");
             for (Element et : listE) {
@@ -345,9 +345,10 @@ public class WeMef {
         }
 
         String pageDataAnalisys = globalUtils.getFieldData(htmlContent, "var d_l =", "var d_c_l_id").trim();
-        logger.info(String.format(" pageDataAnalisys length : %d", pageDataAnalisys.length()));
         Map<String, SearchData> nextListMap;
         nextListMap = extractJsonData(pageDataAnalisys);
+
+        searchDataMap.putAll(nextListMap);
 
         logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
@@ -355,15 +356,15 @@ public class WeMef {
     }
 
 
+    /////////////////////////////////////////////////////////////////////////////////
+    // wemef는 검색결과 본문내에 next page 부터 모든 데이터가 들어 있다.
+    /////////////////////////////////////////////////////////////////////////////////
     private Map<String, SearchData> extractJsonData(String source) throws Exception {
         Map<String, SearchData> map = new HashMap<String, SearchData>();
         ObjectMapper objectMapper = new ObjectMapper();
         List<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
-
-//        System.out.println("ERPY start");
-//        System.out.println(source);
-//        System.out.println("ERPY end");
-//        System.exit(-1);
+        String title1="", title2="";
+        String productId="";
 
         byte[] jsonData = source.trim().getBytes();
         JsonNode rootNode = objectMapper.readTree(jsonData);
@@ -372,27 +373,51 @@ public class WeMef {
             SearchData searchData = new SearchData();
             JsonNode node = iter.next();
 
-//            searchData.setProductId(node.path("deal_id").asText() + "/" + node.path("location_id").asText());
-//            searchData.setThumbUrl(node.path("img_deal_list2").asText());
+            productId = node.path("deal_id").asText() + "-" + node.path("location_id").asText();
+            searchData.setProductId(productId);
+            searchData.setThumbUrl("http://image.wemakeprice.com/" + node.path("img_deal_list2").asText());
+            searchData.setContentUrl(prefixContentUrl + node.path("deal_id").asText() + "/" + node.path("location_id").asText());
+            searchData.setShippingHow(node.path("mobile_sticker").asText().replace("<span class=\"deliv2\">", "").replace("</span>", "").replace("<span class=\"pu\">", ""));
+            title1 = node.path("main_name").asText();
+            title2 = node.path("line_summary").asText();
+            searchData.setProductName(title1 + " " + title2);
+            searchData.setOrgPrice(Integer.parseInt(node.path("price_org").asText()));
+            searchData.setSalePrice(Integer.parseInt(node.path("price").asText()));
+            searchData.setSellCount(Integer.parseInt(node.path("qty_saled").asText()));
+            searchData.setSalePer(Float.parseFloat(node.path("dc_rate").asText()));
+            // set cp name.
+            searchData.setCpName(GlobalInfo.CP_WeMef);
+            // set keyword.
+            searchData.setCrawlKeyword(keyword);
+            // set seed url
+            searchData.setSeedUrl(seedUrl);
 
-            System.out.println(prefixContentUrl + node.path("deal_id").asText() + "/" + node.path("location_id").asText());
-            System.out.println(node.path("deal_id").asText());
-            System.out.println(node.path("location_id").asText());
-            System.out.println("title 1 : "+node.path("main_name").asText());
-            System.out.println("http://image.wemakeprice.com/" + node.path("img_deal_list2").asText());
-            System.out.println("title 2 : " + node.path("line_summary").asText());
-            System.out.println("price : " + node.path("price").asText());
-            System.out.println("sale per : " + node.path("dc_rate").asText());
-            System.out.println("org_price : "+node.path("price_org").asText());
-            System.out.println("sell count : "+node.path("qty_saled").asText());
-            System.out.println("ship_price_type : "+node.path("ship_price_type").asText());
-            System.out.println("price_free_ship : "+node.path("price_free_ship").asText());
-            System.out.println("courier_company : "+node.path("courier_company").asText());
-            System.out.println("card_discount_comment : "+node.path("card_discount_comment").asText());
-            System.out.println("update_time : "+node.path("update_time").asText());
-            System.out.println("mobile_sticker : "+node.path("mobile_sticker").asText().replace("<span class=\"deliv2\">","").
-                    replace("</span>","").replace("<span class=\"pu\">",""));
-            System.out.println("===========================================");
+            // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
+            if (!globalUtils.isDataEmpty(searchData)) {
+                // key : product id
+                map.put(productId + searchData.getCpName(), searchData);
+                totalExtractCount++;
+            } else {
+                logger.error(" Extract data field empty checked !!");
+            }
+
+//            System.out.println(prefixContentUrl + node.path("deal_id").asText() + "/" + node.path("location_id").asText());
+//            System.out.println(node.path("deal_id").asText());
+//            System.out.println(node.path("location_id").asText());
+//            System.out.println("title 1 : "+node.path("main_name").asText());
+//            System.out.println("http://image.wemakeprice.com/" + node.path("img_deal_list2").asText());
+//            System.out.println("title 2 : " + node.path("line_summary").asText());
+//            System.out.println("price : " + node.path("price").asText());
+//            System.out.println("sale per : " + node.path("dc_rate").asText());
+//            System.out.println("org_price : "+node.path("price_org").asText());
+//            System.out.println("sell count : "+node.path("qty_saled").asText());
+//            System.out.println("ship_price_type : "+node.path("ship_price_type").asText());
+//            System.out.println("price_free_ship : "+node.path("price_free_ship").asText());
+//            System.out.println("courier_company : "+node.path("courier_company").asText());
+//            System.out.println("card_discount_comment : "+node.path("card_discount_comment").asText());
+//            System.out.println("update_time : "+node.path("update_time").asText());
+//            System.out.println("mobile_sticker : "+node.path("mobile_sticker").asText().replace("<span class=\"deliv2\">","").replace("</span>","").replace("<span class=\"pu\">",""));
+//            System.out.println("===========================================");
         }
         return map;
     }
