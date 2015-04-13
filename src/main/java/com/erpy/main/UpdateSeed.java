@@ -34,9 +34,11 @@ public class UpdateSeed {
         StringTokenizer stringTokenizer=null;
         while((buffer=br.readLine())!=null) {
             s = buffer.trim();
-            if (s.length() == 0) {
+            if (s.length() == 0)
                 continue;
-            }
+
+            if (buffer.startsWith("#"))
+                continue;;
 
 //            logger.info(" "+buffer);
 

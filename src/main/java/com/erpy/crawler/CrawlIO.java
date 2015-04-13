@@ -5,13 +5,10 @@ import com.erpy.dao.CrawlDataService;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
 import com.erpy.utils.GlobalUtils;
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by baeonejune on 14. 11. 30..
@@ -102,6 +99,7 @@ public class CrawlIO {
         return true;
     }
 
+
     public boolean isSameCrawlData(Map<String, CrawlData> allCrawlDatasMap, String key) throws Exception {
 //        logger.info(String.format(" key(%s)", key));
         if (allCrawlDatasMap.containsKey(key)) return true;
@@ -163,6 +161,7 @@ public class CrawlIO {
     }
 
 
+    /////////////////////////////////////////////////////////////////////////////////
     public void crawlOne(String url, String strKeyword, String strCpName,
                           Map<String, CrawlData> allCrawlDatasMap) throws Exception {
 
@@ -412,6 +411,47 @@ public class CrawlIO {
 
 
     /////////////////////////////////////////////////////////////////////////////
+    // http://m.ticketmonster.co.kr/deal?cat=shopping&subcat=shopping_electronic&filter=112385
+    /////////////////////////////////////////////////////////////////////////////
+    private Map<String, String> extractRequestParam(String param, Map<String, String> fieldTagMap) throws Exception {
+        Map<String, String> requestParamMap = new HashMap<String, String>();
+
+        for(Map.Entry<String, String> entry : fieldTagMap.entrySet()) {
+            requestParamMap.put(entry.getKey(), globalUtils.getFieldData(param, entry.getKey() + "=", entry.getValue()));
+//            logger.info(String.format(" Set request header name(%s), value(%s)", entry.getKey().trim(), entry.getValue().trim()));
+        }
+
+        return requestParamMap;
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////
+    // for timon
+    /////////////////////////////////////////////////////////////////////////////
+    private Map<String, String> makePostRequestData(Map<String, String> nameValueMap) throws Exception {
+        String field, value;
+        Map<String, String> requestParamMap = new HashMap<String, String>();
+
+        for(Map.Entry<String, String> entry : nameValueMap.entrySet()) {
+            field = entry.getKey().trim();
+            value = entry.getValue().trim();
+
+            if ("cat".equals(field)) {
+                requestParamMap.put("cat", value);
+            } else if ("subcat".equals(field)) {
+                requestParamMap.put("sub_cat", value);
+            } else if ("filter".equals(field)) {
+                requestParamMap.put("cat_srl", value);
+            } else {
+                logger.error(" Request param is else nothing !!");
+            }
+        }
+
+        return requestParamMap;
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////
     // for timon.
     /////////////////////////////////////////////////////////////////////////////
     public void crawlTimon(String url, String strKeyword, String strCpName,
@@ -423,11 +463,8 @@ public class CrawlIO {
         CrawlSite crawlSite   = new CrawlSite();
         CrawlData crawlData   = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
-        Map<String, String> requestHeaderMap=null;
-        Map<String, String> requestParam=null;
 
         int page=1;
-        int offset=0;
         int returnCode;
         int data_size;
         int crawlErrorCount=0;
@@ -437,21 +474,38 @@ public class CrawlIO {
         String beforePageMD5hashCode="";
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
+        Map<String, String> extractParamNameMap = new HashMap<String, String>();
+        Map<String, String> requestPostParam;
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
         crawlSite.setSocketTimeout(10000);
         crawlSite.setCrawlEncode(crawlEncoding);
+        // set request header
+        crawlSite.setRequestHeader(crawlIO.makeRequestHeader());
+        // set request param extract field name.
+        // sample - http://m.ticketmonster.co.kr/deal?cat=shopping&subcat=shopping_electronic&filter=112385";
+        extractParamNameMap.put("cat","&");
+        extractParamNameMap.put("subcat","&");
+        extractParamNameMap.put("filter","&");
 
-        for(;;) {
-            // make crawling url.
-            strUrl = crawlIO.makeNextPageUrl(strCpName, url, pageType, page, offset);
+        // 1. url 에서 extractParamNameMap에 정의된 field 데이터를 추출.
+        // 2. 추출한 field  데이터를 request post data에 맞는 field 로 변경.
+        requestPostParam = makePostRequestData(extractRequestParam(url, extractParamNameMap));
+        requestPostParam.put("order", "popular");
 
-            // set crawling information.
-            crawlSite.setCrawlUrl(strUrl);
+        // crawling url이 변하지 않기 때문에 위에 셋팅.
+        crawlSite.setCrawlUrl("http://m.ticketmonster.co.kr/deal/getMoreDealList");
+
+        for( ;; ) {
+            // 3. 기존에 page 데이터를 제거.
+            requestPostParam.remove("page");
+            // 4. 새로 증가된 페이지 데이터를 추가.
+            requestPostParam.put("page", String.valueOf(page));
+            // 5. crawling 하기 위한 post data param을 http method로 넘긴다.
+            crawlSite.setPostFormDataParam(requestPostParam);
 
             try {
-//                returnCode = crawlSite.HttpCrawlGetDataTimeout();
                 returnCode = crawlSite.HttpPostGet();
                 if (returnCode != 200 && returnCode != 201) {
                     logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
@@ -460,7 +514,8 @@ public class CrawlIO {
             }
             catch (Exception e) {
                 if (crawlErrorCount > MAX_CRAWL_ERROR_COUNT) {
-                    logger.error(String.format(" Crawling timeout occured max crawling count[%d] overed & this url skip!!", crawlErrorCount));
+                    logger.error(String.format(" Crawling timeout occured max crawling count[%d] overed & this url skip!!",
+                            crawlErrorCount));
                     break;
                 }
                 crawlErrorCount++;
@@ -474,7 +529,7 @@ public class CrawlIO {
             ////////////////////////////////////////////////////////
             md5HashCode = globalUtils.MD5(crawlSite.getCrawlData());
             if (md5HashCode.equals(beforePageMD5hashCode)) {
-                logger.info(" Before hash code same !!");
+                logger.info(" Before hash code same and break !!");
                 break;
             }
 
@@ -483,12 +538,11 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             data_size = globalUtils.checkDataCountContent(crawlSite.getCrawlData(), pattern);
             if (data_size==0) break;
-            if (extractDataCount==30 && data_size < extractDataCount) isLastPage = true; // for first.
 
             // 동일한 데이터가 있으면 next page로 이동한다.
             if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
                 if (isCrawlEnd(page, strCpName)) break;
-                logger.info(String.format(" Skip crawling data - (%s) ", strUrl));
+                logger.info(String.format(" Skip crawling data - (%s, page=%d) ", crawlSite.getCrawlUrl(), page));
                 if (isLastPage) break; // for first
                 page++;
                 continue;
@@ -519,16 +573,18 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             crawlDataService.insertCrawlData(crawlData);
             beforePageMD5hashCode = md5HashCode; // 이전 page 값과 현재 page hash 값이 동일한지 체크하기 위해 남긴다.
-            logger.info(String.format(" Crawled ( %d ) %s", data_size, strUrl));
+            logger.info(String.format(" Crawled ( %d ) %s, page=%d", data_size, crawlSite.getCrawlUrl(), page));
 
             if (isLastPage) break; // for first
             crawledCount++; // 크롤링한 데이터 카운트.
 
             if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
             page++; // page 증가
-            offset += 32; // for campI
             // 수집 완료를 했기 때문에 새로운 url은 timeout count를 0으로 초기화.
             crawlErrorCount=0;
+
+            // 이미 수집한 데이터를 수집하지 않기 위해 저장한다.
+            allCrawlDatasMap.put(md5HashCode + strCpName, crawlData);
         }
     }
 
@@ -553,9 +609,28 @@ public class CrawlIO {
             if (page > MAX_COUPANG_PAGE) return true;
         } else if (cpName.equals(GlobalInfo.CP_OKMALL)) {
             if (page > MAX_OKMALL_PAGE) return true;
+        } else if (cpName.equals(GlobalInfo.CP_Timon)) {
+            if (page > MAX_COUPANG_PAGE) return true;
         } else {
             if (page > MAX_PAGE) return true;
         }
         return false;
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        CrawlIO crawlIO = new CrawlIO();
+        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> fieldParamMap = new HashMap<String, String>();
+        String url = "http://m.ticketmonster.co.kr/deal?cat=shopping&subcat=shopping_electronic&filter=112385";
+
+        fieldParamMap.put("cat", "&");
+        fieldParamMap.put("subcat", "&");
+        fieldParamMap.put("filter", "&");
+
+        map = crawlIO.extractRequestParam(url, fieldParamMap);
+        for(Map.Entry<String, String> entry : map.entrySet()) {
+            logger.info(String.format(" Set request header --> %s::%s", entry.getKey().trim(), entry.getValue().trim()));
+        }
     }
 }

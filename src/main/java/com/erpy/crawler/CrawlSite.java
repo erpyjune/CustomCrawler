@@ -56,6 +56,11 @@ public class CrawlSite {
     public void setCrawlUrl(String url) {
         this.crawlUrl = url;
     }
+
+    public String getCrawlUrl() {
+        return crawlUrl;
+    }
+
     public void setCrawlEncode(String type) {
         this.crawlEncoding = type;
     }
@@ -84,6 +89,7 @@ public class CrawlSite {
     public Map<String, String> getPostRequestParam() {
         return postFormDataParam;
     }
+    public void setPostFormDataParam(Map<String, String> map) { this.postFormDataParam = map; }
     public Map<String, String> getRequestHeader() {
         return requestHeader;
     }
@@ -345,37 +351,20 @@ public class CrawlSite {
 
         // add request headers.
         for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
-            logger.info(String.format(" Set request header name(%s), value(%s)",
-                    entry.getKey().trim(), entry.getValue().trim()));
+//            logger.info(String.format(" Set request header %s::%s", entry.getKey().trim(), entry.getValue().trim()));
             post.setHeader(entry.getKey().trim(), entry.getValue().trim());
         }
-
-        // add header
-//        post.setHeader("Accept", "text/html, */*; q=0.01");
-//        post.setHeader("Accept-Encoding", "gzip, deflate");
-//        post.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36");
-//        post.setHeader("Connection", "keep-alive");
-//        post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-//        post.setHeader("Cookie", "PHPSESSID=iqb0ttht5da4f0nnpc8ocn0r41; _gat=1; _ga=GA1.3.604294877.1425211068");
-//        post.setHeader("Host", "sbclub.co.kr");
-//        post.setHeader("Referer", "http://sbclub.co.kr/hotsale.html");
-//        post.setHeader("X-Requested-With", "XMLHttpRequest");
 
         // set param
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         for(Map.Entry<String, String> entry : postFormDataParam.entrySet()) {
-            logger.info(String.format(" Set request param name(%s), value(%s)",
-                    entry.getKey().trim(), entry.getValue().trim()));
+            logger.info(String.format(" Set request param %s::%s", entry.getKey().trim(), entry.getValue().trim()));
             urlParameters.add(new BasicNameValuePair(entry.getKey().trim(), entry.getValue().trim()));
         }
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
-        //post.setEntity(new StringEntity(sendData));
-
         HttpClient client = HttpClientBuilder.create().build();
         HttpResponse response = client.execute(post);
-
-//        logger.info(" Response Code : " + response.getStatusLine().getStatusCode());
 
         reponseCode =response.getStatusLine().getStatusCode();
 

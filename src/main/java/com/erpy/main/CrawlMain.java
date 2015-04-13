@@ -148,6 +148,7 @@ public class CrawlMain {
             else if (strCpName.equals(GlobalInfo.CP_Timon)) {
                 crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.tit");
                 crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawlTimon(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
             else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));

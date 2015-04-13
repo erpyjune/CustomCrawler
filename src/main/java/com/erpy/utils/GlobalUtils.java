@@ -54,7 +54,10 @@ public class GlobalUtils {
         if (src==null || startTag==null || endTag==null) return "";
         int spos = src.indexOf(startTag);
         if (spos<0) return "";
-        int epos = src.indexOf(endTag, spos);
+        int epos = src.indexOf(endTag, spos+1);
+        if (epos<0) {
+            epos = src.length(); // 맨끌 길이를 준다.
+        }
         return src.substring(spos+startTag.length(), epos);
     }
 
@@ -62,6 +65,7 @@ public class GlobalUtils {
         if (src==null || startTag==null) return "";
         int spos = src.indexOf(startTag);
         if (spos<0) return "";
+        if ((spos + startTag.length()) > src.length()) return "";
         return src.substring(spos + startTag.length());
     }
 
