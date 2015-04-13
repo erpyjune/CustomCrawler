@@ -7,4 +7,8 @@ public class CrawlThread extends Thread {
     public CrawlThread() {
 
     }
+
+    public void run() {
+
+    }
 }

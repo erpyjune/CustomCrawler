@@ -1,19 +1,24 @@
 package com.erpy.main;
 
 import com.erpy.crawler.CrawlIO;
-import com.erpy.dao.*;
-import com.erpy.parser.*;
+import com.erpy.dao.CrawlData;
+import com.erpy.dao.CrawlDataService;
+import com.erpy.dao.Seed;
+import com.erpy.dao.SeedService;
+import com.erpy.parser.SB;
 import com.erpy.utils.GlobalInfo;
 import org.apache.log4j.Logger;
 
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Created by baeonejune on 14. 12. 21..
+ * Created by baeonejune on 15. 4. 13..
  */
-public class CrawlMain {
-    private static Logger logger = Logger.getLogger(CrawlMain.class.getName());
+public class CrawlMainThread {
+    private static Logger logger = Logger.getLogger(CrawlMainThread.class.getName());
     ///////////////////////////////////////////////////////////////////
     // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
     // key = cpName + productId
