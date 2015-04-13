@@ -37,7 +37,8 @@ public class CrawlSite {
     private String crawlEncoding="euc-kr"; // UTF-8, EUC-KR
 
     // POST data form param.
-    Map<String, String> postFormDataParam = new HashMap<String, String>();
+    Map<String, String> postFormDataParam;
+    Map<String, String> requestHeader;
 
     private int reponseCode;
     private int socketTimeout=10000;
@@ -82,6 +83,12 @@ public class CrawlSite {
     }
     public Map<String, String> getPostRequestParam() {
         return postFormDataParam;
+    }
+    public Map<String, String> getRequestHeader() {
+        return requestHeader;
+    }
+    public void setRequestHeader(Map<String, String> requestHeader) {
+        this.requestHeader = requestHeader;
     }
 
     // crawling method...
@@ -202,16 +209,15 @@ public class CrawlSite {
     }
 
 
-    public void HttpCrawlPostMethod() throws IOException {
+    /////////////////////////////////////////////////////////////////////
+    // POST GET data.
+    public int HttpCrawlPostMethod() throws Exception {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(crawlUrl);
+
         // add header
         httpPost.addHeader("User-Agent", USER_AGENT);
         httpPost.addHeader("Referer", REFERER);
-//        post.setHeader("aaa", "ddd");
-//        post.setHeader("User-Agent", this.USER_AGENT);
-//        post.setHeader("Referer", this.REFERER);
-//        post.setHeader("Content-Length:", "100");
 
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         urlParameters.add(new BasicNameValuePair("mode", "categorymain"));
@@ -223,9 +229,6 @@ public class CrawlSite {
         urlParameters.size();
 
         HttpResponse response = client.execute(httpPost);
-
-        System.out.println("Response Code : "
-                + response.getStatusLine().getStatusCode());
 
         reponseCode =response.getStatusLine().getStatusCode();
 
@@ -245,6 +248,8 @@ public class CrawlSite {
         }
 
         rd.close();
+
+        return reponseCode;
     }
 
 
@@ -303,6 +308,7 @@ public class CrawlSite {
         bufferedReader.close();
     }
 
+
     public int HttpXPUT() throws IOException {
 
         //String data = "{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}";
@@ -330,34 +336,37 @@ public class CrawlSite {
     }
 
 
-    public void HttpPostGet() throws IOException {
-        String name, value;
+    public int HttpPostGet() throws Exception {
         HttpPost post = new HttpPost(crawlUrl);
-
-        // add header
-        post.setHeader("Accept", "text/html, */*; q=0.01");
-        post.setHeader("Accept-Encoding", "gzip, deflate");
-        post.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36");
-        post.setHeader("Connection", "keep-alive");
-        post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        post.setHeader("Cookie", "PHPSESSID=iqb0ttht5da4f0nnpc8ocn0r41; _gat=1; _ga=GA1.3.604294877.1425211068");
-        post.setHeader("Host", "sbclub.co.kr");
-        post.setHeader("Referer", "http://sbclub.co.kr/hotsale.html");
-        post.setHeader("X-Requested-With", "XMLHttpRequest");
-
         post.setConfig(RequestConfig.custom().
                 setSocketTimeout(socketTimeout)
                 .setConnectTimeout(connectionTimeout)
                 .build());
 
+        // add request headers.
+        for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
+            logger.info(String.format(" Set request header name(%s), value(%s)",
+                    entry.getKey().trim(), entry.getValue().trim()));
+            post.setHeader(entry.getKey().trim(), entry.getValue().trim());
+        }
+
+        // add header
+//        post.setHeader("Accept", "text/html, */*; q=0.01");
+//        post.setHeader("Accept-Encoding", "gzip, deflate");
+//        post.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36");
+//        post.setHeader("Connection", "keep-alive");
+//        post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+//        post.setHeader("Cookie", "PHPSESSID=iqb0ttht5da4f0nnpc8ocn0r41; _gat=1; _ga=GA1.3.604294877.1425211068");
+//        post.setHeader("Host", "sbclub.co.kr");
+//        post.setHeader("Referer", "http://sbclub.co.kr/hotsale.html");
+//        post.setHeader("X-Requested-With", "XMLHttpRequest");
+
         // set param
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         for(Map.Entry<String, String> entry : postFormDataParam.entrySet()) {
-            name  = entry.getKey();
-            value = entry.getValue();
-
-//            logger.info(String.format(" name(%s), value(%s)", name, value));
-            urlParameters.add(new BasicNameValuePair(name, value));
+            logger.info(String.format(" Set request param name(%s), value(%s)",
+                    entry.getKey().trim(), entry.getValue().trim()));
+            urlParameters.add(new BasicNameValuePair(entry.getKey().trim(), entry.getValue().trim()));
         }
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
@@ -385,5 +394,7 @@ public class CrawlSite {
         } else {
             this.crawlData = result.toString();
         }
+
+        return reponseCode;
     }
 }

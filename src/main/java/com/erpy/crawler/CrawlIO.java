@@ -9,6 +9,7 @@ import org.apache.commons.codec.binary.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,11 +36,13 @@ public class CrawlIO {
     private CrawlDataService crawlDataService = new CrawlDataService();
     private GlobalUtils globalUtils = new GlobalUtils();
 
+
     public void setSaveDataInfo(String saveData, String saveFilePath, String encoding) {
         this.data = saveData;
         this.path = saveFilePath;
         this.crawlEncoding = encoding;
     }
+
 
     public void setCrawlIO(String pageType, int extractDataCount, String crawlEncoding, String saveEncoding, String countExtPattern) {
         this.pageType = pageType;
@@ -270,6 +273,7 @@ public class CrawlIO {
     }
 
 
+    //////////////////////////////////////////////////////////////////////////
     public void crawl(String url, String strKeyword, String strCpName,
                       Map<String, CrawlData> allCrawlDatasMap) throws Exception {
 
@@ -386,6 +390,30 @@ public class CrawlIO {
     }
 
 
+    /////////////////////////////////////////////////////////////////////////////
+    // make request header.
+    /////////////////////////////////////////////////////////////////////////////
+    private Map<String, String> makeRequestHeader() throws Exception {
+        Map<String, String> requestHeaderMap = new HashMap<String, String>();
+
+        requestHeaderMap.put("Host", "m.ticketmonster.co.kr");
+        requestHeaderMap.put("Connection", "keep-alive");
+        requestHeaderMap.put("Accept", "*/*");
+        requestHeaderMap.put("Origin", "http://m.ticketmonster.co.kr");
+        requestHeaderMap.put("X-Requested-With", "XMLHttpRequest");
+        requestHeaderMap.put("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36");
+        requestHeaderMap.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        requestHeaderMap.put("Referer", "http://m.ticketmonster.co.kr/deal/?cat=fashion&subcat=fashion_female");
+        requestHeaderMap.put("Accept-Encoding", "gzip, deflate");
+        requestHeaderMap.put("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4");
+
+        return requestHeaderMap;
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////
+    // for timon.
+    /////////////////////////////////////////////////////////////////////////////
     public void crawlTimon(String url, String strKeyword, String strCpName,
                       Map<String, CrawlData> allCrawlDatasMap) throws Exception {
 
@@ -395,6 +423,8 @@ public class CrawlIO {
         CrawlSite crawlSite   = new CrawlSite();
         CrawlData crawlData   = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
+        Map<String, String> requestHeaderMap=null;
+        Map<String, String> requestParam=null;
 
         int page=1;
         int offset=0;
@@ -421,7 +451,8 @@ public class CrawlIO {
             crawlSite.setCrawlUrl(strUrl);
 
             try {
-                returnCode = crawlSite.HttpCrawlGetDataTimeout();
+//                returnCode = crawlSite.HttpCrawlGetDataTimeout();
+                returnCode = crawlSite.HttpPostGet();
                 if (returnCode != 200 && returnCode != 201) {
                     logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
                     crawlErrorCount++;
