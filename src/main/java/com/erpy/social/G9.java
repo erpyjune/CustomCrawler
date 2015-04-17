@@ -11,6 +11,7 @@ import com.erpy.utils.ValidChecker;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -136,24 +137,21 @@ public class G9 {
         this.crawlErrorCount = crawlErrorCount;
     }
 
+
     public int getCollisionFileCount() {
         return collisionFileCount;
     }
+
 
     public void setCollisionFileCount(int collisionFileCount) {
         this.collisionFileCount = collisionFileCount;
     }
 
+
     public Map<String, SearchData> extract(CrawlData crawlData) throws Exception {
         FileIO fileIO = new FileIO();
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
-        Elements elements;
-        Document document;
-        String strItem;
-        String productId;
-        Elements listE;
-        String strLinkUrl;
-        String productName1="", productName2="";
+        ObjectMapper objectMapper = new ObjectMapper();
         float salePer;
 
 
@@ -173,144 +171,25 @@ public class G9 {
             return searchDataMap;
         }
 
-        //////////////////////////////////////////////
-        // 데이터 parsing을 위해 jsoup 객체로 읽는다.
-        //////////////////////////////////////////////
-        Document doc = Jsoup.parse(htmlContent);
-
-        //////////////////////////////////////////////
-        // Start parsing.
-        //////////////////////////////////////////////
-        elements = doc.select("li");
-        for (Element element : elements) {
-
-            // 이 문구가 없으면 skip.
-            if (!element.outerHtml().contains("<p class=\"dt\">")) continue;
-
-            productId="";
+        byte[] jsonData = htmlContent.replace("\n","").trim().getBytes();
+        JsonNode rootNode = objectMapper.readTree(jsonData).path("deals");
+        Iterator<JsonNode> iter = rootNode.iterator();
+        while(iter.hasNext()) {
             SearchData searchData = new SearchData();
-            document = Jsoup.parse(element.outerHtml());
+            JsonNode node = iter.next();
 
-            //////////////////////////////////////////////
-            // Thumb link
-            //////////////////////////////////////////////
-            listE = document.select("a.img p.pic img");
-            for (Element et : listE) {
-                strItem = et.attr("src");
-                searchData.setThumbUrl(strItem);
-                logger.debug(String.format(" >> Thumb : (%s)", searchData.getThumbUrl()));
+            if ("Y".equals(node.path("adultyn").asText())) {
+                logger.warn(" Adult data is skip !!");
+                continue;
             }
 
-            //////////////////////////////////////////////
-            // content link
-            //////////////////////////////////////////////
-            listE = document.select("li a.img");
-            for (Element et : listE) {
-                strLinkUrl = et.attr("href");
-                if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "adeal/").replace("/","-");
-                    searchData.setContentUrl(prefixContentUrl + productId);
-                    searchData.setProductId(productId);
-                    logger.debug(String.format(" >> Link : (%s)", searchData.getContentUrl()));
-                }
-            }
-
-            //////////////////////////////////////////////
-            // shipping info.
-            //////////////////////////////////////////////
-            listE = document.select("p.spec span.pu");
-            for (Element et : listE) {
-                searchData.setShippingHow(et.text().trim());
-                logger.debug(String.format(" >> shipping (%s)", searchData.getShippingHow()));
-            }
-
-            //////////////////////////////////////////////
-            // product name1
-            //////////////////////////////////////////////
-            listE = document.select("div.info p.dt");
-            for (Element et : listE) {
-                productName1 = et.text().trim();
-//                logger.debug(String.format(" >> title1(%s)", productName1));
-            }
-
-            //////////////////////////////////////////////
-            // product name2
-            //////////////////////////////////////////////
-            listE = document.select("div.info p.p1");
-            for (Element et : listE) {
-                productName2 = et.text().trim();
-//                logger.debug(String.format(" >> title2(%s)", productName2));
-            }
-
-            searchData.setProductName(productName1 + " " + productName2);
-            logger.debug(String.format(" >> product name (%s)", searchData.getProductName()));
-
-            //////////////////////////////////////////////
-            // org price
-            //////////////////////////////////////////////
-            listE = document.select("div.info p.oldp");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
-                    searchData.setOrgPrice(Integer.parseInt(strItem));
-                    logger.debug(String.format(" >> org price(%s)", searchData.getOrgPrice()));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));
-                    logger.error(String.format(" Extract [org price] product name      - (%s)", searchData.getProductName()));
-                    logger.error(String.format(" Extract [org price] seed url          - (%s)", crawlData.getSeedUrl()));
-                }
-            }
-
-            //////////////////////////////////////////////
-            // sale price
-            //////////////////////////////////////////////
-            listE = document.select("div.info p.newp");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
-                    searchData.setSalePrice(Integer.parseInt(strItem));
-                    searchData.setSalePer(0.0F);
-                    logger.debug(String.format(" >> sale price(%s)", searchData.getSalePrice()));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
-                    logger.error(String.format(" Extract [sale price] product name      - (%s)", searchData.getProductName()));
-                    logger.error(String.format(" Extract [sale price] seed url          - (%s)", crawlData.getSeedUrl()));
-                }
-            }
-
-            //////////////////////////////////////////////
-            // sell count
-            //////////////////////////////////////////////
-            listE = document.select("div.info p.bought");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
-                    searchData.setSellCount(Integer.parseInt(strItem));
-                    logger.debug(String.format(" >> sell count(%s)", searchData.getSellCount()));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [sell count] data is NOT valid - (%s)", strItem));
-                    logger.error(String.format(" Extract [sell count] product name      - (%s)", searchData.getProductName()));
-                    logger.error(String.format(" Extract [sell count] crawl url         - (%s)", crawlData.getSeedUrl()));
-                }
-            }
-
-//            // sale per
-//            listE = document.select("dd.discount-rate");
-//            for (Element et : listE) {
-//                strItem = globalUtils.priceDataCleaner(et.text());
-//                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
-//                    searchData.setSalePer(Float.parseFloat(strItem));
-//                    logger.debug(String.format(" >> sale per(%s)", searchData.getSalePer()));
-//                    break;
-//                } else {
-//                    logger.error(String.format(" Extract [sale per] data is NOT valid - (%s)", strItem));
-//                    logger.error(String.format(" Extract [sale per] product name      - (%s)", searchData.getProductName()));
-//                    logger.error(String.format(" Extract [sale per] seed url          - (%s)", crawlData.getSeedUrl()));
-//                }
-//            }
+            searchData.setProductId(node.path("img").asText());
+            searchData.setContentUrl("http://m.g9.co.kr/VIP.htm#/Display/VIP/" + node.path("img").asText());
+            searchData.setThumbUrl("http://image.g9.co.kr/g/" + node.path("img").asText() + "/o?ts=" + node.path("gdimg").path("ts").asText());
+            searchData.setProductName(node.path("gddesc").asText() + " " + node.path("gdnm").asText());
+            searchData.setOrgPrice(node.path("sprice").asInt());
+            searchData.setSalePrice(node.path("dprice1").asInt());
+            searchData.setSellCount(node.path("soldqty").asInt());
 
             //////////////////////////////////////////////
             // sale per
@@ -328,7 +207,7 @@ public class G9 {
             }
 
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_WeMef);
+            searchData.setCpName(GlobalInfo.CP_G9);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
             // set seed url
@@ -337,18 +216,12 @@ public class G9 {
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!globalUtils.isDataEmpty(searchData)) {
                 // key : product id
-                searchDataMap.put(productId + searchData.getCpName(), searchData);
+                searchDataMap.put(searchData.getProductId() + searchData.getCpName(), searchData);
                 totalExtractCount++;
             } else {
                 logger.error(" Data field empty checked !!");
             }
         }
-
-        String pageDataAnalisys = globalUtils.getFieldData(htmlContent, "var d_l =", "var d_c_l_id").trim();
-        Map<String, SearchData> nextListMap;
-        nextListMap = extractJsonData(pageDataAnalisys);
-
-        searchDataMap.putAll(nextListMap);
 
         logger.info(String.format(" %d 건의 데이터 추출 완료", searchDataMap.size()));
 
@@ -373,76 +246,39 @@ public class G9 {
             SearchData searchData = new SearchData();
             JsonNode node = iter.next();
 
+            if ("Y".equals(node.path("adultyn").asText()))
+                continue;
+
+            searchData.setProductId(node.path("img").asText());
+            searchData.setThumbUrl("http://m.g9.co.kr/VIP.htm#/Display/VIP/" + node.path("img").asText());
+            searchData.setContentUrl("http://image.g9.co.kr/g/" + node.path("img").asText() + "/o?ts=" + node.path("gdimg").path("ts").asText());
+            searchData.setProductName(node.path("gddesc").asText() + " " + node.path("gdnm").asText());
+            searchData.setOrgPrice(node.path("sprice").asInt());
+            searchData.setSalePrice(node.path("dprice1").asInt());
+            searchData.setSellCount(node.path("soldqty").asInt());
+
+
             // link  : http://m.g9.co.kr/VIP.htm#/Display/VIP/667949145
             // thumb : http://image.g9.co.kr/g/667949145/o?ts=14285700264500000
-            System.out.println("title      : "+node.path("gdnm").asText());
+            System.out.println("title      : " +node.path("gdnm").asText());
             System.out.println("brand      : "+node.path("gddesc").asText());
             System.out.println("start date : "+node.path("g9sdt").asText());
             System.out.println("end   date : "+node.path("expireDate").asText());
             System.out.println("keywords   : "+node.path("keywords"));
             System.out.println("brand name : "+node.path("brandnm").asText());
             System.out.println("good disp  : "+node.path("g9GoodsDisplayYN").asText());
-            System.out.println("adult y/n  : "+node.path("adultyn").asText());
+            System.out.println("adult y/n  : " +node.path("adultyn").asText());
             System.out.println("org  price : "+node.path("sprice").asInt());
             System.out.println("sale price : "+node.path("dprice1").asInt());
             System.out.println("sell count : "+node.path("soldqty").asInt());
             System.out.println("url        : "+"http://m.g9.co.kr/VIP.htm#/Display/VIP/" + node.path("img").asText());
             System.out.println("thumb      : "+"http://image.g9.co.kr/g/" + node.path("img").asText() + "/o?ts=" + node.path("gdimg").path("ts").asText());
-            
-            System.out.println("=======================================================");
-
-
-//            productId = node.path("deal_id").asText() + "-" + node.path("location_id").asText();
-//            searchData.setProductId(productId);
-//            searchData.setThumbUrl("http://image.wemakeprice.com/" + node.path("img_deal_list2").asText());
-//            searchData.setContentUrl(prefixContentUrl + node.path("deal_id").asText() + "/" + node.path("location_id").asText());
-//            searchData.setShippingHow(node.path("mobile_sticker").asText().replace("<span class=\"deliv2\">", "").replace("</span>", "").replace("<span class=\"pu\">", ""));
-//            title1 = node.path("main_name").asText();
-//            title2 = node.path("line_summary").asText();
-//            searchData.setProductName(title1 + " " + title2);
-//            searchData.setOrgPrice(Integer.parseInt(node.path("price_org").asText()));
-//            searchData.setSalePrice(Integer.parseInt(node.path("price").asText()));
-//            searchData.setSellCount(Integer.parseInt(node.path("qty_saled").asText()));
-//            searchData.setSalePer(Float.parseFloat(node.path("dc_rate").asText()));
-//            // set cp name.
-//            searchData.setCpName(GlobalInfo.CP_WeMef);
-//            // set keyword.
-//            searchData.setCrawlKeyword(keyword);
-//            // set seed url
-//            searchData.setSeedUrl(seedUrl);
-//
-//            // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
-//            if (!globalUtils.isDataEmpty(searchData)) {
-//                // key : product id
-//                map.put(productId + searchData.getCpName(), searchData);
-//                totalExtractCount++;
-//            } else {
-//                logger.error(" Extract data field empty checked !!");
-//            }
-
-//            System.out.println(prefixContentUrl + node.path("deal_id").asText() + "/" + node.path("location_id").asText());
-//            System.out.println(node.path("deal_id").asText());
-//            System.out.println(node.path("location_id").asText());
-//            System.out.println("title 1 : "+node.path("main_name").asText());
-//            System.out.println("http://image.wemakeprice.com/" + node.path("img_deal_list2").asText());
-//            System.out.println("title 2 : " + node.path("line_summary").asText());
-//            System.out.println("price : " + node.path("price").asText());
-//            System.out.println("sale per : " + node.path("dc_rate").asText());
-//            System.out.println("org_price : "+node.path("price_org").asText());
-//            System.out.println("sell count : "+node.path("qty_saled").asText());
-//            System.out.println("ship_price_type : "+node.path("ship_price_type").asText());
-//            System.out.println("price_free_ship : "+node.path("price_free_ship").asText());
-//            System.out.println("courier_company : "+node.path("courier_company").asText());
-//            System.out.println("card_discount_comment : "+node.path("card_discount_comment").asText());
-//            System.out.println("update_time : "+node.path("update_time").asText());
-//            System.out.println("mobile_sticker : "+node.path("mobile_sticker").asText().replace("<span class=\"deliv2\">","").replace("</span>","").replace("<span class=\"pu\">",""));
-//            System.out.println("===========================================");
         }
         return map;
     }
 
 
-    public void mainExtractProcessing(WeMef cp,
+    public void mainExtractProcessing(G9 cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -486,6 +322,7 @@ public class G9 {
         }
     }
 
+
     public static void main(String args[]) throws Exception {
         Elements elements;
         Document document;
@@ -504,99 +341,5 @@ public class G9 {
         String htmlContent = crawlSite.getCrawlData();
 
         g9.extractJsonData(htmlContent);
-
-//        logger.info(crawlSite.getCrawlData());
-//        logger.info(String.format(" crawl contents size : %d", crawlSite.getCrawlData().length()));
-
-        // 데이터 parsing을 위해 jsoup 객체로 읽는다.
-        Document doc = Jsoup.parse(htmlContent);
-
-        // 파싱 시작.
-        elements = doc.select("li");
-        for (Element element : elements) {
-            document = Jsoup.parse(element.outerHtml());
-            if (!element.outerHtml().contains("<p class=\"dt\">")) continue;
-
-            index++;
-//            logger.info(element.outerHtml());
-
-            // Thumb link
-            listE = document.select("a.img p.pic img");
-            for (Element et : listE) {
-                strItem = et.attr("src");
-                logger.info(strItem);
-            }
-
-            // link
-            listE = document.select("li a.img");
-            for (Element et : listE) {
-                strLinkUrl = et.attr("href");
-                if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "adeal/");
-                    logger.info(" url : " + prefixContentUrl + productId);
-                    break;
-                }
-            }
-
-            // shipping
-            listE = document.select("p.spec span.pu");
-            for (Element et : listE) {
-                strItem = et.text().trim();
-                logger.info(" shipping : " + strItem);
-            }
-
-            // product name1
-            listE = document.select("div.info p.dt");
-            for (Element et : listE) {
-                strItem = et.text().trim();
-                logger.info(" title1 : " + strItem);
-            }
-
-            // product name2
-            listE = document.select("div.info p.p1");
-            for (Element et : listE) {
-                strItem = et.text().trim();
-                logger.info(" title2 : " + strItem);
-            }
-
-            // org price
-            listE = document.select("div.info p.oldp");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> org price(%s)", strItem));
-                    break;
-                } else {
-                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
-                }
-            }
-
-            // sale price
-            listE = document.select("div.info p.newp");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> sale price(%s)", strItem));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));
-                }
-            }
-
-            // sell count
-            listE = document.select("div.info p.bought");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> sell count(%s)", strItem));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));
-                }
-            }
-
-            logger.info("============================================================================");
-            logger.info(String.format(" index : %d", index));
-        }
     }
 }
