@@ -130,6 +130,18 @@ public class CrawlMain {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("json");
                 crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_LotteThanksDeal)) {
+                crawlMainThread.setPageType("pageIdx");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("p.stitle");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.run();
             }
 
 

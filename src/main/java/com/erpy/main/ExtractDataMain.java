@@ -71,6 +71,7 @@ public class ExtractDataMain {
         Timon timon = new Timon();
         G9 g9 = new G9();
         GSdeal gSdeal = new GSdeal();
+        LotteThanksDeal lotteThanksDeal = new LotteThanksDeal();
 
 
         String argsCPname="";
@@ -152,6 +153,9 @@ public class ExtractDataMain {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_GSDeal)) { // yes
                 gSdeal.mainExtractProcessing(gSdeal, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_LotteThanksDeal)) { // yes
+                lotteThanksDeal.mainExtractProcessing(lotteThanksDeal, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {
 //                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);

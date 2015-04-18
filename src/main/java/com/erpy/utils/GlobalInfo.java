@@ -33,6 +33,7 @@ public class GlobalInfo {
     public static final String CP_Timon  = "timon";
     public static final String CP_G9  = "g9";
     public static final String CP_GSDeal  = "gsdeal";
+    public static final String CP_LotteThanksDeal  = "lottethanksdeal";
 
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;
