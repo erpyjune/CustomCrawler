@@ -2,6 +2,8 @@ package com.erpy.utils;
 
 import com.erpy.crawler.CrawlSite;
 import com.erpy.dao.SearchData;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
@@ -9,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * Created by baeonejune on 15. 3. 30..
@@ -74,7 +77,7 @@ public class GlobalUtils {
         return s.replace("원", "").replace("won", "").replace(",", "").
                 replace("<b>", "").replace("</b>", "").replace("판매가", "").replace(" ","").
                 replace(":", "").replace("이벤트가", "").replace("개 구매중","").replace("개구매중","").
-                replace("%","").replace("~","").replace("개","").replace("구매","").trim();
+                replace("%", "").replace("~","").replace("개","").replace("구매","").trim();
     }
 
     public String htmlCleaner(String s) {
@@ -90,6 +93,25 @@ public class GlobalUtils {
         Document doc = Jsoup.parse(data);
         Elements elements = doc.select(pattern);
         return elements.size();
+    }
+
+    public int checkDataCountContentJson(String data, String pattern) throws IOException {
+        if (pattern==null || pattern.length()==0) {
+            logger.error(" pattern is NULL !!");
+            return 0;
+        }
+
+        int count=0;
+        JsonNode node;
+        ObjectMapper objectMapper = new ObjectMapper();
+        byte[] jsonData = data.trim().replace("\n","").getBytes();
+        JsonNode rootNode = objectMapper.readTree(jsonData).path(pattern);
+        Iterator<JsonNode> iter = rootNode.iterator();
+        while(iter.hasNext()) {
+            node = iter.next();
+            count++;
+        }
+        return count;
     }
 
     public String isSexKeywordAdd(String crawlKeyword, boolean bMan, boolean bWoman) {

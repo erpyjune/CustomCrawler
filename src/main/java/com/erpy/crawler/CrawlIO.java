@@ -6,6 +6,7 @@ import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
 import com.erpy.utils.GlobalUtils;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.util.*;
@@ -20,6 +21,7 @@ public class CrawlIO {
     private String saveEncoding = "utf-8";
     private String pattern=null;
     private String pageType="page";
+    private String extractType="html";
     private int extractDataCount=0;
 
     private static final int MAX_PAGE = 11;
@@ -38,6 +40,7 @@ public class CrawlIO {
         this.data = saveData;
         this.path = saveFilePath;
         this.crawlEncoding = encoding;
+
     }
 
 
@@ -83,6 +86,14 @@ public class CrawlIO {
 
     public void setExtractDataCount(int extractDataCount) {
         this.extractDataCount = extractDataCount;
+    }
+
+    public String getExtractType() {
+        return extractType;
+    }
+
+    public void setExtractType(String extractType) {
+        this.extractType = extractType;
     }
 
     public boolean executeSaveData() throws IOException {
@@ -286,7 +297,7 @@ public class CrawlIO {
         int page=1;
         int offset=0;
         int returnCode;
-        int data_size;
+        int data_size=0;
         int crawlErrorCount=0;
         boolean isLastPage=false;
         String strUrl="";
@@ -337,7 +348,11 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 추출된 데이터가 없으면 마지막 페이지 더 이상 page 증가 없이 종료한다.
             /////////////////////////////////////////////////////////
-            data_size = globalUtils.checkDataCountContent(crawlSite.getCrawlData(), pattern);
+            if (extractType.equals("html")) {
+                data_size = globalUtils.checkDataCountContent(crawlSite.getCrawlData(), pattern);
+            } else if (extractType.equals("json")) {
+                data_size = globalUtils.checkDataCountContentJson(crawlSite.getCrawlData(), pattern);
+            }
             if (data_size==0) break;
             if (extractDataCount==30 && data_size < extractDataCount) isLastPage = true; // for first.
 
@@ -597,6 +612,8 @@ public class CrawlIO {
             nextUrl = String.format("%s?%s=%d", crawlStartUrl, pagingType, page);
         } else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_Timon)) {
             nextUrl = String.format("%s", crawlStartUrl);
+        } else if (cpName.equals(GlobalInfo.CP_G9)) {
+            nextUrl = String.format("%s&%s=%d", crawlStartUrl, pagingType, page);
         } else {
             nextUrl = String.format("%s&%s=%d&offset=%d", crawlStartUrl, pagingType, page, offset);
         }
@@ -605,7 +622,7 @@ public class CrawlIO {
 
 
     public boolean isCrawlEnd(int page, String cpName) {
-        if (cpName.equals(GlobalInfo.CP_CooPang)) {
+        if (cpName.equals(GlobalInfo.CP_CooPang) || cpName.equals(GlobalInfo.CP_G9)) {
             if (page > MAX_COUPANG_PAGE) return true;
         } else if (cpName.equals(GlobalInfo.CP_OKMALL)) {
             if (page > MAX_OKMALL_PAGE) return true;
