@@ -32,56 +32,29 @@ public class CrawlMainThread extends Thread {
     private String cpName;
     private Map<String, CrawlData> allCrawlDatas;
 
-    public String getPageType() {
-        return pageType;
-    }
 
     public void setPageType(String pageType) {
         this.pageType = pageType;
-    }
-
-    public int getExtractDataCount() {
-        return extractDataCount;
     }
 
     public void setExtractDataCount(int extractDataCount) {
         this.extractDataCount = extractDataCount;
     }
 
-    public String getCrawlEncode() {
-        return crawlEncode;
-    }
-
     public void setCrawlEncode(String crawlEncode) {
         this.crawlEncode = crawlEncode;
-    }
-
-    public String getSaveEncode() {
-        return saveEncode;
     }
 
     public void setSaveEncode(String saveEncode) {
         this.saveEncode = saveEncode;
     }
 
-    public String getContentExtractCountPattern() {
-        return contentExtractCountPattern;
-    }
-
     public void setContentExtractCountPattern(String contentExtractCountPattern) {
         this.contentExtractCountPattern = contentExtractCountPattern;
     }
 
-    public String getCrawlUrl() {
-        return crawlUrl;
-    }
-
     public void setCrawlUrl(String crawlUrl) {
         this.crawlUrl = crawlUrl;
-    }
-
-    public String getUrlKeyword() {
-        return urlKeyword;
     }
 
     public void setUrlKeyword(String urlKeyword) {
@@ -96,16 +69,8 @@ public class CrawlMainThread extends Thread {
         this.cpName = cpName;
     }
 
-    public Map<String, CrawlData> getAllCrawlDatas() {
-        return allCrawlDatas;
-    }
-
     public void setAllCrawlDatas(Map<String, CrawlData> allCrawlDatas) {
         this.allCrawlDatas = allCrawlDatas;
-    }
-
-    public String getExtractType() {
-        return extractType;
     }
 
     public void setExtractType(String extractType) {
@@ -118,7 +83,11 @@ public class CrawlMainThread extends Thread {
         crawlIO.setExtractType(extractType);
         crawlIO.setCrawlIO(pageType, extractDataCount, crawlEncode, saveEncode, contentExtractCountPattern);
         try {
-            crawlIO.crawl(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            if (cpName.equals(GlobalInfo.CP_GSDeal)) {
+                crawlIO.crawlGSDeal(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            } else {
+                crawlIO.crawl(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            }
         } catch (Exception e) {
             logger.error(String.format(" Running exception - %s", cpName));
             e.printStackTrace();

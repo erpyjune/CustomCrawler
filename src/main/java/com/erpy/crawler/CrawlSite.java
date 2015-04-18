@@ -42,7 +42,7 @@ public class CrawlSite {
 
     private int reponseCode;
     private int socketTimeout=10000;
-    private int connectionTimeout=1000;
+    private int connectionTimeout=3000;
     private String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
     private String REFERER = "http://www.google.com/";
     private String CONNECTION = "keep-alive";
@@ -215,8 +215,9 @@ public class CrawlSite {
     }
 
 
-    /////////////////////////////////////////////////////////////////////
-    // POST GET data.
+    ///////////////////////////////////////////////////////////////////////////
+    ///
+    ///////////////////////////////////////////////////////////////////////////
     public int HttpCrawlPostMethod() throws Exception {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(crawlUrl);
@@ -259,6 +260,9 @@ public class CrawlSite {
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    /// Http request post
+    ///////////////////////////////////////////////////////////////////////////
     public void HttpPostGetData() throws Exception {
         String jsonQueryString = "{\n" +
                 "\t\"query\" : {\n" +
@@ -315,6 +319,9 @@ public class CrawlSite {
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    /// Http request post
+    ///////////////////////////////////////////////////////////////////////////
     public int HttpXPUT() throws IOException {
 
         //String data = "{\"title\" : \"good morning\", \"name\" : \"erpy\", \"date\" : \"20141015\", \"id\" : 123}";
@@ -342,6 +349,9 @@ public class CrawlSite {
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    /// Http request POST.
+    ///////////////////////////////////////////////////////////////////////////
     public int HttpPostGet() throws Exception {
         HttpPost post = new HttpPost(crawlUrl);
         post.setConfig(RequestConfig.custom().
@@ -358,7 +368,7 @@ public class CrawlSite {
         // set param
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         for(Map.Entry<String, String> entry : postFormDataParam.entrySet()) {
-            logger.info(String.format(" Set request param %s::%s", entry.getKey().trim(), entry.getValue().trim()));
+//            logger.info(String.format(" Set request param %s::%s", entry.getKey().trim(), entry.getValue().trim()));
             urlParameters.add(new BasicNameValuePair(entry.getKey().trim(), entry.getValue().trim()));
         }
         post.setEntity(new UrlEncodedFormEntity(urlParameters));

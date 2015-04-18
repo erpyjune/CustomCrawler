@@ -118,105 +118,118 @@ public class CrawlMain {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("json");
                 crawlMainThread.run();
+            } else if (strCpName.equals(GlobalInfo.CP_GSDeal)) {
+                crawlMainThread.setPageType("pageIdx");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("list");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("json");
+                crawlMainThread.run();
             }
 
 
 
 //            ===============================================================================
-//            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style*=\"padding:0 0 3px 0px; color:#315ed2; \"]");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "dl.item-list2");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
-//                SB sb = new SB();
-////                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "p.title");
-//                sb.crawlData(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div.brand_detail_layer p.item_title a span.prName_PrName");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_FIRST)) { // complete
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page_no", 30, "utf-8", "utf-8", "div.list_01 span.sub_img");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "td[width=\"20%\"] a");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_CampTown)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span[style=\"color:#333333;font-family:dotum;font-size:10pt;font-weight:normal;text-decoration:none;\"]");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_Aldebaran)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "li[class=\"item xans-record-\"]");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:3\"] a");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_CampI)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "td[width=130] a font[STYLE=\"color:#555555;font-size:12px;font-style:normal;font-weight:normal\"]");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_Camping365)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_LeisureMan)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "span[style=\"font-size:13px;color:#555555;font-weight:bold;\"]");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "a[class=\"name\"]");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_CampingPlus)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("ps_page", 0, "euc-kr", "utf-8", "div[style=\"padding-top:8px;text-align:center\"]");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_CooPang)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span.plp-square-img");
-//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_WeMef)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.dt");
-//                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else if (strCpName.equals(GlobalInfo.CP_Timon)) {
-//                CrawlIO crawlIO = new CrawlIO();
-//                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.tit");
-//                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
-//                crawlIO.crawlTimon(strUrl, strKeyword, strCpName, allCrawlDatas);
-//            }
-//            else {
-//                logger.error(String.format(" Other cp exist - (%s)", strCpName));
-//            }
+//            ===============================================================================
+            if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style*=\"padding:0 0 3px 0px; color:#315ed2; \"]");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "dl.item-list2");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
+                SB sb = new SB();
+//                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "p.title");
+                sb.crawlData(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"width:180px;height:50px;padding-top:3px;\"] a");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div.brand_detail_layer p.item_title a span.prName_PrName");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_FIRST)) { // complete
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page_no", 30, "utf-8", "utf-8", "div.list_01 span.sub_img");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "td[width=\"20%\"] a");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CampTown)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span[style=\"color:#333333;font-family:dotum;font-size:10pt;font-weight:normal;text-decoration:none;\"]");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_Aldebaran)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "li[class=\"item xans-record-\"]");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:3\"] a");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CampI)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "td[width=130] a font[STYLE=\"color:#555555;font-size:12px;font-style:normal;font-weight:normal\"]");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_Camping365)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_LeisureMan)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "span[style=\"font-size:13px;color:#555555;font-weight:bold;\"]");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "a[class=\"name\"]");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CampingPlus)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("ps_page", 0, "euc-kr", "utf-8", "div[style=\"padding-top:8px;text-align:center\"]");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_CooPang)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span.plp-square-img");
+                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_WeMef)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.dt");
+                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else if (strCpName.equals(GlobalInfo.CP_Timon)) {
+                CrawlIO crawlIO = new CrawlIO();
+                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.tit");
+                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
+                crawlIO.crawlTimon(strUrl, strKeyword, strCpName, allCrawlDatas);
+            }
+            else {
+                logger.error(String.format(" Other cp exist - (%s)", strCpName));
+            }
         }
 
         logger.info(" End crawling !!");
