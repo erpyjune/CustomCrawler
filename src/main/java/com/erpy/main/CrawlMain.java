@@ -142,6 +142,18 @@ public class CrawlMain {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
+            }   else if (strCpName.equals(GlobalInfo.CP_HotKill)) {
+                crawlMainThread.setPageType("");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("goodsList");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("json");
+                crawlMainThread.run();
             }
 
 

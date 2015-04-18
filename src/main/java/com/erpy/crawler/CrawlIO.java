@@ -773,6 +773,8 @@ public class CrawlIO {
             nextUrl = String.format("%s", crawlStartUrl);
         } else if (cpName.equals(GlobalInfo.CP_G9)) {
             nextUrl = String.format("%s&%s=%d", crawlStartUrl, pagingType, page);
+        } else if (cpName.equals(GlobalInfo.CP_HotKill)) {
+                nextUrl = String.format("http://m.hnsmall.com/category/hotkill/goods/%d/10/0", page);
         } else {
             nextUrl = String.format("%s&%s=%d&offset=%d", crawlStartUrl, pagingType, page, offset);
         }
@@ -785,7 +787,7 @@ public class CrawlIO {
             if (page > MAX_COUPANG_PAGE) return true;
         } else if (cpName.equals(GlobalInfo.CP_OKMALL)) {
             if (page > MAX_OKMALL_PAGE) return true;
-        } else if (cpName.equals(GlobalInfo.CP_Timon)) {
+        } else if (cpName.equals(GlobalInfo.CP_Timon) || cpName.equals(GlobalInfo.CP_HotKill)) {
             if (page > MAX_COUPANG_PAGE) return true;
         } else {
             if (page > MAX_PAGE) return true;

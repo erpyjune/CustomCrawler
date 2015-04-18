@@ -72,6 +72,7 @@ public class ExtractDataMain {
         G9 g9 = new G9();
         GSdeal gSdeal = new GSdeal();
         LotteThanksDeal lotteThanksDeal = new LotteThanksDeal();
+        HotKill hotKill = new HotKill();
 
 
         String argsCPname="";
@@ -156,6 +157,9 @@ public class ExtractDataMain {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_LotteThanksDeal)) { // yes
                 lotteThanksDeal.mainExtractProcessing(lotteThanksDeal, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_HotKill)) { // yes
+                hotKill.mainExtractProcessing(hotKill, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {
 //                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);
