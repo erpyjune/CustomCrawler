@@ -290,7 +290,7 @@ public class Coopang {
             }
 
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_CooPang);
+            searchData.setCpName(GlobalInfo.CP_CouPang);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
             // set seed url
@@ -323,23 +323,29 @@ public class Coopang {
         cp.setKeyword(crawlData.getCrawlKeyword());
         cp.setSeedUrl(crawlData.getSeedUrl());
 
+        //////////////////////////////////////////////////////////////////////
         // 데이터 추출.
+        //////////////////////////////////////////////////////////////////////
         searchDataMap = cp.extract(crawlData);
         if (searchDataMap.size() <= 0) {
             logger.error(String.format(" 이 파일은 추출된 데이터가 없습니다 (%s)",crawlData.getSavePath()));
             return ;
         }
 
+        //////////////////////////////////////////////////////////////////////
         // DB에 들어있는 데이터와 쇼핑몰에서 가져온 데이터를 비교한다.
         // 비교결과 update, insert할 데이터를 모아서 리턴 한다.
+        //////////////////////////////////////////////////////////////////////
         newSearchDataMap = validChecker.checkSearchDataValid(allSearchDatasMap, searchDataMap);
         if (newSearchDataMap.size() <= 0) {
             logger.info(String.format(" 변경되거나 새로 생성된 상품 데이터가 없습니다 - %s", crawlData.getSavePath()));
         }
         else {
+            //////////////////////////////////////////////////////////////////////
             // db에 추출한 데이터를 넣는다.
             db.updateToDB(newSearchDataMap);
 
+            //////////////////////////////////////////////////////////////////////
             // insert 되거나 update된 데이터들을 다시 allSearchDataMap에 입력하여
             // 새로 parsing되서 체크하는 데이터 비교에 반영될 수 있도록 한다.
             String productId;

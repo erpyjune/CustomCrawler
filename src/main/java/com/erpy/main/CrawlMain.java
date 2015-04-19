@@ -154,6 +154,42 @@ public class CrawlMain {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("json");
                 crawlMainThread.run();
+            } else if (strCpName.equals(GlobalInfo.CP_Timon)) {
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div.info p.tit");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.run();
+            } else if (strCpName.equals(GlobalInfo.CP_WeMef)) {
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div.info p.dt");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.run();
+            } else if (strCpName.equals(GlobalInfo.CP_CouPang)) {
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("span.plp-square-img");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.run();
             }
 
 
@@ -235,22 +271,21 @@ public class CrawlMain {
                 crawlIO.setCrawlIO("ps_page", 0, "euc-kr", "utf-8", "div[style=\"padding-top:8px;text-align:center\"]");
                 crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
             }
-            else if (strCpName.equals(GlobalInfo.CP_CooPang)) {
-                CrawlIO crawlIO = new CrawlIO();
-                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span.plp-square-img");
-                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
-            }
-            else if (strCpName.equals(GlobalInfo.CP_WeMef)) {
-                CrawlIO crawlIO = new CrawlIO();
-                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.dt");
-                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
-            }
-            else if (strCpName.equals(GlobalInfo.CP_Timon)) {
-                CrawlIO crawlIO = new CrawlIO();
-                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.tit");
-                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
-                crawlIO.crawlTimon(strUrl, strKeyword, strCpName, allCrawlDatas);
-            }
+//            else if (strCpName.equals(GlobalInfo.CP_CooPang)) {
+//                CrawlIO crawlIO = new CrawlIO();
+//                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "span.plp-square-img");
+//                crawlIO.crawl(strUrl, strKeyword, strCpName, allCrawlDatas);
+//            }
+//            else if (strCpName.equals(GlobalInfo.CP_WeMef)) {
+//                CrawlIO crawlIO = new CrawlIO();
+//                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.dt");
+//                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
+//            }
+//            else if (strCpName.equals(GlobalInfo.CP_Timon)) {
+//                CrawlIO crawlIO = new CrawlIO();
+//                crawlIO.setCrawlIO("page", 0, "utf-8", "utf-8", "div.info p.tit");
+//                crawlIO.crawlOne(strUrl, strKeyword, strCpName, allCrawlDatas);
+//                crawlIO.crawlTimon(strUrl, strKeyword, strCpName, allCrawlDatas);
             else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));
             }

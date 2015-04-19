@@ -24,10 +24,6 @@ public class CrawlIO {
     private String extractType="html";
     private int extractDataCount=0;
 
-    private String requestParamHost;
-    private String requestParamOrigin;
-    private String requesParamReferer;
-
     private static final int MAX_PAGE = 11;
     private static final int MAX_COUPANG_PAGE = 99;
     private static final int MAX_OKMALL_PAGE = 50;
@@ -38,6 +34,7 @@ public class CrawlIO {
     private static Logger logger = Logger.getLogger(CrawlIO.class.getName());
     private CrawlDataService crawlDataService = new CrawlDataService();
     private GlobalUtils globalUtils = new GlobalUtils();
+    private Map<String, String> httpReqHeader;
 
 
     public void setSaveDataInfo(String saveData, String saveFilePath, String encoding) {
@@ -55,28 +52,12 @@ public class CrawlIO {
         this.pattern = countExtPattern;
     }
 
-    public String getRequestParamHost() {
-        return requestParamHost;
+    public Map<String, String> getHttpReqHeader() {
+        return httpReqHeader;
     }
 
-    public void setRequestParamHost(String requestParamHost) {
-        this.requestParamHost = requestParamHost;
-    }
-
-    public String getRequestParamOrigin() {
-        return requestParamOrigin;
-    }
-
-    public void setRequestParamOrigin(String requestParamOrigin) {
-        this.requestParamOrigin = requestParamOrigin;
-    }
-
-    public String getRequesParamReferer() {
-        return requesParamReferer;
-    }
-
-    public void setRequesParamReferer(String requesParamReferer) {
-        this.requesParamReferer = requesParamReferer;
+    public void setHttpReqHeader(Map<String, String> httpReqHeader) {
+        this.httpReqHeader = httpReqHeader;
     }
 
     public static int getMAX_PAGE() {
@@ -226,11 +207,9 @@ public class CrawlIO {
         crawlSite.setConnectionTimeout(5000);
         crawlSite.setSocketTimeout(10000);
         crawlSite.setCrawlEncode(crawlEncoding);
+        crawlSite.setRequestHeader(httpReqHeader);
 
         for(;;) {
-            // wemef는 1번만 수집하면 된다.
-            isLastPage = true;
-
             // make crawling url.
             strUrl = crawlIO.makeNextPageUrl(strCpName, url, pageType, page, offset);
 
@@ -245,6 +224,7 @@ public class CrawlIO {
                 }
             }
             catch (Exception e) {
+                e.printStackTrace();
                 if (crawlErrorCount > MAX_CRAWL_ERROR_COUNT) {
                     logger.error(String.format(" Crawling timeout occured max crawling count[%d] overed & this url skip!!", crawlErrorCount));
                     break;
@@ -273,7 +253,6 @@ public class CrawlIO {
             if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
                 if (isCrawlEnd(page, strCpName)) break;
                 logger.info(String.format(" Skip crawling data - (%s) ", strUrl));
-                if (isLastPage) break; // for first
                 page++;
                 continue;
             }
@@ -299,7 +278,6 @@ public class CrawlIO {
             beforePageMD5hashCode = md5HashCode; // 이전 page 값과 현재 page hash 값이 동일한지 체크하기 위해 남긴다.
             logger.info(String.format(" Crawled ( %d ) %s", data_size, strUrl));
 
-            if (isLastPage) break; // for first
             crawledCount++; // 크롤링한 데이터 카운트.
 
             if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
@@ -337,6 +315,7 @@ public class CrawlIO {
         crawlSite.setConnectionTimeout(5000);
         crawlSite.setSocketTimeout(10000);
         crawlSite.setCrawlEncode(crawlEncoding);
+        crawlSite.setRequestHeader(httpReqHeader);
 
         for(;;) {
             // make crawling url.
@@ -353,6 +332,7 @@ public class CrawlIO {
                 }
             }
             catch (Exception e) {
+                e.printStackTrace();
                 if (crawlErrorCount > MAX_CRAWL_ERROR_COUNT) {
                     logger.error(String.format(" Crawling timeout occured max crawling count[%d] overed & this url skip!!", crawlErrorCount));
                     break;
@@ -432,27 +412,6 @@ public class CrawlIO {
 
 
     /////////////////////////////////////////////////////////////////////////////
-    // make request header.
-    /////////////////////////////////////////////////////////////////////////////
-    public Map<String, String> makeRequestParamHeader() throws Exception {
-        Map<String, String> requestHeaderMap = new HashMap<String, String>();
-
-        requestHeaderMap.put("Host", requestParamHost);
-        requestHeaderMap.put("Connection", "keep-alive");
-        requestHeaderMap.put("Accept", "*/*");
-        requestHeaderMap.put("Origin", requestParamOrigin);
-        requestHeaderMap.put("X-Requested-With", "XMLHttpRequest");
-        requestHeaderMap.put("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36");
-        requestHeaderMap.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        requestHeaderMap.put("Referer", requesParamReferer);
-        requestHeaderMap.put("Accept-Encoding", "gzip, deflate");
-        requestHeaderMap.put("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4");
-
-        return requestHeaderMap;
-    }
-
-
-    /////////////////////////////////////////////////////////////////////////////
     // for Timon
     // http://m.ticketmonster.co.kr/deal?cat=shopping&subcat=shopping_electronic&filter=112385
     /////////////////////////////////////////////////////////////////////////////
@@ -520,12 +479,13 @@ public class CrawlIO {
         Map<String, String> extractParamNameMap = new HashMap<String, String>();
         Map<String, String> requestPostParam;
 
+
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
         crawlSite.setSocketTimeout(10000);
         crawlSite.setCrawlEncode(crawlEncoding);
         // set request header
-        crawlSite.setRequestHeader(crawlIO.makeRequestParamHeader());
+        crawlSite.setRequestHeader(httpReqHeader);
         // set request param extract field name.
         // sample - http://m.ticketmonster.co.kr/deal?cat=shopping&subcat=shopping_electronic&filter=112385";
         extractParamNameMap.put("cat","&");
@@ -556,6 +516,7 @@ public class CrawlIO {
                 }
             }
             catch (Exception e) {
+                e.printStackTrace();
                 if (crawlErrorCount > MAX_CRAWL_ERROR_COUNT) {
                     logger.error(String.format(" Crawling timeout occured max crawling count[%d] overed & this url skip!!",
                             crawlErrorCount));
@@ -586,7 +547,6 @@ public class CrawlIO {
             if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
                 if (isCrawlEnd(page, strCpName)) break;
                 logger.info(String.format(" Skip crawling data - (%s, page=%d) ", crawlSite.getCrawlUrl(), page));
-                if (isLastPage) break; // for first
                 page++;
                 continue;
             }
@@ -618,7 +578,6 @@ public class CrawlIO {
             beforePageMD5hashCode = md5HashCode; // 이전 page 값과 현재 page hash 값이 동일한지 체크하기 위해 남긴다.
             logger.info(String.format(" Crawled ( %d ) %s, page=%d", data_size, crawlSite.getCrawlUrl(), page));
 
-            if (isLastPage) break; // for first
             crawledCount++; // 크롤링한 데이터 카운트.
 
             if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
@@ -657,6 +616,7 @@ public class CrawlIO {
         String savePrefixPath = globalInfo.getSaveFilePath();
         Map<String, String> extractParamNameMap = new HashMap<String, String>();
         Map<String, String> requestPostParam = new HashMap<String, String>();
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.gsshop.com","http://m.gsshop.com");
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
@@ -664,10 +624,7 @@ public class CrawlIO {
         crawlSite.setCrawlEncode(crawlEncoding);
 
         // set request header
-        crawlIO.setRequesParamReferer("http://m.gsshop.com/deal/dealList.gs?lseq=395711");
-        crawlIO.setRequestParamHost("m.gsshop.com");
-        crawlIO.setRequestParamOrigin("http://m.gsshop.com");
-        crawlSite.setRequestHeader(crawlIO.makeRequestParamHeader());
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
 
         // crawling url이 변하지 않기 때문에 위에 셋팅.
         crawlSite.setCrawlUrl("http://m.gsshop.com/deal/dealListAjax.gs?lseq=");
@@ -767,9 +724,9 @@ public class CrawlIO {
     // snowppeak 사이트가 offset을 사용한다. 그외 사이트는 상관 없음.
     public String makeNextPageUrl(String cpName, String crawlStartUrl, String pagingType, int page, int offset) {
         String nextUrl;
-        if (cpName.equals(GlobalInfo.CP_CooPang)) {
+        if (cpName.equals(GlobalInfo.CP_CouPang)) {
             nextUrl = String.format("%s?%s=%d", crawlStartUrl, pagingType, page);
-        } else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_Timon)) {
+        } else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_Timon) || cpName.equals(GlobalInfo.CP_LotteThanksDeal)) {
             nextUrl = String.format("%s", crawlStartUrl);
         } else if (cpName.equals(GlobalInfo.CP_G9)) {
             nextUrl = String.format("%s&%s=%d", crawlStartUrl, pagingType, page);
@@ -783,7 +740,7 @@ public class CrawlIO {
 
 
     public boolean isCrawlEnd(int page, String cpName) {
-        if (cpName.equals(GlobalInfo.CP_CooPang) || cpName.equals(GlobalInfo.CP_G9) || cpName.equals(GlobalInfo.CP_GSDeal)) {
+        if (cpName.equals(GlobalInfo.CP_CouPang) || cpName.equals(GlobalInfo.CP_G9) || cpName.equals(GlobalInfo.CP_GSDeal)) {
             if (page > MAX_COUPANG_PAGE) return true;
         } else if (cpName.equals(GlobalInfo.CP_OKMALL)) {
             if (page > MAX_OKMALL_PAGE) return true;

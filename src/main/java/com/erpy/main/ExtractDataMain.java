@@ -140,7 +140,7 @@ public class ExtractDataMain {
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CampingPlus)) { // yes
                 cplus.mainExtractProcessing(cplus, crawlData, allSearchDatasMap);
             }
-            else if (crawlData.getCpName().equals(GlobalInfo.CP_CooPang)) { // yes
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CouPang)) { // yes
                 coopang.mainExtractProcessing(coopang, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_WeMef)) { // yes

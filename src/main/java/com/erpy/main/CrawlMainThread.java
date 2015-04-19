@@ -31,7 +31,16 @@ public class CrawlMainThread extends Thread {
     private String urlKeyword;
     private String cpName;
     private Map<String, CrawlData> allCrawlDatas;
+    private Map<String, String> httpRequestHeader;
 
+
+    public Map<String, String> getHttpRequestHeader() {
+        return httpRequestHeader;
+    }
+
+    public void setHttpRequestHeader(Map<String, String> httpRequestHeader) {
+        this.httpRequestHeader = httpRequestHeader;
+    }
 
     public void setPageType(String pageType) {
         this.pageType = pageType;
@@ -77,20 +86,33 @@ public class CrawlMainThread extends Thread {
         this.extractType = extractType;
     }
 
+
     public void run() {
         logger.info(String.format(" Thread run - %s", crawlUrl));
+
         CrawlIO crawlIO = new CrawlIO();
         crawlIO.setExtractType(extractType);
         crawlIO.setCrawlIO(pageType, extractDataCount, crawlEncode, saveEncode, contentExtractCountPattern);
+        crawlIO.setHttpReqHeader(httpRequestHeader);
+
         try {
-            if (cpName.equals(GlobalInfo.CP_GSDeal)) {
+            if (cpName.equals(GlobalInfo.CP_GSDeal)) { // GSDeal
                 crawlIO.crawlGSDeal(crawlUrl, urlKeyword, cpName, allCrawlDatas);
-            } else {
+            }
+            else if  (cpName.equals(GlobalInfo.CP_Timon)) { // Timon
+                crawlIO.setPattern("div.thm img");
+                crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+                crawlIO.crawlTimon(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            }
+            else if (cpName.equals(GlobalInfo.CP_WeMef)) { // WeMef
+                crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            }
+            else {
                 crawlIO.crawl(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
         } catch (Exception e) {
-            logger.error(String.format(" Running exception - %s", cpName));
             e.printStackTrace();
+            logger.error(String.format(" Running exception - %s", cpName));
         }
     }
 }

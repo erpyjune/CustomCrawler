@@ -32,6 +32,8 @@ import java.util.Map;
  * Created by baeonejune on 14. 11. 30..
  */
 public class CrawlSite {
+    private static Logger logger = Logger.getLogger(CrawlSite.class.getName());
+
     private String crawlUrl;
     private String crawlData;
     private String crawlEncoding="euc-kr"; // UTF-8, EUC-KR
@@ -44,13 +46,11 @@ public class CrawlSite {
     private int socketTimeout=10000;
     private int connectionTimeout=3000;
     private String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
-    private String REFERER = "http://www.google.com/";
+    private String REFERER = "http://search.google.com";
     private String CONNECTION = "keep-alive";
     private String ACCEPT = "text/html, */*; q=0.01";
     private String ACCEPT_LANG = "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4";
     private String Content_Type = "application/x-www-form-urlencoded; charset=UTF-8";
-
-    private static Logger logger = Logger.getLogger(CrawlSite.class.getName());
 
     // set method.
     public void setCrawlUrl(String url) {
@@ -106,9 +106,10 @@ public class CrawlSite {
         StringBuilder sb = new StringBuilder();
         String line=null;
 
-        httpGet.addHeader("User-Agent", USER_AGENT);
-        httpGet.addHeader("Referer", REFERER);
-        httpGet.addHeader("Connection", CONNECTION);
+        for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
+//            logger.info(String.format(" Set request header %s::%s", entry.getKey().trim(), entry.getValue().trim()));
+            httpGet.setHeader(entry.getKey().trim(), entry.getValue().trim());
+        }
 
         CloseableHttpResponse response = httpClient.execute(httpGet);
         reponseCode = response.getStatusLine().getStatusCode();
@@ -143,9 +144,10 @@ public class CrawlSite {
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(this.crawlUrl);
 
-        request.addHeader("User-Agent", USER_AGENT);
-        request.addHeader("Referer", REFERER);
-        request.addHeader("Connection", CONNECTION);
+        for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
+//            logger.info(String.format(" Set request header %s::%s", entry.getKey().trim(), entry.getValue().trim()));
+            request.setHeader(entry.getKey().trim(), entry.getValue().trim());
+        }
 
         HttpResponse response = client.execute(request);
 
@@ -182,9 +184,11 @@ public class CrawlSite {
                 .build();
 
         HttpGet httpGet = new HttpGet(this.crawlUrl);
-        httpGet.addHeader("User-Agent", USER_AGENT);
-        httpGet.addHeader("Referer", REFERER);
-        httpGet.addHeader("Connection", CONNECTION);
+
+        for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
+//            logger.info(String.format(" Set request header %s::%s", entry.getKey().trim(), entry.getValue().trim()));
+            httpGet.setHeader(entry.getKey().trim(), entry.getValue().trim());
+        }
 
         httpGet.setConfig(requestConfig);
         CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpGet);
@@ -222,9 +226,10 @@ public class CrawlSite {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(crawlUrl);
 
-        // add header
-        httpPost.addHeader("User-Agent", USER_AGENT);
-        httpPost.addHeader("Referer", REFERER);
+        for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
+//            logger.info(String.format(" Set request header %s::%s", entry.getKey().trim(), entry.getValue().trim()));
+            httpPost.setHeader(entry.getKey().trim(), entry.getValue().trim());
+        }
 
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         urlParameters.add(new BasicNameValuePair("mode", "categorymain"));
@@ -359,16 +364,18 @@ public class CrawlSite {
                 .setConnectTimeout(connectionTimeout)
                 .build());
 
+        logger.info(" Crawling target : " + crawlUrl);
+
         // add request headers.
         for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
-//            logger.info(String.format(" Set request header %s::%s", entry.getKey().trim(), entry.getValue().trim()));
+            logger.info(String.format(" Set request Header %s:%s", entry.getKey().trim(), entry.getValue().trim()));
             post.setHeader(entry.getKey().trim(), entry.getValue().trim());
         }
 
         // set param
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         for(Map.Entry<String, String> entry : postFormDataParam.entrySet()) {
-//            logger.info(String.format(" Set request param %s::%s", entry.getKey().trim(), entry.getValue().trim()));
+            logger.info(String.format(" Set request Param %s:%s", entry.getKey().trim(), entry.getValue().trim()));
             urlParameters.add(new BasicNameValuePair(entry.getKey().trim(), entry.getValue().trim()));
         }
         post.setEntity(new UrlEncodedFormEntity(urlParameters));

@@ -291,6 +291,11 @@ public class LotteThanksDeal {
                 searchData.setOrgPrice(searchData.getSalePrice());
             }
 
+            // org price만 있을 경우 sale price에 값을 채운다.
+            if (searchData.getOrgPrice()>0 && searchData.getSalePrice()==0) {
+                searchData.setSalePrice(searchData.getOrgPrice());
+            }
+
             // set cp name.
             searchData.setCpName(GlobalInfo.CP_LotteThanksDeal);
             // set keyword.

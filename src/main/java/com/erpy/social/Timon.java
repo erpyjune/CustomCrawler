@@ -1,6 +1,7 @@
 package com.erpy.social;
 
 import com.erpy.crawler.CrawlSite;
+import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.SearchData;
 import com.erpy.io.FileIO;
@@ -373,6 +374,32 @@ public class Timon {
     }
 
 
+    //////////////////////////////////////////////////////////////////////
+    public void timonMorePage() throws Exception {
+        CrawlSite crawlSite = new CrawlSite();
+
+        crawlSite.setCrawlEncode("utf-8");
+        crawlSite.setCrawlUrl("http://m.ticketmonster.co.kr/deal/getMoreDealList");
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.tmon.co.kr","http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104485");
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
+
+        Map<String, String> requestDataMap = new HashMap<String, String>();
+        requestDataMap.put("cat","fashion");
+        requestDataMap.put("sub_cat","fashion_female");
+        requestDataMap.put("cat_srl","104485");
+        requestDataMap.put("order","popular");
+        requestDataMap.put("page","4");
+
+        crawlSite.setPostFormDataParam(requestDataMap);
+
+        crawlSite.HttpPostGet();
+
+        logger.info(crawlSite.getCrawlData());
+
+    }
+
+
+    //////////////////////////////////////////////////////////////////////
     public static void main(String args[]) throws Exception {
         Elements elements;
         Document document;
@@ -382,23 +409,27 @@ public class Timon {
         String strLinkUrl="", shipping1="", shipping2="";
         CrawlSite crawlSite = new CrawlSite();
         GlobalUtils globalUtils = new GlobalUtils();
+        Timon timon = new Timon();
         int index=0;
 
+
+        timon.timonMorePage();
+        System.exit(-1);
+
+
         crawlSite.setCrawlEncode("utf-8");
-        crawlSite.setCrawlUrl("http://m.ticketmonster.co.kr/deal?cat=shopping&subcat=shopping_electronic&filter=112385");
-        int returnCode = crawlSite.HttpCrawlGetDataTimeout();
-        String htmlContent = crawlSite.getCrawlData();
+        crawlSite.setCrawlUrl("http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104485");
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.ticketmonster.co.kr","http://m.ticketmonster.co.kr");
 
-//        logger.info(crawlSite.getCrawlData());
-//        logger.info(String.format(" crawl contents size : %d", crawlSite.getCrawlData().length()));
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
+        crawlSite.HttpCrawlGetDataTimeout();
 
-        // 데이터 parsing을 위해 jsoup 객체로 읽는다.
-        Document doc = Jsoup.parse(htmlContent);
+        Document doc = Jsoup.parse(crawlSite.getCrawlData());
 
-        // 파싱 시작.
         elements = doc.select("li");
         for (Element element : elements) {
             document = Jsoup.parse(element.outerHtml());
+
             if (!element.outerHtml().contains("<p class=\"tit\">")) continue;
 
             index++;

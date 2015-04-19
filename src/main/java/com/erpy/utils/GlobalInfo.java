@@ -28,7 +28,7 @@ public class GlobalInfo {
     public static final String CP_CampingPlus  = "campingplus";
     public static final String CP_SnowPeak  = "snowpeak";
 
-    public static final String CP_CooPang  = "coopang";
+    public static final String CP_CouPang  = "coupang";
     public static final String CP_WeMef  = "wemef";
     public static final String CP_Timon  = "timon";
     public static final String CP_G9  = "g9";

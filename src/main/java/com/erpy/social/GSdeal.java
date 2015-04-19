@@ -2,6 +2,7 @@ package com.erpy.social;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
+import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
@@ -226,10 +227,8 @@ public class GSdeal {
 
         CrawlSite crawlSite = new CrawlSite();
         CrawlIO crawlIO = new CrawlIO();
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.gsshop.com","http://m.gsshop.com");
 
-        crawlIO.setRequesParamReferer("http://m.gsshop.com/deal/dealList.gs?lseq=395711");
-        crawlIO.setRequestParamHost("m.gsshop.com");
-        crawlIO.setRequestParamOrigin("http://m.gsshop.com");
 
         crawlSite.setConnectionTimeout(3000);
         crawlSite.setSocketTimeout(10000);
@@ -237,7 +236,7 @@ public class GSdeal {
         crawlSite.setCrawlUrl("http://m.gsshop.com/deal/dealListAjax.gs?lseq=");
         httpRequestParamMap.put("pageIdx", "1");
         crawlSite.setPostFormDataParam(httpRequestParamMap);
-        crawlSite.setRequestHeader(crawlIO.makeRequestParamHeader());
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
 
         crawlSite.HttpPostGet();
         crawlSite.getCrawlData();
