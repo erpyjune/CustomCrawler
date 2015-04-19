@@ -11,7 +11,7 @@ curl -XPOST "http://localhost:9200/shop/_close"
 sleep 2
 
 # setting analysis 
-curl -XPUT 'http://localhost:9200/shop/_settings' -d '{"settings": {"index": {"analysis" : {"analyzer" : {"my_search_analyzer":{"tokenizer" : "standard","filter" : ["standard", "asciifolding", "lowercase", "kstem", "search_synonym"]},"my_search_std_analyzer" : {"tokenizer" : "standard","filter" : ["standard", "asciifolding", "lowercase", "kstem"]}},"filter" : {"search_synonym" : {"type" : "synonym","synonyms_path" : "analysis/synonyms/okmall.sym"}}}}}}'
+curl -XPUT 'http://localhost:9200/shop/_settings' -d '{"settings": {"index": {"analysis" : {"analyzer" : {"my_search_analyzer":{"tokenizer" : "standard","filter" : ["standard", "asciifolding", "lowercase", "kstem", "search_synonym"]},"my_search_std_analyzer" : {"tokenizer" : "standard","filter" : ["standard", "asciifolding", "lowercase", "kstem"]}},"filter" : {"search_synonym" : {"type" : "synonym","synonyms_path" : "analysis/synonyms/search.sym"}}}}}}'
 
 sleep 2
 
