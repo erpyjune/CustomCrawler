@@ -375,12 +375,13 @@ public class Timon {
 
 
     //////////////////////////////////////////////////////////////////////
+    // data : cat=fashion&sub_cat=fashion_female&cat_srl=104129&order=popular&page=1
     public void timonMorePage() throws Exception {
         CrawlSite crawlSite = new CrawlSite();
 
         crawlSite.setCrawlEncode("utf-8");
         crawlSite.setCrawlUrl("http://m.ticketmonster.co.kr/deal/getMoreDealList");
-        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.tmon.co.kr","http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104485");
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.ticketmonster.co.kr","http://m.ticketmonster.co.kr/deal/?cat=fashion&subcat=fashion_female");
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
 
         Map<String, String> requestDataMap = new HashMap<String, String>();
@@ -388,7 +389,7 @@ public class Timon {
         requestDataMap.put("sub_cat","fashion_female");
         requestDataMap.put("cat_srl","104485");
         requestDataMap.put("order","popular");
-        requestDataMap.put("page","4");
+        requestDataMap.put("page","1");
 
         crawlSite.setPostFormDataParam(requestDataMap);
 

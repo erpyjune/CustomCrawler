@@ -13,7 +13,7 @@ public class HttpRequestHeader {
         httpRequestHeader.put("Host", host);
         httpRequestHeader.put("Referer", referer);
         httpRequestHeader.put("Origin", host);
-        httpRequestHeader.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        httpRequestHeader.put("Accept", "*/*");
         httpRequestHeader.put("Accept-Encoding", "gzip, deflate, sdch");
         httpRequestHeader.put("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4");
         httpRequestHeader.put("Cache-Control", "max-age=0");
