@@ -136,21 +136,21 @@ public class CrawlDeals {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("json");
                 crawlMainThread.run();
-//            } else if (strCpName.equals(GlobalInfo.CP_Timon)) {
-//                CrawlMainThread crawlMainThread = new CrawlMainThread();
-//                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.ticketmonster.co.kr","http://m.ticketmonster.co.kr");
-//                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
-//                crawlMainThread.setPageType("page");
-//                crawlMainThread.setExtractDataCount(0);
-//                crawlMainThread.setCrawlEncode("utf-8");
-//                crawlMainThread.setSaveEncode("utf-8");
-//                crawlMainThread.setContentExtractCountPattern("div.info p.tit");
-//                crawlMainThread.setCrawlUrl(strUrl);
-//                crawlMainThread.setUrlKeyword(strKeyword);
-//                crawlMainThread.setCpName(strCpName);
-//                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
-//                crawlMainThread.setExtractType("html");
-//                crawlMainThread.run();
+            } else if (strCpName.equals(GlobalInfo.CP_Timon)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.ticketmonster.co.kr","http://m.ticketmonster.co.kr");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div.info p.tit");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.run();
             } else if (strCpName.equals(GlobalInfo.CP_WeMef)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.wemakeprice.com","http://m.wemakeprice.com");

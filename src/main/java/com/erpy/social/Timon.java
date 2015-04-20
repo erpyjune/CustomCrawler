@@ -144,6 +144,8 @@ public class Timon {
         this.collisionFileCount = collisionFileCount;
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////
     public Map<String, SearchData> extract(CrawlData crawlData) throws Exception {
         FileIO fileIO = new FileIO();
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
@@ -329,6 +331,7 @@ public class Timon {
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////
     public void mainExtractProcessing(Timon cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
@@ -413,17 +416,21 @@ public class Timon {
         Timon timon = new Timon();
         int index=0;
 
-
-        timon.timonMorePage();
-        System.exit(-1);
-
-
         crawlSite.setCrawlEncode("utf-8");
-        crawlSite.setCrawlUrl("http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104485");
-        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.ticketmonster.co.kr","http://m.ticketmonster.co.kr");
-
+        crawlSite.setCrawlUrl("http://m.ticketmonster.co.kr/deal/getMoreDealList");
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.ticketmonster.co.kr","http://m.ticketmonster.co.kr/deal/?cat=fashion&subcat=fashion_female");
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
-        crawlSite.HttpCrawlGetDataTimeout();
+
+        Map<String, String> requestDataMap = new HashMap<String, String>();
+        requestDataMap.put("cat","fashion");
+        requestDataMap.put("sub_cat", "fashion_female");
+        requestDataMap.put("cat_srl", "104485");
+        requestDataMap.put("order", "popular");
+        requestDataMap.put("page", "1");
+
+        crawlSite.setPostFormDataParam(requestDataMap);
+
+        crawlSite.HttpPostGet();
 
         Document doc = Jsoup.parse(crawlSite.getCrawlData());
 
@@ -431,7 +438,7 @@ public class Timon {
         for (Element element : elements) {
             document = Jsoup.parse(element.outerHtml());
 
-            if (!element.outerHtml().contains("<p class=\"tit\">")) continue;
+            if (!element.outerHtml().contains("<div class=\"thm\">")) continue;
 
             index++;
 
@@ -453,20 +460,20 @@ public class Timon {
                 }
             }
 
-            // shipping 1
-            listE = document.select("span.free");
-            for (Element et : listE) {
-                strItem = et.text().trim();
-                logger.info(" shipping : " + strItem);
-            }
-
-            // shipping 2
-            listE = document.select("span.evt");
-            for (Element et : listE) {
-                strItem = et.text().trim();
-                logger.info(" shipping : " + strItem);
-            }
-
+//            // shipping 1
+//            listE = document.select("span.free");
+//            for (Element et : listE) {
+//                strItem = et.text().trim();
+//                logger.info(" shipping : " + strItem);
+//            }
+//
+//            // shipping 2
+//            listE = document.select("span.evt");
+//            for (Element et : listE) {
+//                strItem = et.text().trim();
+//                logger.info(" shipping : " + strItem);
+//            }
+//
             // product name
             listE = document.select("p.tit");
             for (Element et : listE) {
@@ -474,22 +481,22 @@ public class Timon {
                 logger.info(" title : " + strItem);
             }
 
-            // org price
-            listE = document.select("p.org em.no");
-            for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> org price(%s)", strItem));
-                    break;
-                } else {
-                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
-                }
-            }
-
+//            // org price
+//            listE = document.select("p.org em.no");
+//            for (Element et : listE) {
+//                strItem = et.text().replace("원", "").replace(",", "").trim();
+//                if (GlobalUtils.isAllDigitChar(strItem)) {
+//                    logger.info(String.format(" >> org price(%s)", strItem));
+//                    break;
+//                } else {
+//                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
+//                }
+//            }
+//
             // sale price
-            listE = document.select("p.sale em.no");
+            listE = document.select("div.won em.no");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
+                strItem = globalUtils.priceDataCleaner(et.text());
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     logger.info(String.format(" >> sale price(%s)", strItem));
                     break;
@@ -510,17 +517,17 @@ public class Timon {
                 }
             }
 
-            // sale per
-            listE = document.select("div.price strong.per");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> sale per - (%s)", strItem));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [sale per] data is NOT valid - (%s)", strItem));
-                }
-            }
+//            // sale per
+//            listE = document.select("div.price strong.per");
+//            for (Element et : listE) {
+//                strItem = globalUtils.priceDataCleaner(et.text());
+//                if (GlobalUtils.isAllDigitChar(strItem)) {
+//                    logger.info(String.format(" >> sale per - (%s)", strItem));
+//                    break;
+//                } else {
+//                    logger.error(String.format(" Extract [sale per] data is NOT valid - (%s)", strItem));
+//                }
+//            }
 
             logger.info("=======================================================================");
             logger.info(String.format(" index : %d", index));

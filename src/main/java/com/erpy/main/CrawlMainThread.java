@@ -100,7 +100,6 @@ public class CrawlMainThread extends Thread {
                 crawlIO.crawlGSDeal(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
             else if  (cpName.equals(GlobalInfo.CP_Timon)) { // Timon
-                crawlIO.setPattern("div.thm img");
                 crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
                 crawlIO.crawlTimon(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
