@@ -99,11 +99,14 @@ public class CrawlMainThread extends Thread {
             if (cpName.equals(GlobalInfo.CP_GSDeal)) { // GSDeal
                 crawlIO.crawlGSDeal(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
+            else if (cpName.equals(GlobalInfo.CP_HappyVirusPost)) { // HappyVirus POST
+                crawlIO.crawlHappyVirusPost(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            }
             else if  (cpName.equals(GlobalInfo.CP_Timon)) { // Timon
                 crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
                 crawlIO.crawlTimon(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
-            else if (cpName.equals(GlobalInfo.CP_WeMef)) { // WeMef
+            else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_HappyVirusFirst)) { // WeMef
                 crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
             else {

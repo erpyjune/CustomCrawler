@@ -1,0 +1,2 @@
+# 아래 url 을 시작으로 POST 방식으로 추출.
+해피바이러스 | http://m.shinsegaemall.ssg.com/service/ajaxHappyAllItemList.ssg

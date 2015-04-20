@@ -181,6 +181,36 @@ public class CrawlDeals {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
+            } else if (strCpName.equals(GlobalInfo.CP_HappyVirusFirst)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.shinsegaemall.ssg.com","http://m.shinsegaemall.ssg.com");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div.hb_article_li ");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.run();
+            } else if (strCpName.equals(GlobalInfo.CP_HappyVirusPost)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.shinsegaemall.ssg.com","http://m.shinsegaemall.ssg.com");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div.hb_article2_li ");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.run();
             } else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));
             }

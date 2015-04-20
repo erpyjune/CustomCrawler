@@ -1,0 +1,2 @@
+# 이 url에서 처음 큰 이미지 리스트만 불어온다. 이 페이지만 수집하면 끝.
+해피바이러스 | http://m.shinsegaemall.ssg.com/service/happybuyrus.ssg

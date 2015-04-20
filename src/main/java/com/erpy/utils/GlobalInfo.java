@@ -35,6 +35,8 @@ public class GlobalInfo {
     public static final String CP_GSDeal  = "gsdeal";
     public static final String CP_LotteThanksDeal  = "lottethanksdeal";
     public static final String CP_HotKill  = "hotkill";
+    public static final String CP_HappyVirusFirst  = "happyvirusfirst";
+    public static final String CP_HappyVirusPost  = "happyviruspost";
 
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;

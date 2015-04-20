@@ -21,8 +21,8 @@ import java.util.Map;
 /**
  * Created by baeonejune on 15. 4. 20..
  */
-public class HappyVirus {
-    private static Logger logger = Logger.getLogger(HappyVirus.class.getName());
+public class HappyVirusPost {
+    private static Logger logger = Logger.getLogger(HappyVirusPost.class.getName());
     private GlobalUtils globalUtils = new GlobalUtils();
     private ValidChecker validChecker = new ValidChecker();
     private DB db = new DB();
@@ -176,7 +176,7 @@ public class HappyVirus {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("li");
+        elements = doc.select("div.hb_article2_li ");
         for (Element element : elements) {
 
             productId="";
@@ -184,9 +184,9 @@ public class HappyVirus {
             document = Jsoup.parse(element.outerHtml());
 
             // Thumb link
-            listE = document.select("img.loading");
+            listE = document.select("img");
             for (Element et : listE) {
-                strItem = et.attr("s");
+                strItem = et.attr("src");
                 searchData.setThumbUrl(strItem);
                 logger.debug(String.format(" >> Thumb : (%s)", searchData.getThumbUrl()));
             }
@@ -196,29 +196,29 @@ public class HappyVirus {
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "/nm/products/");
-                    searchData.setContentUrl(prefixContentUrl + productId);
+                    productId = globalUtils.getFieldData(strLinkUrl, "itemId","&");
+                    searchData.setContentUrl(prefixContentUrl + strLinkUrl);
                     searchData.setProductId(productId);
                     logger.debug(String.format(" >> Link : (%s)", searchData.getContentUrl()));
                 }
             }
 
             // shipping
-            listE = document.select("span.badge-shipping.free-shipping");
-            for (Element et : listE) {
-                searchData.setShippingHow(et.text().trim());
-                logger.debug(String.format(" >> shipping (%s)", searchData.getShippingHow()));
-            }
+//            listE = document.select("span.badge-shipping.free-shipping");
+//            for (Element et : listE) {
+//                searchData.setShippingHow(et.text().trim());
+//                logger.debug(String.format(" >> shipping (%s)", searchData.getShippingHow()));
+//            }
 
             // product name
-            listE = document.select("dt");
+            listE = document.select("img");
             for (Element et : listE) {
-                searchData.setProductName(et.text().trim());
+                searchData.setProductName(et.attr("alt"));
                 logger.debug(String.format(" >> title(%s)", searchData.getProductName()));
             }
 
             // org price
-            listE = document.select("dd.original-price del");
+            listE = document.select("span.high");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
@@ -233,7 +233,7 @@ public class HappyVirus {
             }
 
             // sale price
-            listE = document.select("dd.sale-price");
+            listE = document.select("span.low");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
@@ -249,7 +249,7 @@ public class HappyVirus {
             }
 
             // sell count
-            listE = document.select("dd.square-sale-count");
+            listE = document.select("span.price_rem");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
@@ -264,19 +264,19 @@ public class HappyVirus {
             }
 
             // sale per
-            listE = document.select("dd.discount-rate");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
-                    searchData.setSalePer(Float.parseFloat(strItem));
-                    logger.debug(String.format(" >> sale per(%s)", searchData.getSalePer()));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [sale per] data is NOT valid - (%s)", strItem));
-                    logger.error(String.format(" Extract [sale per] product name      - (%s)", searchData.getProductName()));
-                    logger.error(String.format(" Extract [sale per] seed url          - (%s)", crawlData.getSeedUrl()));
-                }
-            }
+//            listE = document.select("dd.discount-rate");
+//            for (Element et : listE) {
+//                strItem = globalUtils.priceDataCleaner(et.text());
+//                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
+//                    searchData.setSalePer(Float.parseFloat(strItem));
+//                    logger.debug(String.format(" >> sale per(%s)", searchData.getSalePer()));
+//                    break;
+//                } else {
+//                    logger.error(String.format(" Extract [sale per] data is NOT valid - (%s)", strItem));
+//                    logger.error(String.format(" Extract [sale per] product name      - (%s)", searchData.getProductName()));
+//                    logger.error(String.format(" Extract [sale per] seed url          - (%s)", crawlData.getSeedUrl()));
+//                }
+//            }
 
             // sale per
             if (searchData.getSalePer()==0 && searchData.getSalePrice()>0 && searchData.getOrgPrice()>0) {
@@ -289,8 +289,13 @@ public class HappyVirus {
                 searchData.setOrgPrice(searchData.getSalePrice());
             }
 
+            // org price만 있을 경우 sale price에 값을 채운다.
+            if (searchData.getOrgPrice()>0 && searchData.getSalePrice()==0) {
+                searchData.setSalePrice(searchData.getOrgPrice());
+            }
+
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_CouPang);
+            searchData.setCpName(GlobalInfo.CP_HappyVirusPost);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
             // set seed url
@@ -364,106 +369,8 @@ public class HappyVirus {
 
 
     /////////////////////////////////////////////////////////////////////
-    // 해피바이러스 처음 페이지 추출
-    void extractTest1(String data) throws Exception {
-        Elements elements;
-        Document document;
-        String strItem;
-        String productId;
-        Elements listE;
-        String strLinkUrl;
-        CrawlSite crawlSite = new CrawlSite();
-        GlobalUtils globalUtils = new GlobalUtils();
-        int index=0;
-
-
-        // 데이터 parsing을 위해 jsoup 객체로 읽는다.
-        Document doc = Jsoup.parse(data);
-
-        // 파싱 시작.
-        elements = doc.select("div.hb_article_li ");
-        for (Element element : elements) {
-            document = Jsoup.parse(element.outerHtml());
-            index++;
-//            logger.info(element.outerHtml());
-
-            // Thumb link
-            listE = document.select("img");
-            for (Element et : listE) {
-                strItem = et.attr("src");
-                logger.info(prefixHostThumbUrl + strItem);
-            }
-
-            // link
-            listE = document.select("a");
-            for (Element et : listE) {
-                strLinkUrl = et.attr("href");
-                if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "itemId","&");
-                    logger.info(" url : " + prefixContentUrl + strLinkUrl);
-                    break;
-                }
-            }
-
-//            // shipping
-//            listE = document.select("span.badge-shipping.free-shipping");
-//            for (Element et : listE) {
-//                strItem = et.text().trim();
-//                logger.info(" shipping : " + strItem);
-//            }
-//
-            // product name
-            listE = document.select("a");
-            for (Element et : listE) {
-                strItem = et.text().trim();
-                logger.info(" title : " + strItem);
-            }
-
-            // org price
-            listE = document.select("span.high");
-            for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> org price(%s)", strItem));
-                    break;
-                } else {
-                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
-                }
-            }
-
-            // sale price
-            listE = document.select("span.low");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> sale price(%s)", strItem));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));
-                }
-            }
-
-            // sell count
-            listE = document.select("span.price_rem");
-            for (Element et : listE) {
-                strItem = globalUtils.priceDataCleaner(et.text());
-                if (GlobalUtils.isAllDigitChar(strItem)) {
-                    logger.info(String.format(" >> sell count(%s)", strItem));
-                    break;
-                } else {
-                    logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));
-                }
-            }
-
-            logger.info("=======================================================================");
-            logger.info(String.format(" index : %d", index));
-        }
-    }
-
-
-    /////////////////////////////////////////////////////////////////////
     // 해피바이러스 두번째 페이지 추출
-    void extractTest2(String data) throws Exception {
+    void extractTest(String data) throws Exception {
         Elements elements;
         Document document;
         String strItem;
@@ -560,25 +467,19 @@ public class HappyVirus {
 
 
     public static void main(String args[]) throws Exception {
-        HappyVirus happyVirus = new HappyVirus();
+        HappyVirusPost happyVirusPost = new HappyVirusPost();
         CrawlSite crawlSite = new CrawlSite();
 
         HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.shinsegaemall.ssg.com","http://m.shinsegaemall.ssg.com");
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
         crawlSite.setCrawlEncode("utf-8");
 
-        // 첫 페이지 추출.
-//        crawlSite.setCrawlUrl("http://m.shinsegaemall.ssg.com/service/happybuyrus.ssg");
-//        crawlSite.HttpCrawlGetDataTimeout();
-//        happyVirus.extractTest1(crawlSite.getCrawlData());
-
         // 두번째 페이지 추출.
         Map<String, String> postDataParam = new HashMap<String, String>();
         postDataParam.put("page", "1");
         crawlSite.setPostFormDataParam(postDataParam);
-
         crawlSite.setCrawlUrl("http://m.shinsegaemall.ssg.com/service/ajaxHappyAllItemList.ssg");
         crawlSite.HttpPostGet();
-        happyVirus.extractTest2(crawlSite.getCrawlData());
+        happyVirusPost.extractTest(crawlSite.getCrawlData());
     }
 }
