@@ -77,7 +77,7 @@ public class GlobalUtils {
         return s.replace("원", "").replace("won", "").replace(",", "").
                 replace("<b>", "").replace("</b>", "").replace("판매가", "").replace(" ","").
                 replace(":", "").replace("이벤트가", "").replace("개 구매중","").replace("개구매중","").
-                replace("%", "").replace("~","").replace("개","").replace("구매","").trim();
+                replace("%", "").replace("~","").replace("개","").replace("구매","").replace("HIT","").trim();
     }
 
     public String htmlCleaner(String s) {
