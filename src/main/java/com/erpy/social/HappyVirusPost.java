@@ -317,7 +317,7 @@ public class HappyVirusPost {
     }
 
 
-    public void mainExtractProcessing(Coopang cp,
+    public void mainExtractProcessing(HappyVirusPost cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 

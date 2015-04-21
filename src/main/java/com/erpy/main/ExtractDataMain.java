@@ -73,6 +73,9 @@ public class ExtractDataMain {
         GSdeal gSdeal = new GSdeal();
         LotteThanksDeal lotteThanksDeal = new LotteThanksDeal();
         HotKill hotKill = new HotKill();
+        HappyVirusFrist happyVirusFrist = new HappyVirusFrist();
+        HappyVirusPost happyVirusPost = new HappyVirusPost();
+
 
 
         String argsCPname="";
@@ -160,6 +163,12 @@ public class ExtractDataMain {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_HotKill)) { // yes
                 hotKill.mainExtractProcessing(hotKill, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_HappyVirusFirst)) { // yes
+                happyVirusFrist.mainExtractProcessing(happyVirusFrist, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_HappyVirusPost)) { // yes
+                happyVirusPost.mainExtractProcessing(happyVirusPost, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {
 //                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);
