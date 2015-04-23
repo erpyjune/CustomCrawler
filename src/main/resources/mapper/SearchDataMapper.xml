@@ -37,6 +37,7 @@
         <result property='crawlKeyword' 	column='keyword'/>
         <result property='dataStatus' 	    column='status'/>
         <result property='seedUrl'  	    column='seed_url'/>
+        <result property='updateDate'  	    column='date'/>
     </resultMap>
 
     <select id='getAllSearchDatas' resultMap='SearchDataResult'>
@@ -52,8 +53,8 @@
     </select>
 
     <insert id='insertSearchData' parameterType='SearchData' useGeneratedKeys='true' keyProperty='dataId'>
-        INSERT INTO search (product_id, product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, status, seed_url)
-        VALUES(#{productId}, #{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{dataStatus}, #{seedUrl})
+        INSERT INTO search (product_id, product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, status, seed_url, date)
+        VALUES(#{productId}, #{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{dataStatus}, #{seedUrl}, #{updateDate})
     </insert>
 
     <update id='updateSearchData' parameterType='SearchData'>
@@ -70,7 +71,8 @@
         cp           = #{cpName},
         keyword      = #{crawlKeyword},
         status       = #{dataStatus},
-        seed_url     = #{seedUrl}
+        seed_url     = #{seedUrl},
+        date         = #{updateDate}
         WHERE id     = #{dataId}
     </update>
 

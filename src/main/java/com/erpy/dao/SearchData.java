@@ -1,5 +1,7 @@
 package com.erpy.dao;
 
+import com.erpy.utils.DateInfo;
+
 /**
  * Created by baeonejune on 14. 12. 27..
  */
@@ -13,6 +15,7 @@ public class SearchData {
     Integer orgPrice=0;
     Integer salePrice=0;
     Float salePer=0.0f;
+    String updateDate="";
     int sellCount=0;
     String shippingHow="";
     String cpName="";
@@ -23,6 +26,10 @@ public class SearchData {
     String type;
     String dataStatus;
 
+    public SearchData() {
+        DateInfo dateInfo = new DateInfo();
+        updateDate = dateInfo.getCurrDateTime();
+    }
 
     public String getProductId() {
         return productId;
@@ -86,6 +93,14 @@ public class SearchData {
 
     public void setSalePer(Float salePer) {
         this.salePer = salePer;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
     }
 
     public String getCpName() {

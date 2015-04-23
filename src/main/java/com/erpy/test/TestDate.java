@@ -15,6 +15,8 @@ public class TestDate {
 
         // SimpleDateFormat
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-        System.out.println("SimpleDateFormat:" + sdf.format(date));
+        System.out.println(" SimpleDateFormat:" + sdf.format(date));
+
+
     }
 }
