@@ -211,6 +211,21 @@ public class CrawlDeals {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
+            } else if (strCpName.equals(GlobalInfo.CP_HappyDeals)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.nsmall.com","http://m.nsmall.com");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("span.price");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.run();
             } else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));
             }

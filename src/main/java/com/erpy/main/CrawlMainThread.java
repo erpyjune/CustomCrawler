@@ -106,7 +106,8 @@ public class CrawlMainThread extends Thread {
                 crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
                 crawlIO.crawlTimon(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
-            else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_HappyVirusFirst)) { // WeMef
+            else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_HappyVirusFirst) ||
+                    cpName.equals(GlobalInfo.CP_HappyDeals)) {
                 crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
             else {

@@ -853,7 +853,8 @@ public class CrawlIO {
         if (cpName.equals(GlobalInfo.CP_CouPang)) {
             nextUrl = String.format("%s?%s=%d", crawlStartUrl, pagingType, page);
         } else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_Timon) ||
-                cpName.equals(GlobalInfo.CP_LotteThanksDeal) || cpName.equals(GlobalInfo.CP_HappyVirusFirst)) {
+                cpName.equals(GlobalInfo.CP_LotteThanksDeal) || cpName.equals(GlobalInfo.CP_HappyVirusFirst) ||
+                cpName.equals(GlobalInfo.CP_HappyDeals)) {
             nextUrl = String.format("%s", crawlStartUrl);
         } else if (cpName.equals(GlobalInfo.CP_G9)) {
             nextUrl = String.format("%s&%s=%d", crawlStartUrl, pagingType, page);

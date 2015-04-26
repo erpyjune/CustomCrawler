@@ -75,6 +75,7 @@ public class ExtractDataMain {
         HotKill hotKill = new HotKill();
         HappyVirusFrist happyVirusFrist = new HappyVirusFrist();
         HappyVirusPost happyVirusPost = new HappyVirusPost();
+        HappyDeals happyDeals = new HappyDeals();
 
 
 
@@ -169,6 +170,9 @@ public class ExtractDataMain {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_HappyVirusPost)) { // yes
                 happyVirusPost.mainExtractProcessing(happyVirusPost, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_HappyDeals)) { // yes
+                happyDeals.mainExtractProcessing(happyDeals, crawlData, allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_SnowPeak)) {
 //                sp.mainExtractProcessing(sp, crawlData, allSearchDatasMap);
