@@ -1,31 +1,31 @@
-여성 상의 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104485
+여성 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104485
 # cat=fashion&sub_cat=fashion_female&cat_srl=104485&order=popular&page=1
-여성 원피스 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104497
+여성 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104497
 # cat=fashion&sub_cat=fashion_female&cat_srl=104497&order=popular&page=1
-여성 하의 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104501
+여성 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104501
 여성 이지웨어 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104505
-여성 아우터 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104509
+여성 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104509
 여성 언더웨어 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_female&filter=104513
 
-남성 상의 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104521
-남성 하의 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104533
-남성 정장 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104537
-남성 아우터 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104541
+남성 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104521
+남성 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104533
+남성 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104537
+남성 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104541
 남성 언더웨어 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=104545
 남성 이지웨어 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_male&filter=108837
 
-스포츠 아웃도어 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=104597
-스포츠 슈즈 신발 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=104601
-스포츠 소품 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=104605
-등산복 아웃도어 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=108745
-골프 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=108749
-스윔 비치웨어 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=108757
+스포츠 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=104597
+스포츠 슈즈 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=104601
+스포츠 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=104605
+아웃도어 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=108745
+골프 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=108749
+스포츠패션 기타 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_sport&filter=108757
 
 명품 의류 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_premium&filter=104629
 명품 신발 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_premium&filter=104633
 명품 잡화 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_premium&filter=104637
-명품 쥬얼리 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_premium&filter=104641
-명품 선글라스 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_premium&filter=104757
+쥬얼리 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_premium&filter=104641
+선글라스 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_premium&filter=104757
 
 여성 가방 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_bag&filter=104561
 남성 가방 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_bag&filter=104565
@@ -38,7 +38,7 @@
 남성 신발 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_shoe&filter=104553
 스니커즈 운동화 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_shoe&filter=104557
 
-시계 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_watch&filter=104581
+쥬얼리 시계 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_watch&filter=104581
 쥬얼리 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_watch&filter=104585
 쥬얼리 | http://m.ticketmonster.co.kr/deal?cat=fashion&subcat=fashion_watch&filter=104589
 

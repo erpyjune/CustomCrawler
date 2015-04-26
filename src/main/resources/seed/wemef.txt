@@ -1,33 +1,32 @@
 여성 의류 | http://m.wemakeprice.com/m/main/100200/100208
 여성 의류 | http://m.wemakeprice.com/m/main/100200/100209
-여성 의류 티셔츠 | http://m.wemakeprice.com/m/main/100200/100207
-여성 의류 아우터 | http://m.wemakeprice.com/m/main/100200/100206
+여성 의류 | http://m.wemakeprice.com/m/main/100200/100207
+여성 의류 | http://m.wemakeprice.com/m/main/100200/100206
 여성 의류 | http://m.wemakeprice.com/m/main/100200/100222
-여성 의류 원피스 | http://m.wemakeprice.com/m/main/100200/100223
+여성 의류 | http://m.wemakeprice.com/m/main/100200/100223
 여성 의류 | http://m.wemakeprice.com/m/main/100200/100226
 
 남성 의류 | http://m.wemakeprice.com/m/main/101600/101601
-남성 셔츠남방 | http://m.wemakeprice.com/m/main/101600/101603
-남성 의류 니트가디건 | http://m.wemakeprice.com/m/main/101600/101606
-남성 의류 아우터 | http://m.wemakeprice.com/m/main/101600/101604
-남성 의류 팬츠 바지 | http://m.wemakeprice.com/m/main/101600/101602
-남성 의류 정장 | http://m.wemakeprice.com/m/main/101600/101607
-남성 빅사이즈 | http://m.wemakeprice.com/m/main/101600/101608
+남성 의류 | http://m.wemakeprice.com/m/main/101600/101603
+남성 의류 | http://m.wemakeprice.com/m/main/101600/101606
+남성 의류 | http://m.wemakeprice.com/m/main/101600/101604
+남성 의류 | http://m.wemakeprice.com/m/main/101600/101602
+남성 의류 | http://m.wemakeprice.com/m/main/101600/101607
+남성 의류 | http://m.wemakeprice.com/m/main/101600/101608
 
 # 백화점
 여성 의류 | http://m.wemakeprice.com/m/main/100100/100101
 남성 의류 | http://m.wemakeprice.com/m/main/100100/100108
-유니섹스 | http://m.wemakeprice.com/m/main/100100/100102
-해외브랜드 | http://m.wemakeprice.com/m/main/100100/100104
+브랜드 백화점 | http://m.wemakeprice.com/m/main/100100/100104
 
-여성 언더웨어 속옷 | http://m.wemakeprice.com/m/main/101900/101901
-여성 보정 언더웨어 속옷 | http://m.wemakeprice.com/m/main/101900/101902
+여성 언더웨어 | http://m.wemakeprice.com/m/main/101900/101901
+여성 언더웨어 | http://m.wemakeprice.com/m/main/101900/101902
 이지웨어 | http://m.wemakeprice.com/m/main/101900/101903
 남성 언더웨어 | http://m.wemakeprice.com/m/main/101900/101904
-유아동 주니어 언더웨어 | http://m.wemakeprice.com/m/main/101900/101905
+유아동 언더웨어 | http://m.wemakeprice.com/m/main/101900/101905
 
 여성 가방 | http://m.wemakeprice.com/m/main/100300/100302
-남성 가방 캐주얼 | http://m.wemakeprice.com/m/main/100300/100315
+남성 가방 | http://m.wemakeprice.com/m/main/100300/100315
 지갑밸트 | http://m.wemakeprice.com/m/main/100300/100308
 양말스타킹 | http://m.wemakeprice.com/m/main/100300/100311
 패션소품 | http://m.wemakeprice.com/m/main/100300/100303
@@ -50,7 +49,7 @@
 유아 아동 의류 | http://m.wemakeprice.com/m/main/101700/101701
 유아 아동 의류 | http://m.wemakeprice.com/m/main/101700/101702
 유아 아동 의류 | http://m.wemakeprice.com/m/main/101700/101703
-유아 아동 속옷 | http://m.wemakeprice.com/m/main/101700/101704
+유아 아동 의류 | http://m.wemakeprice.com/m/main/101700/101704
 유아 아동 의류 | http://m.wemakeprice.com/m/main/101700/101705
 유아 아동 신발 | http://m.wemakeprice.com/m/main/101700/101706
 유아 아동 잡화 | http://m.wemakeprice.com/m/main/101700/101707

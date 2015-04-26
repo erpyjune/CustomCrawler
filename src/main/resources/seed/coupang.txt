@@ -1,19 +1,19 @@
-여성의류 상의 | http://m.coupang.com/nm/paging/plp/160
-여성의류 하의 | http://m.coupang.com/nm/paging/plp/107
-여성의류 원피스 | http://m.coupang.com/nm/paging/plp/108
-여성의류 아우터 | http://m.coupang.com/nm/paging/plp/109
-여성의류 언더웨어 | http://m.coupang.com/nm/paging/plp/110
+여성 의류 | http://m.coupang.com/nm/paging/plp/160
+여성 의류 | http://m.coupang.com/nm/paging/plp/107
+여성 의류 | http://m.coupang.com/nm/paging/plp/108
+여성 의류 | http://m.coupang.com/nm/paging/plp/109
+여성 언더웨어 | http://m.coupang.com/nm/paging/plp/110
 
-남성의류 상의 | http://m.coupang.com/nm/paging/plp/111
-남성의류 하의 | http://m.coupang.com/nm/paging/plp/112
-남성의류 | http://m.coupang.com/nm/paging/plp/113
-남성의류 아우터 | http://m.coupang.com/nm/paging/plp/114
-남성의류 언더웨어 | http://m.coupang.com/nm/paging/plp/115
+남성 의류 | http://m.coupang.com/nm/paging/plp/111
+남성 의류 | http://m.coupang.com/nm/paging/plp/112
+남성 의류 | http://m.coupang.com/nm/paging/plp/113
+남성 의류 | http://m.coupang.com/nm/paging/plp/114
+남성 언더웨어 | http://m.coupang.com/nm/paging/plp/115
 
-여성신발 | http://m.coupang.com/nm/paging/plp/116
-남성신발 | http://m.coupang.com/nm/paging/plp/117
+여성 신발 | http://m.coupang.com/nm/paging/plp/116
+남성 신발 | http://m.coupang.com/nm/paging/plp/117
 운동화 케주얼화 | http://m.coupang.com/nm/paging/plp/118
-가방지갑 | http://m.coupang.com/nm/paging/plp/119
+가방 지갑 | http://m.coupang.com/nm/paging/plp/119
 소품 | http://m.coupang.com/nm/paging/plp/120
 시계주얼리 | http://m.coupang.com/nm/paging/plp/121
 
