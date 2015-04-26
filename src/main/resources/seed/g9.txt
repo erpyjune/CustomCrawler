@@ -1,3 +1,4 @@
+# 크롬에서 확인해야 함 ajax로 호출한 부분 찾아서 넣는다.
 여성 의류 | http://m.g9.co.kr/deals/category/m/500000340?size=27&sort=g9best
 남성 의류 | http://m.g9.co.kr/deals/category/m/500000454?size=27&sort=g9best
 캐주얼 | http://m.g9.co.kr/deals/category/m/500000339?size=27&sort=g9best
@@ -7,6 +8,22 @@
 주얼리 | http://m.g9.co.kr/deals/category/m/500000443?size=27&sort=g9best
 수입명품 | http://m.g9.co.kr/deals/category/m/500000368?size=27&sort=g9best
 화장품 뷰티 | http://m.g9.co.kr/deals/category/m/500000343?size=27&sort=g9best
+
+유아 아동 교구 | http://m.g9.co.kr/deals/category/m/500000446?page=1&size=27&sort=g9best
+유아 아동 장난감 | http://m.g9.co.kr/deals/category/m/500000350?page=1&size=27&sort=g9best
+유아 아동 의류 잡화 | http://m.g9.co.kr/deals/category/m/500000351?page=1&size=27&sort=g9best
+출산 유아 용품 | http://m.g9.co.kr/deals/category/m/500000352?page=1&size=27&sort=g9best
+기저귀 물티슈 | http://m.g9.co.kr/deals/category/m/500000373?page=1&size=27&sort=g9best
+유아 아동 식품 | http://m.g9.co.kr/deals/category/m/500000447?page=1&size=27&sort=g9best
+
+스포츠 의류 슈즈 | http://m.g9.co.kr/deals/category/m/500000358?page=1&size=27&sort=g9best
+스포츠 휘트니스 요가 | http://m.g9.co.kr/deals/category/m/500000448?page=1&size=27&sort=g9best
+스포츠 골프 | http://m.g9.co.kr/deals/category/m/500000449?page=1&size=27&sort=g9best
+스포츠 익스트림 | http://m.g9.co.kr/deals/category/m/500000450?page=1&size=27&sort=g9best
+스포츠 용품 | http://m.g9.co.kr/deals/category/m/500000451?page=1&size=27&sort=g9best
+스포츠 캠핑 낚시 | http://m.g9.co.kr/deals/category/m/500000452?page=1&size=27&sort=g9best
+자동차 | http://m.g9.co.kr/deals/category/m/500000379?page=1&size=27&sort=g9best
+
 
 # 식품 | http://m.g9.co.kr/deals/category/m/500000375?size=27&sort=g9best
 # 생활용품 | http://m.g9.co.kr/deals/category/m/500000347?size=27&sort=g9best
