@@ -422,9 +422,9 @@ public class Timon {
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
 
         Map<String, String> requestDataMap = new HashMap<String, String>();
-        requestDataMap.put("cat","fashion");
-        requestDataMap.put("sub_cat", "fashion_female");
-        requestDataMap.put("cat_srl", "104485");
+        requestDataMap.put("cat","shopping");
+        requestDataMap.put("sub_cat", "shopping_food");
+        requestDataMap.put("cat_srl", "104209");
         requestDataMap.put("order", "popular");
         requestDataMap.put("page", "1");
 

@@ -1,3 +1,11 @@
+유아 아동 기저귀 물티슈 | http://m.coupang.com/nm/paging/plp/213
+유아 아동 출산 | http://m.coupang.com/nm/paging/plp/214
+유아 아동 외출 | http://m.coupang.com/nm/paging/plp/304
+유아 아동 위생 | http://m.coupang.com/nm/paging/plp/305
+유아 아동 의류 | http://m.coupang.com/nm/paging/plp/306
+유아 아동 의류 | http://m.coupang.com/nm/paging/plp/307
+유아 아동 완구 장난감 | http://m.coupang.com/nm/paging/plp/308
+
 여성 의류 | http://m.coupang.com/nm/paging/plp/160
 여성 의류 | http://m.coupang.com/nm/paging/plp/107
 여성 의류 | http://m.coupang.com/nm/paging/plp/108
@@ -14,22 +22,61 @@
 남성 신발 | http://m.coupang.com/nm/paging/plp/117
 운동화 케주얼화 | http://m.coupang.com/nm/paging/plp/118
 가방 지갑 | http://m.coupang.com/nm/paging/plp/119
-소품 | http://m.coupang.com/nm/paging/plp/120
+소품&선글라스 | http://m.coupang.com/nm/paging/plp/120
 시계주얼리 | http://m.coupang.com/nm/paging/plp/121
+
+스포츠용품 | http://m.coupang.com/nm/paging/plp/303
+골프 | http://m.coupang.com/nm/paging/plp/237
+수영스키구기 | http://m.coupang.com/nm/paging/plp/236
+등산캠핑낚시 | http://m.coupang.com/nm/paging/plp/235
+자전거헬스 | http://m.coupang.com/nm/paging/plp/234
 
 뷰티 | http://m.coupang.com/nm/paging/plp/228
 
-스포츠 아웃도어 | http://m.coupang.com/nm/paging/plp/301
+스포츠 의류 패션 | http://m.coupang.com/nm/paging/plp/239
+스포츠슈즈 신발 | http://m.coupang.com/nm/paging/plp/238
 
-스포츠 아웃도어 | http://m.coupang.com/nm/paging/plp/229
+식품 | http://m.coupang.com/nm/paging/plp/227
 
-유아 아동 기저귀 물티슈 | http://m.coupang.com/nm/paging/plp/213
-유아 아동 출산 | http://m.coupang.com/nm/paging/plp/214
-유아 아동 외출 | http://m.coupang.com/nm/paging/plp/304
-유아 아동 위생 | http://m.coupang.com/nm/paging/plp/305
-유아 아동 의류 | http://m.coupang.com/nm/paging/plp/306
-유아 아동 의류 | http://m.coupang.com/nm/paging/plp/307
-유아 아동 완구 장난감 | http://m.coupang.com/nm/paging/plp/308
+생활주방 | http://m.coupang.com/nm/paging/plp/226
+
+홈데코취미 | http://m.coupang.com/nm/paging/plp/225
+
+도서문구 | http://m.coupang.com/nm/paging/plp/231
+
+디지털자동차 | http://m.coupang.com/nm/paging/plp/286
+컴퓨터 데스크탑 | http://m.coupang.com/nm/paging/plp/285
+PC주변기기 | http://m.coupang.com/nm/paging/plp/284
+스마트폰용품 | http://m.coupang.com/nm/paging/plp/283
+영상 음향기기 | http://m.coupang.com/nm/paging/plp/282
+생활가전 | http://m.coupang.com/nm/paging/plp/281
+주방가전 | http://m.coupang.com/nm/paging/plp/280
+
+호텔 서울 | http://m.coupang.com/nm/paging/plp/4193
+호텔 경기인천 | http://m.coupang.com/nm/paging/plp/14481
+호텔 강원 | http://m.coupang.com/nm/paging/plp/4194
+호텔 부산 | http://m.coupang.com/nm/paging/plp/14482
+호텔 경상 | http://m.coupang.com/nm/paging/plp/4195
+호텔 충청 | http://m.coupang.com/nm/paging/plp/4196
+호텔 전라 | http://m.coupang.com/nm/paging/plp/14483
+호텔 제주 | http://m.coupang.com/nm/paging/plp/4197
+
+리조트 서울경기 | http://m.coupang.com/nm/paging/plp/4199
+리조트 강원 | http://m.coupang.com/nm/paging/plp/4200
+리조트 경상 | http://m.coupang.com/nm/paging/plp/4201
+리조트 충청전라 | http://m.coupang.com/nm/paging/plp/4202
+리조트 제주 | http://m.coupang.com/nm/paging/plp/4203
+
+캠핑글램핑 | http://m.coupang.com/nm/paging/plp/3414
+펜션 경기인천 | http://m.coupang.com/nm/paging/plp/380
+펜션 강원 | http://m.coupang.com/nm/paging/plp/381
+펜션 경상 | http://m.coupang.com/nm/paging/plp/382
+펜션 충청전라 | http://m.coupang.com/nm/paging/plp/383
+펜션 제주 | http://m.coupang.com/nm/paging/plp/384
+
+입장권 | http://m.coupang.com/nm/paging/plp/376
+
+
 
 
 

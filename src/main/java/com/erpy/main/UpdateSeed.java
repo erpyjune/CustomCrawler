@@ -31,7 +31,7 @@ public class UpdateSeed {
 
         FileReader fr = new FileReader(args[0]);
         BufferedReader br = new BufferedReader(fr);
-        StringTokenizer stringTokenizer=null;
+        StringTokenizer stringTokenizer;
         while((buffer=br.readLine())!=null) {
             s = buffer.trim();
             if (s.length() == 0)

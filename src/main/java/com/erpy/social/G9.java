@@ -336,7 +336,7 @@ public class G9 {
         G9 g9 = new G9();
 
         crawlSite.setCrawlEncode("utf-8");
-        crawlSite.setCrawlUrl("http://m.g9.co.kr/deals/category/m/500000340?page=1&size=27&sort=g9best&_t=1429170696123");
+        crawlSite.setCrawlUrl("http://m.g9.co.kr/deals/category/m/500000698?size=27&sort=g9best");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 

@@ -9,42 +9,36 @@
 수입명품 | http://m.g9.co.kr/deals/category/m/500000368?size=27&sort=g9best
 화장품 뷰티 | http://m.g9.co.kr/deals/category/m/500000343?size=27&sort=g9best
 
-유아 아동 교구 | http://m.g9.co.kr/deals/category/m/500000446?page=1&size=27&sort=g9best
-유아 아동 장난감 | http://m.g9.co.kr/deals/category/m/500000350?page=1&size=27&sort=g9best
-유아 아동 의류 잡화 | http://m.g9.co.kr/deals/category/m/500000351?page=1&size=27&sort=g9best
-출산 유아 용품 | http://m.g9.co.kr/deals/category/m/500000352?page=1&size=27&sort=g9best
-기저귀 물티슈 | http://m.g9.co.kr/deals/category/m/500000373?page=1&size=27&sort=g9best
-유아 아동 식품 | http://m.g9.co.kr/deals/category/m/500000447?page=1&size=27&sort=g9best
+장난감 | http://m.g9.co.kr/deals/category/m/500000350?size=27&sort=g9best
+홈스쿨링 | http://m.g9.co.kr/deals/category/m/500000446?size=27&sort=g9best
+유아동의류잡화 | http://m.g9.co.kr/deals/category/m/500000351?size=27&sort=g9best
+출산유아용품 | http://m.g9.co.kr/deals/category/m/500000352?size=27&sort=g9best
+기저귀물티슈 | http://m.g9.co.kr/deals/category/m/500000373?size=27&sort=g9best
+유아동식품 | http://m.g9.co.kr/deals/category/m/500000447?size=27&sort=g9best
+도서 | http://m.g9.co.kr/deals/category/m/500000353?size=27&sort=g9best
 
-스포츠 의류 슈즈 | http://m.g9.co.kr/deals/category/m/500000358?page=1&size=27&sort=g9best
-스포츠 휘트니스 요가 | http://m.g9.co.kr/deals/category/m/500000448?page=1&size=27&sort=g9best
-스포츠 골프 | http://m.g9.co.kr/deals/category/m/500000449?page=1&size=27&sort=g9best
-스포츠 익스트림 | http://m.g9.co.kr/deals/category/m/500000450?page=1&size=27&sort=g9best
-스포츠 용품 | http://m.g9.co.kr/deals/category/m/500000451?page=1&size=27&sort=g9best
-스포츠 캠핑 낚시 | http://m.g9.co.kr/deals/category/m/500000452?page=1&size=27&sort=g9best
-자동차 | http://m.g9.co.kr/deals/category/m/500000379?page=1&size=27&sort=g9best
+식품 | http://m.g9.co.kr/deals/category/m/500000375?size=27&sort=g9best
+생활 | http://m.g9.co.kr/deals/category/m/500000347?size=27&sort=g9best
+주방 | http://m.g9.co.kr/deals/category/m/500000348?size=27&sort=g9best
+가구 | http://m.g9.co.kr/deals/category/m/500000349?size=27&sort=g9best
+홈인테리어 | http://m.g9.co.kr/deals/category/m/500000445?size=27&sort=g9best
+디자인취미 | http://m.g9.co.kr/deals/category/m/500000367?size=27&sort=g9best
+애완반려 | http://m.g9.co.kr/deals/category/m/500000374?size=27&sort=g9best
+
+가전 | http://m.g9.co.kr/deals/category/m/500000354?size=27&sort=g9best
+소형이미용 | http://m.g9.co.kr/deals/category/m/500000378?size=27&sort=g9best
+디지털액세사리 | http://m.g9.co.kr/deals/category/m/500000355?size=27&sort=g9best
+노트북주변기기 | http://m.g9.co.kr/deals/category/m/500000356?size=27&sort=g9best
+헤드폰스피커 | http://m.g9.co.kr/deals/category/m/500000377?size=27&sort=g9best
+핸드폰 개통폰 | http://m.g9.co.kr/deals/category/m/500000691?size=27&sort=g9best
+디지털주변기기 | http://m.g9.co.kr/deals/category/m/500000698?size=27&sort=g9best
 
 
-# 식품 | http://m.g9.co.kr/deals/category/m/500000375?size=27&sort=g9best
-# 생활용품 | http://m.g9.co.kr/deals/category/m/500000347?size=27&sort=g9best
-# 주방 | http://m.g9.co.kr/deals/category/m/500000348?size=27&sort=g9best
-# 가구 | http://m.g9.co.kr/deals/category/m/500000349?size=27&sort=g9best
-# 홈인테리어 | http://m.g9.co.kr/deals/category/m/500000445?size=27&sort=g9best
-# 디자인 취미 | http://m.g9.co.kr/deals/category/m/500000367?size=27&sort=g9best
-# 애완견 반려견 | http://m.g9.co.kr/deals/category/m/500000374?size=27&sort=g9best
+스포츠 의류슈즈 | http://m.g9.co.kr/deals/category/m/500000358?size=27&sort=g9best
+스포츠 휘트니스 요가 | http://m.g9.co.kr/deals/category/m/500000448?size=27&sort=g9best
+스포츠 골프 | http://m.g9.co.kr/deals/category/m/500000449?size=27&sort=g9best
+스포츠 익스트림 | http://m.g9.co.kr/deals/category/m/500000450?size=27&sort=g9best
+스포츠 용품 | http://m.g9.co.kr/deals/category/m/500000451?size=27&sort=g9best
+스포츠 캠핑 낚시 | http://m.g9.co.kr/deals/category/m/500000452?size=27&sort=g9best
+자동차 | http://m.g9.co.kr/deals/category/m/500000379?size=27&sort=g9best
 
-# 장난감 | http://m.g9.co.kr/deals/category/m/500000350?size=27&sort=g9best
-# 홈스쿨링 | http://m.g9.co.kr/deals/category/m/500000446?size=27&sort=g9best
-# 아동복 | http://m.g9.co.kr/deals/category/m/500000351?size=27&sort=g9best
-# 출산 유아 | http://m.g9.co.kr/deals/category/m/500000352?size=27&sort=g9best
-# 기저귀물티슈 | http://m.g9.co.kr/deals/category/m/500000373?size=27&sort=g9best
-# 유아동식품 | http://m.g9.co.kr/deals/category/m/500000447?size=27&sort=g9best
-# 유아동 도서 | http://m.g9.co.kr/deals/category/m/500000353?size=27&sort=g9best
-
-# 가전 | http://m.g9.co.kr/deals/category/m/500000354?size=27&sort=g9best
-# 이미용 | http://m.g9.co.kr/deals/category/m/500000378?size=27&sort=g9best
-# 디지털 액세서리 | http://m.g9.co.kr/deals/category/m/500000355?size=27&sort=g9best
-# 주변기기 | http://m.g9.co.kr/deals/category/m/500000356?size=27&sort=g9best
-# 해드폰스피커 | http://m.g9.co.kr/deals/category/m/500000377?size=27&sort=g9best
-# 통신사개통폰 | http://m.g9.co.kr/deals/category/m/500000691?size=27&sort=g9best
-# 디지털캐시백 | http://m.g9.co.kr/deals/category/m/500000698?size=27&sort=g9best
