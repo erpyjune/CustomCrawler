@@ -368,14 +368,14 @@ public class CrawlSite {
 
         // add request headers.
         for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
-            logger.info(String.format(" Set request Header %s:%s", entry.getKey().trim(), entry.getValue().trim()));
+//            logger.info(String.format(" Set request Header %s:%s", entry.getKey().trim(), entry.getValue().trim()));
             post.setHeader(entry.getKey().trim(), entry.getValue().trim());
         }
 
         // set param
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
         for(Map.Entry<String, String> entry : postFormDataParam.entrySet()) {
-            logger.info(String.format(" Set request Param %s:%s", entry.getKey().trim(), entry.getValue().trim()));
+//            logger.info(String.format(" Set request Param %s:%s", entry.getKey().trim(), entry.getValue().trim()));
             urlParameters.add(new BasicNameValuePair(entry.getKey().trim(), entry.getValue().trim()));
         }
         post.setEntity(new UrlEncodedFormEntity(urlParameters));

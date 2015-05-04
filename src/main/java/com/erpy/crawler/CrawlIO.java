@@ -25,7 +25,7 @@ public class CrawlIO {
     private int extractDataCount=0;
 
     private static final int MAX_PAGE = 11;
-    private static final int MAX_COUPANG_PAGE = 99;
+    private static final int MAX_COUPANG_PAGE = 377;
     private static final int MAX_OKMALL_PAGE = 50;
     private static final int MAX_CRAWL_ERROR_COUNT=3;
     private int crawlErrorCount=0;
@@ -327,7 +327,7 @@ public class CrawlIO {
             try {
                 returnCode = crawlSite.HttpCrawlGetDataTimeout();
                 if (returnCode != 200 && returnCode != 201) {
-                    logger.error(String.format(" 데이터를 수집 못했음 - %s", strUrl));
+                    logger.error(String.format(" [%d]데이터를 수집 못했음 - %s", returnCode, strUrl));
                     crawlErrorCount++;
                 }
             }

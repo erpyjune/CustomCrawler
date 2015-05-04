@@ -27,6 +27,8 @@ public class GlobalInfo {
     public static final String CP_WeekEnders  = "weekenders";
     public static final String CP_CampingPlus  = "campingplus";
     public static final String CP_SnowPeak  = "snowpeak";
+    public static final String CP_Starus  = "starus";
+    public static final String CP_CampSchule  = "campschule";
 
     public static final String CP_CouPang  = "coupang";
     public static final String CP_WeMef  = "wemef";

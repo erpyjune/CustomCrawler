@@ -2,6 +2,7 @@ package com.erpy.parser;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
+import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
@@ -335,6 +336,7 @@ public class SB {
         CrawlData crawlData = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
         crawlDataService = new CrawlDataService();
+        Map<String, String> postRequestParamMap = new HashMap<String, String>();
 
         int startPage=1;
         int endPage=40;
@@ -350,6 +352,9 @@ public class SB {
         crawlSite.setCrawlEncode("UTF-8");
         crawlSite.setCrawlUrl(postRequestUrl);
 
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("sbclub.co.kr", "http://sbclub.co.kr");
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
+
         // seed url에서 category id만 추출해서 post request 호출할때 사용한다.
         // seed url에 category id가 없으면 에러임.
         // url --> http://sbclub.co.kr/category01.html?categoryid=94202
@@ -362,10 +367,14 @@ public class SB {
         for(;;) {
             // Request param setting.
             // page, category, start page, end page.
-            crawlSite.addPostRequestParam("mode", "categorymain");
-            crawlSite.addPostRequestParam("categoryid", categoryId);
-            crawlSite.addPostRequestParam("startnum", String.valueOf(startPage));
-            crawlSite.addPostRequestParam("endnum", String.valueOf(endPage));
+            postRequestParamMap.remove("startnum");
+            postRequestParamMap.remove("endnum");
+
+            postRequestParamMap.put("mode", "categorymain");
+            postRequestParamMap.put("categoryid", categoryId);
+            postRequestParamMap.put("startnum", String.valueOf(startPage));
+            postRequestParamMap.put("endnum", String.valueOf(endPage));
+            crawlSite.setPostFormDataParam(postRequestParamMap);
 //            logger.info(String.format(" Crawling start(%d), end(%d), cate(%s)", startPage, endPage, categoryId));
 
             try {
