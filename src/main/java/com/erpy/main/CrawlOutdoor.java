@@ -164,20 +164,20 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
-            }  else if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
-                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campingon.co.kr", "http://www.campingon.co.kr");
-                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
-                crawlMainThread.setPageType("page");
-                crawlMainThread.setExtractDataCount(0);
-                crawlMainThread.setCrawlEncode("euc-kr");
-                crawlMainThread.setSaveEncode("utf-8");
-                crawlMainThread.setContentExtractCountPattern("td[width=\"20%\"] a");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
-                crawlMainThread.setExtractType("html");
-                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
-                crawlMainThread.run();
+//            }  else if (strCpName.equals(GlobalInfo.CP_CAMPINGON)) {
+//                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campingon.co.kr", "http://www.campingon.co.kr");
+//                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+//                crawlMainThread.setPageType("page");
+//                crawlMainThread.setExtractDataCount(0);
+//                crawlMainThread.setCrawlEncode("euc-kr");
+//                crawlMainThread.setSaveEncode("utf-8");
+//                crawlMainThread.setContentExtractCountPattern("td[width=\"20%\"] a");
+//                crawlMainThread.setCrawlUrl(strUrl);
+//                crawlMainThread.setUrlKeyword(strKeyword);
+//                crawlMainThread.setCpName(strCpName);
+//                crawlMainThread.setExtractType("html");
+//                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+//                crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CampTown)) {
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("camptown.firstmall.kr", "http://camptown.firstmall.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -234,20 +234,20 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
-            }  else if (strCpName.equals(GlobalInfo.CP_Camping365)) {
-                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.camping365.co.kr", "http://www.camping365.co.kr");
-                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
-                crawlMainThread.setPageType("page");
-                crawlMainThread.setExtractDataCount(0);
-                crawlMainThread.setCrawlEncode("euc-kr");
-                crawlMainThread.setSaveEncode("utf-8");
-                crawlMainThread.setContentExtractCountPattern("div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
-                crawlMainThread.setExtractType("html");
-                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
-                crawlMainThread.run();
+//            }  else if (strCpName.equals(GlobalInfo.CP_Camping365)) {
+//                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.camping365.co.kr", "http://www.camping365.co.kr");
+//                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+//                crawlMainThread.setPageType("page");
+//                crawlMainThread.setExtractDataCount(0);
+//                crawlMainThread.setCrawlEncode("euc-kr");
+//                crawlMainThread.setSaveEncode("utf-8");
+//                crawlMainThread.setContentExtractCountPattern("div[style=\"padding:5px 0;\"] a[style=\"font-family:Tahoma, Geneva, sans-serif; font-size:12px; color:#333;\"]");
+//                crawlMainThread.setCrawlUrl(strUrl);
+//                crawlMainThread.setUrlKeyword(strKeyword);
+//                crawlMainThread.setCpName(strCpName);
+//                crawlMainThread.setExtractType("html");
+//                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+//                crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_LeisureMan)) {
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.leisureman.co.kr", "http://www.leisureman.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());

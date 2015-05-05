@@ -212,7 +212,7 @@ public class Aldebaran {
             // org price
             listE = document.select("li span[style=\"font-size:12px;color:#555555;text-decoration:line-through;\"]");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
+                strItem = globalUtils.priceDataCleaner(et.text());
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setOrgPrice(Integer.parseInt(strItem));
                     logger.debug(String.format(" >> org price(%s)", searchData.getOrgPrice()));
@@ -227,11 +227,12 @@ public class Aldebaran {
             // sale price
             listE = document.select("li span[style=\"font-size:12px;color:#1C5940;font-weight:bold;\"]");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
+                if (et.outerHtml().contains("판매가")) continue;
+                strItem = globalUtils.priceDataCleaner(et.text());
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     searchData.setSalePrice(Integer.parseInt(strItem));
                     searchData.setSalePer(0.0F);
-                    logger.info(String.format(" >> sale price(%s)", searchData.getSalePrice()));
+                    logger.debug(String.format(" >> sale price(%s)", searchData.getSalePrice()));
                     break;
                 } else {
                     logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
@@ -243,6 +244,10 @@ public class Aldebaran {
             // sale price만 있을 경우 org price에 값을 채운다.
             if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
                 searchData.setOrgPrice(searchData.getSalePrice());
+            }
+
+            if (searchData.getSalePrice()==0 && searchData.getOrgPrice()>0) {
+                searchData.setSalePrice(searchData.getOrgPrice());
             }
 
             // set cp name.

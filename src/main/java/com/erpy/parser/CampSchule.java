@@ -45,7 +45,7 @@ public class CampSchule {
     private String seedUrl;
 
     //
-    private static final String prefixContentUrl = "http://www.campschule.co.kr/";
+    private static final String prefixContentUrl = "http://www.campschule.co.kr";
     private static final String prefixHostThumbUrl = "";
 
     public String getSeedUrl() {
@@ -196,6 +196,7 @@ public class CampSchule {
                 strItem = et.attr("src").replace("/tiny/", "/medium/");
                 searchData.setThumbUrl(prefixHostThumbUrl + strItem);
                 logger.debug(String.format(" >> Thumb : (%s)", searchData.getThumbUrl()));
+                break;
             }
 
             // link
@@ -207,6 +208,7 @@ public class CampSchule {
                     searchData.setContentUrl(prefixContentUrl + strLinkUrl);
                     searchData.setProductId(productId);
                     logger.debug(String.format(" >> Link : (%s)", searchData.getContentUrl()));
+                    break;
                 }
             }
 
@@ -215,6 +217,7 @@ public class CampSchule {
             for (Element et : listE) {
                 searchData.setProductName(et.text());
                 logger.debug(String.format(" >> title(%s)", searchData.getProductName()));
+                break;
             }
 
             // org price
@@ -233,20 +236,20 @@ public class CampSchule {
             }
 
             // sale price
-//            listE = document.select("dd.sale-price");
-//            for (Element et : listE) {
-//                strItem = globalUtils.priceDataCleaner(et.text());
-//                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
-//                    searchData.setSalePrice(Integer.parseInt(strItem));
-//                    searchData.setSalePer(0.0F);
-//                    logger.debug(String.format(" >> sale price(%s)", searchData.getSalePrice()));
-//                    break;
-//                } else {
-//                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
-//                    logger.error(String.format(" Extract [sale price] product name      - (%s)", searchData.getProductName()));
-//                    logger.error(String.format(" Extract [sale price] seed url          - (%s)", crawlData.getSeedUrl()));
-//                }
-//            }
+            listE = document.select("td[width=100%] font[STYLE=\"color:#3E3E02;font-size:12px;font-style:;font-weight:bold\"]");
+            for (Element et : listE) {
+                strItem = globalUtils.priceDataCleaner(et.text());
+                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
+                    searchData.setSalePrice(Integer.parseInt(strItem));
+                    searchData.setSalePer(0.0F);
+                    logger.debug(String.format(" >> sale price(%s)", searchData.getSalePrice()));
+                    break;
+                } else {
+                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
+                    logger.error(String.format(" Extract [sale price] product name      - (%s)", searchData.getProductName()));
+                    logger.error(String.format(" Extract [sale price] seed url          - (%s)", crawlData.getSeedUrl()));
+                }
+            }
 
             // sell count
 //            listE = document.select("dd.square-sale-count");
@@ -317,7 +320,7 @@ public class CampSchule {
     }
 
 
-    public void mainExtractProcessing(Starus cp,
+    public void mainExtractProcessing(CampSchule cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -381,7 +384,7 @@ public class CampSchule {
         HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campschule.co.kr","http://www.campschule.co.kr");
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://www.campschule.co.kr/front/php/category.php?cate_no=843&page=2&offset=32");
+        crawlSite.setCrawlUrl("http://www.campschule.co.kr/front/php/category.php?cate_no=813&page=2&offset=32");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 
@@ -438,6 +441,17 @@ public class CampSchule {
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     logger.info(String.format(" >> org price(%s)", strItem));
                     break;
+                } else {
+                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
+                }
+            }
+
+            // sale price
+            listE = document.select("td[width=100%] font[STYLE=\"color:#3E3E02;font-size:12px;font-style:;font-weight:bold\"]");
+            for (Element et : listE) {
+                strItem = et.text().replace("원", "").replace(",", "").trim();
+                if (GlobalUtils.isAllDigitChar(strItem)) {
+                    logger.info(String.format(" >> org price(%s)", strItem));
                 } else {
                     logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
                 }

@@ -155,7 +155,7 @@ public class CampingOn {
         String strLinkUrl;
 
 
-        fileIO.setEncoding(txtEncode);
+        fileIO.setEncoding("utf-8");
         fileIO.setPath(filePath);
 
         logger.debug(String.format(" 데이터 추출할 파일 - %s", filePath));
@@ -184,11 +184,7 @@ public class CampingOn {
             listE = document.select("img[width=150]");
             for (Element et : listE) {
                 strItem = et.attr("src").replace("..","/shop");
-                if (strItem.indexOf("_s.jsp")>0) {
-                    searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("_s.jpg","_m.jpg"));
-                } else {
-                    searchData.setThumbUrl(prefixHostThumbUrl + strItem);
-                }
+                searchData.setThumbUrl(prefixHostThumbUrl + strItem);
                 logger.debug(String.format(" >> Thumb : %s", prefixHostThumbUrl + strItem));
             }
 
@@ -239,6 +235,14 @@ public class CampingOn {
                     // 아래 map에 데이터 넣기전 체크할때 걸려서 skip 하게 된다.
                     logger.error(String.format(" Extract [org price] data is NOT valid - %s", strItem));
                 }
+            }
+
+            if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
+                searchData.setOrgPrice(searchData.getSalePrice());
+            }
+
+            if (searchData.getSalePrice()==0 && searchData.getOrgPrice()>0) {
+                searchData.setSalePrice(searchData.getOrgPrice());
             }
 
             // set cp name.

@@ -281,8 +281,8 @@ public class DICamping {
             if (searchData.getOrgPrice()==0 && searchData.getSalePrice()>0) {
                 searchData.setOrgPrice(searchData.getSalePrice());
             }
-            if (searchData.getSalePrice()>0 && searchData.getOrgPrice()==0) {
-                searchData.setOrgPrice(searchData.getSalePrice());
+            if (searchData.getOrgPrice()>0 && searchData.getSalePrice()==0) {
+                searchData.setSalePrice(searchData.getOrgPrice());
             }
 
             // set sale per
