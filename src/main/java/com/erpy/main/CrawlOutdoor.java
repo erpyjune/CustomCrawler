@@ -325,7 +325,21 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractDataCount(0);
                 crawlMainThread.setCrawlEncode("euc-kr");
                 crawlMainThread.setSaveEncode("utf-8");
-                crawlMainThread.setContentExtractCountPattern("div[style=\"padding:5px\"] a");
+                crawlMainThread.setContentExtractCountPattern("div[style*=\"padding:5\"] a");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_AirMT)) {
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.airmt.net", "http://www.airmt.net");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div[style*=\"padding:5\"] a");
                 crawlMainThread.setCrawlUrl(strUrl);
                 crawlMainThread.setUrlKeyword(strKeyword);
                 crawlMainThread.setCpName(strCpName);

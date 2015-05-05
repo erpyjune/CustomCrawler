@@ -67,6 +67,8 @@ public class ExtractOutdoor {
         CampingPlus cplus = new CampingPlus();
         Starus starus = new Starus();
         CampSchule campSchule = new CampSchule();
+        TongOutdoor tong = new TongOutdoor();
+        AirMT airMT = new AirMT();
 
 
 
@@ -140,6 +142,12 @@ public class ExtractOutdoor {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CampSchule)) {
                 campSchule.mainExtractProcessing(campSchule, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_TongOutdoor)) {
+                tong.mainExtractProcessing(tong, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_AirMT)) {
+                airMT.mainExtractProcessing(airMT, crawlData, allSearchDatasMap);
             }
             else {
                 logger.error(String.format(" Other cp occurred!! - (%s)", crawlData.getCpName()));

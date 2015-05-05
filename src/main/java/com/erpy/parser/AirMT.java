@@ -21,8 +21,8 @@ import java.util.Map;
 /**
  * Created by baeonejune on 15. 5. 6..
  */
-public class TongOutdoor {
-    private static Logger logger = Logger.getLogger("TongOutdoor");
+public class AirMT {
+    private static Logger logger = Logger.getLogger("AirMT");
     private GlobalUtils globalUtils = new GlobalUtils();
     private ValidChecker validChecker = new ValidChecker();
     private DB db = new DB();
@@ -45,8 +45,8 @@ public class TongOutdoor {
     private String seedUrl;
 
     //
-    private static final String prefixContentUrl = "http://tongoutdoor.com";
-    private static final String prefixHostThumbUrl = "http://tongoutdoor.com";
+    private static final String prefixContentUrl = "http://www.airmt.net";
+    private static final String prefixHostThumbUrl = "http://www.airmt.net";
 
     public String getSeedUrl() {
         return seedUrl;
@@ -264,7 +264,7 @@ public class TongOutdoor {
             }
 
             // set cp name.
-            searchData.setCpName(GlobalInfo.CP_TongOutdoor);
+            searchData.setCpName(GlobalInfo.CP_AirMT);
             // set keyword.
             searchData.setCrawlKeyword(keyword);
             // set seed url
@@ -286,7 +286,7 @@ public class TongOutdoor {
     }
 
 
-    public void mainExtractProcessing(TongOutdoor cp,
+    public void mainExtractProcessing(AirMT cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 
@@ -347,10 +347,10 @@ public class TongOutdoor {
         GlobalUtils globalUtils = new GlobalUtils();
         int index=0;
 
-        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("tongoutdoor.com","http://tongoutdoor.com");
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.airmt.net","http://www.airmt.net");
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://tongoutdoor.com/shop/goods/goods_list.php?category=011001");
+        crawlSite.setCrawlUrl("http://www.airmt.net/shop/goods/goods_list.php?category=038001");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 
@@ -389,7 +389,7 @@ public class TongOutdoor {
             }
 
             // product name
-            listE = document.select("div[style=\"padding:5px\"] a");
+            listE = document.select("div[style=\"padding:5\"] a");
             for (Element et : listE) {
                 strItem = et.text();
                 logger.info(" title : " + strItem);
