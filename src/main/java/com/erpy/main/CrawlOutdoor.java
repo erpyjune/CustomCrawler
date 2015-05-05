@@ -318,6 +318,20 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_TongOutdoor)) {
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("tongoutdoor.com", "http://tongoutdoor.com");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div[style=\"padding:5px\"] a");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.run();
             } else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));
             }
