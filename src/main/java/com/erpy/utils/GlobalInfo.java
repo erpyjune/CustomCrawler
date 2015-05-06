@@ -31,6 +31,8 @@ public class GlobalInfo {
     public static final String CP_CampSchule  = "campschule";
     public static final String CP_TongOutdoor  = "tongoutdoor";
     public static final String CP_AirMT  = "airmt";
+    public static final String CP_Gogo337  = "gogo337";
+    public static final String CP_Totooutdoor  = "totooutdoor";
 
     public static final String CP_CouPang  = "coupang";
     public static final String CP_WeMef  = "wemef";

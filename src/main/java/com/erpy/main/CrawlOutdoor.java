@@ -346,6 +346,34 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_Gogo337)) {
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.gogo337.co.kr", "http://www.gogo337.co.kr");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("font.brandbrandname");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_Totooutdoor)) {
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.totooutdoor.com", "http://www.totooutdoor.com");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("utf-8");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("li.best_t1 a");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.run();
             } else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));
             }

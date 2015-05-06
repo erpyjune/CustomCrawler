@@ -102,6 +102,9 @@ public class CrawlMainThread extends Thread {
             else if (cpName.equals(GlobalInfo.CP_HappyVirusPost)) { // HappyVirus POST
                 crawlIO.crawlHappyVirusPost(crawlUrl, urlKeyword, cpName, allCrawlDatas);
             }
+            else if (cpName.equals(GlobalInfo.CP_Totooutdoor)) { // HappyVirus POST
+                crawlIO.crawlTotoOutdoor(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            }
             else if  (cpName.equals(GlobalInfo.CP_Timon)) { // Timon
                 crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
                 crawlIO.crawlTimon(crawlUrl, urlKeyword, cpName, allCrawlDatas);
