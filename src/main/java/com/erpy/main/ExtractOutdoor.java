@@ -71,6 +71,9 @@ public class ExtractOutdoor {
         AirMT airMT = new AirMT();
         Gogo337 gogo337 = new Gogo337();
         TotoOutdoor toto = new TotoOutdoor();
+        Niio niio = new Niio();
+        YahoCamping yahoCamping = new YahoCamping();
+        CampingAmigo campingAmigo = new CampingAmigo();
 
 
 
@@ -156,6 +159,15 @@ public class ExtractOutdoor {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_Totooutdoor)) {
                 toto.mainExtractProcessing(toto, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_Niio)) {
+                niio.mainExtractProcessing(niio, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_YahoCamping)) {
+                yahoCamping.mainExtractProcessing(yahoCamping, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_CampingAmigo)) {
+                campingAmigo.mainExtractProcessing(campingAmigo, crawlData, allSearchDatasMap);
             }
             else {
                 logger.error(String.format(" Other cp occurred!! - (%s)", crawlData.getCpName()));

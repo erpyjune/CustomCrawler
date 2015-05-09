@@ -270,7 +270,7 @@ public class Niio {
     }
 
 
-    public void mainExtractProcessing(TongOutdoor cp,
+    public void mainExtractProcessing(Niio cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 

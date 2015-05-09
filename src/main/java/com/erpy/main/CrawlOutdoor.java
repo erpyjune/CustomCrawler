@@ -374,6 +374,48 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_Niio)) {
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.niio.co.kr", "http://http://www.niio.co.kr");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("input[name=p_name]");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_YahoCamping)) {
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.yahocamping.com", "http://www.yahocamping.com");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("font.brandbrandname");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_CampingAmigo)) {
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campingamigo.com", "http://http://www.campingamigo.com");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div[style*=\"padding:5\"] a");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.run();
             } else {
                 logger.error(String.format(" Other cp exist - (%s)", strCpName));
             }

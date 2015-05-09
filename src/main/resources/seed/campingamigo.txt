@@ -1,0 +1,21 @@
+텐트 | http://www.campingamigo.com/shop/goods/goods_list.php?&category=001001
+타프 | http://www.campingamigo.com/shop/goods/goods_list.php?category=001002
+팩 | http://www.campingamigo.com/shop/goods/goods_list.php?&category=010001
+폴대 | http://www.campingamigo.com/shop/goods/goods_list.php?category=010002
+텐트소품 | http://www.campingamigo.com/shop/goods/goods_list.php?category=010003
+
+의자 | http://www.campingamigo.com/shop/goods/goods_list.php?category=002001
+테이블 | http://www.campingamigo.com/shop/goods/goods_list.php?category=002002
+기타 | http://www.campingamigo.com/shop/goods/goods_list.php?category=002003
+
+코펠 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003001
+식기 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003002
+컵 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003003
+식기 건조망 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003004
+설거지통 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003005
+팬 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003006
+더치오븐 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003007
+기타주방용품 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003008
+밥솥 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003010
+
+

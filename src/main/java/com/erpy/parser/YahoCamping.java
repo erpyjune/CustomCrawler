@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by baeonejune on 15. 5. 7..
  */
 public class YahoCamping {
-    private static Logger logger = Logger.getLogger("TahoCamping");
+    private static Logger logger = Logger.getLogger("YahoCamping");
     private GlobalUtils globalUtils = new GlobalUtils();
     private ValidChecker validChecker = new ValidChecker();
     private DB db = new DB();
@@ -176,10 +176,10 @@ public class YahoCamping {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("table[width=\"202\"]");
+        elements = doc.select("table.product_table");
         for (Element element : elements) {
 
-            if (!element.outerHtml().contains("/shop2/p_image/"))
+            if (!element.outerHtml().contains("/shopimages/yahocamp/"))
                 continue;
 
             productId="";
@@ -187,7 +187,7 @@ public class YahoCamping {
             document = Jsoup.parse(element.outerHtml());
 
             // Thumb link
-            listE = document.select("img.photo");
+            listE = document.select("td.Brand_prodtHeight a img");
             for (Element et : listE) {
                 strItem = et.attr("src");
                 searchData.setThumbUrl(prefixHostThumbUrl + strItem);
@@ -196,11 +196,11 @@ public class YahoCamping {
             }
 
             // link
-            listE = document.select("table[width=\"188\"] a");
+            listE = document.select("td.Brand_prodtHeight a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "p_code=","&");
+                    productId = globalUtils.getFieldData(strLinkUrl, "branduid=","&");
                     searchData.setContentUrl(prefixContentUrl + strLinkUrl);
                     searchData.setProductId(productId);
                     logger.debug(String.format(" >> Link : (%s)", searchData.getContentUrl()));
@@ -209,15 +209,15 @@ public class YahoCamping {
             }
 
             // product name
-            listE = document.select("input[name=p_name]");
+            listE = document.select("font.brandbrandname");
             for (Element et : listE) {
-                searchData.setProductName(et.attr("value").replace("○/",""));
+                searchData.setProductName(et.text());
                 logger.debug(String.format(" >> title(%s)", searchData.getProductName()));
                 break;
             }
 
             // org price
-            listE = document.select("font[color=\"#DD151B\"]");
+            listE = document.select("span.mk_price");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
@@ -270,7 +270,7 @@ public class YahoCamping {
     }
 
 
-    public void mainExtractProcessing(TongOutdoor cp,
+    public void mainExtractProcessing(YahoCamping cp,
                                       CrawlData crawlData,
                                       Map<String, SearchData> allSearchDatasMap) throws Exception {
 

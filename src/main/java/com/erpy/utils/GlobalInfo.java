@@ -34,7 +34,7 @@ public class GlobalInfo {
     public static final String CP_Gogo337  = "gogo337";
     public static final String CP_Totooutdoor  = "totooutdoor";
     public static final String CP_Niio  = "niio";
-    public static final String CP_YahoCamping  = "tahocamping";
+    public static final String CP_YahoCamping  = "yahocamping";
     public static final String CP_CampingAmigo  = "campingamigo";
 
     public static final String CP_CouPang  = "coupang";
