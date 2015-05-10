@@ -350,7 +350,7 @@ public class Gogo337 {
         HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.gogo337.co.kr","http://www.gogo337.co.kr");
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=001");
+        crawlSite.setCrawlUrl("http://www.gogo337.co.kr/shop/shopbrand.html?xcode=004&type=P");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 

@@ -1,9 +1,0 @@
-텐트	| http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03010000	campingplus
-타프	| http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03020000	campingplus
-매트 시트 | http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03030000	campingplus
-폴대 폴 | 	http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03040000	campingplus
-캠핑소품 | 	http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03050000	campingplus
-캠핑소품 | 	http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03060000	campingplus
-캠핑소품 | 	http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03070000	campingplus
-기획상품 | 	http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03080000	campingplus
-전시상품 | 	http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03090000	campingplus

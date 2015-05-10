@@ -21,8 +21,9 @@
     쿨러 아이스박스 | http://www.sbclub.co.kr/category01.html?categoryid=93803
     보온병 | http://www.sbclub.co.kr/category01.html?categoryid=93801
 텐트
-    텐트 백패킹 소형 1인용 | http://www.sbclub.co.kr/category01.html?categoryid=94201
+    텐트 산악 알파인 | http://www.sbclub.co.kr/category01.html?categoryid=94201
     텐트 미니멀텐트 | http://www.sbclub.co.kr/category01.html?categoryid=94202
+    텐트슈즈 | http://www.sbclub.co.kr/category01.html?categoryid=91702
     텐트 비비색 | http://www.sbclub.co.kr/category01.html?categoryid=94203
     타프 | http://www.sbclub.co.kr/category01.html?categoryid=94204
     풋프린트 | http://www.sbclub.co.kr/category01.html?categoryid=94206
@@ -56,12 +57,12 @@
 소품
     핫팩&손난로&연료 | http://www.sbclub.co.kr/category01.html?categoryid=934
 가방
-    배낭 소형 | http://www.sbclub.co.kr/category01.html?categoryid=91901
-    배낭 소형 | http://www.sbclub.co.kr/category01.html?categoryid=91902
-    배낭 중형 | http://www.sbclub.co.kr/category01.html?categoryid=91903
-    배낭 중형 | http://www.sbclub.co.kr/category01.html?categoryid=91904
+    소형배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91901
+    소형배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91902
+    중형배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91903
+    중형배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91904
     배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91905
-    배낭 힙색 | http://www.sbclub.co.kr/category01.html?categoryid=922
+    힙색 | http://www.sbclub.co.kr/category01.html?categoryid=922
     가방소품 | http://www.sbclub.co.kr/category01.html?categoryid=91906
     카메라소품 | http://www.sbclub.co.kr/category01.html?categoryid=91900
     가방 여행가방 | http://www.sbclub.co.kr/category01.html?categoryid=2
@@ -81,9 +82,36 @@
     매트리스 | http://www.sbclub.co.kr/category01.html?categoryid=94101
     매트리스 매트 | http://www.sbclub.co.kr/category01.html?categoryid=94103
     해먹&애전침대 | http://www.sbclub.co.kr/category01.html?categoryid=94105
-
+카누/카약
+    카약 | http://www.sbclub.co.kr/category01.html?categoryid=22001
+    구명조끼 | http://www.sbclub.co.kr/category01.html?categoryid=22003
+    드라이백 | http://www.sbclub.co.kr/category01.html?categoryid=22004
+    카약소품 | http://www.sbclub.co.kr/category01.html?categoryid=22005
+    패들 | http://www.sbclub.co.kr/category01.html?categoryid=22002
+암벽/빙벽/설벽
+    하네스 안전벨트 | http://www.sbclub.co.kr/category01.html?categoryid=94501
+    기어랙 데이지체인 | http://www.sbclub.co.kr/category01.html?categoryid=94502
+    헬멧 안전모 | http://www.sbclub.co.kr/category01.html?categoryid=94503
+    카라비너 퀵드로우 | http://www.sbclub.co.kr/category01.html?categoryid=94504
+    등강기 하강기 확보기 | http://www.sbclub.co.kr/category01.html?categoryid=94505
+    바일 픽켈 | http://www.sbclub.co.kr/category01.html?categoryid=94506
+    로프 슬링 | http://www.sbclub.co.kr/category01.html?categoryid=94507
+    도르레 | http://www.sbclub.co.kr/category01.html?categoryid=94511
+    확보물 | http://www.sbclub.co.kr/category01.html?categoryid=94508
+    소품 | http://www.sbclub.co.kr/category01.html?categoryid=94509
+    쵸크쵸크백테이프 | http://www.sbclub.co.kr/category01.html?categoryid=94510
+    어프로치배낭 | http://www.sbclub.co.kr/category01.html?categoryid=5050
+    크램폰 | http://www.sbclub.co.kr/category01.html?categoryid=94512
 기타
     스틱 | http://www.sbclub.co.kr/category01.html?categoryid=92701
+수통/술병/정수기
+    수통 | http://www.sbclub.co.kr/category01.html?categoryid=93701
+    물통 | http://www.sbclub.co.kr/category01.html?categoryid=93702
+    술병 | http://www.sbclub.co.kr/category01.html?categoryid=93703
+    케이스악세사리 | http://www.sbclub.co.kr/category01.html?categoryid=93704
+    정수기 | http://www.sbclub.co.kr/category01.html?categoryid=93705
+
+
 
 
 
