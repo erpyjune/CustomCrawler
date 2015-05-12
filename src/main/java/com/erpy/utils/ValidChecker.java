@@ -59,16 +59,15 @@ public class ValidChecker {
                     skipCount++;
 
                     // 동일한 데이터가 있으면 아무것도 안한다.
-
-//                    logger.info(String.format(" SAME DATA (%s)(%d)(%d)(%s)",
-//                            searchDataAll.getProductId(),
-//                            searchDataAll.getSalePrice(),
-//                            searchDataAll.getOrgPrice(),
-//                            searchDataAll.getProductName()));
+                    logger.info(String.format(" SAME DATA (%s)(%d)(%d)(%s)",
+                            searchDataAll.getProductId(),
+                            searchDataAll.getSalePrice(),
+                            searchDataAll.getOrgPrice(),
+                            searchDataAll.getProductName()));
                 }
                 // product id는 동일하지만 필드 값이 다른경우.
                 else {
-                    logger.info(String.format(" UPDATE SET (%s)(%f)(%d)(%d)(%s)(%s)",
+                    logger.info(String.format(" UPDATE (%s)(%f)(%d)(%d)(%s)(%s)",
                             searchDataPart.getProductId(),
                             searchDataPart.getSalePer(),
                             searchDataPart.getSalePrice(),
@@ -85,6 +84,14 @@ public class ValidChecker {
             }
             // 동일한 product id가 없는 경우
             else {
+                logger.info(String.format(" INSERT (%s)(%f)(%d)(%d)(%s)(%s)",
+                        searchDataPart.getProductId(),
+                        searchDataPart.getSalePer(),
+                        searchDataPart.getSalePrice(),
+                        searchDataPart.getOrgPrice(),
+                        searchDataPart.getProductName(),
+                        searchDataPart.getContentUrl()));
+
                 searchDataPart.setType("insert");
                 searchDataPart.setDataStatus("I");
                 newSearchDataMap.put(productId, searchDataPart);

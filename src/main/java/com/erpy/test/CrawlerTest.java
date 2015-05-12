@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class CrawlerTest
 {
-    public static void main( String[] args ) throws  IOException {
+    public static void main( String[] args ) throws  Exception {
         String log=null;
         String crawlUrl=null;
         String encodeType=null;

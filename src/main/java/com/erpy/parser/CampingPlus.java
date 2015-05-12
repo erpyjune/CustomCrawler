@@ -2,6 +2,7 @@ package com.erpy.parser;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
+import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
@@ -172,8 +173,11 @@ public class CampingPlus {
             SearchData searchData = new SearchData();
             document = Jsoup.parse(element.outerHtml());
 
+            if (!element.outerHtml().contains("padding-top:8px;text-align:center"))
+                continue;
+
             // Thumb link
-            listE = document.select("div[style*=0;padding:2px] a img");
+            listE = document.select("div[style=\"border:1px solid #D2D2D2;margin:0 0 5px 0;padding:2px\"] img");
             for (Element et : listE) {
                 strItem = et.attr("src");
                 if (strItem.contains("./shop_image")) {
@@ -185,7 +189,7 @@ public class CampingPlus {
             }
 
             // link
-            listE = document.select("div[style*=0;padding:2px] a");
+            listE = document.select("div[style=\"border:1px solid #D2D2D2;margin:0 0 5px 0;padding:2px\"] a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
@@ -197,7 +201,7 @@ public class CampingPlus {
             }
 
             // product name
-            listE = document.select("div[style=\"padding-top:8px;text-align:center\"]");
+            listE = document.select("div.goods_name_");
             for (Element et : listE) {
                 searchData.setProductName(et.text().trim());
                 logger.debug(String.format(" >> title (%s)", searchData.getProductName()));
@@ -316,9 +320,12 @@ public class CampingPlus {
         GlobalUtils globalUtils = new GlobalUtils();
         int index=0;
 
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.camping-plus.co.kr","http://www.camping-plus.co.kr");
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
         crawlSite.setCrawlEncode("euc-kr");
         crawlSite.setCrawlUrl("http://www.camping-plus.co.kr/mall/m_mall_list.php?ps_ctid=03030000&page=1");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
+        logger.info(String.format(" Return code (%d)", returnCode));
         String htmlContent = crawlSite.getCrawlData();
 
 //        logger.info(crawlSite.getCrawlData());
@@ -331,11 +338,15 @@ public class CampingPlus {
         elements = doc.select("table[width=\"130\"]");
         for (Element element : elements) {
             document = Jsoup.parse(element.outerHtml());
-            index++;
+
+            if (!element.outerHtml().contains("padding-top:8px;text-align:center"))
+                continue;
+
 //            logger.info(element.outerHtml());
+//            logger.info("----------------------------------------------------");
 
             // Thumb link
-            listE = document.select("div[style*=0;padding:2px] a img");
+            listE = document.select("div[style=\"border:1px solid #D2D2D2;margin:0 0 5px 0;padding:2px\"] img");
             for (Element et : listE) {
                 strItem = et.attr("src");
                 if (strItem.contains("./shop_image")) {
@@ -347,7 +358,7 @@ public class CampingPlus {
             }
 
             // link
-            listE = document.select("div[style*=0;padding:2px] a");
+            listE = document.select("div[style=\"border:1px solid #D2D2D2;margin:0 0 5px 0;padding:2px\"] a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
@@ -358,7 +369,7 @@ public class CampingPlus {
             }
 
             // product name
-            listE = document.select("div[style=\"padding-top:8px;text-align:center\"]");
+            listE = document.select("div.goods_name_");
             for (Element et : listE) {
                 strItem = et.text().trim();
                 logger.info(String.format(" title :(%s) ", strItem));

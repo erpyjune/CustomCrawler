@@ -38,7 +38,7 @@ public class CrawlOutdoor {
             if (allCrawlDataMap.containsKey(crawlData.getHashMD5())) {
                 existCount++;
             }
-            logger.info(String.format(" All Crawling DB Key(%s)", crawlData.getHashMD5() + crawlData.getCpName()));
+//            logger.info(String.format(" All Crawling DB Key(%s)", crawlData.getHashMD5() + crawlData.getCpName()));
             allCrawlDataMap.put(crawlData.getHashMD5() + crawlData.getCpName(), crawlData);
         }
         logger.info(String.format(" 기존 모든 데이터 크기 - Total(%d), Exist(%d)", allCrawlDataMap.size(), existCount));

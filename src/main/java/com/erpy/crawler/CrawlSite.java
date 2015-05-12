@@ -176,7 +176,7 @@ public class CrawlSite {
         return this.crawlData;
     }
 
-    public int HttpCrawlGetDataTimeout() throws IOException {
+    public int HttpCrawlGetDataTimeout() throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         RequestConfig requestConfig = RequestConfig.custom()
                 .setSocketTimeout(socketTimeout)
