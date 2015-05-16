@@ -2,6 +2,7 @@ package com.erpy.parser;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
+import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
 import com.erpy.dao.SearchData;
@@ -187,15 +188,20 @@ public class DICamping {
 
 
             // Thumb link
-            listE = document.select("a img.MS_prod_img_m");
+            listE = document.select("dt.thumb2 img");
             for (Element et : listE) {
                 strItem = et.attr("src");
-                searchData.setThumbUrl(prefixHostThumbUrl + strItem);
+                if (strItem.contains("small")) {
+                    searchData.setThumbUrl(prefixHostThumbUrl + strItem.replace("small", "big"));
+                } else {
+                    searchData.setThumbUrl(prefixHostThumbUrl + strItem);
+                }
                 logger.debug(String.format(" >> Thumb (%s)", prefixHostThumbUrl + strItem));
+                break;
             }
 
             // link
-            listE = document.select("a");
+            listE = document.select("dt.thumb2 a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 // extract productID
@@ -207,15 +213,15 @@ public class DICamping {
             }
 
             // product name
-            listE = document.select("img");
+            listE = document.select("li.prd-name");
             for (Element et : listE) {
-                strItem = et.attr("title");
+                strItem = et.text();
                 logger.debug(String.format(" >> title (%s)", strItem));
                 searchData.setProductName(strItem);
             }
 
             // org price
-            listE = document.select("strike");
+            listE = document.select("ul li strike");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (GlobalUtils.isAllDigitChar(strItem)) {
@@ -373,11 +379,16 @@ public class DICamping {
         GlobalUtils globalUtils = new GlobalUtils();
         int index = 0;
 
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.dicamping.co.kr","http://www.dicamping.co.kr");
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&type=N&mcode=002&page=2");
+        crawlSite.setConnectionTimeout(1000);
+        crawlSite.setSocketTimeout(10000);
+        crawlSite.setCrawlUrl("http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&mcode=001&type=Y");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 
+//        logger.info(" return code : " + returnCode);
 //        logger.info(crawlSite.getCrawlData());
 //        logger.info(String.format(" crawl contents size : %d", crawlSite.getCrawlData().length()));
 
@@ -390,11 +401,11 @@ public class DICamping {
             productId = "";
             document = Jsoup.parse(element.outerHtml());
 
-            index++;
 //            logger.info(element.outerHtml());
+//            logger.info("==============================================");
 
             // Thumb link
-            listE = document.select("a img.MS_prod_img_m");
+            listE = document.select("dt.thumb2 img");
             for (Element et : listE) {
                 strItem = et.attr("src");
                 if (strItem.contains("small")) {
@@ -406,25 +417,25 @@ public class DICamping {
             }
 
             // link
-            listE = document.select("a");
+            listE = document.select("dt.thumb2 a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length() > 0) {
                     productId = globalUtils.getFieldData(strLinkUrl, "branduid=", "&");
-                    logger.info(String.format("[%s]%s", productId, prefixContentUrl + productId));
+                    logger.info(String.format("[%s]%s", productId, prefixContentUrl + strLinkUrl));
                     break;
                 }
             }
 
             // product name
-            listE = document.select("img");
+            listE = document.select("li.prd-name ");
             for (Element et : listE) {
-                strItem = et.attr("title").trim();
+                strItem = et.text();
                 logger.info(String.format(" title :(%s) ", strItem));
             }
 
             // org price
-            listE = document.select("strike");
+            listE = document.select("ul li strike");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (GlobalUtils.isAllDigitChar(strItem)) {

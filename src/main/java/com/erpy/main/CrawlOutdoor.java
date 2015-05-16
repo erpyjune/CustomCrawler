@@ -54,7 +54,7 @@ public class CrawlOutdoor {
         String strCpName;
         String argsCPname="";
 
-        CrawlMainThread crawlMainThread = new CrawlMainThread();
+//        CrawlMainThread crawlMainThread = new CrawlMainThread();
 
         if (args.length > 0) {
             argsCPname = args[0];
@@ -79,6 +79,7 @@ public class CrawlOutdoor {
             }
 
             if (strCpName.equals(GlobalInfo.CP_OKMALL)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.okmall.com", "http://www.okmall.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -93,6 +94,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_FIRST)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.chocammall.co.kr", "http://www.chocammall.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page_no");
@@ -107,6 +109,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campingmall.co.kr", "http://www.campingmall.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -121,6 +124,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 // header setting은 crawlData 안에서 한다.
 //                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("sbclub.co.kr", "http://sbclub.co.kr");
 //                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -137,6 +141,7 @@ public class CrawlOutdoor {
                 SB sb = new SB();
                 sb.crawlData(strUrl, strKeyword, strCpName, allCrawlDatas);
             }  else if (strCpName.equals(GlobalInfo.CP_DICAMPING)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.dicamping.co.kr", "http://www.dicamping.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -151,6 +156,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CCAMPING)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.ccamping.co.kr", "http://www.ccamping.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -179,6 +185,7 @@ public class CrawlOutdoor {
 //                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
 //                crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CampTown)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("camptown.firstmall.kr", "http://camptown.firstmall.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -193,6 +200,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_Aldebaran)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.adbr.co.kr", "http://www.adbr.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -207,6 +215,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.o-mycamping.com", "http://www.o-mycamping.com/");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -221,6 +230,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CampI)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campi.kr", "http://www.campi.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -249,6 +259,7 @@ public class CrawlOutdoor {
 //                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
 //                crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_LeisureMan)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.leisureman.co.kr", "http://www.leisureman.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -263,6 +274,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_WeekEnders)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.weekenders.co.kr", "http://www.weekenders.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -277,6 +289,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CampingPlus)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.camping-plus.co.kr", "http://www.camping-plus.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("ps_page");
@@ -291,6 +304,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_Starus)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.dkmountain.com", "http://www.dkmountain.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -305,6 +319,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CampSchule)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campschule.co.kr", "http://www.campschule.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -319,6 +334,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_TongOutdoor)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("tongoutdoor.com", "http://tongoutdoor.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -333,6 +349,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_AirMT)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.airmt.net", "http://www.airmt.net");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -347,6 +364,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_Gogo337)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.gogo337.co.kr", "http://www.gogo337.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -361,6 +379,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_Totooutdoor)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.totooutdoor.com", "http://www.totooutdoor.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -375,6 +394,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_Niio)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.niio.co.kr", "http://http://www.niio.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -389,6 +409,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_YahoCamping)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.yahocamping.com", "http://www.yahocamping.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
@@ -403,6 +424,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CampingAmigo)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campingamigo.com", "http://http://www.campingamigo.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
