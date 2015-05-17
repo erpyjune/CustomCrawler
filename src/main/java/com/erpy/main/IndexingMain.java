@@ -20,7 +20,8 @@ import java.util.Map;
 public class IndexingMain {
 
     private static Logger logger = Logger.getLogger(IndexingMain.class.getName());
-    private static final String IndexingUrl = "http://localhost:9200/shop/";
+//    private static final String IndexingUrl = "http://localhost:9200/shop/";
+    private static final String IndexingUrl = "http://summarynode.cafe24.com:9200/shop/";
 
     public static void main(String args[]) throws Exception {
         Map<String, String> statusParamMap = new HashMap<String, String>();
@@ -30,7 +31,7 @@ public class IndexingMain {
         String cpName = "";
         String indexStatus = "";
         int indexCount = 0;
-        int returnCode;
+        int returnCode=0;
 
 
         if (args.length > 0) {
@@ -75,8 +76,8 @@ public class IndexingMain {
                 }
             }
             catch (Exception e) {
-                logger.error(String.format(" Indexing error - dataId(%d) | %s",
-                        searchData.getDataId(), e.getStackTrace().toString()));
+                logger.error(String.format(" Indexing error - return(%d),dataId(%d) | %s",
+                        returnCode, searchData.getDataId(), e.getStackTrace().toString()));
             }
         }
         logger.info("======================================================");

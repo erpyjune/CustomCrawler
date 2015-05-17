@@ -12,6 +12,7 @@
         brand_name   as brandName,
         url          as contentUrl,
         thumb_url    as thumbUrl,
+        thumb_big_url as thumbUrlBig,
         org_price    as orgPrice,
         sale_price   as salePrice,
         sale_per     as salePer,
@@ -30,6 +31,7 @@
         <result property='brandName' 	    column='brand_name'/>
         <result property='contentUrl' 	    column='url'/>
         <result property='thumbUrl' 	    column='thumb_url'/>
+        <result property='thumbUrlBig' 	    column='thumb_big_url'/>
         <result property='orgPrice' 	    column='org_price'/>
         <result property='salePrice' 	    column='sale_price'/>
         <result property='salePer' 	        column='sale_per'/>
@@ -65,6 +67,7 @@
         brand_name   = #{brandName},
         url          = #{contentUrl},
         thumb_url    = #{thumbUrl},
+        thumb_big_url = #{thumbUrlBig},
         org_price    = #{orgPrice},
         sale_price   = #{salePrice},
         sale_per     = #{salePer},

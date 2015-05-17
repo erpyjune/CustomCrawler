@@ -183,7 +183,7 @@ public class CrawlSite {
                 .setConnectTimeout(connectionTimeout)
                 .build();
 
-        HttpGet httpGet = new HttpGet(this.crawlUrl);
+        HttpGet httpGet = new HttpGet(crawlUrl);
 
         for(Map.Entry<String, String> entry : requestHeader.entrySet()) {
 //            logger.info(String.format(" Set request header %s::%s", entry.getKey().trim(), entry.getValue().trim()));
@@ -197,7 +197,7 @@ public class CrawlSite {
         try {
             //HttpEntity httpEntity = closeableHttpResponse.getEntity();
             BufferedReader rd = new BufferedReader(
-                    new InputStreamReader(closeableHttpResponse.getEntity().getContent(), this.crawlEncoding));
+                    new InputStreamReader(closeableHttpResponse.getEntity().getContent(), crawlEncoding));
 
             String line;
             StringBuffer result = new StringBuffer();

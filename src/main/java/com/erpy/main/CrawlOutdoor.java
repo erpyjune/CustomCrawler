@@ -20,6 +20,7 @@ import java.util.Map;
  */
 public class CrawlOutdoor {
     private static Logger logger = Logger.getLogger("CrawlOutdoor");
+
     ///////////////////////////////////////////////////////////////////
     // db에 있는 검색 데이터를 모두 읽어와서 map에 저장한다.
     // key = cpName + productId

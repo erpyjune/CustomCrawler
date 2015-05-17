@@ -86,7 +86,6 @@ public class ExtractOutdoor {
         Map<String, SearchData> allSearchDatasMap = getAllProductKey();
 
         // crawling한 원본 데이터를 db에서 하나씩 가져온다.
-        Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
         List<CrawlData> crawlDataList = crawlDataService.getAllCrawlDatas();
         Iterator iterator = crawlDataList.iterator();
         while (iterator.hasNext()) {

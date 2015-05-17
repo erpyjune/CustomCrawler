@@ -12,6 +12,7 @@ public class SearchData {
     String brandName="";
     String contentUrl="";
     String thumbUrl="";
+    String thumbUrlBig="";
     Integer orgPrice=0;
     Integer salePrice=0;
     Float salePer=0.0f;
@@ -69,6 +70,14 @@ public class SearchData {
 
     public void setThumbUrl(String thumbUrl) {
         this.thumbUrl = thumbUrl;
+    }
+
+    public String getThumbUrlBig() {
+        return thumbUrlBig;
+    }
+
+    public void setThumbUrlBig(String thumbUrlBig) {
+        this.thumbUrlBig = thumbUrlBig;
     }
 
     public Integer getOrgPrice() {

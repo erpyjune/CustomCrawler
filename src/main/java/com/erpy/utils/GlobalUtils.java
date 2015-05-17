@@ -10,7 +10,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Iterator;
 
 /**
@@ -81,11 +86,13 @@ public class GlobalUtils {
                 replace("할인가","").trim();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
     public String htmlCleaner(String s) {
         if (s==null) return "";
         return s.replace("&lt;", "<").replace("&gt;",">").replace("[", "").replace("]", "").replace(",", " ");
     }
 
+    ////////////////////////////////////////////////////////////////////////////
     public int checkDataCountContent(String data, String pattern) throws IOException {
         if (pattern==null || pattern.length()==0) {
             logger.error(" pattern is NULL !!");
@@ -96,6 +103,7 @@ public class GlobalUtils {
         return elements.size();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
     public int checkDataCountContentJson(String data, String pattern) throws IOException {
         if (pattern==null || pattern.length()==0) {
             logger.error(" pattern is NULL !!");
@@ -115,6 +123,7 @@ public class GlobalUtils {
         return count;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
     public String isSexKeywordAdd(String crawlKeyword, boolean bMan, boolean bWoman) {
         StringBuilder sb = new StringBuilder(crawlKeyword);
         if (bMan) sb.append(" 남자");
@@ -122,6 +131,7 @@ public class GlobalUtils {
         return sb.toString();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
     public String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -137,10 +147,38 @@ public class GlobalUtils {
         return "";
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    public void saveDiskImgage(String localPath, String url, String fileName) throws Exception {
+        String file_ext = fileName.substring (
+                fileName.lastIndexOf('.')+1,
+                fileName.length() );
+
+        BufferedImage image;
+
+        image = ImageIO.read(new URL(url));
+        BufferedImage bufferedImage = new BufferedImage(image.getWidth(),image.getHeight(), BufferedImage.TYPE_INT_BGR);
+
+        Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
+        graphics.setBackground(Color.WHITE);
+        graphics.drawImage(image, 0, 0, null);
+
+        ImageIO.write(bufferedImage, file_ext, new File(localPath+"/"+fileName));
+        System.out.println(fileName+" 다운완료");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    public String splieImageFileName(String url) {
+        String[] array = url.split("/");
+        return array[array.length-1];
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
     public int indexingES(SearchData searchData) throws Exception {
         int returnCode;
         StringBuilder sb = new StringBuilder();
-        StringBuilder indexUrl = new StringBuilder("http://localhost:9200/shop/okmall/");
+//        StringBuilder indexUrl = new StringBuilder("http://localhost:9200/shop/okmall/");
+        StringBuilder indexUrl = new StringBuilder("http://summarynode.cafe24.com:9200/shop/okmall/");
         CrawlSite crawlSite = new CrawlSite();
 
 
@@ -158,8 +196,13 @@ public class GlobalUtils {
         sb.append("\"url\" : ");
         sb.append("\"").append(searchData.getContentUrl()).append("\",");
 
-        sb.append("\"thumb\" : ");
-        sb.append("\"").append(searchData.getThumbUrl()).append("\",");
+        if (searchData.getCpName().equals("airmt") || searchData.getCpName().equals("tongoutdoor")) {
+            sb.append("\"thumb\" : ");
+            sb.append("\"").append(getImageUrl(searchData.getThumbUrlBig())).append("\",");
+        } else {
+            sb.append("\"thumb\" : ");
+            sb.append("\"").append(searchData.getThumbUrl()).append("\",");
+        }
 
         sb.append("\"org_price\" : ");
         sb.append(" ").append(searchData.getOrgPrice()).append(",");
@@ -202,5 +245,19 @@ public class GlobalUtils {
                     searchData.getProductName()));
         }
         return returnCode;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    public String getImageUrl(String thumbUrl) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        if (thumbUrl.contains("airmt.net")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/airmt/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("tongoutdoor.com")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/tongoutdoor/").append(splieImageFileName(thumbUrl));
+        }
+        logger.info(sb.toString());
+        return sb.toString();
     }
 }
