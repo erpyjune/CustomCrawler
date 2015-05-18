@@ -2,6 +2,7 @@ package com.erpy.utils;
 
 import com.erpy.crawler.CrawlSite;
 import com.erpy.dao.SearchData;
+import com.erpy.dao.SearchDataService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
@@ -16,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Created by baeonejune on 15. 3. 30..
@@ -148,9 +149,9 @@ public class GlobalUtils {
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    public void saveDiskImgage(String localPath, String url, String fileName) throws Exception {
+    public void saveDiskImgage(String localPath, String cpName, String url, String fileName) throws Exception {
         String file_ext = fileName.substring (
-                fileName.lastIndexOf('.')+1,
+                fileName.lastIndexOf('.') + 1,
                 fileName.length() );
 
         BufferedImage image;
@@ -162,8 +163,8 @@ public class GlobalUtils {
         graphics.setBackground(Color.WHITE);
         graphics.drawImage(image, 0, 0, null);
 
-        ImageIO.write(bufferedImage, file_ext, new File(localPath+"/"+fileName));
-        System.out.println(fileName+" 다운완료");
+        ImageIO.write(bufferedImage, file_ext, new File(localPath + "/" + cpName + "/" + fileName));
+        logger.info(fileName + " Downloaded : " + url);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -259,5 +260,64 @@ public class GlobalUtils {
         }
         logger.info(sb.toString());
         return sb.toString();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    public void makeThumbnail(String filePath, String outputFile) throws Exception {
+        try {
+            BufferedImage sourceImage = ImageIO.read(new File(filePath));
+            int width = sourceImage.getWidth();
+            int height = sourceImage.getHeight();
+
+            if(width>height){
+                float extraSize=    height-100;
+                float percentHight = (extraSize/height)*100;
+                float percentWidth = width - ((width/100)*percentHight);
+                BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_INT_RGB);
+                Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
+                img.createGraphics().drawImage(scaledImage, 0, 0, null);
+                BufferedImage img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
+                img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
+
+                ImageIO.write(img2, "jpg", new File(outputFile));
+            }else{
+                float extraSize=    width-100;
+                float percentWidth = (extraSize/width)*100;
+                float  percentHight = height - ((height/100)*percentWidth);
+                BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_INT_RGB);
+                Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
+                img.createGraphics().drawImage(scaledImage, 0, 0, null);
+                BufferedImage img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
+                img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
+
+                ImageIO.write(img2, "jpg", new File(outputFile));
+            }
+        } catch (Exception e) {
+            logger.error(e.getStackTrace().toString());
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////
+    // cp에 해당되는 모든 search table 데이터를 내린다.
+    public Map<String, SearchData> getAllSearchDatasByCP(String cpName) throws Exception {
+        Map<String, SearchData> allSearchDataMap = new HashMap<String, SearchData>();
+        SearchDataService searchDataService = new SearchDataService();
+        SearchData searchData;
+        int existCount=0;
+
+        java.util.List<SearchData> searchDatas = searchDataService.getSearchDataByCpName(cpName);
+        Iterator searchDataIterator = searchDatas.iterator();
+        while (searchDataIterator.hasNext()) {
+            searchData = (SearchData) searchDataIterator.next();
+            if (allSearchDataMap.containsKey(searchData.getProductId())) {
+                existCount++;
+            }
+//            logger.info(String.format(" All Crawling DB Key(%s)", crawlData.getHashMD5() + crawlData.getCpName()));
+            allSearchDataMap.put(searchData.getProductId(), searchData);
+        }
+        logger.info(String.format(" [%s]에서 가져온 데이터 - Total(%d), Exist(%d)", cpName, allSearchDataMap.size(), existCount));
+        return allSearchDataMap;
     }
 }

@@ -1,9 +1,11 @@
 package com.erpy.parser;
 
+import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
 import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.SearchData;
+import com.erpy.dao.SearchDataService;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DB;
 import com.erpy.utils.GlobalInfo;
@@ -15,6 +17,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -335,6 +338,102 @@ public class TongOutdoor {
             newSearchDataMap.clear();
         }
     }
+
+
+    /////////////////////////////////////////////////////////////////
+    public void thumbnailProcessing(String cpName) throws Exception {
+        int returnCode, crawlErrorCount, imageSaveErrorCount;
+        GlobalUtils globalUtils = new GlobalUtils();
+        Document doc, document;
+        Elements elements, listE;
+        CrawlSite crawlSite = new CrawlSite();
+        CrawlIO crawlIO = new CrawlIO();
+        SearchData searchData;
+        String strItem;
+        String key, imageFileName;
+
+        String localPath = "/Users/baeonejune/work/SummaryNode/images";
+        String prefixHostThumbUrl="http://tongoutdoor.com";
+        String hostDomain = "tongoutdoor.com";
+
+        ////////////////////////////////////////////////////////////////////////
+        // image 저장할 디렉토리 체크. 없으면 생성.
+        crawlIO.saveDirCheck(localPath, cpName);
+
+        ////////////////////////////////////////////////////////////////////////
+        // image를 수집하기 위한 기본 환경 셋팅.
+        HttpRequestHeader httpRequestHeader = new HttpRequestHeader(hostDomain, prefixHostThumbUrl);
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
+        crawlSite.setConnectionTimeout(5000);
+        crawlSite.setSocketTimeout(10000);
+        crawlSite.setCrawlEncode("euc-kr");
+
+        ////////////////////////////////////////////////////////////////////////
+        Map<String, SearchData> searchDataMap = globalUtils.getAllSearchDatasByCP(cpName);
+        SearchDataService searchDataService = new SearchDataService();
+        for(Map.Entry<String, SearchData> entry : searchDataMap.entrySet()) {
+            key = entry.getKey();
+            searchData = entry.getValue();
+
+//            logger.info("id       : " + searchData.getProductId());
+//            logger.info("cp_name  : " + searchData.getCpName());
+
+            crawlSite.setCrawlUrl(searchData.getContentUrl());
+
+            crawlErrorCount=0;
+
+            for (;;) {
+                try {
+                    returnCode = crawlSite.HttpCrawlGetDataTimeout();
+                    if (returnCode != 200 && returnCode != 201) {
+                        logger.error(String.format(" [%d]데이터를 수집 못했음 - %s", returnCode, crawlSite.getCrawlUrl()));
+                    } else {
+                        break;
+                    }
+                } catch (Exception e) {
+                    if (crawlErrorCount >= 3) break;
+                    crawlErrorCount++;
+                    logger.error(Arrays.toString(e.getStackTrace()));
+                }
+            }
+
+            doc = Jsoup.parse(crawlSite.getCrawlData());
+            elements = doc.select("div[style=\"padding-bottom:10\"]");
+            for (Element element : elements) {
+                document = Jsoup.parse(element.outerHtml());
+                listE = document.select("span img");
+                for (Element et : listE) {
+                    strItem = et.attr("src");
+                    if (strItem.contains("../data/goods")) {
+                        searchData.setThumbUrlBig(prefixHostThumbUrl + strItem.replace("../data", "/shop/data"));
+//                        logger.info(prefixHostThumbUrl + strItem.replace("../data", "/shop/data"));
+                        break;
+                    } else {
+                        searchData.setThumbUrlBig(prefixHostThumbUrl + strItem);
+//                        logger.info(prefixHostThumbUrl + strItem);
+                    }
+                }
+            }
+
+            imageSaveErrorCount=0;
+
+            while(true) {
+                try {
+                    imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
+                    globalUtils.saveDiskImgage(localPath, cpName, searchData.getThumbUrlBig(), imageFileName);
+                    searchDataService.updateSearchData(searchData);
+//                    logger.info(String.format(" update (%s)", searchData.getThumbUrlBig()));
+                    break;
+                } catch (Exception e) {
+                    if (imageSaveErrorCount > 3) break;
+                    logger.error(String.format(" Download image (%s) faile (%s)",
+                            searchData.getThumbUrlBig(), e.getStackTrace().toString()));
+                    imageSaveErrorCount++;
+                }
+            }
+        }
+    }
+
 
     public static void main(String args[]) throws Exception {
         Elements elements;

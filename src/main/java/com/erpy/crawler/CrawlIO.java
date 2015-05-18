@@ -137,11 +137,17 @@ public class CrawlIO {
 
 
     public boolean saveDirCheck(String savePrefixPath, String cpName) throws Exception {
+        File dir;
         try {
-            File dir = new File(savePrefixPath + "/" + cpName);
+            if (cpName.length()>0) {
+                dir = new File(savePrefixPath + "/" + cpName);
+            } else {
+                dir = new File(savePrefixPath);
+            }
+
             if (!dir.exists()) {
                 if (!dir.mkdir()) {
-                    logger.error(String.format(" mkdir - (%s)", savePrefixPath));
+                    logger.error(String.format(" Make directory - (%s)", savePrefixPath));
                     return false;
                 }
             }
