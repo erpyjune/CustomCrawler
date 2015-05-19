@@ -2,6 +2,7 @@ package com.erpy.main;
 
 import com.erpy.parser.AirMT;
 import com.erpy.parser.Gogo337;
+import com.erpy.parser.SB;
 import com.erpy.parser.TongOutdoor;
 import org.apache.log4j.Logger;
 
@@ -15,6 +16,7 @@ public class CrawlThumb {
         AirMT airMT = new AirMT();
         TongOutdoor tongOutdoor = new TongOutdoor();
         Gogo337 gogo337 = new Gogo337();
+        SB sb = new SB();
 
 //        logger.info(" Start image download AirMT!!");
 //        airMT.thumbnailProcessing("airmt");
@@ -24,8 +26,12 @@ public class CrawlThumb {
 //        tongOutdoor.thumbnailProcessing("tongoutdoor");
 //        logger.info(" End   image download TongOutdoor!!");
 
-        logger.info(" Start image download GoGo337!!");
-        gogo337.thumbnailProcessing("gogo337");
-        logger.info(" End   image download GoGo337!!");
+//        logger.info(" Start image download GoGo337!!");
+//        gogo337.thumbnailProcessing("gogo337");
+//        logger.info(" End   image download GoGo337!!");
+
+        logger.info(" Start image download sbclub!!");
+        sb.thumbnailProcessing("sbclub");
+        logger.info(" End   image download sbclub!!");
     }
 }

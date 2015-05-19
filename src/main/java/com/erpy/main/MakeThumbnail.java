@@ -20,7 +20,7 @@ public class MakeThumbnail {
         int total=0;
         String key;
         String fileName, inPath, outPath;
-        String cpName = "tongoutdoor";
+        String cpName;
         SearchData searchData;
         CrawlIO crawlIO = new CrawlIO();
         StringBuffer sb = new StringBuffer();
@@ -79,7 +79,7 @@ public class MakeThumbnail {
 //            globalUtils.makeThumbnail(inPath, outPath);
 
             try {
-                Thumbnails.of(new File(inPath)).size(216, 216).toFile(new File(outPath));
+                Thumbnails.of(new File(inPath)).size(300, 300).toFile(new File(outPath));
                 logger.info(String.format(" cp (%s)", searchData.getCpName()));
                 logger.info(String.format(" in (%s)", inPath));
                 logger.info(String.format(" out(%s)", outPath));

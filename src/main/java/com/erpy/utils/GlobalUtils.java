@@ -6,6 +6,7 @@ import com.erpy.dao.SearchDataService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import org.elasticsearch.search.aggregations.bucket.global.Global;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -197,7 +198,8 @@ public class GlobalUtils {
         sb.append("\"url\" : ");
         sb.append("\"").append(searchData.getContentUrl()).append("\",");
 
-        if (searchData.getCpName().equals("airmt") || searchData.getCpName().equals("tongoutdoor")) {
+        if (searchData.getCpName().equals(GlobalInfo.CP_AirMT) || searchData.getCpName().equals(GlobalInfo.CP_TongOutdoor) ||
+                searchData.getCpName().equals(GlobalInfo.CP_SBCLUB)) {
             sb.append("\"thumb\" : ");
             sb.append("\"").append(getImageUrl(searchData.getThumbUrlBig())).append("\",");
         } else {
@@ -258,7 +260,9 @@ public class GlobalUtils {
         else if (thumbUrl.contains("tongoutdoor.com")) {
             sb = sb.append("http://summarynode.cafe24.com/gimages/tongoutdoor/").append(splieImageFileName(thumbUrl));
         }
-        logger.info(sb.toString());
+        else if (thumbUrl.contains("sbclub.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/sbclub/").append(splieImageFileName(thumbUrl));
+        }
         return sb.toString();
     }
 
