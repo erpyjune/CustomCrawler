@@ -1,9 +1,7 @@
 package com.erpy.main;
 
-import com.erpy.parser.AirMT;
-import com.erpy.parser.Gogo337;
-import com.erpy.parser.SB;
-import com.erpy.parser.TongOutdoor;
+import com.erpy.parser.*;
+import com.erpy.utils.GlobalInfo;
 import org.apache.log4j.Logger;
 
 /**
@@ -13,25 +11,44 @@ public class CrawlThumb {
     private static Logger logger = Logger.getLogger("CrawlThumb");
 
     public static void main(String[] args) throws Exception {
+        String cpName="";
         AirMT airMT = new AirMT();
         TongOutdoor tongOutdoor = new TongOutdoor();
         Gogo337 gogo337 = new Gogo337();
         SB sb = new SB();
+        OkMallProc ok = new OkMallProc();
 
-//        logger.info(" Start image download AirMT!!");
-//        airMT.thumbnailProcessing("airmt");
-//        logger.info(" End   image download AirMT!!");
+        if (args.length==0) {
+            logger.error(" USAGE: need cp_name");
+            System.exit(-1);
+        }
 
-//        logger.info(" Start image download TongOutdoor!!");
-//        tongOutdoor.thumbnailProcessing("tongoutdoor");
-//        logger.info(" End   image download TongOutdoor!!");
+        cpName = args[0];
 
-//        logger.info(" Start image download GoGo337!!");
-//        gogo337.thumbnailProcessing("gogo337");
-//        logger.info(" End   image download GoGo337!!");
-
-        logger.info(" Start image download sbclub!!");
-        sb.thumbnailProcessing("sbclub");
-        logger.info(" End   image download sbclub!!");
+        if (cpName.equals("all") || cpName.equals("ALL")) {
+            airMT.thumbnailProcessing(GlobalInfo.CP_AirMT);
+            tongOutdoor.thumbnailProcessing(GlobalInfo.CP_TongOutdoor);
+            gogo337.thumbnailProcessing(GlobalInfo.CP_Gogo337);
+            sb.thumbnailProcessing(GlobalInfo.CP_SBCLUB);
+            ok.thumbnailProcessing(GlobalInfo.CP_OKMALL);
+        }
+        else if (cpName.equals(GlobalInfo.CP_AirMT)) {
+            airMT.thumbnailProcessing(GlobalInfo.CP_AirMT);
+        }
+        else if (cpName.equals(GlobalInfo.CP_TongOutdoor)) {
+            tongOutdoor.thumbnailProcessing(GlobalInfo.CP_TongOutdoor);
+        }
+        else if (cpName.equals(GlobalInfo.CP_Gogo337)) {
+            gogo337.thumbnailProcessing(GlobalInfo.CP_Gogo337);
+        }
+        else if (cpName.equals(GlobalInfo.CP_SBCLUB)) {
+            sb.thumbnailProcessing(GlobalInfo.CP_SBCLUB);
+        }
+        else if (cpName.equals(GlobalInfo.CP_OKMALL)) {
+            ok.thumbnailProcessing(GlobalInfo.CP_OKMALL);
+        }
+        else {
+            logger.error(" Unknown cp_name !!");
+        }
     }
 }
