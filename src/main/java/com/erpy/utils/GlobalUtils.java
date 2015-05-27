@@ -199,7 +199,7 @@ public class GlobalUtils {
         sb.append("\"").append(searchData.getContentUrl()).append("\",");
 
         if (searchData.getCpName().equals(GlobalInfo.CP_AirMT) || searchData.getCpName().equals(GlobalInfo.CP_TongOutdoor) ||
-                searchData.getCpName().equals(GlobalInfo.CP_SBCLUB)) {
+                searchData.getCpName().equals(GlobalInfo.CP_SBCLUB) || searchData.getCpName().equals(GlobalInfo.CP_Gogo337)) {
             sb.append("\"thumb\" : ");
             sb.append("\"").append(getImageUrl(searchData.getThumbUrlBig())).append("\",");
         } else {
@@ -262,6 +262,9 @@ public class GlobalUtils {
         }
         else if (thumbUrl.contains("sbclub.co.kr")) {
             sb = sb.append("http://summarynode.cafe24.com/gimages/sbclub/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("gogo337.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/gogo337/").append(splieImageFileName(thumbUrl));
         }
         return sb.toString();
     }
