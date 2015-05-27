@@ -13,9 +13,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -303,6 +305,28 @@ public class GlobalUtils {
         } catch (Exception e) {
             logger.error(e.getStackTrace().toString());
         }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    public boolean makeThumbnail2(String loadFile, String saveFile, int maxDim)
+            throws IOException {
+        File save = new File(saveFile.replaceAll("/", "\\" + File.separator));
+        FileInputStream fis = new FileInputStream(loadFile.replaceAll("/", "\\"
+                + File.separator));
+        BufferedImage im = ImageIO.read(fis);
+        Image inImage = new ImageIcon(loadFile).getImage();
+        double scale = (double) maxDim / (double) inImage.getHeight(null);
+        if (inImage.getWidth(null) > inImage.getHeight(null)) {
+            scale = (double) maxDim / (double) inImage.getWidth(null);
+        }
+        int scaledW = (int) (scale * inImage.getWidth(null));
+        int scaledH = (int) (scale * inImage.getHeight(null));
+        BufferedImage thumb = new BufferedImage(scaledW, scaledH,
+                BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = thumb.createGraphics();
+        g2.drawImage(im, 0, 0, scaledW, scaledH, null);
+        return ImageIO.write(thumb, "jpg", save);
     }
 
 
