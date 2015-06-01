@@ -28,6 +28,7 @@ public class CrawlThumb {
         CampingOn campingOn = new CampingOn();
         Niio niio = new Niio();
         CCamping cCamping = new CCamping();
+        CampTown campTown = new CampTown();
 
 
         if (args.length==0) {
@@ -54,6 +55,7 @@ public class CrawlThumb {
             campingOn.thumbnailProcessing(GlobalInfo.CP_CAMPINGON);
             niio.thumbnailProcessing(GlobalInfo.CP_Niio);
             cCamping.thumbnailProcessing(GlobalInfo.CP_CCAMPING);
+            campTown.thumbnailProcessing(GlobalInfo.CP_CampTown);
         }
         else if (cpName.equals(GlobalInfo.CP_AirMT)) {
             airMT.thumbnailProcessing(GlobalInfo.CP_AirMT);
@@ -102,6 +104,9 @@ public class CrawlThumb {
         }
         else if (cpName.equals(GlobalInfo.CP_CCAMPING)) {
             cCamping.thumbnailProcessing(GlobalInfo.CP_CCAMPING);
+        }
+        else if (cpName.equals(GlobalInfo.CP_CampTown)) {
+            campTown.thumbnailProcessing(GlobalInfo.CP_CampTown);
         }
         else {
             logger.error(" Unknown cp_name !!");

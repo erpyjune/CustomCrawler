@@ -394,6 +394,7 @@ public class Niio {
                     strItem = et.attr("src");
                     searchData.setThumbUrlBig(prefixHostThumbUrl + strItem);
 //                    logger.info(prefixHostThumbUrl + strItem);
+                    break;
                 }
                 break;
             }

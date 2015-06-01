@@ -334,7 +334,7 @@ public class YahoCamping {
         HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.yahocamping.com","http://www.yahocamping.com");
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://www.yahocamping.com/shop/shopbrand.html?xcode=019&type=Y&mcode=001");
+        crawlSite.setCrawlUrl("http://www.yahocamping.com/shop/shopbrand.html?xcode=019&type=Y&mcode=001&scode=001");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 
