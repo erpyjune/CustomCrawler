@@ -1,6 +1,8 @@
 package com.erpy.utils;
 
+import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
+import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,6 +12,7 @@ import org.elasticsearch.search.aggregations.bucket.global.Global;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import javax.imageio.ImageIO;
@@ -289,6 +292,7 @@ public class GlobalUtils {
                 BufferedImage img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
                 img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
 
+
                 ImageIO.write(img2, "jpg", new File(outputFile));
             }else{
                 float extraSize=    width-100;
@@ -300,6 +304,41 @@ public class GlobalUtils {
                 BufferedImage img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
                 img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
 
+
+                ImageIO.write(img2, "jpg", new File(outputFile));
+            }
+        } catch (Exception e) {
+            logger.error(e.getStackTrace().toString());
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    public void makeThumbnailTest(String filePath, String outputFile) throws Exception {
+        try {
+            BufferedImage sourceImage = ImageIO.read(new File(filePath));
+            int width = sourceImage.getWidth();
+            int height = sourceImage.getHeight();
+
+            if(width>height){
+                float extraSize=    height-100;
+                float percentHight = (extraSize/height)*100;
+                float percentWidth = width - ((width/100)*percentHight);
+                BufferedImage img = new BufferedImage((int)percentWidth, 100, BufferedImage.TYPE_INT_RGB);
+                Image scaledImage = sourceImage.getScaledInstance((int)percentWidth, 100, Image.SCALE_SMOOTH);
+                img.createGraphics().drawImage(scaledImage, 0, 0, null);
+                BufferedImage img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
+                img2 = img.getSubimage((int)((percentWidth-100)/2), 0, 100, 100);
+                ImageIO.write(img2, "jpg", new File(outputFile));
+            }else{
+                float extraSize=    width-100;
+                float percentWidth = (extraSize/width)*100;
+                float  percentHight = height - ((height/100)*percentWidth);
+                BufferedImage img = new BufferedImage(100, (int)percentHight, BufferedImage.TYPE_INT_RGB);
+                Image scaledImage = sourceImage.getScaledInstance(100,(int)percentHight, Image.SCALE_SMOOTH);
+                img.createGraphics().drawImage(scaledImage, 0, 0, null);
+                BufferedImage img2 = new BufferedImage(100, 100 ,BufferedImage.TYPE_INT_RGB);
+                img2 = img.getSubimage(0, (int)((percentHight-100)/2), 100, 100);
                 ImageIO.write(img2, "jpg", new File(outputFile));
             }
         } catch (Exception e) {

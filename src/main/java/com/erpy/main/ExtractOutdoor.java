@@ -118,7 +118,7 @@ public class ExtractOutdoor {
                 ct.mainExtractProcessing(ct,crawlData,allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGON)) { // Image Forbidden
-//                co.mainExtractProcessing(co,crawlData,allSearchDatasMap);
+                co.mainExtractProcessing(co,crawlData,allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_Aldebaran)) {
                 alde.mainExtractProcessing(alde,crawlData,allSearchDatasMap);
@@ -130,7 +130,7 @@ public class ExtractOutdoor {
                 cmpi.mainExtractProcessing(cmpi,crawlData,allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_Camping365)) { // Image Forbidden
-//                cp365.mainExtractProcessing(cp365,crawlData,allSearchDatasMap);
+                cp365.mainExtractProcessing(cp365,crawlData,allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_LeisureMan)) {
                 lsm.mainExtractProcessing(lsm,crawlData,allSearchDatasMap);
