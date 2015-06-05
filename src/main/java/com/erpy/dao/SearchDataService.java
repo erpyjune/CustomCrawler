@@ -24,8 +24,8 @@ public class SearchDataService {
     public SearchData getSearchDataById(int dataId) {
         SqlSession sqlSession = SearchDataMybatisFactory.getSqlSessionFactory().openSession();
         try{
-            SearchDataMapper crawlDataMapper = sqlSession.getMapper(SearchDataMapper.class);
-            return crawlDataMapper.getSearchDataById(dataId);
+            SearchDataMapper searchDataMapper = sqlSession.getMapper(SearchDataMapper.class);
+            return searchDataMapper.getSearchDataById(dataId);
         }finally{
             sqlSession.close();
         }
@@ -34,8 +34,18 @@ public class SearchDataService {
     public List<SearchData> getSearchDataByCpName(String cpName) {
         SqlSession sqlSession = SearchDataMybatisFactory.getSqlSessionFactory().openSession();
         try{
-            SearchDataMapper crawlDataMapper = sqlSession.getMapper(SearchDataMapper.class);
-            return crawlDataMapper.getSearchDataByCpName(cpName);
+            SearchDataMapper searchDataMapper = sqlSession.getMapper(SearchDataMapper.class);
+            return searchDataMapper.getSearchDataByCpName(cpName);
+        }finally{
+            sqlSession.close();
+        }
+    }
+
+    public List<SearchData> getSearchDataByCpNameBigthumbFieldNULL(String cpName) {
+        SqlSession sqlSession = SearchDataMybatisFactory.getSqlSessionFactory().openSession();
+        try{
+            SearchDataMapper searchDataMapper = sqlSession.getMapper(SearchDataMapper.class);
+            return searchDataMapper.getSearchDataByCpNameBigThumbFieldNULL(cpName);
         }finally{
             sqlSession.close();
         }
@@ -44,8 +54,8 @@ public class SearchDataService {
     public List<SearchData> getAllSearchDatas() {
         SqlSession sqlSession = SearchDataMybatisFactory.getSqlSessionFactory().openSession();
         try{
-            SearchDataMapper crawlDataMapper = sqlSession.getMapper(SearchDataMapper.class);
-            return crawlDataMapper.getAllSearchDatas();
+            SearchDataMapper searchDataMapper = sqlSession.getMapper(SearchDataMapper.class);
+            return searchDataMapper.getAllSearchDatas();
         }finally{
             sqlSession.close();
         }
@@ -88,8 +98,8 @@ public class SearchDataService {
     public void deleteSearchData(Integer seedId) {
         SqlSession sqlSession = SearchDataMybatisFactory.getSqlSessionFactory().openSession();
         try{
-            SearchDataMapper crawlDataMapper = sqlSession.getMapper(SearchDataMapper.class);
-            crawlDataMapper.deleteSearchData(seedId);
+            SearchDataMapper searchDataMapper = sqlSession.getMapper(SearchDataMapper.class);
+            searchDataMapper.deleteSearchData(seedId);
             sqlSession.commit();
         }finally{
             sqlSession.close();

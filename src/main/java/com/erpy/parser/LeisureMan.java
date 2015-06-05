@@ -310,7 +310,7 @@ public class LeisureMan {
 
     /////////////////////////////////////////////////////////////////
     // 상품정보 url의 본문 정보에서 큰 이미지를 download 한다.
-    public void thumbnailProcessing(String cpName) throws Exception {
+    public void thumbnailProcessing(String cpName, boolean allData) throws Exception {
         int returnCode, crawlErrorCount, imageSaveErrorCount;
         GlobalUtils globalUtils = new GlobalUtils();
         Document doc, document;
@@ -339,7 +339,15 @@ public class LeisureMan {
         crawlSite.setCrawlEncode("utf-8");
 
         ////////////////////////////////////////////////////////////////////////
-        Map<String, SearchData> searchDataMap = globalUtils.getAllSearchDatasByCP(cpName);
+        Map<String, SearchData> searchDataMap;
+        if (allData) {
+            // cpName에 해당되는 모든 데이터를 로딩
+            searchDataMap = globalUtils.getAllSearchDatasByCP(cpName);
+        } else {
+            // cpName에 해당되는 데이터중에 thumb_big_url 필드가 없는것만 로딩.
+            searchDataMap = globalUtils.getAllSearchDatasByCPBigThumbFieldNULL(cpName);
+        }
+
         SearchDataService searchDataService = new SearchDataService();
         for (Map.Entry<String, SearchData> entry : searchDataMap.entrySet()) {
             key = entry.getKey();

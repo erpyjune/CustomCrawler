@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
  */
 public class CrawlThumb {
     private static Logger logger = Logger.getLogger("CrawlThumb");
-
     public static void main(String[] args) throws Exception {
         String cpName="";
         AirMT airMT = new AirMT();
@@ -38,75 +37,77 @@ public class CrawlThumb {
 
         cpName = args[0];
 
+        boolean allData = false;
+
         if (cpName.equals("all") || cpName.equals("ALL")) {
-            airMT.thumbnailProcessing(GlobalInfo.CP_AirMT);
-            tongOutdoor.thumbnailProcessing(GlobalInfo.CP_TongOutdoor);
-            gogo337.thumbnailProcessing(GlobalInfo.CP_Gogo337);
-            sb.thumbnailProcessing(GlobalInfo.CP_SBCLUB);
-            ok.thumbnailProcessing(GlobalInfo.CP_OKMALL);
-            first.thumbnailProcessing(GlobalInfo.CP_FIRST);
-            diCamping.thumbnailProcessing(GlobalInfo.CP_DICAMPING);
-            camping365.thumbnailProcessing(GlobalInfo.CP_Camping365);
-            campingMall.thumbnailProcessing(GlobalInfo.CP_CAMPINGMALL);
-            totoOutdoor.thumbnailProcessing(GlobalInfo.CP_Totooutdoor);
-            weekEnders.thumbnailProcessing(GlobalInfo.CP_WeekEnders);
-            starus.thumbnailProcessing(GlobalInfo.CP_Starus);
-            leisureMan.thumbnailProcessing(GlobalInfo.CP_LeisureMan);
-            campingOn.thumbnailProcessing(GlobalInfo.CP_CAMPINGON);
-            niio.thumbnailProcessing(GlobalInfo.CP_Niio);
-            cCamping.thumbnailProcessing(GlobalInfo.CP_CCAMPING);
-            campTown.thumbnailProcessing(GlobalInfo.CP_CampTown);
+            airMT.thumbnailProcessing(GlobalInfo.CP_AirMT, allData);
+            tongOutdoor.thumbnailProcessing(GlobalInfo.CP_TongOutdoor, allData);
+            gogo337.thumbnailProcessing(GlobalInfo.CP_Gogo337, allData);
+            sb.thumbnailProcessing(GlobalInfo.CP_SBCLUB, allData);
+            ok.thumbnailProcessing(GlobalInfo.CP_OKMALL, allData);
+            first.thumbnailProcessing(GlobalInfo.CP_FIRST, allData);
+            diCamping.thumbnailProcessing(GlobalInfo.CP_DICAMPING, allData);
+            camping365.thumbnailProcessing(GlobalInfo.CP_Camping365, allData);
+            campingMall.thumbnailProcessing(GlobalInfo.CP_CAMPINGMALL, allData);
+            totoOutdoor.thumbnailProcessing(GlobalInfo.CP_Totooutdoor, allData);
+            weekEnders.thumbnailProcessing(GlobalInfo.CP_WeekEnders, allData);
+            starus.thumbnailProcessing(GlobalInfo.CP_Starus, allData);
+            leisureMan.thumbnailProcessing(GlobalInfo.CP_LeisureMan, allData);
+            campingOn.thumbnailProcessing(GlobalInfo.CP_CAMPINGON, allData);
+            niio.thumbnailProcessing(GlobalInfo.CP_Niio, allData);
+            cCamping.thumbnailProcessing(GlobalInfo.CP_CCAMPING, allData);
+            campTown.thumbnailProcessing(GlobalInfo.CP_CampTown, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_AirMT)) {
-            airMT.thumbnailProcessing(GlobalInfo.CP_AirMT);
+            airMT.thumbnailProcessing(GlobalInfo.CP_AirMT, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_TongOutdoor)) {
-            tongOutdoor.thumbnailProcessing(GlobalInfo.CP_TongOutdoor);
+            tongOutdoor.thumbnailProcessing(GlobalInfo.CP_TongOutdoor, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_Gogo337)) {
-            gogo337.thumbnailProcessing(GlobalInfo.CP_Gogo337);
+            gogo337.thumbnailProcessing(GlobalInfo.CP_Gogo337, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_SBCLUB)) {
-            sb.thumbnailProcessing(GlobalInfo.CP_SBCLUB);
+            sb.thumbnailProcessing(GlobalInfo.CP_SBCLUB, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_OKMALL)) {
-            ok.thumbnailProcessing(GlobalInfo.CP_OKMALL);
+            ok.thumbnailProcessing(GlobalInfo.CP_OKMALL, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_FIRST)) {
-            first.thumbnailProcessing(GlobalInfo.CP_FIRST);
+            first.thumbnailProcessing(GlobalInfo.CP_FIRST, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_DICAMPING)) {
-            diCamping.thumbnailProcessing(GlobalInfo.CP_DICAMPING);
+            diCamping.thumbnailProcessing(GlobalInfo.CP_DICAMPING, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_Camping365)) {
-            camping365.thumbnailProcessing(GlobalInfo.CP_Camping365);
+            camping365.thumbnailProcessing(GlobalInfo.CP_Camping365, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
-            campingMall.thumbnailProcessing(GlobalInfo.CP_CAMPINGMALL);
+            campingMall.thumbnailProcessing(GlobalInfo.CP_CAMPINGMALL, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_Totooutdoor)) {
-            totoOutdoor.thumbnailProcessing(GlobalInfo.CP_Totooutdoor);
+            totoOutdoor.thumbnailProcessing(GlobalInfo.CP_Totooutdoor, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_WeekEnders)) {
-            weekEnders.thumbnailProcessing(GlobalInfo.CP_WeekEnders);
+            weekEnders.thumbnailProcessing(GlobalInfo.CP_WeekEnders, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_Starus)) {
-            starus.thumbnailProcessing(GlobalInfo.CP_Starus);
+            starus.thumbnailProcessing(GlobalInfo.CP_Starus, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_LeisureMan)) {
-            leisureMan.thumbnailProcessing(GlobalInfo.CP_LeisureMan);
+            leisureMan.thumbnailProcessing(GlobalInfo.CP_LeisureMan, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_CAMPINGON)) {
-            campingOn.thumbnailProcessing(GlobalInfo.CP_CAMPINGON);
+            campingOn.thumbnailProcessing(GlobalInfo.CP_CAMPINGON, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_Niio)) {
-            niio.thumbnailProcessing(GlobalInfo.CP_Niio);
+            niio.thumbnailProcessing(GlobalInfo.CP_Niio, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_CCAMPING)) {
-            cCamping.thumbnailProcessing(GlobalInfo.CP_CCAMPING);
+            cCamping.thumbnailProcessing(GlobalInfo.CP_CCAMPING, allData);
         }
         else if (cpName.equals(GlobalInfo.CP_CampTown)) {
-            campTown.thumbnailProcessing(GlobalInfo.CP_CampTown);
+            campTown.thumbnailProcessing(GlobalInfo.CP_CampTown, allData);
         }
         else {
             logger.error(" Unknown cp_name !!");

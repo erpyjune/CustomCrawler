@@ -390,4 +390,27 @@ public class GlobalUtils {
         logger.info(String.format(" [%s]에서 가져온 데이터 - Total(%d), Exist(%d)", cpName, allSearchDataMap.size(), existCount));
         return allSearchDataMap;
     }
+
+
+    ///////////////////////////////////////////////////////////////////
+    // cp에 해당되는 모든 search table 데이터를 내린다.
+    public Map<String, SearchData> getAllSearchDatasByCPBigThumbFieldNULL(String cpName) throws Exception {
+        Map<String, SearchData> allSearchDataMap = new HashMap<String, SearchData>();
+        SearchDataService searchDataService = new SearchDataService();
+        SearchData searchData;
+        int existCount=0;
+
+        java.util.List<SearchData> searchDatas = searchDataService.getSearchDataByCpNameBigthumbFieldNULL(cpName);
+        Iterator searchDataIterator = searchDatas.iterator();
+        while (searchDataIterator.hasNext()) {
+            searchData = (SearchData) searchDataIterator.next();
+            if (allSearchDataMap.containsKey(searchData.getProductId())) {
+                existCount++;
+            }
+//            logger.info(String.format(" All Crawling DB Key(%s)", crawlData.getHashMD5() + crawlData.getCpName()));
+            allSearchDataMap.put(searchData.getProductId(), searchData);
+        }
+        logger.info(String.format(" [%s]에서 가져온 데이터 - Total(%d), Exist(%d)", cpName, allSearchDataMap.size(), existCount));
+        return allSearchDataMap;
+    }
 }

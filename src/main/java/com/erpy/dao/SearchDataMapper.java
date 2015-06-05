@@ -7,12 +7,13 @@ import java.util.Map;
  * Created by baeonejune on 14. 12. 28..
  */
 public interface SearchDataMapper {
-    public SearchData getSearchDataById(int dataId);
-    public void insertSearchData(SearchData searchData);
-    public void updateSearchData(SearchData searchData);
-    public void updateSearchDataStatus(SearchData searchData);
-    public void deleteSearchData(Integer prodId);
-    public List<SearchData> getAllSearchDatas();
-    public List<SearchData> getAllSearchDataForUpdate(Map<String,String> map);
-    public List<SearchData> getSearchDataByCpName(String cpName);
+    SearchData getSearchDataById(int dataId);
+    void insertSearchData(SearchData searchData);
+    void updateSearchData(SearchData searchData);
+    void updateSearchDataStatus(SearchData searchData);
+    void deleteSearchData(Integer prodId);
+    List<SearchData> getAllSearchDatas();
+    List<SearchData> getAllSearchDataForUpdate(Map<String,String> map);
+    List<SearchData> getSearchDataByCpName(String cpName);
+    List<SearchData> getSearchDataByCpNameBigThumbFieldNULL(String cpName);
 }

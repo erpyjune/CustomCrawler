@@ -54,6 +54,10 @@
         SELECT * FROM search WHERE cp = #{cpName}
     </select>
 
+    <select id='getSearchDataByCpNameBigThumbFieldNULL' parameterType='String' resultMap='SearchDataResult'>
+        SELECT * FROM search WHERE cp = #{cpName} and thumb_big_url is NULL
+    </select>
+
     <insert id='insertSearchData' parameterType='SearchData' useGeneratedKeys='true' keyProperty='dataId'>
         INSERT INTO search (product_id, product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, status, seed_url, date)
         VALUES(#{productId}, #{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{dataStatus}, #{seedUrl}, #{updateDate})
