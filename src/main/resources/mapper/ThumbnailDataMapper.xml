@@ -22,56 +22,30 @@
         <result property='bigThumbUrl'  	column='big_thumb_url'/>
     </resultMap>
 
-    <select id='getAllSearchDatas' resultMap='SearchDataResult'>
-        SELECT * FROM search
+    <select id='getAllTumbnailDatas' resultMap='ThumbnailDataResult'>
+        SELECT * FROM thumb
     </select>
 
-    <select id='getAllSearchDataForUpdate' parameterType='HashMap' resultMap='SearchDataResult'>
-        SELECT * FROM search WHERE status=#{selStatus1} OR status=#{selStatus2}
+    <select id='findThumbnail' parameterType='ThumbnailData' resultMap='ThumbnailDataResult'>
+        SELECT * FROM thumb WHERE cp=#{cpName} AND product_id = #{productId}
     </select>
 
-    <select id='getSearchDataByCpName' parameterType='String' resultMap='SearchDataResult'>
-        SELECT * FROM search WHERE cp = #{cpName}
-    </select>
-
-    <select id='getSearchDataByCpNameBigThumbFieldNULL' parameterType='String' resultMap='SearchDataResult'>
-        SELECT * FROM search WHERE cp = #{cpName} and thumb_big_url is NULL
-    </select>
-
-    <insert id='insertSearchData' parameterType='SearchData' useGeneratedKeys='true' keyProperty='dataId'>
-        INSERT INTO search (product_id, product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, status, seed_url, date)
-        VALUES(#{productId}, #{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{dataStatus}, #{seedUrl}, #{updateDate})
+    <insert id='insertThumbnailData' parameterType='ThumbnailData' useGeneratedKeys='true' keyProperty='dataId'>
+        INSERT INTO thumb (product_id, cp, big_thumb_url)
+        VALUES(#{productId}, #{cpName}, #{bigThumbUrl})
     </insert>
 
-    <update id='updateSearchData' parameterType='SearchData'>
-        UPDATE search
+    <update id='updateThumbnailData' parameterType='ThumbnailData'>
+        UPDATE thumb
         SET
-        product_id   = #{productId},
-        product_name = #{productName},
-        brand_name   = #{brandName},
-        url          = #{contentUrl},
-        thumb_url    = #{thumbUrl},
-        thumb_big_url = #{thumbUrlBig},
-        org_price    = #{orgPrice},
-        sale_price   = #{salePrice},
-        sale_per     = #{salePer},
-        cp           = #{cpName},
-        keyword      = #{crawlKeyword},
-        status       = #{dataStatus},
-        seed_url     = #{seedUrl},
-        date         = #{updateDate}
+        product_id    = #{productId},
+        cp            = #{cpName},
+        big_thumb_url = #{bigThumbUrl}
         WHERE id     = #{dataId}
     </update>
 
-    <update id='updateSearchDataStatus' parameterType="SearchData">
-        UPDATE search
-        SET
-        status = #{dataStatus}
-        WHERE id = #{dataId}
-    </update>
-
-    <delete id='deleteSearchData' parameterType='String'>
-        DELETE FROM search WHERE url = #{url}
+    <delete id='deleteSearchData' parameterType='ThumbnailData'>
+        DELETE FROM thumb WHERE id = #{dataId}
     </delete>
 
 </mapper>

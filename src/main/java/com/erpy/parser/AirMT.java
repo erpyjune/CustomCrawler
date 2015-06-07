@@ -3,9 +3,7 @@ package com.erpy.parser;
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
 import com.erpy.crawler.HttpRequestHeader;
-import com.erpy.dao.CrawlData;
-import com.erpy.dao.SearchData;
-import com.erpy.dao.SearchDataService;
+import com.erpy.dao.*;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DB;
 import com.erpy.utils.GlobalInfo;
@@ -343,6 +341,7 @@ public class AirMT {
     /////////////////////////////////////////////////////////////////
     // 상품정보 url의 본문 정보에서 큰 이미지를 download 한다.
     public void thumbnailProcessing(String cpName, boolean allData) throws Exception {
+        ThumbnailDataService thumbnailDataService = new ThumbnailDataService();
         int returnCode, crawlErrorCount, imageSaveErrorCount;
         GlobalUtils globalUtils = new GlobalUtils();
         Document doc, document;
@@ -350,6 +349,8 @@ public class AirMT {
         CrawlSite crawlSite = new CrawlSite();
         CrawlIO crawlIO = new CrawlIO();
         SearchData searchData;
+        ThumbnailData thumbnailData = new ThumbnailData();
+        ThumbnailData dbThumbnailData;
         String strItem;
         String key, imageFileName;
 
@@ -433,9 +434,18 @@ public class AirMT {
                     imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
                     // 본문에서 big 이미지를 download 한다.
                     globalUtils.saveDiskImgage(localPath, cpName, searchData.getThumbUrlBig(), imageFileName);
-                    // download된 thumb_url_big 필드를 search table에 업데이트 한다.
-                    searchDataService.updateSearchData(searchData);
-//                    logger.info(String.format(" update (%s)", searchData.getThumbUrlBig()));
+
+                    // 기존 thumbnail이 있는지 찾는다.
+                    thumbnailData.setCpName(searchData.getCpName());
+                    thumbnailData.setProductId(cpName);
+                    dbThumbnailData = thumbnailDataService.getFindThumbnailData(thumbnailData);
+                    if (dbThumbnailData.getBigThumbUrl().length()==0) {
+                        thumbnailDataService.insertThumbnailData(thumbnailData);
+                    } else {
+                        if (allData) {
+                            thumbnailDataService.updateThumbnailData(thumbnailData);
+                        }
+                    }
                     break;
                 } catch (Exception e) {
                     if (imageSaveErrorCount > 3) break;
