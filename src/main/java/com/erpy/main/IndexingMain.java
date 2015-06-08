@@ -2,6 +2,8 @@ package com.erpy.main;
 
 import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
+import com.erpy.dao.ThumbnailData;
+import com.erpy.dao.ThumbnailDataService;
 import com.erpy.parser.OkMallProc;
 import com.erpy.utils.GlobalInfo;
 import com.erpy.utils.GlobalUtils;
@@ -27,6 +29,9 @@ public class IndexingMain {
         Map<String, String> statusParamMap = new HashMap<String, String>();
         SearchData searchData;
         SearchDataService searchDataService = new SearchDataService();
+        ThumbnailDataService thumbnailDataService = new ThumbnailDataService();
+        ThumbnailData thumbnailData = new ThumbnailData();
+        ThumbnailData dbThumbnail;
         GlobalUtils globalUtils = new GlobalUtils();
         String cpName = "";
         String indexStatus = "";
@@ -56,18 +61,26 @@ public class IndexingMain {
         while (true) {
             if (!(iterator.hasNext())) break;
             searchData = (SearchData) iterator.next();
-
+            if (cpName.length() > 0 && !cpName.equals("all")) {
+                if (!cpName.equals(searchData.getCpName())) continue;
+            }
             if (globalUtils.isDataEmpty(searchData)) {
                 logger.error(" Skip indexing :: data field is null !!");
                 continue;
             }
 
-            if (cpName.length() > 0 && !cpName.equals("all")) {
-                if (!cpName.equals(searchData.getCpName())) continue;
+            // get thumbnail
+            thumbnailData.setCpName(searchData.getCpName());
+            thumbnailData.setProductId(searchData.getProductId());
+            dbThumbnail = thumbnailDataService.getFindThumbnailData(thumbnailData);
+            if (dbThumbnail==null || dbThumbnail.getBigThumbUrl().length()<=0) {
+                logger.error(String.format(" Not exist big thumbnail (%s) (%s)",
+                        searchData.getCpName(), searchData.getProductId()));
+                continue;
             }
 
             try {
-                returnCode = globalUtils.indexingES(searchData);
+                returnCode = globalUtils.indexingES(searchData, dbThumbnail);
                 if (returnCode == 200 || returnCode == 201) {
                     // update 'I' or 'U' --> 'E'
                     searchData.setDataStatus("E");

@@ -2,6 +2,8 @@ package com.erpy.main;
 
 import com.erpy.crawler.CrawlIO;
 import com.erpy.dao.SearchData;
+import com.erpy.dao.ThumbnailData;
+import com.erpy.dao.ThumbnailDataService;
 import com.erpy.utils.GlobalUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.log4j.Logger;
@@ -27,6 +29,9 @@ public class MakeThumbnail {
         StringBuffer sbOut = new StringBuffer();
         StringBuffer sbIn = new StringBuffer();
         GlobalUtils globalUtils = new GlobalUtils();
+        ThumbnailData thumbnailData = new ThumbnailData();
+        ThumbnailData dbThumbnail;
+        ThumbnailDataService thumbnailDataService = new ThumbnailDataService();
 
 
         if (args.length == 0) {
@@ -58,7 +63,16 @@ public class MakeThumbnail {
             searchData = entry.getValue();
 //            logger.info(String.format(" cp(%s), big_thumb(%s)", searchData.getCpName(), searchData.getThumbUrlBig()));
 
-            fileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
+            // thumb TABLE에서 big_thumb_url을 가져 온다.
+            thumbnailData.setProductId(searchData.getProductId());
+            thumbnailData.setCpName(searchData.getCpName());
+            dbThumbnail = thumbnailDataService.getFindThumbnailData(thumbnailData);
+            if (dbThumbnail==null || dbThumbnail.getBigThumbUrl().length()<=0) {
+                logger.info(String.format(" Not exist big thumbnail (%s)(%s)", cpName, searchData.getProductId()));
+                continue;
+            }
+
+            fileName = globalUtils.splieImageFileName(dbThumbnail.getBigThumbUrl());
 
             inPath = sbIn.
                     append(thumbnailLocalPath).

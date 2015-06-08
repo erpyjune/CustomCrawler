@@ -3,9 +3,7 @@ package com.erpy.parser;
 import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
 import com.erpy.crawler.HttpRequestHeader;
-import com.erpy.dao.CrawlData;
-import com.erpy.dao.SearchData;
-import com.erpy.dao.SearchDataService;
+import com.erpy.dao.*;
 import com.erpy.io.FileIO;
 import com.erpy.utils.DB;
 import com.erpy.utils.GlobalInfo;
@@ -369,7 +367,10 @@ public class Starus {
 
     /////////////////////////////////////////////////////////////////
     // 상품정보 url의 본문 정보에서 큰 이미지를 download 한다.
-    public void thumbnailProcessing(String cpName, boolean allData) throws Exception {
+    public void thumbnailProcessing(String cpName, boolean isAllData) throws Exception {
+        ThumbnailDataService thumbnailDataService = new ThumbnailDataService();
+        ThumbnailData thumbnailData = new ThumbnailData();
+        ThumbnailData dbThumbnailData;
         int returnCode, crawlErrorCount, imageSaveErrorCount;
         GlobalUtils globalUtils = new GlobalUtils();
         Document doc, document;
@@ -399,7 +400,7 @@ public class Starus {
 
         ////////////////////////////////////////////////////////////////////////
         Map<String, SearchData> searchDataMap;
-        if (allData) {
+        if (isAllData) {
             // cpName에 해당되는 모든 데이터를 로딩
             searchDataMap = globalUtils.getAllSearchDatasByCP(cpName);
         } else {
@@ -457,9 +458,19 @@ public class Starus {
                     imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
                     // 본문에서 big 이미지를 download 한다.
                     globalUtils.saveDiskImgage(localPath, cpName, searchData.getThumbUrlBig(), imageFileName);
-                    // download된 thumb_url_big 필드를 search table에 업데이트 한다.
-                    searchDataService.updateSearchData(searchData);
-//                    logger.info(String.format(" update (%s)", searchData.getThumbUrlBig()));
+
+                    // 기존 thumbnail이 있는지 찾는다.
+                    thumbnailData.setCpName(cpName);
+                    thumbnailData.setProductId(searchData.getProductId());
+                    thumbnailData.setBigThumbUrl(searchData.getThumbUrlBig());
+                    dbThumbnailData = thumbnailDataService.getFindThumbnailData(thumbnailData);
+                    if (dbThumbnailData==null || dbThumbnailData.getBigThumbUrl().trim().length()==0) {
+                        thumbnailDataService.insertThumbnailData(thumbnailData);
+                    } else {
+                        if (isAllData) {
+                            thumbnailDataService.updateThumbnailData(thumbnailData);
+                        }
+                    }
                     break;
                 } catch (Exception e) {
                     if (imageSaveErrorCount > 3) break;

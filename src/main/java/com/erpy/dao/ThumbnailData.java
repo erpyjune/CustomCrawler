@@ -22,7 +22,7 @@ public class ThumbnailData {
     }
 
     public void setProductId(String productId) {
-        this.productId = productId;
+        this.productId = productId.trim();
     }
 
     public String getCpName() {
@@ -30,7 +30,7 @@ public class ThumbnailData {
     }
 
     public void setCpName(String cpName) {
-        this.cpName = cpName;
+        this.cpName = cpName.trim();
     }
 
     public String getBigThumbUrl() {

@@ -19,9 +19,9 @@ public class ThumbnailDataMybatisFactory {
     static {
         Reader reader;
         try {
-            reader = Resources.getResourceAsReader("ThumbnailDataMapper.xml");
+            reader = Resources.getResourceAsReader("thumbnail-mybatis-config.xml");
             System.out.println("ThumbnailDataMybatisFactory : " + reader);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 

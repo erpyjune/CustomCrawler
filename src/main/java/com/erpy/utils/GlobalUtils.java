@@ -5,6 +5,7 @@ import com.erpy.crawler.CrawlSite;
 import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.SearchData;
 import com.erpy.dao.SearchDataService;
+import com.erpy.dao.ThumbnailData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
@@ -181,7 +182,7 @@ public class GlobalUtils {
 
 
     ////////////////////////////////////////////////////////////////////////////
-    public int indexingES(SearchData searchData) throws Exception {
+    public int indexingES(SearchData searchData, ThumbnailData thumb) throws Exception {
         int returnCode;
         StringBuilder sb = new StringBuilder();
 //        StringBuilder indexUrl = new StringBuilder("http://localhost:9200/shop/okmall/");
@@ -206,7 +207,7 @@ public class GlobalUtils {
         if (searchData.getCpName().equals(GlobalInfo.CP_AirMT) || searchData.getCpName().equals(GlobalInfo.CP_TongOutdoor) ||
                 searchData.getCpName().equals(GlobalInfo.CP_SBCLUB) || searchData.getCpName().equals(GlobalInfo.CP_Gogo337)) {
             sb.append("\"thumb\" : ");
-            sb.append("\"").append(getImageUrl(searchData.getThumbUrlBig())).append("\",");
+            sb.append("\"").append(getImageUrl(thumb.getBigThumbUrl())).append("\",");
         } else {
             sb.append("\"thumb\" : ");
             sb.append("\"").append(searchData.getThumbUrl()).append("\",");
@@ -271,6 +272,46 @@ public class GlobalUtils {
         else if (thumbUrl.contains("gogo337.co.kr")) {
             sb = sb.append("http://summarynode.cafe24.com/gimages/gogo337/").append(splieImageFileName(thumbUrl));
         }
+        else if (thumbUrl.contains("121.254.171.83")) { // okmall
+            sb = sb.append("http://summarynode.cafe24.com/gimages/okmall/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("chocammall.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/first/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("dicamping.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/dicamping/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("campingmall.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/dicamping/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("campingmall.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/dicamping/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("totooutdoor.com")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/totooutdoor/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("weekenders.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/weekenders/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("dkmountain.com")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/starus/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("leisureman.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/leisureman/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("campingon.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/campingon/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("niio.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/niio/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("ccamping.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/ccamping/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("camptown.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/camptown/").append(splieImageFileName(thumbUrl));
+        }
+
         return sb.toString();
     }
 

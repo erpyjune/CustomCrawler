@@ -340,8 +340,10 @@ public class AirMT {
 
     /////////////////////////////////////////////////////////////////
     // 상품정보 url의 본문 정보에서 큰 이미지를 download 한다.
-    public void thumbnailProcessing(String cpName, boolean allData) throws Exception {
+    public void thumbnailProcessing(String cpName, boolean isAllData) throws Exception {
         ThumbnailDataService thumbnailDataService = new ThumbnailDataService();
+        ThumbnailData thumbnailData = new ThumbnailData();
+        ThumbnailData dbThumbnailData;
         int returnCode, crawlErrorCount, imageSaveErrorCount;
         GlobalUtils globalUtils = new GlobalUtils();
         Document doc, document;
@@ -349,8 +351,6 @@ public class AirMT {
         CrawlSite crawlSite = new CrawlSite();
         CrawlIO crawlIO = new CrawlIO();
         SearchData searchData;
-        ThumbnailData thumbnailData = new ThumbnailData();
-        ThumbnailData dbThumbnailData;
         String strItem;
         String key, imageFileName;
 
@@ -372,7 +372,7 @@ public class AirMT {
 
         ////////////////////////////////////////////////////////////////////////
         Map<String, SearchData> searchDataMap;
-        if (allData) {
+        if (isAllData) {
             // cpName에 해당되는 모든 데이터를 로딩
             searchDataMap = globalUtils.getAllSearchDatasByCP(cpName);
         } else {
@@ -380,7 +380,6 @@ public class AirMT {
             searchDataMap = globalUtils.getAllSearchDatasByCPBigThumbFieldNULL(cpName);
         }
 
-        SearchDataService searchDataService = new SearchDataService();
         for(Map.Entry<String, SearchData> entry : searchDataMap.entrySet()) {
             key = entry.getKey();
             searchData = entry.getValue();
@@ -436,13 +435,14 @@ public class AirMT {
                     globalUtils.saveDiskImgage(localPath, cpName, searchData.getThumbUrlBig(), imageFileName);
 
                     // 기존 thumbnail이 있는지 찾는다.
-                    thumbnailData.setCpName(searchData.getCpName());
-                    thumbnailData.setProductId(cpName);
+                    thumbnailData.setCpName(cpName);
+                    thumbnailData.setProductId(searchData.getProductId());
+                    thumbnailData.setBigThumbUrl(searchData.getThumbUrlBig());
                     dbThumbnailData = thumbnailDataService.getFindThumbnailData(thumbnailData);
-                    if (dbThumbnailData.getBigThumbUrl().length()==0) {
+                    if (dbThumbnailData==null || dbThumbnailData.getBigThumbUrl().trim().length()==0) {
                         thumbnailDataService.insertThumbnailData(thumbnailData);
                     } else {
-                        if (allData) {
+                        if (isAllData) {
                             thumbnailDataService.updateThumbnailData(thumbnailData);
                         }
                     }

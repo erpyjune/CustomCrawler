@@ -4,7 +4,7 @@
 
 <mapper namespace='com.erpy.dao.ThumbnailDataMapper'>
 
-    <select id='getThumbnailDataById' parameterType='int' resultType='com.erpy.dao.SearchThumbnailData'>
+    <select id='getThumbnailDataById' parameterType='int' resultType='com.erpy.dao.ThumbnailData'>
         SELECT
         id             as dataId,
         product_id     as productId,
@@ -26,7 +26,7 @@
         SELECT * FROM thumb
     </select>
 
-    <select id='findThumbnail' parameterType='ThumbnailData' resultMap='ThumbnailDataResult'>
+    <select id='getFindThumbnailData' parameterType='ThumbnailData' resultMap='ThumbnailDataResult'>
         SELECT * FROM thumb WHERE cp=#{cpName} AND product_id = #{productId}
     </select>
 
