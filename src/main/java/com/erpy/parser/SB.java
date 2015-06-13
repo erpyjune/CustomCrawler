@@ -202,9 +202,7 @@ public class SB {
 //                logger.info(" link : " + strItem);
 
                 // get key
-                String brandcode = globalUtils.getFieldData(strItem, "brandcode=", "&");
-                String pid = globalUtils.getFieldData(strItem, "pid=");
-                productId = brandcode + "-" + pid;
+                searchData.setProductId(globalUtils.getFieldData(strItem, "pid="));
                 searchData.setContentUrl("http://sbclub.co.kr/" + strItem);
             }
 
@@ -226,8 +224,6 @@ public class SB {
 
             // set sale price
             searchData.setSalePrice(searchData.getOrgPrice());
-            // set product id
-            searchData.setProductId(productId);
             // org price = sale price
             searchData.setSalePrice(searchData.getOrgPrice());
             // sale per

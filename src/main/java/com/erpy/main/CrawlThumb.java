@@ -44,7 +44,6 @@ public class CrawlThumb {
         }
 
 
-
         if (cpName.equals("all") || cpName.equals("ALL")) {
             airMT.thumbnailProcessing(GlobalInfo.CP_AirMT, isAllData);
             tongOutdoor.thumbnailProcessing(GlobalInfo.CP_TongOutdoor, isAllData);

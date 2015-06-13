@@ -444,7 +444,7 @@ public class OkMallProc {
             searchDataMap = globalUtils.getAllSearchDatasByCPBigThumbFieldNULL(cpName);
         }
 
-        SearchDataService searchDataService = new SearchDataService();
+
         for(Map.Entry<String, SearchData> entry : searchDataMap.entrySet()) {
             key = entry.getKey();
             searchData = entry.getValue();
@@ -474,7 +474,7 @@ public class OkMallProc {
             doc = Jsoup.parse(crawlSite.getCrawlData());
             elements = doc.select("div.photo_wrap");
             for (Element element : elements) {
-                if (!element.outerHtml().contains("ProductImages"))
+                if (!element.outerHtml().contains("width=\"500\""))
                     continue;
                 document = Jsoup.parse(element.outerHtml());
                 listE = document.select("div.img img");
@@ -482,6 +482,7 @@ public class OkMallProc {
                     strItem = et.attr("src");
                     searchData.setThumbUrlBig(prefixHostThumbUrl + strItem);
 //                    logger.info(prefixHostThumbUrl + strItem);
+                    break;
                 }
                 break;
             }
@@ -493,6 +494,7 @@ public class OkMallProc {
                     // thumb_url_big URL에서 파일이름을 추출.
                     imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
                     // 본문에서 big 이미지를 download 한다.
+//                    logger.info("Down sources : " + crawlSite.getCrawlUrl());
                     globalUtils.saveDiskImgage(localPath, cpName, searchData.getThumbUrlBig(), imageFileName);
 
                     // 기존 thumbnail이 있는지 찾는다.
@@ -510,7 +512,7 @@ public class OkMallProc {
                     break;
                 } catch (Exception e) {
                     if (imageSaveErrorCount > 3) break;
-                    logger.error(String.format(" Download image (%s) faile (%s)",
+                    logger.error(String.format(" Download image (%s) failure (%s)",
                             searchData.getThumbUrlBig(), e.getStackTrace().toString()));
                     imageSaveErrorCount++;
                     Thread.sleep(1100);

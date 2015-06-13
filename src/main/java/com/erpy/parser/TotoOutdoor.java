@@ -353,6 +353,7 @@ public class TotoOutdoor {
         SearchData searchData;
         String strItem;
         String key, imageFileName;
+        boolean isCrawlDataError=false;
 
         String localPath = "/Users/baeonejune/work/SummaryNode/images";
         String prefixHostThumbUrl = "";
@@ -381,7 +382,6 @@ public class TotoOutdoor {
             searchDataMap = globalUtils.getAllSearchDatasByCPBigThumbFieldNULL(cpName);
         }
 
-        SearchDataService searchDataService = new SearchDataService();
         for (Map.Entry<String, SearchData> entry : searchDataMap.entrySet()) {
             key = entry.getKey();
             searchData = entry.getValue();
@@ -392,8 +392,7 @@ public class TotoOutdoor {
             crawlSite.setCrawlUrl(searchData.getContentUrl());
 
             crawlErrorCount = 0;
-
-            for (; ; ) {
+            for (;;) {
                 try {
                     returnCode = crawlSite.HttpCrawlGetDataTimeout();
                     if (returnCode != 200 && returnCode != 201) {
@@ -402,10 +401,18 @@ public class TotoOutdoor {
                         break;
                     }
                 } catch (Exception e) {
-                    if (crawlErrorCount >= 3) break;
+                    if (crawlErrorCount >= 3) {
+                        isCrawlDataError = true;
+                        break;
+                    }
                     crawlErrorCount++;
                     logger.error(Arrays.toString(e.getStackTrace()));
                 }
+            }
+
+            if (isCrawlDataError) {
+                isCrawlDataError = false;
+                continue;
             }
 
             doc = Jsoup.parse(crawlSite.getCrawlData());
@@ -424,7 +431,6 @@ public class TotoOutdoor {
             }
 
             imageSaveErrorCount = 0;
-
             while (true) {
                 try {
                     // thumb_url_big URL에서 파일이름을 추출.
@@ -446,9 +452,12 @@ public class TotoOutdoor {
                     }
                     break;
                 } catch (Exception e) {
-                    if (imageSaveErrorCount > 3) break;
-                    logger.error(String.format(" Download image (%s) faile (%s)",
-                            searchData.getThumbUrlBig(), e.getStackTrace().toString()));
+                    if (imageSaveErrorCount > 3) {
+                        logger.error(String.format(" Failure Download image breaking over MAX COUNT retry!!"));
+                        break;
+                    }
+                    logger.error(String.format(" Download image (%s) failure (%s), Count(%d)",
+                            searchData.getThumbUrlBig(), e.getStackTrace().toString(),imageSaveErrorCount));
                     imageSaveErrorCount++;
                     Thread.sleep(1100);
                 }

@@ -48,6 +48,9 @@ public class GlobalInfo {
     public static final String CP_HappyVirusPost  = "happyviruspost";
     public static final String CP_HappyDeals  = "happydeals";
 
+    public static final String UTF8 = "utf-8";
+    public static final String EUCKR = "euc-kr";
+
     public GlobalInfo() throws IOException {
 //        ClassLoader cl;
 //        cl = Thread.currentThread().getContextClassLoader();
