@@ -204,14 +204,11 @@ public class GlobalUtils {
         sb.append("\"url\" : ");
         sb.append("\"").append(searchData.getContentUrl()).append("\",");
 
-        if (searchData.getCpName().equals(GlobalInfo.CP_AirMT) || searchData.getCpName().equals(GlobalInfo.CP_TongOutdoor) ||
-                searchData.getCpName().equals(GlobalInfo.CP_SBCLUB) || searchData.getCpName().equals(GlobalInfo.CP_Gogo337)) {
-            sb.append("\"thumb\" : ");
-            sb.append("\"").append(getImageUrl(thumb.getBigThumbUrl())).append("\",");
-        } else {
-            sb.append("\"thumb\" : ");
-            sb.append("\"").append(searchData.getThumbUrl()).append("\",");
-        }
+        sb.append("\"thumb\" : ");
+        sb.append("\"").append(searchData.getThumbUrl()).append("\",");
+
+        sb.append("\"bthumb\" : ");
+        sb.append("\"").append(getImageUrl(thumb.getBigThumbUrl())).append("\",");
 
         sb.append("\"org_price\" : ");
         sb.append(" ").append(searchData.getOrgPrice()).append(",");
