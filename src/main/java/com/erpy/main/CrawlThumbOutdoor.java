@@ -294,6 +294,66 @@ public class CrawlThumbOutdoor {
             thumbnailProcData.setReplacePatternDest("");
 
             thumbnailProc.thumbnailProcessing(thumbnailProcData);
+        } else if (GlobalInfo.CP_Aldebaran.equals(cpName)) {
+            thumbnailProcData.setParserType(1);
+            thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
+            thumbnailProcData.setPrefixHostThumbUrl("");
+            thumbnailProcData.setHostReferer("http://www.adbr.co.kr");
+            thumbnailProcData.setHostDomain("www.adbr.co.kr");
+
+            thumbnailProcData.setParserGroupSelect("div.keyImg");
+            thumbnailProcData.setParserSkipPattern("");
+            thumbnailProcData.setParserDocumentSelect("a img");
+            thumbnailProcData.setReplacePatternFindData("");
+            thumbnailProcData.setReplacePatternSource("");
+            thumbnailProcData.setReplacePatternDest("");
+
+            thumbnailProc.thumbnailProcessing(thumbnailProcData);
+        } else if (GlobalInfo.CP_CampingPlus.equals(cpName)) {
+            thumbnailProcData.setParserType(1);
+            thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
+            thumbnailProcData.setPrefixHostThumbUrl("http://www.camping-plus.co.kr");
+            thumbnailProcData.setHostReferer("http://www.camping-plus.co.kr");
+            thumbnailProcData.setHostDomain("www.camping-plus.co.kr");
+
+            thumbnailProcData.setParserGroupSelect("table[width=\"100%\"]");
+            thumbnailProcData.setParserSkipPattern("name=\"mainImage\"");
+            thumbnailProcData.setParserDocumentSelect("tr td img[width=\"300\"]");
+            thumbnailProcData.setReplacePatternFindData("./shop_image/");
+            thumbnailProcData.setReplacePatternSource("./shop_image/");
+            thumbnailProcData.setReplacePatternDest("/mall/shop_image/");
+
+            thumbnailProc.thumbnailProcessing(thumbnailProcData);
+        } else if (GlobalInfo.CP_CampSchule.equals(cpName)) {
+            thumbnailProcData.setParserType(1);
+            thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
+            thumbnailProcData.setPrefixHostThumbUrl("");
+            thumbnailProcData.setHostReferer("http://www.campschule.co.kr");
+            thumbnailProcData.setHostDomain("www.campschule.co.kr");
+
+            thumbnailProcData.setParserGroupSelect("table[width=\"300\"]");
+            thumbnailProcData.setParserSkipPattern("javascript:image_zoom");
+            thumbnailProcData.setParserDocumentSelect("tr td img[width=\"300\"]");
+            thumbnailProcData.setReplacePatternFindData("");
+            thumbnailProcData.setReplacePatternSource("");
+            thumbnailProcData.setReplacePatternDest("");
+
+            thumbnailProc.thumbnailProcessing(thumbnailProcData);
+        } else if (GlobalInfo.CP_CampingAmigo.equals(cpName)) {
+            thumbnailProcData.setParserType(1);
+            thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
+            thumbnailProcData.setPrefixHostThumbUrl("http://www.campingamigo.com");
+            thumbnailProcData.setHostReferer("http://www.campingamigo.com");
+            thumbnailProcData.setHostDomain("www.campingamigo.com");
+
+            thumbnailProcData.setParserGroupSelect("div[style=\"padding-bottom:10\"]");
+            thumbnailProcData.setParserSkipPattern("goods_popup_large");
+            thumbnailProcData.setParserDocumentSelect("span img");
+            thumbnailProcData.setReplacePatternFindData("../data/goods");
+            thumbnailProcData.setReplacePatternSource("../data/goods");
+            thumbnailProcData.setReplacePatternDest("/shop/data/goods");
+
+            thumbnailProc.thumbnailProcessing(thumbnailProcData);
         } else {
             logger.error(" Failure cp is not known !! ");
         }

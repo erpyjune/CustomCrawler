@@ -4,6 +4,7 @@ import com.erpy.crawler.CrawlIO;
 import com.erpy.crawler.CrawlSite;
 import com.erpy.crawler.HttpRequestHeader;
 import com.erpy.dao.*;
+import com.erpy.utils.GlobalInfo;
 import com.erpy.utils.GlobalUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -348,8 +349,134 @@ public class ThumbnailProc {
     }
 
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // target url에서 이미지 다운로드.
+    public void thumbnailProcessingSingle(ThumbnailProcData thumbnailProcData, String bodyUrl) throws Exception {
+        ThumbnailDataService thumbnailDataService = new ThumbnailDataService();
+        int returnCode, crawlErrorCount, imageSaveErrorCount;
+        ThumbnailData thumbnailData = new ThumbnailData();
+        ThumbnailData dbThumbnailData;
+        GlobalUtils globalUtils = new GlobalUtils();
+        Document doc, document;
+        Elements elements, listE;
+        CrawlSite crawlSite = new CrawlSite();
+        CrawlIO crawlIO = new CrawlIO();
+        String strItem;
+        String imageFileName;
+        boolean isCrawlDataError;
+
+
+        ////////////////////////////////////////////////////////////////////////
+        // image 저장할 디렉토리 체크. 없으면 생성.
+        crawlIO.saveDirCheck(thumbnailProcData.getSavePathPrefix(), thumbnailProcData.getCpName());
+
+        ////////////////////////////////////////////////////////////////////////
+        // image를 수집하기 위한 기본 환경 셋팅.
+        HttpRequestHeader httpRequestHeader =
+                new HttpRequestHeader(thumbnailProcData.getHostDomain(), thumbnailProcData.getHostReferer());
+        crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
+        crawlSite.setConnectionTimeout(thumbnailProcData.getHtmlCrawlConnectionTimeout());
+        crawlSite.setSocketTimeout(thumbnailProcData.getHtmlCrawlReadTimeout());
+        crawlSite.setCrawlEncode(thumbnailProcData.getHtmlCrawlEncoding());
+
+        crawlSite.setCrawlUrl(bodyUrl);
+
+        ////////////////////////////////////////////////////////////////////////
+        // thumbnail 추출할 상품정보 html crawl.
+        ////////////////////////////////////////////////////////////////////////
+        crawlErrorCount = 0;
+        isCrawlDataError = false;
+        for (;;) {
+            try {
+                returnCode = crawlSite.HttpCrawlGetDataTimeout();
+                if (returnCode != 200 && returnCode != 201) {
+                    logger.error(String.format(" [%d]데이터를 수집 못했음 - %s", returnCode, crawlSite.getCrawlUrl()));
+                    isCrawlDataError = true;
+                } else {
+                    break;
+                }
+            } catch (Exception e) {
+                if (crawlErrorCount >= 3) {
+                    isCrawlDataError = true;
+                    break;
+                }
+                crawlErrorCount++;
+                logger.error(" 추출할 상품정보 html 수집중 Exception 발생 " + Arrays.toString(e.getStackTrace()));
+                logger.error(" 수집 에러 발생 URL : " + crawlSite.getCrawlUrl());
+            }
+        }
+
+        if (isCrawlDataError) {
+            logger.error(String.format(" isCrawlDataError count MAX & return"));
+            return;
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        // thumbnail url 추출.
+        ////////////////////////////////////////////////////////////////////////
+        if (thumbnailProcData.getParserType()==1) {
+            doc = Jsoup.parse(crawlSite.getCrawlData());
+            elements = doc.select(thumbnailProcData.getParserGroupSelect());
+            for (Element element : elements) {
+                if (thumbnailProcData.getParserSkipPattern().length() > 0) {
+                    if (!element.outerHtml().contains(thumbnailProcData.getParserSkipPattern()))
+                        continue;
+                }
+                document = Jsoup.parse(element.outerHtml());
+                listE = document.select(thumbnailProcData.getParserDocumentSelect());
+                for (Element et : listE) {
+                    strItem = et.attr("src");
+                    if (thumbnailProcData.getReplacePatternFindData().length()>0 && strItem.contains(thumbnailProcData.getReplacePatternFindData())) {
+                        logger.info(thumbnailProcData.getPrefixHostThumbUrl() +
+                                strItem.replace(thumbnailProcData.getReplacePatternSource(), thumbnailProcData.getReplacePatternDest()));
+                        break;
+                    } else {
+                        logger.info(thumbnailProcData.getPrefixHostThumbUrl() + strItem);
+                        break;
+                    }
+                }
+                break;
+            }
+        } else {
+            logger.error(" Parser Type is NULL !!");
+            return;
+        }
+    }
+
+
     /////////////////////////////////////////////////////////////
     public static void main(String args[]) throws Exception {
+        ThumbnailProc thumbnailProc = new ThumbnailProc();
+        ThumbnailProcData thumbnailProcData = new ThumbnailProcData();
 
+
+        if (args.length==0) {
+            logger.error(" USAGE: cp_name crawl_thumb_in_body_url");
+            System.exit(-1);
+        }
+
+        String cpName = args[0];
+        String bodyUrl = args[1];
+        boolean isAllData=true;
+
+        thumbnailProcData.setCpName(cpName);
+        thumbnailProcData.setIsAllDataCrawl(isAllData);
+        thumbnailProcData.setHtmlCrawlConnectionTimeout(5000);
+        thumbnailProcData.setHtmlCrawlReadTimeout(10000);
+        thumbnailProcData.setSavePathPrefix("/Users/baeonejune/work/SummaryNode/images");
+        thumbnailProcData.setParserType(1);
+        thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
+        thumbnailProcData.setPrefixHostThumbUrl("http://www.campingamigo.com");
+        thumbnailProcData.setHostReferer("http://www.campingamigo.com");
+        thumbnailProcData.setHostDomain("www.campingamigo.com");
+
+        thumbnailProcData.setParserGroupSelect("div[style=\"padding-bottom:10\"]");
+        thumbnailProcData.setParserSkipPattern("goods_popup_large");
+        thumbnailProcData.setParserDocumentSelect("span img");
+        thumbnailProcData.setReplacePatternFindData("../data/goods");
+        thumbnailProcData.setReplacePatternSource("../data/goods");
+        thumbnailProcData.setReplacePatternDest("/shop/data/goods");
+
+        thumbnailProc.thumbnailProcessingSingle(thumbnailProcData, bodyUrl);
     }
 }

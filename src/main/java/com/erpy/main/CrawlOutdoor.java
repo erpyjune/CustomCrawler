@@ -216,7 +216,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.run();
-            }  else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) {
+            }  else if (strCpName.equals(GlobalInfo.CP_OMyCamping)) { // 사이트 개편되었음.
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.o-mycamping.com", "http://www.o-mycamping.com/");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
