@@ -18,17 +18,17 @@ public class FileIO {
         this.data=null;
     }
 
-    public String getFileContent() throws IOException {
+    public String getFileContent() throws Exception {
         String buffer;
         StringBuilder content = new StringBuilder();
+
         File file = new File(this.path);
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),this.encoding));
-        while((buffer = br.readLine()) != null) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), this.encoding));
+        while ((buffer = br.readLine()) != null) {
             content.append(buffer);
         }
 
         br.close();
-
         this.data = content.toString();
 
         return this.data;

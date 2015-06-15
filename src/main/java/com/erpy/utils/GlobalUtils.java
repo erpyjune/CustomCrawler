@@ -236,6 +236,8 @@ public class GlobalUtils {
         // indexing request
         returnCode = crawlSite.HttpXPUT();
 
+//        logger.info(sb.toString());
+
         if (returnCode == 200 || returnCode == 201) {
             logger.info(String.format(" Indexing [ %d ] %s|%s|%s",
                     returnCode,
@@ -272,6 +274,9 @@ public class GlobalUtils {
         else if (thumbUrl.contains("121.254.171.83")) { // okmall
             sb = sb.append("http://summarynode.cafe24.com/gimages/okmall/").append(splieImageFileName(thumbUrl));
         }
+        else if (thumbUrl.contains("okmall.com")) { // http://img2.okmall.com/8000/img8218_big.JPG
+            sb = sb.append("http://summarynode.cafe24.com/gimages/okmall/").append(splieImageFileName(thumbUrl));
+        }
         else if (thumbUrl.contains("chocammall.co.kr")) {
             sb = sb.append("http://summarynode.cafe24.com/gimages/first/").append(splieImageFileName(thumbUrl));
         }
@@ -279,10 +284,7 @@ public class GlobalUtils {
             sb = sb.append("http://summarynode.cafe24.com/gimages/dicamping/").append(splieImageFileName(thumbUrl));
         }
         else if (thumbUrl.contains("campingmall.co.kr")) {
-            sb = sb.append("http://summarynode.cafe24.com/gimages/dicamping/").append(splieImageFileName(thumbUrl));
-        }
-        else if (thumbUrl.contains("campingmall.co.kr")) {
-            sb = sb.append("http://summarynode.cafe24.com/gimages/dicamping/").append(splieImageFileName(thumbUrl));
+            sb = sb.append("http://summarynode.cafe24.com/gimages/campingmall/").append(splieImageFileName(thumbUrl));
         }
         else if (thumbUrl.contains("totooutdoor.com")) {
             sb = sb.append("http://summarynode.cafe24.com/gimages/totooutdoor/").append(splieImageFileName(thumbUrl));

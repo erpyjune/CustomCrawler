@@ -161,11 +161,16 @@ public class OMyCamping {
             throw new Exception("Extract file path is null!!");
         }
 
-        fileIO.setEncoding("utf-8");
+        fileIO.setEncoding(txtEncode);
         fileIO.setPath(filePath);
 
-        // 분석할 파일을 하나 읽어 온다.
-        String htmlContent = fileIO.getFileContent();
+        String htmlContent;
+        try {
+            htmlContent = fileIO.getFileContent();
+        } catch (Exception e) {
+            logger.error(String.format(" File exist not - (%s)", filePath));
+            return searchDataMap;
+        }
 
         // 데이터 parsing을 위해 jsoup 객체로 읽는다.
         Document doc = Jsoup.parse(htmlContent);

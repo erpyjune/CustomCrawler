@@ -41,7 +41,7 @@
         product_id    = #{productId},
         cp            = #{cpName},
         big_thumb_url = #{bigThumbUrl}
-        WHERE id     = #{dataId}
+        WHERE product_id = #{productId} AND cp = #{cpName}
     </update>
 
     <delete id='deleteSearchData' parameterType='ThumbnailData'>

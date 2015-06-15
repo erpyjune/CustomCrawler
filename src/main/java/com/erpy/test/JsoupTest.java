@@ -18,7 +18,12 @@ public class JsoupTest {
         fileIO.setEncoding("euc-kr");
         fileIO.setPath("/Users/baeonejune/work/social_shop/crawl_data/okmall/5030766.html");
 
-        String htmlContent = fileIO.getFileContent();
+        String htmlContent="";
+        try {
+            htmlContent = fileIO.getFileContent();
+        } catch (Exception e) {
+            System.out.println("file open error");
+        }
         Document doc = Jsoup.parse(htmlContent);
 
         // image.

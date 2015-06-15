@@ -155,18 +155,21 @@ public class OkMallProc {
         String strLinkUrl=null;
 
 
-        fileIO.setEncoding(txtEncode);
-        fileIO.setPath(filePath);
-        logger.info(String.format(" 데이터 추출할 파일 - %s", filePath));
-
-        ////////////////////////////////////////////////////////
         if (filePath==null) {
             logger.fatal(" FilePath is null !!");
-            System.exit(-1);
+            throw new Exception("Extract file path is null!!");
         }
 
-        // 분석할 파일을 하나 읽어 온다.
-        String htmlContent = fileIO.getFileContent();
+        fileIO.setEncoding(txtEncode);
+        fileIO.setPath(filePath);
+
+        String htmlContent;
+        try {
+            htmlContent = fileIO.getFileContent();
+        } catch (Exception e) {
+            logger.error(String.format(" File exist not - (%s)", filePath));
+            return searchDataMap;
+        }
 
         // 데이터 parsing을 위해 jsoup 객체로 읽는다.
         Document doc = Jsoup.parse(htmlContent);

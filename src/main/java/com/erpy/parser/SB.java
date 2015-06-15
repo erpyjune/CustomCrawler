@@ -158,19 +158,21 @@ public class SB {
         Elements listE;
 
 
+        if (filePath==null) {
+            logger.fatal(" FilePath is null !!");
+            throw new Exception("Extract file path is null!!");
+        }
+
         fileIO.setEncoding(txtEncode);
         fileIO.setPath(filePath);
 
-        logger.debug(String.format(" 데이터 추출할 파일 - %s", filePath));
-
-        ////////////////////////////////////////////////////////
-        if (filePath==null) {
-            logger.fatal(" FilePath is null !!");
-            System.exit(-1);
+        String htmlContent;
+        try {
+            htmlContent = fileIO.getFileContent();
+        } catch (Exception e) {
+            logger.error(String.format(" File exist not - (%s)", filePath));
+            return searchDataMap;
         }
-
-        // 분석할 파일을 하나 읽어 온다.
-        String htmlContent = fileIO.getFileContent();
 
         // 데이터 parsing을 위해 jsoup 객체로 읽는다.
         Document doc = Jsoup.parse(htmlContent);

@@ -28,7 +28,11 @@ public class JsoupParseTest {
 
         fileIO.setEncoding("euc-kr");
         fileIO.setPath(test_path);
-        htmlContent = fileIO.getFileContent();
+        try {
+            htmlContent = fileIO.getFileContent();
+        } catch (Exception e) {
+            System.out.println("error file open");
+        }
         //Document doc = Jsoup.connect(url).get();
         Document doc = Jsoup.parse(htmlContent);
 
