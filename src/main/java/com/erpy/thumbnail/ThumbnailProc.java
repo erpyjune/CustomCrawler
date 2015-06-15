@@ -444,7 +444,7 @@ public class ThumbnailProc {
     }
 
 
-    /////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
     public static void main(String args[]) throws Exception {
         ThumbnailProc thumbnailProc = new ThumbnailProc();
         ThumbnailProcData thumbnailProcData = new ThumbnailProcData();
@@ -466,16 +466,16 @@ public class ThumbnailProc {
         thumbnailProcData.setSavePathPrefix("/Users/baeonejune/work/SummaryNode/images");
         thumbnailProcData.setParserType(1);
         thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
-        thumbnailProcData.setPrefixHostThumbUrl("http://www.campingamigo.com");
-        thumbnailProcData.setHostReferer("http://www.campingamigo.com");
-        thumbnailProcData.setHostDomain("www.campingamigo.com");
+        thumbnailProcData.setPrefixHostThumbUrl("");
+        thumbnailProcData.setHostReferer("http://www.campi.kr");
+        thumbnailProcData.setHostDomain("www.campi.kr");
 
-        thumbnailProcData.setParserGroupSelect("div[style=\"padding-bottom:10\"]");
-        thumbnailProcData.setParserSkipPattern("goods_popup_large");
-        thumbnailProcData.setParserDocumentSelect("span img");
-        thumbnailProcData.setReplacePatternFindData("../data/goods");
-        thumbnailProcData.setReplacePatternSource("../data/goods");
-        thumbnailProcData.setReplacePatternDest("/shop/data/goods");
+        thumbnailProcData.setParserGroupSelect("table[width=\"300\"]");
+        thumbnailProcData.setParserSkipPattern("javascript:image_zoom");
+        thumbnailProcData.setParserDocumentSelect("tr td a img");
+        thumbnailProcData.setReplacePatternFindData("");
+        thumbnailProcData.setReplacePatternSource("");
+        thumbnailProcData.setReplacePatternDest("");
 
         thumbnailProc.thumbnailProcessingSingle(thumbnailProcData, bodyUrl);
     }

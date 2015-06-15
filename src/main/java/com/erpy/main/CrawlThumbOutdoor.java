@@ -144,7 +144,7 @@ public class CrawlThumbOutdoor {
             thumbnailProcData.setReplacePatternDest("");
 
             thumbnailProc.thumbnailProcessing(thumbnailProcData);
-        } else if (GlobalInfo.CP_Camping365.equals(cpName)) { // 데이터가 없어서 테스트 못함
+        } else if (GlobalInfo.CP_Camping365.equals(cpName)) {
             thumbnailProcData.setParserType(1);
             thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
             thumbnailProcData.setPrefixHostThumbUrl("http://www.camping365.co.kr");
@@ -152,8 +152,8 @@ public class CrawlThumbOutdoor {
             thumbnailProcData.setHostDomain("www.camping365.co.kr");
 
             thumbnailProcData.setParserGroupSelect("div[style=\"padding-bottom:10\"]");
-            thumbnailProcData.setParserSkipPattern("width=300 id=objImg");
-            thumbnailProcData.setParserDocumentSelect("img");
+            thumbnailProcData.setParserSkipPattern("goods_popup_large");
+            thumbnailProcData.setParserDocumentSelect("span img");
             thumbnailProcData.setReplacePatternFindData("../data");
             thumbnailProcData.setReplacePatternSource("../data");
             thumbnailProcData.setReplacePatternDest("/shop/data");
@@ -174,7 +174,7 @@ public class CrawlThumbOutdoor {
             thumbnailProcData.setReplacePatternDest("/shop/data");
 
             thumbnailProc.thumbnailProcessing(thumbnailProcData);
-        } else if (GlobalInfo.CP_Totooutdoor.equals(cpName)) { // 수집 에러 발생으로 테스트 못함.
+        } else if (GlobalInfo.CP_Totooutdoor.equals(cpName)) {
             thumbnailProcData.setParserType(1);
             thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
             thumbnailProcData.setPrefixHostThumbUrl("");
@@ -352,6 +352,21 @@ public class CrawlThumbOutdoor {
             thumbnailProcData.setReplacePatternFindData("../data/goods");
             thumbnailProcData.setReplacePatternSource("../data/goods");
             thumbnailProcData.setReplacePatternDest("/shop/data/goods");
+
+            thumbnailProc.thumbnailProcessing(thumbnailProcData);
+        } else if (GlobalInfo.CP_CampI.equals(cpName)) {
+            thumbnailProcData.setParserType(1);
+            thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
+            thumbnailProcData.setPrefixHostThumbUrl("");
+            thumbnailProcData.setHostReferer("http://www.campi.kr");
+            thumbnailProcData.setHostDomain("www.campi.kr");
+
+            thumbnailProcData.setParserGroupSelect("table[width=\"300\"]");
+            thumbnailProcData.setParserSkipPattern("javascript:image_zoom");
+            thumbnailProcData.setParserDocumentSelect("tr td a img");
+            thumbnailProcData.setReplacePatternFindData("");
+            thumbnailProcData.setReplacePatternSource("");
+            thumbnailProcData.setReplacePatternDest("");
 
             thumbnailProc.thumbnailProcessing(thumbnailProcData);
         } else {
