@@ -369,6 +369,21 @@ public class CrawlThumbOutdoor {
             thumbnailProcData.setReplacePatternDest("");
 
             thumbnailProc.thumbnailProcessing(thumbnailProcData);
+        } else if (GlobalInfo.CP_GoodCamping.equals(cpName)) {
+            thumbnailProcData.setParserType(1);
+            thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
+            thumbnailProcData.setPrefixHostThumbUrl("http://goodcamping.net");
+            thumbnailProcData.setHostReferer("http://goodcamping.net");
+            thumbnailProcData.setHostDomain("goodcamping.net");
+
+            thumbnailProcData.setParserGroupSelect("span[style=\"cursor:pointer\"]");
+            thumbnailProcData.setParserSkipPattern("objImg");
+            thumbnailProcData.setParserDocumentSelect("img");
+            thumbnailProcData.setReplacePatternFindData("../data");
+            thumbnailProcData.setReplacePatternSource("../data");
+            thumbnailProcData.setReplacePatternDest("/shop/data");
+
+            thumbnailProc.thumbnailProcessing(thumbnailProcData);
         } else {
             logger.error(" Failure cp is not known !! ");
         }

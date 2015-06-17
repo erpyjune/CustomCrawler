@@ -398,7 +398,7 @@ public class CrawlOutdoor {
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_Niio)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
-                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.niio.co.kr", "http://http://www.niio.co.kr");
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.niio.co.kr", "http://www.niio.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
                 crawlMainThread.setExtractDataCount(0);
@@ -428,13 +428,28 @@ public class CrawlOutdoor {
                 crawlMainThread.run();
             }  else if (strCpName.equals(GlobalInfo.CP_CampingAmigo)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
-                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campingamigo.com", "http://http://www.campingamigo.com");
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.campingamigo.com", "http://www.campingamigo.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
                 crawlMainThread.setPageType("page");
                 crawlMainThread.setExtractDataCount(0);
                 crawlMainThread.setCrawlEncode("euc-kr");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("div[style*=\"padding:5\"] a");
+                crawlMainThread.setCrawlUrl(strUrl);
+                crawlMainThread.setUrlKeyword(strKeyword);
+                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setExtractType("html");
+                crawlMainThread.setAllCrawlDatas(allCrawlDatas);
+                crawlMainThread.run();
+            }  else if (strCpName.equals(GlobalInfo.CP_GoodCamping)) {
+                CrawlMainThread crawlMainThread = new CrawlMainThread();
+                HttpRequestHeader httpRequestHeader = new HttpRequestHeader("goodcamping.net", "http://goodcamping.net");
+                crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
+                crawlMainThread.setPageType("page");
+                crawlMainThread.setExtractDataCount(0);
+                crawlMainThread.setCrawlEncode("euc-kr");
+                crawlMainThread.setSaveEncode("utf-8");
+                crawlMainThread.setContentExtractCountPattern("div[style=\"text-align:center;\"] a");
                 crawlMainThread.setCrawlUrl(strUrl);
                 crawlMainThread.setUrlKeyword(strKeyword);
                 crawlMainThread.setCpName(strCpName);

@@ -74,6 +74,7 @@ public class ExtractOutdoor {
         Niio niio = new Niio();
         YahoCamping yahoCamping = new YahoCamping();
         CampingAmigo campingAmigo = new CampingAmigo();
+        GoodCamping goodCamping = new GoodCamping();
 
 
 
@@ -167,6 +168,9 @@ public class ExtractOutdoor {
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CampingAmigo)) {
                 campingAmigo.mainExtractProcessing(campingAmigo, crawlData, allSearchDatasMap);
+            }
+            else if (crawlData.getCpName().equals(GlobalInfo.CP_GoodCamping)) {
+                goodCamping.mainExtractProcessing(goodCamping, crawlData, allSearchDatasMap);
             }
             else {
                 logger.error(String.format(" Other cp occurred!! - (%s)", crawlData.getCpName()));
