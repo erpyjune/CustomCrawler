@@ -39,6 +39,8 @@ public class IndexingMain {
         int returnCode=0;
 
 
+        // args[0] : E or U
+        // args[1] : cp name
         if (args.length > 0) {
             indexStatus = args[0];
             cpName = args[1];

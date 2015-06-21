@@ -21,6 +21,8 @@ public class SearchData {
     String shippingHow="";
     String cpName="";
     String crawlKeyword="";
+    String cateName1;
+    String cateName2;
     boolean bMan=false;
     boolean bWoman=false;
     String seedUrl="";
@@ -134,6 +136,22 @@ public class SearchData {
 
     public void setCrawlKeyword(String crawlKeyword) {
         this.crawlKeyword = crawlKeyword;
+    }
+
+    public String getCateName1() {
+        return cateName1;
+    }
+
+    public void setCateName1(String cateName1) {
+        this.cateName1 = cateName1;
+    }
+
+    public String getCateName2() {
+        return cateName2;
+    }
+
+    public void setCateName2(String cateName2) {
+        this.cateName2 = cateName2;
     }
 
     public boolean isbMan() {

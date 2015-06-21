@@ -147,7 +147,7 @@ public class SB {
         this.collisionFileCount = collisionFileCount;
     }
 
-    public Map<String, SearchData> extract() throws Exception {
+    public Map<String, SearchData> extract(CrawlData crawlData) throws Exception {
         FileIO fileIO = new FileIO();
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
         GlobalUtils globalUtils = new GlobalUtils();
@@ -237,6 +237,9 @@ public class SB {
             // set seed url
             searchData.setSeedUrl(seedUrl);
             // set hash
+            // cate code
+            searchData.setCateName1(crawlData.getCateName1());
+            searchData.setCateName2(crawlData.getCateName2());
 
 
 //            logger.debug(" ******************************************");
@@ -451,7 +454,7 @@ public class SB {
         cp.setSeedUrl(crawlData.getSeedUrl());
 
         // 데이터 추출.
-        searchDataMap = cp.extract();
+        searchDataMap = cp.extract(crawlData);
         if (searchDataMap.size() <= 0) {
             logger.error(String.format(" 이 파일은 추출된 데이터가 없습니다 (%s)",crawlData.getSavePath()));
             return ;

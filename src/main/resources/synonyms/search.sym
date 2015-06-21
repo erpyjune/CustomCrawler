@@ -42,9 +42,9 @@ hammock,해먹
 침대,야전침대,코트,간이침대,cot,콧
 의류,패션,옷
 블라우스,브라우스
-유아,아동,유아동
+유아,아동,유아동,아동형
 텀블러,머그
-사각,렉타
+사각,렉타,사각형
 팩,펙,솔리드스테이크
 망치,해머
 BBQ,bbq,바베큐
@@ -74,6 +74,30 @@ gas,가스
 건조망,드라이어
 반바지,숏팬츠,숏 팬츠
 충전,충전용,충전식
+쿠션,방석
+스텐드,스탠드
+
+######################################
+# brand
+######################################
+hilleberg,힐레베르그,핼레베르그
+nemo,니모
+peakpark,피크파크
+MOOJEONG,무정
+black diamond,blackdiamond,블랙다이아몬드,블다
+golite,고라이트
+snow peak,snowpeak,스노우피크,설봉
+coleman,콜맨,콜멘
+kovea,코베아
+MOUNTAINSMITH,마운틴스미스
+msr,엠에스알
+the north face,north face,northface,노스페이스
+MOUNTAIN EQUIPMENT,MOUNTAINEQUIPMENT,마운틴이큅먼트
+next outdoor system,nextoutdoorsystem,nos,넥스트아웃도어시스템
+rab,랩
+HEXALITE,헥사라이트
+INTEGRAL DESIGNS,INTEGRALDESIGNS,인테그랄디자인
+DAYTIME,데이타임
 
 
 # 확장어 정리

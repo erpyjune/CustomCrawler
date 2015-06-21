@@ -10,6 +10,8 @@ public class CrawlData {
     String savePath;
     String cpName;
     String crawlKeyword;
+    String cateName1;
+    String cateName2;
     String hashMD5;
 
     public Integer getDataId() {
@@ -58,6 +60,22 @@ public class CrawlData {
 
     public void setCrawlKeyword(String crawlKeyword) {
         this.crawlKeyword = crawlKeyword;
+    }
+
+    public String getCateName1() {
+        return cateName1;
+    }
+
+    public void setCateName1(String cateName1) {
+        this.cateName1 = cateName1;
+    }
+
+    public String getCateName2() {
+        return cateName2;
+    }
+
+    public void setCateName2(String cateName2) {
+        this.cateName2 = cateName2;
     }
 
     public String getHashMD5() {

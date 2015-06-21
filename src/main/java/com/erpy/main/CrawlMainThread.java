@@ -27,9 +27,10 @@ public class CrawlMainThread extends Thread {
     private String contentExtractCountPattern;
     private String extractType="html";
 
-    private String crawlUrl;
-    private String urlKeyword;
-    private String cpName;
+//    private String crawlUrl;
+//    private String urlKeyword;
+//    private String cpName;
+    private Seed seed;
     private Map<String, CrawlData> allCrawlDatas;
     private Map<String, String> httpRequestHeader;
 
@@ -62,21 +63,28 @@ public class CrawlMainThread extends Thread {
         this.contentExtractCountPattern = contentExtractCountPattern;
     }
 
-    public void setCrawlUrl(String crawlUrl) {
-        this.crawlUrl = crawlUrl;
+    public Seed getSeed() {
+        return seed;
     }
 
-    public void setUrlKeyword(String urlKeyword) {
-        this.urlKeyword = urlKeyword;
+    public void setSeed(Seed seed) {
+        this.seed = seed;
     }
-
-    public String getCpName() {
-        return cpName;
-    }
-
-    public void setCpName(String cpName) {
-        this.cpName = cpName;
-    }
+    //    public void setCrawlUrl(String crawlUrl) {
+//        this.crawlUrl = crawlUrl;
+//    }
+//
+//    public void setUrlKeyword(String urlKeyword) {
+//        this.urlKeyword = urlKeyword;
+//    }
+//
+//    public String getCpName() {
+//        return cpName;
+//    }
+//
+//    public void setCpName(String cpName) {
+//        this.cpName = cpName;
+//    }
 
     public void setAllCrawlDatas(Map<String, CrawlData> allCrawlDatas) {
         this.allCrawlDatas = allCrawlDatas;
@@ -88,7 +96,7 @@ public class CrawlMainThread extends Thread {
 
 
     public void run() {
-        logger.info(String.format(" Thread run - %s", crawlUrl));
+        logger.info(String.format(" Thread run - %s", seed.getUrl()));
 
         CrawlIO crawlIO = new CrawlIO();
         crawlIO.setExtractType(extractType);
@@ -96,29 +104,29 @@ public class CrawlMainThread extends Thread {
         crawlIO.setHttpReqHeader(httpRequestHeader);
 
         try {
-            if (cpName.equals(GlobalInfo.CP_GSDeal)) { // GSDeal
-                crawlIO.crawlGSDeal(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            if (seed.getCpName().equals(GlobalInfo.CP_GSDeal)) { // GSDeal
+                crawlIO.crawlGSDeal(seed, allCrawlDatas);
             }
-            else if (cpName.equals(GlobalInfo.CP_HappyVirusPost)) { // HappyVirus POST
-                crawlIO.crawlHappyVirusPost(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            else if (seed.getCpName().equals(GlobalInfo.CP_HappyVirusPost)) { // HappyVirus POST
+                crawlIO.crawlHappyVirusPost(seed, allCrawlDatas);
             }
-            else if (cpName.equals(GlobalInfo.CP_Totooutdoor)) { // HappyVirus POST
-                crawlIO.crawlTotoOutdoor(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            else if (seed.getCpName().equals(GlobalInfo.CP_Totooutdoor)) { // HappyVirus POST
+                crawlIO.crawlTotoOutdoor(seed, allCrawlDatas);
             }
-            else if  (cpName.equals(GlobalInfo.CP_Timon)) { // Timon
-                crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
-                crawlIO.crawlTimon(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            else if  (seed.getCpName().equals(GlobalInfo.CP_Timon)) { // Timon
+                crawlIO.crawlOne(seed, allCrawlDatas);
+                crawlIO.crawlTimon(seed, allCrawlDatas);
             }
-            else if (cpName.equals(GlobalInfo.CP_WeMef) || cpName.equals(GlobalInfo.CP_HappyVirusFirst) ||
-                    cpName.equals(GlobalInfo.CP_HappyDeals)) {
-                crawlIO.crawlOne(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+            else if (seed.getCpName().equals(GlobalInfo.CP_WeMef) || seed.getCpName().equals(GlobalInfo.CP_HappyVirusFirst) ||
+                    seed.getCpName().equals(GlobalInfo.CP_HappyDeals)) {
+                crawlIO.crawlOne(seed, allCrawlDatas);
             }
             else {
-                crawlIO.crawl(crawlUrl, urlKeyword, cpName, allCrawlDatas);
+                crawlIO.crawl(seed, allCrawlDatas);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error(String.format(" Running exception - %s", cpName));
+            logger.error(String.format(" Running exception - %s", seed.getCpName()));
         }
     }
 }

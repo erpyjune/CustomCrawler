@@ -270,6 +270,9 @@ public class TongOutdoor {
             searchData.setCrawlKeyword(keyword);
             // set seed url
             searchData.setSeedUrl(seedUrl);
+            // cate code
+            searchData.setCateName1(crawlData.getCateName1());
+            searchData.setCateName2(crawlData.getCateName2());
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!globalUtils.isDataEmpty(searchData)) {

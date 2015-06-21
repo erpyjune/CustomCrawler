@@ -21,7 +21,9 @@ public class CrawlThumbOutdoor {
             System.exit(-1);
         }
 
+        // args[0] : cpname
         String cpName = args[0];
+        // args[1] : thumbnail make option (all | not)
         String allData = args[1];
         if (allData.length()==0) {
             isAllData = false;
@@ -37,7 +39,8 @@ public class CrawlThumbOutdoor {
         thumbnailProcData.setIsAllDataCrawl(isAllData);
         thumbnailProcData.setHtmlCrawlConnectionTimeout(5000);
         thumbnailProcData.setHtmlCrawlReadTimeout(10000);
-        thumbnailProcData.setSavePathPrefix("/Users/baeonejune/work/SummaryNode/images");
+//        thumbnailProcData.setSavePathPrefix("/Users/baeonejune/work/SummaryNode/images");
+        thumbnailProcData.setSavePathPrefix("/Users/erpy/work/summaryNode/images");
 
         if (cpName.equals(GlobalInfo.CP_AirMT)) {
             thumbnailProcData.setParserType(1);

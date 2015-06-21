@@ -143,7 +143,7 @@ public class CampingOn {
         this.collisionFileCount = collisionFileCount;
     }
 
-    public Map<String, SearchData> extract() throws Exception {
+    public Map<String, SearchData> extract(CrawlData crawlData) throws Exception {
         FileIO fileIO = new FileIO();
         Map<String, SearchData> searchDataMap = new HashMap<String, SearchData>();
         Elements elements;
@@ -252,6 +252,9 @@ public class CampingOn {
             searchData.setCrawlKeyword(keyword);
             // set seed url
             searchData.setSeedUrl(seedUrl);
+            // cate code
+            searchData.setCateName1(crawlData.getCateName1());
+            searchData.setCateName2(crawlData.getCateName2());
 
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!globalUtils.isDataEmpty(searchData)) {
@@ -399,7 +402,7 @@ public class CampingOn {
         cp.setSeedUrl(crawlData.getSeedUrl());
 
         // 데이터 추출.
-        searchDataMap = cp.extract();
+        searchDataMap = cp.extract(crawlData);
         if (searchDataMap.size() <= 0) {
             logger.error(String.format(" 이 파일은 추출된 데이터가 없습니다 (%s)",crawlData.getSavePath()));
             return ;

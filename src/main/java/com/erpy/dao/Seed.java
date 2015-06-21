@@ -5,6 +5,8 @@ public class Seed {
 	String  seedKeyword;
 	String  crawlUrl;
 	String  cpName;
+    String cateName1;
+    String cateName2;
 
 	public int getSeedId() {
 		return seedId;
@@ -30,4 +32,20 @@ public class Seed {
 	public void setCpName(String cpName) {
 		this.cpName = cpName;
 	}
+
+    public String getCateName1() {
+        return cateName1;
+    }
+
+    public void setCateName1(String cateName1) {
+        this.cateName1 = cateName1;
+    }
+
+    public String getCateName2() {
+        return cateName2;
+    }
+
+    public void setCateName2(String cateName2) {
+        this.cateName2 = cateName2;
+    }
 }

@@ -68,15 +68,12 @@ public class CrawlDeals {
         Iterator iterator = seedList.iterator();
         while (iterator.hasNext()) {
             seed = (Seed) iterator.next();
-            strKeyword = seed.getKeyword();
-            strUrl = seed.getUrl();
-            strCpName = seed.getCpName().trim();
 
             if (argsCPname.length()>0) {
-                if (!strCpName.equals(argsCPname)) continue;
+                if (!seed.getCpName().equals(argsCPname)) continue;
             }
 
-            if (strCpName.equals(GlobalInfo.CP_G9)) {
+            if (seed.getCpName().equals(GlobalInfo.CP_G9)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.g9.co.kr","http://m.g9.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -85,13 +82,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("utf-8");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("deals");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("json");
                 crawlMainThread.run();
-            } else if (strCpName.equals(GlobalInfo.CP_GSDeal)) {
+            } else if (seed.getCpName().equals(GlobalInfo.CP_GSDeal)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.gsshop.com","http://m.gsshop.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -100,13 +95,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("euc-kr");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("list");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("json");
                 crawlMainThread.run();
-            }  else if (strCpName.equals(GlobalInfo.CP_LotteThanksDeal)) {
+            }  else if (seed.getCpName().equals(GlobalInfo.CP_LotteThanksDeal)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.lotteimall.com","http://m.lotteimall.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -115,13 +108,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("utf-8");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("p.stitle");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
-            }   else if (strCpName.equals(GlobalInfo.CP_HotKill)) {
+            }   else if (seed.getCpName().equals(GlobalInfo.CP_HotKill)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.hnsmall.com","http://m.hnsmall.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -130,13 +121,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("utf-8");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("goodsList");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("json");
                 crawlMainThread.run();
-            } else if (strCpName.equals(GlobalInfo.CP_Timon)) {
+            } else if (seed.getCpName().equals(GlobalInfo.CP_Timon)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.ticketmonster.co.kr","http://m.ticketmonster.co.kr");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -145,13 +134,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("utf-8");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("div.info p.tit");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
-            } else if (strCpName.equals(GlobalInfo.CP_WeMef)) {
+            } else if (seed.getCpName().equals(GlobalInfo.CP_WeMef)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.wemakeprice.com","http://m.wemakeprice.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -160,13 +147,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("utf-8");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("div.info p.dt");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
-            } else if (strCpName.equals(GlobalInfo.CP_CouPang)) {
+            } else if (seed.getCpName().equals(GlobalInfo.CP_CouPang)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.coupang.com","http://m.coupang.com/nm/");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -175,13 +160,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("utf-8");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("span.plp-square-img");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
-            } else if (strCpName.equals(GlobalInfo.CP_HappyVirusFirst)) {
+            } else if (seed.getCpName().equals(GlobalInfo.CP_HappyVirusFirst)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.shinsegaemall.ssg.com","http://m.shinsegaemall.ssg.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -190,13 +173,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("utf-8");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("div.hb_article_li ");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
-            } else if (strCpName.equals(GlobalInfo.CP_HappyVirusPost)) {
+            } else if (seed.getCpName().equals(GlobalInfo.CP_HappyVirusPost)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.shinsegaemall.ssg.com","http://m.shinsegaemall.ssg.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -205,13 +186,11 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("utf-8");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("div.hb_article2_li ");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
-            } else if (strCpName.equals(GlobalInfo.CP_HappyDeals)) {
+            } else if (seed.getCpName().equals(GlobalInfo.CP_HappyDeals)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.nsmall.com","http://m.nsmall.com");
                 crawlMainThread.setHttpRequestHeader(httpRequestHeader.getHttpRequestHeader());
@@ -220,14 +199,12 @@ public class CrawlDeals {
                 crawlMainThread.setCrawlEncode("euc-kr");
                 crawlMainThread.setSaveEncode("utf-8");
                 crawlMainThread.setContentExtractCountPattern("span.price");
-                crawlMainThread.setCrawlUrl(strUrl);
-                crawlMainThread.setUrlKeyword(strKeyword);
-                crawlMainThread.setCpName(strCpName);
+                crawlMainThread.setSeed(seed);
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.run();
             } else {
-                logger.error(String.format(" Other cp exist - (%s)", strCpName));
+                logger.error(String.format(" Other cp exist - (%s)", seed.getCpName()));
             }
         }
 

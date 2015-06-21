@@ -222,6 +222,12 @@ public class GlobalUtils {
         sb.append("\"cp\" : ");
         sb.append("\"").append(searchData.getCpName()).append("\",");
 
+        sb.append("\"cate1\" : ");
+        sb.append("\"").append(searchData.getCateName1()).append("\",");
+
+        sb.append("\"cate2\" : ");
+        sb.append("\"").append(searchData.getCateName2()).append("\",");
+
         sb.append("\"keyword\" : ");
         sb.append("\"").append(searchData.getCrawlKeyword()).append("\"");
 
@@ -309,6 +315,9 @@ public class GlobalUtils {
         }
         else if (thumbUrl.contains("camptown.co.kr")) {
             sb = sb.append("http://summarynode.cafe24.com/gimages/camptown/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("goodcamping.net")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/goodcamping/").append(splieImageFileName(thumbUrl));
         }
 
         return sb.toString();

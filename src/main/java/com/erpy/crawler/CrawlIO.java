@@ -2,6 +2,7 @@ package com.erpy.crawler;
 
 import com.erpy.dao.CrawlData;
 import com.erpy.dao.CrawlDataService;
+import com.erpy.dao.Seed;
 import com.erpy.utils.DateInfo;
 import com.erpy.utils.GlobalInfo;
 import com.erpy.utils.GlobalUtils;
@@ -187,8 +188,7 @@ public class CrawlIO {
 
 
     /////////////////////////////////////////////////////////////////////////////////
-    public void crawlOne(String url, String strKeyword, String strCpName,
-                          Map<String, CrawlData> allCrawlDatasMap) throws Exception {
+    public void crawlOne(Seed seed, Map<String, CrawlData> allCrawlDatasMap) throws Exception {
 
         Random random         = new Random();
         DateInfo dateInfo     = new DateInfo();
@@ -217,7 +217,7 @@ public class CrawlIO {
 
         for(;;) {
             // make crawling url.
-            strUrl = crawlIO.makeNextPageUrl(strCpName, url, pageType, page, offset);
+            strUrl = crawlIO.makeNextPageUrl(seed.getCpName(), seed.getUrl(), pageType, page, offset);
 
             // set crawling information.
             crawlSite.setCrawlUrl(strUrl);
@@ -256,18 +256,18 @@ public class CrawlIO {
             if (extractDataCount==30 && data_size < extractDataCount) isLastPage = true; // for first.
 
             // 동일한 데이터가 있으면 next page로 이동한다.
-            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
-                if (isCrawlEnd(page, strCpName)) break;
+            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + seed.getCpName())) {
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 logger.info(String.format(" Skip crawling data - (%s) ", strUrl));
                 page++;
                 continue;
             }
 
             // 크롤링된 데이터를 disk 에 저장한다.
-            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, saveEncoding);
+            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
-                if (isCrawlEnd(page, strCpName)) break;
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 page++;
                 continue;
             }
@@ -276,8 +276,8 @@ public class CrawlIO {
             crawlData.setSeedUrl(strUrl);
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
+            crawlData.setCpName(seed.getCpName());
+            crawlData.setCrawlKeyword(seed.getKeyword());
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
             // 크롤링한 메타데이터를 db에 저장한다.
             crawlDataService.insertCrawlData(crawlData);
@@ -286,7 +286,7 @@ public class CrawlIO {
 
             crawledCount++; // 크롤링한 데이터 카운트.
 
-            if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
+            if (isCrawlEnd(page, seed.getCpName())) break; // page 종료 조건 확인
             page++; // page 증가
             // 수집 완료를 했기 때문에 새로운 url은 timeout count를 0으로 초기화.
             crawlErrorCount=0;
@@ -295,8 +295,7 @@ public class CrawlIO {
 
 
     //////////////////////////////////////////////////////////////////////////
-    public void crawl(String url, String strKeyword, String strCpName,
-                      Map<String, CrawlData> allCrawlDatasMap) throws Exception {
+    public void crawl(Seed seed, Map<String, CrawlData> allCrawlDatasMap) throws Exception {
 
         Random random         = new Random();
         DateInfo dateInfo     = new DateInfo();
@@ -325,7 +324,7 @@ public class CrawlIO {
 
         for(;;) {
             // make crawling url.
-            strUrl = crawlIO.makeNextPageUrl(strCpName, url, pageType, page, offset);
+            strUrl = crawlIO.makeNextPageUrl(seed.getCpName(), seed.getUrl(), pageType, page, offset);
 
             // set crawling information.
             crawlSite.setCrawlUrl(strUrl);
@@ -370,8 +369,8 @@ public class CrawlIO {
             if (extractDataCount==30 && data_size < extractDataCount) isLastPage = true; // for first.
 
             // 동일한 데이터가 있으면 next page로 이동한다.
-            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
-                if (isCrawlEnd(page, strCpName)) break;
+            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + seed.getCpName())) {
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 logger.info(String.format(" Skip crawling data - (%s) ", strUrl));
                 if (isLastPage) break; // for first
                 page++;
@@ -381,10 +380,10 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, saveEncoding);
+            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
-                if (isCrawlEnd(page, strCpName)) break;
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 page++;
                 continue;
             }
@@ -395,8 +394,10 @@ public class CrawlIO {
             crawlData.setSeedUrl(strUrl);
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
+            crawlData.setCpName(seed.getCpName());
+            crawlData.setCateName1(seed.getCateName1());
+            crawlData.setCateName2(seed.getCateName2());
+            crawlData.setCrawlKeyword(seed.getKeyword());
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
             /////////////////////////////////////////////////////////
             // 크롤링한 메타데이터를 db에 저장한다.
@@ -408,13 +409,137 @@ public class CrawlIO {
             if (isLastPage) break; // for first
             crawledCount++; // 크롤링한 데이터 카운트.
 
-            if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
+            if (isCrawlEnd(page, seed.getCpName())) break; // page 종료 조건 확인
             page++; // page 증가
             offset += 32; // for campI
             // 수집 완료를 했기 때문에 새로운 url은 timeout count를 0으로 초기화.
             crawlErrorCount=0;
         }
     }
+
+
+    //////////////////////////////////////////////////////////////////////////
+    // backup
+//    public void crawl(String url, String strKeyword, String strCpName,
+//                      Map<String, CrawlData> allCrawlDatasMap) throws Exception {
+//
+//        Random random         = new Random();
+//        DateInfo dateInfo     = new DateInfo();
+//        CrawlIO crawlIO       = new CrawlIO();
+//        CrawlSite crawlSite   = new CrawlSite();
+//        CrawlData crawlData   = new CrawlData();
+//        GlobalInfo globalInfo = new GlobalInfo();
+//
+//        int page=1;
+//        int offset=0;
+//        int returnCode;
+//        int data_size=0;
+//        int crawlErrorCount=0;
+//        boolean isLastPage=false;
+//        String strUrl="";
+//        String md5HashCode;
+//        String beforePageMD5hashCode="";
+//        String crawlSavePath;
+//        String savePrefixPath = globalInfo.getSaveFilePath();
+//
+//        // 환경 셋팅
+//        crawlSite.setConnectionTimeout(5000);
+//        crawlSite.setSocketTimeout(10000);
+//        crawlSite.setCrawlEncode(crawlEncoding);
+//        crawlSite.setRequestHeader(httpReqHeader);
+//
+//        for(;;) {
+//            // make crawling url.
+//            strUrl = crawlIO.makeNextPageUrl(strCpName, url, pageType, page, offset);
+//
+//            // set crawling information.
+//            crawlSite.setCrawlUrl(strUrl);
+//
+//            try {
+//                returnCode = crawlSite.HttpCrawlGetDataTimeout();
+//                if (returnCode != 200 && returnCode != 201) {
+//                    logger.error(String.format(" [%d]데이터를 수집 못했음 - %s", returnCode, strUrl));
+//                    crawlErrorCount++;
+//                }
+//            }
+//            catch (Exception e) {
+//                e.printStackTrace();
+//                if (crawlErrorCount > MAX_CRAWL_ERROR_COUNT) {
+//                    logger.error(String.format(" Crawling timeout occured max crawling count[%d] overed & this url skip!!", crawlErrorCount));
+//                    break;
+//                }
+//                crawlErrorCount++;
+//                logger.error(String.format(" Crawling timeout occured !! - Retry(%d)", crawlErrorCount));
+//                continue;
+//            }
+//
+//            ////////////////////////////////////////////////////////
+//            // 이전 페이지 본문 해시값과 현재 페이지 본문 해시값이 동일하면 break;
+//            // page를 증가해도 내용이 달라진게 없다는 뜻이다.
+//            ////////////////////////////////////////////////////////
+//            md5HashCode = globalUtils.MD5(crawlSite.getCrawlData());
+//            if (md5HashCode.equals(beforePageMD5hashCode)) {
+//                logger.info(" Before hash code same !!");
+//                break;
+//            }
+//
+//            /////////////////////////////////////////////////////////
+//            // 추출된 데이터가 없으면 마지막 페이지 더 이상 page 증가 없이 종료한다.
+//            /////////////////////////////////////////////////////////
+//            if (extractType.equals("html")) {
+//                data_size = globalUtils.checkDataCountContent(crawlSite.getCrawlData(), pattern);
+//            } else if (extractType.equals("json")) {
+//                data_size = globalUtils.checkDataCountContentJson(crawlSite.getCrawlData(), pattern);
+//            }
+//            if (data_size==0) break;
+//            if (extractDataCount==30 && data_size < extractDataCount) isLastPage = true; // for first.
+//
+//            // 동일한 데이터가 있으면 next page로 이동한다.
+//            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
+//                if (isCrawlEnd(page, strCpName)) break;
+//                logger.info(String.format(" Skip crawling data - (%s) ", strUrl));
+//                if (isLastPage) break; // for first
+//                page++;
+//                continue;
+//            }
+//
+//            /////////////////////////////////////////////////////////
+//            // 크롤링된 데이터를 disk 에 저장한다.
+//            /////////////////////////////////////////////////////////
+//            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, saveEncoding);
+//            if (crawlSavePath.length()==0) {
+//                logger.error(" Crawling data flush disk error !!");
+//                if (isCrawlEnd(page, strCpName)) break;
+//                page++;
+//                continue;
+//            }
+//
+//            /////////////////////////////////////////////////////////
+//            // 수집한 메타 데이터를 DB에 저장한다.
+//            /////////////////////////////////////////////////////////
+//            crawlData.setSeedUrl(strUrl);
+//            crawlData.setCrawlDate(dateInfo.getCurrDateTime());
+//            crawlData.setSavePath(crawlSavePath);
+//            crawlData.setCpName(strCpName);
+//            crawlData.setCrawlKeyword(strKeyword);
+//            crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
+//            /////////////////////////////////////////////////////////
+//            // 크롤링한 메타데이터를 db에 저장한다.
+//            /////////////////////////////////////////////////////////
+//            crawlDataService.insertCrawlData(crawlData);
+//            beforePageMD5hashCode = md5HashCode; // 이전 page 값과 현재 page hash 값이 동일한지 체크하기 위해 남긴다.
+//            logger.info(String.format(" Crawled ( %d ) %s", data_size, strUrl));
+//
+//            if (isLastPage) break; // for first
+//            crawledCount++; // 크롤링한 데이터 카운트.
+//
+//            if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
+//            page++; // page 증가
+//            offset += 32; // for campI
+//            // 수집 완료를 했기 때문에 새로운 url은 timeout count를 0으로 초기화.
+//            crawlErrorCount=0;
+//        }
+//    }
 
 
     /////////////////////////////////////////////////////////////////////////////
@@ -462,8 +587,7 @@ public class CrawlIO {
     /////////////////////////////////////////////////////////////////////////////
     // for timon.
     /////////////////////////////////////////////////////////////////////////////
-    public void crawlTimon(String url, String strKeyword, String strCpName,
-                      Map<String, CrawlData> allCrawlDatasMap) throws Exception {
+    public void crawlTimon(Seed seed, Map<String, CrawlData> allCrawlDatasMap) throws Exception {
 
         Random random         = new Random();
         DateInfo dateInfo     = new DateInfo();
@@ -500,7 +624,7 @@ public class CrawlIO {
 
         // 1. url 에서 extractParamNameMap에 정의된 field 데이터를 추출.
         // 2. 추출한 field  데이터를 request post data에 맞는 field 로 변경.
-        requestPostParam = makePostRequestData(extractRequestParam(url, extractParamNameMap));
+        requestPostParam = makePostRequestData(extractRequestParam(seed.getUrl(), extractParamNameMap));
         requestPostParam.put("order", "popular");
 
         // crawling url이 변하지 않기 때문에 위에 셋팅.
@@ -550,8 +674,8 @@ public class CrawlIO {
             if (data_size==0) break;
 
             // 동일한 데이터가 있으면 next page로 이동한다.
-            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
-                if (isCrawlEnd(page, strCpName)) break;
+            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + seed.getCpName())) {
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 logger.info(String.format(" Skip crawling data - (%s, page=%d) ", crawlSite.getCrawlUrl(), page));
                 page++;
                 continue;
@@ -560,10 +684,10 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, saveEncoding);
+            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
-                if (isCrawlEnd(page, strCpName)) break;
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 page++;
                 continue;
             }
@@ -574,8 +698,8 @@ public class CrawlIO {
             crawlData.setSeedUrl(strUrl);
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
+            crawlData.setCpName(seed.getCpName());
+            crawlData.setCrawlKeyword(seed.getKeyword());
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
             /////////////////////////////////////////////////////////
             // 크롤링한 메타데이터를 db에 저장한다.
@@ -586,13 +710,13 @@ public class CrawlIO {
 
             crawledCount++; // 크롤링한 데이터 카운트.
 
-            if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
+            if (isCrawlEnd(page, seed.getCpName())) break; // page 종료 조건 확인
             page++; // page 증가
             // 수집 완료를 했기 때문에 새로운 url은 timeout count를 0으로 초기화.
             crawlErrorCount=0;
 
             // 이미 수집한 데이터를 수집하지 않기 위해 저장한다.
-            allCrawlDatasMap.put(md5HashCode + strCpName, crawlData);
+            allCrawlDatasMap.put(md5HashCode + seed.getCpName(), crawlData);
         }
     }
 
@@ -600,8 +724,7 @@ public class CrawlIO {
     /////////////////////////////////////////////////////////////////////////////
     // for GSDeal
     /////////////////////////////////////////////////////////////////////////////
-    public void crawlGSDeal(String url, String strKeyword, String strCpName,
-                           Map<String, CrawlData> allCrawlDatasMap) throws Exception {
+    public void crawlGSDeal(Seed seed, Map<String, CrawlData> allCrawlDatasMap) throws Exception {
 
         Random random         = new Random();
         DateInfo dateInfo     = new DateInfo();
@@ -678,8 +801,8 @@ public class CrawlIO {
             if (data_size==0) break;
 
             // 동일한 데이터가 있으면 next page로 이동한다.
-            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
-                if (isCrawlEnd(page, strCpName)) break;
+            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + seed.getCpName())) {
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 logger.info(String.format(" Skip crawling data - (%s, page=%d) ", crawlSite.getCrawlUrl(), page));
                 page++;
                 continue;
@@ -688,10 +811,10 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, saveEncoding);
+            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
-                if (isCrawlEnd(page, strCpName)) break;
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 page++;
                 continue;
             }
@@ -702,8 +825,8 @@ public class CrawlIO {
             crawlData.setSeedUrl(strUrl);
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
+            crawlData.setCpName(seed.getCpName());
+            crawlData.setCrawlKeyword(seed.getKeyword());
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
             /////////////////////////////////////////////////////////
             // 크롤링한 메타데이터를 db에 저장한다.
@@ -715,13 +838,13 @@ public class CrawlIO {
 
             crawledCount++; // 크롤링한 데이터 카운트.
 
-            if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
+            if (isCrawlEnd(page, seed.getCpName())) break; // page 종료 조건 확인
             page++; // page 증가
             // 수집 완료를 했기 때문에 새로운 url은 timeout count를 0으로 초기화.
             crawlErrorCount=0;
 
             // 이미 수집한 데이터를 수집하지 않기 위해 저장한다.
-            allCrawlDatasMap.put(md5HashCode + strCpName, crawlData);
+            allCrawlDatasMap.put(md5HashCode + seed.getCpName(), crawlData);
         }
     }
 
@@ -729,8 +852,7 @@ public class CrawlIO {
     /////////////////////////////////////////////////////////////////////////////
     // for HappyVirus POST
     /////////////////////////////////////////////////////////////////////////////
-    public void crawlHappyVirusPost(String url, String strKeyword, String strCpName,
-                            Map<String, CrawlData> allCrawlDatasMap) throws Exception {
+    public void crawlHappyVirusPost(Seed seed, Map<String, CrawlData> allCrawlDatasMap) throws Exception {
 
         Random random         = new Random();
         DateInfo dateInfo     = new DateInfo();
@@ -759,7 +881,7 @@ public class CrawlIO {
         crawlSite.setRequestHeader(httpReqHeader);
 
         // crawling url이 변하지 않기 때문에 위에 셋팅.
-        crawlSite.setCrawlUrl(url);
+        crawlSite.setCrawlUrl(seed.getUrl());
 
         for( ;; ) {
             // 3. 기존에 page 데이터를 제거.
@@ -804,8 +926,8 @@ public class CrawlIO {
             if (data_size==0) break;
 
             // 동일한 데이터가 있으면 next page로 이동한다.
-            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
-                if (isCrawlEnd(page, strCpName)) break;
+            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + seed.getCpName())) {
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 logger.info(String.format(" Skip crawling data - (%s, page=%d) ", crawlSite.getCrawlUrl(), page));
                 page++;
                 continue;
@@ -814,10 +936,10 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, saveEncoding);
+            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
-                if (isCrawlEnd(page, strCpName)) break;
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 page++;
                 continue;
             }
@@ -828,8 +950,8 @@ public class CrawlIO {
             crawlData.setSeedUrl(strUrl);
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
+            crawlData.setCpName(seed.getCpName());
+            crawlData.setCrawlKeyword(seed.getKeyword());
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
             /////////////////////////////////////////////////////////
             // 크롤링한 메타데이터를 db에 저장한다.
@@ -841,23 +963,20 @@ public class CrawlIO {
 
             crawledCount++; // 크롤링한 데이터 카운트.
 
-            if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
+            if (isCrawlEnd(page, seed.getCpName())) break; // page 종료 조건 확인
             page++; // page 증가
             // 수집 완료를 했기 때문에 새로운 url은 timeout count를 0으로 초기화.
             crawlErrorCount=0;
 
             // 이미 수집한 데이터를 수집하지 않기 위해 저장한다.
-            allCrawlDatasMap.put(md5HashCode + strCpName, crawlData);
+            allCrawlDatasMap.put(md5HashCode + seed.getCpName(), crawlData);
         }
     }
 
 
-    /////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // for TotoOutdoor POST
-    /////////////////////////////////////////////////////////////////////////////
-    public void crawlTotoOutdoor(String url, String strKeyword, String strCpName,
-                                    Map<String, CrawlData> allCrawlDatasMap) throws Exception {
-
+    public void crawlTotoOutdoor(Seed seed, Map<String, CrawlData> allCrawlDatasMap) throws Exception {
         Random random         = new Random();
         DateInfo dateInfo     = new DateInfo();
         CrawlIO crawlIO       = new CrawlIO();
@@ -885,12 +1004,12 @@ public class CrawlIO {
         crawlSite.setRequestHeader(httpReqHeader);
 
         // crawling url이 변하지 않기 때문에 위에 셋팅.
-        crawlSite.setCrawlUrl(url);
+        crawlSite.setCrawlUrl(seed.getUrl());
 
-        logger.info(String.format(" POST URL : %s", url));
+        logger.info(String.format(" POST URL : %s", seed.getUrl()));
 
         // url에서 default parameter 추출
-        String strCategory = globalUtils.getFieldData(url, "/menu/", "?");
+        String strCategory = globalUtils.getFieldData(seed.getUrl(), "/menu/", "?");
         requestPostParam.put("page_size", "80");
         requestPostParam.put("firstType", "3");
         requestPostParam.put("firstVal", strCategory);
@@ -939,8 +1058,8 @@ public class CrawlIO {
             if (data_size==0) break;
 
             // 동일한 데이터가 있으면 next page로 이동한다.
-            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + strCpName)) {
-                if (isCrawlEnd(page, strCpName)) break;
+            if (crawlIO.isSameCrawlData(allCrawlDatasMap, md5HashCode + seed.getCpName())) {
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 logger.info(String.format(" Skip crawling data - (%s, page=%d) ", crawlSite.getCrawlUrl(), page));
                 page++;
                 continue;
@@ -949,10 +1068,10 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, strCpName, random.nextInt(918277377), crawlSite, saveEncoding);
+            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
-                if (isCrawlEnd(page, strCpName)) break;
+                if (isCrawlEnd(page, seed.getCpName())) break;
                 page++;
                 continue;
             }
@@ -963,8 +1082,10 @@ public class CrawlIO {
             crawlData.setSeedUrl(strUrl);
             crawlData.setCrawlDate(dateInfo.getCurrDateTime());
             crawlData.setSavePath(crawlSavePath);
-            crawlData.setCpName(strCpName);
-            crawlData.setCrawlKeyword(strKeyword);
+            crawlData.setCpName(seed.getCpName());
+            crawlData.setCrawlKeyword(seed.getKeyword());
+            crawlData.setCateName1(seed.getCateName1());
+            crawlData.setCateName2(seed.getCateName2());
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
             /////////////////////////////////////////////////////////
             // 크롤링한 메타데이터를 db에 저장한다.
@@ -976,13 +1097,13 @@ public class CrawlIO {
 
             crawledCount++; // 크롤링한 데이터 카운트.
 
-            if (isCrawlEnd(page, strCpName)) break; // page 종료 조건 확인
+            if (isCrawlEnd(page, seed.getCpName())) break; // page 종료 조건 확인
             page++; // page 증가
             // 수집 완료를 했기 때문에 새로운 url은 timeout count를 0으로 초기화.
             crawlErrorCount=0;
 
             // 이미 수집한 데이터를 수집하지 않기 위해 저장한다.
-            allCrawlDatasMap.put(md5HashCode + strCpName, crawlData);
+            allCrawlDatasMap.put(md5HashCode + seed.getCpName(), crawlData);
         }
     }
 
