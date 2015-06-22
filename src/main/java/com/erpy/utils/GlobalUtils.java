@@ -319,6 +319,18 @@ public class GlobalUtils {
         else if (thumbUrl.contains("goodcamping.net")) {
             sb = sb.append("http://summarynode.cafe24.com/gimages/goodcamping/").append(splieImageFileName(thumbUrl));
         }
+        else if (thumbUrl.contains("campingamigo.com")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/campingamigo/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("campi.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/campi/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("camping-plus.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/campingplus/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("campschule.co.kr")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/campschule/").append(splieImageFileName(thumbUrl));
+        }
 
         return sb.toString();
     }
