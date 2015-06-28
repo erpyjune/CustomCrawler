@@ -189,7 +189,7 @@ public class CrawlMain {
             else if (strCpName.equals(GlobalInfo.CP_SBCLUB)) {
                 SB sb = new SB();
 //                crawlIO.setCrawlIO("page", 0, "euc-kr", "utf-8", "p.title");
-                sb.crawlData(strUrl, strKeyword, strCpName, allCrawlDatas);
+                sb.crawlData(seed, allCrawlDatas);
             }
             else if (strCpName.equals(GlobalInfo.CP_CAMPINGMALL)) {
                 CrawlIO crawlIO = new CrawlIO();
