@@ -39,8 +39,8 @@ public class CrawlThumbOutdoor {
         thumbnailProcData.setIsAllDataCrawl(isAllData);
         thumbnailProcData.setHtmlCrawlConnectionTimeout(5000);
         thumbnailProcData.setHtmlCrawlReadTimeout(10000);
-//        thumbnailProcData.setSavePathPrefix("/Users/baeonejune/work/SummaryNode/images");
-        thumbnailProcData.setSavePathPrefix("/Users/erpy/work/summaryNode/images");
+        thumbnailProcData.setSavePathPrefix("/Users/baeonejune/work/SummaryNode/images");
+//        thumbnailProcData.setSavePathPrefix("/Users/erpy/work/summaryNode/images");
 
         if (cpName.equals(GlobalInfo.CP_AirMT)) {
             thumbnailProcData.setParserType(1);

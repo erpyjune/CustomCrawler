@@ -20,6 +20,7 @@
         keyword      as crawlKeyword,
         cate1        as cateName1,
         cate2        as cateName2,
+        cate3        as cateName3,
         seed_url     as seedUrl
         FROM search
         WHERE id = #{dataId}
@@ -41,6 +42,7 @@
         <result property='crawlKeyword' 	column='keyword'/>
         <result property='cateName1' 	    column='cate1'/>
         <result property='cateName2' 	    column='cate2'/>
+        <result property='cateName3' 	    column='cate3'/>
         <result property='dataStatus' 	    column='status'/>
         <result property='seedUrl'  	    column='seed_url'/>
         <result property='updateDate'  	    column='date'/>
@@ -63,8 +65,8 @@
     </select>
 
     <insert id='insertSearchData' parameterType='SearchData' useGeneratedKeys='true' keyProperty='dataId'>
-        INSERT INTO search (product_id, product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, cate1, cate2, status, seed_url, date)
-        VALUES(#{productId}, #{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{cateName1}, #{cateName2}, #{dataStatus}, #{seedUrl}, #{updateDate})
+        INSERT INTO search (product_id, product_name, brand_name, url, thumb_url, org_price, sale_price, sale_per, cp, keyword, cate1, cate2, cate3, status, seed_url, date)
+        VALUES(#{productId}, #{productName}, #{brandName}, #{contentUrl}, #{thumbUrl}, #{orgPrice}, #{salePrice}, #{salePer}, #{cpName}, #{crawlKeyword}, #{cateName1}, #{cateName2}, #{cateName3}, #{dataStatus}, #{seedUrl}, #{updateDate})
     </insert>
 
     <update id='updateSearchData' parameterType='SearchData'>
@@ -83,6 +85,7 @@
         keyword      = #{crawlKeyword},
         cate1        = #{cateName1},
         cate2        = #{cateName2},
+        cate3        = #{cateName3},
         status       = #{dataStatus},
         seed_url     = #{seedUrl},
         date         = #{updateDate}

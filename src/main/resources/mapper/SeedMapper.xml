@@ -11,7 +11,8 @@
         url     as crawlUrl,
         cp      as cpName,
         cate1   as cateName1,
-        cate2   as cateName2
+        cate2   as cateName2,
+        cate3   as cateName3
         FROM seed
         WHERE id = #{seedId}
     </select>
@@ -24,6 +25,7 @@
         <result property='cpName' 	    column='cp'/>
         <result property='cateName1' 	column='cate1'/>
         <result property='cateName2' 	column='cate2'/>
+        <result property='cateName3' 	column='cate3'/>
     </resultMap>
 
     <select id='getAllSeeds' resultMap='SeedResult'>
@@ -31,8 +33,8 @@
     </select>
 
     <insert id='insertSeed' parameterType='Seed' useGeneratedKeys='true' keyProperty='seedId'>
-        INSERT INTO seed(keyword, url, cp, cate1, cate2)
-        VALUES(#{seedKeyword}, #{crawlUrl}, #{cpName}, #{cateName1}, #{cateName2})
+        INSERT INTO seed(keyword, url, cp, cate1, cate2, cate3)
+        VALUES(#{seedKeyword}, #{crawlUrl}, #{cpName}, #{cateName1}, #{cateName2}, #{cateName3})
         <!--
             VALUES(#{emailId}, #{password}, #{firstName}, #{lastName})
         -->
@@ -45,7 +47,8 @@
         url     = #{crawlUrl},
         cp      = #{cpName},
         cate1   = #{cateName1},
-        cate2   = #{cateName2}
+        cate2   = #{cateName2},
+        cate2   = #{cateName3}
         WHERE id = #{seedId}
     </update>
 

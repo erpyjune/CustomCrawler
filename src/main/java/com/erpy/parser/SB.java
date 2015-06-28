@@ -240,6 +240,7 @@ public class SB {
             // cate code
             searchData.setCateName1(crawlData.getCateName1());
             searchData.setCateName2(crawlData.getCateName2());
+            searchData.setCateName3(crawlData.getCateName3());
 
 
 //            logger.debug(" ******************************************");
@@ -314,23 +315,25 @@ public class SB {
 
     // 수집한 정보에 대한 메타데이터를 DB에 저장한다.
     // 다운로드한 파일 path 정보가 주요 정보이다.
-    private void insertToDBcrawlMetaData(CrawlData crawlData, String crawlSavePath, String cp, String keyword,
-                                         String url, String categoryId, int startPage, int endPage) {
-        DateInfo dateInfo = new DateInfo();
+    private void insertToDBcrawlMetaData(
+            CrawlData crawlData, String crawlSavePath, Seed seed, String categoryId, int startPage, int endPage) {
 
+        DateInfo dateInfo = new DateInfo();
         crawlData.setSeedUrl(String.format("%s?categoryid=%s&startnum=%d&endnum=%d",
-                url, categoryId, startPage, endPage));
+                seed.getUrl(), categoryId, startPage, endPage));
         crawlData.setCrawlDate(dateInfo.getCurrDateTime());
         crawlData.setSavePath(crawlSavePath);
-        crawlData.setCpName(cp);
+        crawlData.setCpName(seed.getCpName());
         crawlData.setCrawlKeyword(keyword);
+        crawlData.setCateName1(seed.getCateName1());
+        crawlData.setCateName2(seed.getCateName2());
+        crawlData.setCateName3(seed.getCateName3());
         // 크롤링한 메타데이터를 db에 저장한다.
         crawlDataService.insertCrawlData(crawlData);
     }
 
 
-    public void crawlData(String url, String strKeyword, String strCpName,
-                          Map<String, CrawlData> allCrawlDatasMap) throws Exception {
+    public void crawlData(Seed seed, Map<String, CrawlData> allCrawlDatasMap) throws Exception {
         CrawlSite crawlSite = new CrawlSite();
         CrawlData crawlData = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
@@ -357,7 +360,7 @@ public class SB {
         // seed url에서 category id만 추출해서 post request 호출할때 사용한다.
         // seed url에 category id가 없으면 에러임.
         // url --> http://sbclub.co.kr/category01.html?categoryid=94202
-        String categoryId = globalUtils.getFieldData(url, "html?categoryid=");
+        String categoryId = globalUtils.getFieldData(seed.getUrl(), "html?categoryid=");
         if (categoryId==null) {
             logger.error(" Caterory ID를 추출하지 못했습니다.");
             return;
@@ -380,7 +383,7 @@ public class SB {
                 // go crawling.
                 crawlSite.HttpPostGet();
                 if (crawlSite.getReponseCode() != 200 && crawlSite.getReponseCode() != 201) {
-                    logger.error(String.format(" 데이터를 수집 못했음 - %s", url));
+                    logger.error(String.format(" 데이터를 수집 못했음 - %s", seed.getUrl()));
                     crawlErrorCount++;
                     continue;
                 }
@@ -399,7 +402,7 @@ public class SB {
             }
 
             // 동일한 데이터가 있으면 next page로 이동한다.
-            if (crawlIO.isSameCrawlData(allCrawlDatasMap, globalUtils.MD5(crawlSite.getCrawlData()) + strCpName)) {
+            if (crawlIO.isSameCrawlData(allCrawlDatasMap, globalUtils.MD5(crawlSite.getCrawlData()) + seed.getCpName())) {
                 if ((startPage + pageSize) > 440) break; // 11 page 이상이면 break.
                 startPage = startPage + pageSize;
                 endPage   = endPage + pageSize;
@@ -411,15 +414,16 @@ public class SB {
             crawlSite.clearPostRequestParam();
 
             // 크롤링한 데이터를 저장
-            crawlSavePath = flushCrawlFile(strCpName, globalInfo.getSaveFilePath(), crawlSite, crawlIO);
+            crawlSavePath = flushCrawlFile(seed.getCpName(), globalInfo.getSaveFilePath(), crawlSite, crawlIO);
 
             // 수집한 메타 데이터를 DB에 저장한다.
-            crawlData.setSeedUrl(String.format("%s?categoryid=%s&startnum=%d&endnum=%d", url, categoryId, startPage, endPage));
+            crawlData.setSeedUrl(String.format("%s?categoryid=%s&startnum=%d&endnum=%d", seed.getUrl(), categoryId, startPage, endPage));
             // set hash data
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
 
-            insertToDBcrawlMetaData(crawlData, crawlSavePath, strCpName, strKeyword, url, categoryId, startPage, endPage);
-            logger.info(String.format(" Crawled (%d) (%s) start(%d), end(%d), cate(%s)", data_size, strCpName, startPage, endPage, categoryId));
+            insertToDBcrawlMetaData(
+                    crawlData, crawlSavePath, seed, categoryId, startPage, endPage);
+            logger.info(String.format(" Crawled (%d) (%s) start(%d), end(%d), cate(%s)", data_size, seed.getCpName(), startPage, endPage, categoryId));
 
             // 크롤링한 데이터 카운트.
             crawlCount++;

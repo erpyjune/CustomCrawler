@@ -14,6 +14,7 @@
         keyword  as crawlKeyword,
         cate1    as cateName1,
         cate2    as cateName2,
+        cate3    as cateName3,
         md5      as hashMD5
         FROM crawl_data
         WHERE id = #{dataId}
@@ -29,6 +30,7 @@
         <result property='crawlKeyword'  column='keyword'/>
         <result property='cateName1'     column='cate1'/>
         <result property='cateName2'     column='cate2'/>
+        <result property='cateName3'     column='cate3'/>
         <result property='hashMD5'       column='md5'/>
     </resultMap>
 
@@ -41,8 +43,8 @@
     </select>
 
     <insert id='insertCrawlData' parameterType='CrawlData' useGeneratedKeys='true' keyProperty='dataId'>
-        INSERT INTO crawl_data(url, date, savepath, cp, keyword, cate1, cate2, md5)
-        VALUES(#{seedUrl}, #{crawlDate}, #{savePath}, #{cpName}, #{crawlKeyword}, #{cateName1}, #{cateName2}, #{hashMD5})
+        INSERT INTO crawl_data(url, date, savepath, cp, keyword, cate1, cate2, cate3, md5)
+        VALUES(#{seedUrl}, #{crawlDate}, #{savePath}, #{cpName}, #{crawlKeyword}, #{cateName1}, #{cateName2}, #{cateName3}, #{hashMD5})
         <!--
             VALUES(#{emailId}, #{password}, #{firstName}, #{lastName})
         -->
@@ -58,6 +60,7 @@
         keyword   = #{crawlKeyword},
         cate1     = #{cateName1},
         cate2     = #{cateName2},
+        cate3     = #{cateName3},
         md5       = #{hashMD5}
         WHERE id = #{dataId}
     </update>

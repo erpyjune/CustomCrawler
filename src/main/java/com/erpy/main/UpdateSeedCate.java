@@ -51,11 +51,17 @@ public class UpdateSeedCate {
                 token = stringTokenizer.nextToken().trim();
                 if (index == 0) {
                     seed.setCateName1(token.trim());
-                } else if (index==1) {
+                }
+                else if (index==1) {
                     seed.setCateName2(token.trim());
-                } else if (index==2) {
+                }
+                else if (index==2) {
+                    seed.setCateName3(token.trim());
+                }
+                else if (index==3) {
                     seed.setKeyword(token.trim());
-                } else {
+                }
+                else {
                     seed.setUrl(token.trim());
                 }
                 index++;
@@ -66,6 +72,7 @@ public class UpdateSeedCate {
                 logger.info(" Url     : " + seed.getUrl());
                 logger.info(" Cate1   : " + seed.getCateName1());
                 logger.info(" Cate2   : " + seed.getCateName2());
+                logger.info(" Cate3   : " + seed.getCateName3());
                 seedService.insertSeed(seed);
                 logger.info(" --------------------------------------------------------------");
             }

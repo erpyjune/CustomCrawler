@@ -127,7 +127,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);
                 SB sb = new SB();
-                sb.crawlData(seed.getUrl(), seed.getKeyword(), seed.getCpName(), allCrawlDatas);
+                sb.crawlData(seed, allCrawlDatas);
             }  else if (seed.getCpName().equals(GlobalInfo.CP_DICAMPING)) {
                 CrawlMainThread crawlMainThread = new CrawlMainThread();
                 HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.dicamping.co.kr", "http://www.dicamping.co.kr");

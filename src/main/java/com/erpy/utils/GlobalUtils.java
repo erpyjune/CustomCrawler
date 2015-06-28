@@ -228,6 +228,9 @@ public class GlobalUtils {
         sb.append("\"cate2\" : ");
         sb.append("\"").append(searchData.getCateName2()).append("\",");
 
+        sb.append("\"cate3\" : ");
+        sb.append("\"").append(searchData.getCateName3()).append("\",");
+
         sb.append("\"keyword\" : ");
         sb.append("\"").append(searchData.getCrawlKeyword()).append("\"");
 

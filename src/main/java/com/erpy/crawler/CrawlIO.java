@@ -397,6 +397,7 @@ public class CrawlIO {
             crawlData.setCpName(seed.getCpName());
             crawlData.setCateName1(seed.getCateName1());
             crawlData.setCateName2(seed.getCateName2());
+            crawlData.setCateName3(seed.getCateName3());
             crawlData.setCrawlKeyword(seed.getKeyword());
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
             /////////////////////////////////////////////////////////
@@ -1086,6 +1087,7 @@ public class CrawlIO {
             crawlData.setCrawlKeyword(seed.getKeyword());
             crawlData.setCateName1(seed.getCateName1());
             crawlData.setCateName2(seed.getCateName2());
+            crawlData.setCateName3(seed.getCateName3());
             crawlData.setHashMD5(globalUtils.MD5(crawlSite.getCrawlData()));
             /////////////////////////////////////////////////////////
             // 크롤링한 메타데이터를 db에 저장한다.

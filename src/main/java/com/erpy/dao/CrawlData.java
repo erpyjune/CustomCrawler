@@ -12,6 +12,7 @@ public class CrawlData {
     String crawlKeyword;
     String cateName1;
     String cateName2;
+    String cateName3;
     String hashMD5;
 
     public Integer getDataId() {
@@ -76,6 +77,14 @@ public class CrawlData {
 
     public void setCateName2(String cateName2) {
         this.cateName2 = cateName2;
+    }
+
+    public String getCateName3() {
+        return cateName3;
+    }
+
+    public void setCateName3(String cateName3) {
+        this.cateName3 = cateName3;
     }
 
     public String getHashMD5() {

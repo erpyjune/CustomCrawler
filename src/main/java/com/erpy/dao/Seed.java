@@ -7,6 +7,7 @@ public class Seed {
 	String  cpName;
     String cateName1;
     String cateName2;
+	String cateName3;
 
 	public int getSeedId() {
 		return seedId;
@@ -48,4 +49,12 @@ public class Seed {
     public void setCateName2(String cateName2) {
         this.cateName2 = cateName2;
     }
+
+	public String getCateName3() {
+		return cateName3;
+	}
+
+	public void setCateName3(String cateName3) {
+		this.cateName3 = cateName3;
+	}
 }
