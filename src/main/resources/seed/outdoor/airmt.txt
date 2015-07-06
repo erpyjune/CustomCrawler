@@ -30,7 +30,7 @@
 003 | 002 | 000 | 매트 | http://airmt.net/shop/goods/goods_list.php?category=040002004
 003 | 002 | 004 | 레저 시트 매트 | http://airmt.net/shop/goods/goods_list.php?category=038004004
 003 | 002 | 004 | 레저 시트 매트 | http://airmt.net/shop/goods/goods_list.php?category=040002003
-003 | 002 | 006 | 침구류기타 | http://airmt.net/shop/goods/goods_list.php?&category=040003
+003 | 002 | 999 | 침구류기타 | http://airmt.net/shop/goods/goods_list.php?&category=040003
 003 | 003 | 000 | 해먹 | http://airmt.net/shop/goods/goods_list.php?category=041006
 003 | 003 | 000 | 침대 | http://airmt.net/shop/goods/goods_list.php?category=041005
 
@@ -46,12 +46,14 @@
 005 | 003 | 000 | 식기 | http://airmt.net/shop/goods/goods_list.php?category=039006
 005 | 006 | 000 | 물병 | http://airmt.net/shop/goods/goods_list.php?category=039013001
 005 | 006 | 000 | 보온병 | http://airmt.net/shop/goods/goods_list.php?category=039013002
-005 | 009 | 000 | 정수 정수기 | http://airmt.net/shop/goods/goods_list.php?category=039009
-005 | 009 | 000 | 설거지통 | http://airmt.net/shop/goods/goods_list.php?category=039013003
+005 | 999 | 000 | 정수 정수기 | http://airmt.net/shop/goods/goods_list.php?category=039009
+005 | 999 | 000 | 설거지통 | http://airmt.net/shop/goods/goods_list.php?category=039013003
 
 006 | 001 | 000 | 랜턴 | http://airmt.net/shop/goods/goods_list.php?category=042001
 006 | 001 | 000 | 랜턴 | http://airmt.net/shop/goods/goods_list.php?category=042002
-006 | 004 | 000 | 헤드 랜턴 | http://airmt.net/shop/goods/goods_list.php?category=042004
+006 | 002 | 000 | 손전등 | http://airmt.net/shop/goods/goods_list.php?category=047013
+006 | 003 | 000 | 헤드 랜턴 | http://airmt.net/shop/goods/goods_list.php?category=047004
+006 | 003 | 000 | 헤드 랜턴 | http://airmt.net/shop/goods/goods_list.php?category=042004
 006 | 004 | 000 | 화로대와그릴 | http://airmt.net/shop/goods/goods_list.php?category=039011
 006 | 004 | 000 | 바베큐용품 | http://airmt.net/shop/goods/goods_list.php?category=039014
 006 | 005 | 000 | 더치오븐소품류 | http://airmt.net/shop/goods/goods_list.php?category=039012
@@ -60,6 +62,16 @@
 006 | 006 | 000 | 랜턴기타 | http://airmt.net/shop/goods/goods_list.php?category=042005
 006 | 007 | 000 | 캠핑장비기타 | http://airmt.net/shop/goods/goods_list.php?category=044006
 
+007 | 005 | 000 | 장갑 | http://airmt.net/shop/goods/goods_list.php?&category=047002
+007 | 005 | 000 | 모자 | http://airmt.net/shop/goods/goods_list.php?category=047003
+007 | 007 | 000 | 등산화 | http://airmt.net/shop/goods/goods_list.php?category=047009001
+007 | 007 | 000 | 등산화 | http://airmt.net/shop/goods/goods_list.php?category=047009002
+007 | 999 | 000 | 릿지화 | http://airmt.net/shop/goods/goods_list.php?category=047009003
+007 | 999 | 000 | 양말 | http://airmt.net/shop/goods/goods_list.php?category=047009007
+
+008 | 001 | 000 | 등산 스틱 | http://airmt.net/shop/goods/goods_list.php?category=047005
+008 | 006 | 000 | 시계나침반 | http://airmt.net/shop/goods/goods_list.php?category=047008
+
 009 | 001 | 000 | 대형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006001
 009 | 001 | 000 | 중형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006002
 009 | 001 | 000 | 중형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006003
@@ -67,9 +79,10 @@
 009 | 003 | 001 | 힙색 허리색 | http://airmt.net/shop/goods/goods_list.php?category=047006007
 009 | 003 | 002 | 숄더백 | http://airmt.net/shop/goods/goods_list.php?category=047006006
 009 | 003 | 004 | 케이스 | http://airmt.net/shop/goods/goods_list.php?category=045005
-009 | 004 | 000 | 루프박스 | http://airmt.net/shop/goods/goods_list.php?category=046001
-009 | 004 | 000 | 카고 캐리어 | http://airmt.net/shop/goods/goods_list.php?category=046002
-009 | 004 | 000 | 가방기타 | http://airmt.net/shop/goods/goods_list.php?category=047006008
+009 | 999 | 000 | 루프박스 | http://airmt.net/shop/goods/goods_list.php?category=046001
+009 | 999 | 000 | 카고 캐리어 | http://airmt.net/shop/goods/goods_list.php?category=046002
+009 | 999 | 000 | 가방기타 | http://airmt.net/shop/goods/goods_list.php?category=047006008
+
 
 
 

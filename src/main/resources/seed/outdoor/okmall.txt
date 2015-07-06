@@ -13,10 +13,10 @@
 
 003 | 001 | 000 | 합성충전재 침낭 | http://www.okmall.com/product/product.html?pID=20000804
 003 | 001 | 000 | 다운 침낭 | http://www.okmall.com/product/product.html?pID=20000805
-003 | 005 | 000 | 담요침낭라이너 | http://www.okmall.com/product/product.html?pID=20000806
+003 | 999 | 000 | 담요침낭라이너 | http://www.okmall.com/product/product.html?pID=20000806
 003 | 002 | 000 | 매트 | http://www.okmall.com/product/product.html?pID=20000807
 003 | 006 | 000 | 베개방석귀마개안대 | http://www.okmall.com/product/product.html?pID=20000808
-003 | 002 | 006 | 카페트돗자리 | http://www.okmall.com/product/product.html?pID=20000809
+003 | 002 | 999 | 카페트돗자리 | http://www.okmall.com/product/product.html?pID=20000809
 
 002 | 004 | 000 | 의자 | http://www.okmall.com/product/product.html?pID=20000811
 002 | 001 | 000 | 테이블 | http://www.okmall.com/product/product.html?pID=20000812
@@ -39,7 +39,7 @@
 005 | 008 | 000 | 양념통소스통 | http://www.okmall.com/product/product.html?pID=20000830
 005 | 006 | 000 | 물병 수낭 | http://www.okmall.com/product/product.html?pID=20000832
 005 | 002 | 000 | 쿨러 | http://www.okmall.com/product/product.html?pID=20000833
-005 | 009 | 000 | 기타조리기구 | http://www.okmall.com/product/product.html?pID=20000834
+005 | 999 | 000 | 기타조리기구 | http://www.okmall.com/product/product.html?pID=20000834
 
 009 | 005 | 000 | 수납가방수납용품 | http://www.okmall.com/product/product.html?pID=20000839
 
@@ -95,11 +95,11 @@
 009 | 003 | 001 | 힙색 | http://www.okmall.com/product/product.html?pID=20000758
 009 | 003 | 002 | 메신저백 | http://www.okmall.com/product/product.html?pID=20000759
 009 | 003 | 003 | 더플백 카고백 | http://www.okmall.com/product/product.html?pID=20000760
-009 | 004 | 000 | 기타가방 | http://www.okmall.com/product/product.html?pID=20000756
-009 | 004 | 000 | 배낭커버 | http://www.okmall.com/product/product.html?pID=20000768
-009 | 004 | 000 | 카메라휴대폰케이스 | http://www.okmall.com/product/product.html?pID=20000770
-009 | 004 | 000 | 잡주머니 | http://www.okmall.com/product/product.html?pID=20000772
-009 | 004 | 000 | 드라이색방수케이스 | http://www.okmall.com/product/product.html?pID=20000773
+009 | 999 | 000 | 기타가방 | http://www.okmall.com/product/product.html?pID=20000756
+009 | 999 | 000 | 배낭커버 | http://www.okmall.com/product/product.html?pID=20000768
+009 | 999 | 000 | 카메라휴대폰케이스 | http://www.okmall.com/product/product.html?pID=20000770
+009 | 999 | 000 | 잡주머니 | http://www.okmall.com/product/product.html?pID=20000772
+009 | 999 | 000 | 드라이색방수케이스 | http://www.okmall.com/product/product.html?pID=20000773
 
 
 
