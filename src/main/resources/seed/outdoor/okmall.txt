@@ -6,10 +6,8 @@
 001 | 002 | 002 | 헥사 타프 | http://www.okmall.com/product/product.html?pID=20000798
 001 | 001 | 005 | 그날막/모기장 텐트 | http://www.okmall.com/product/product.html?pID=20000799
 001 | 003 | 000 | 그라운드시트 | http://www.okmall.com/product/product.html?pID=20000800
-001 | 004 | 000 | 텐트타프 관련장비 | http://www.okmall.com/product/product.html?pID=20000801
-001 | 004 | 000 | 텐트타프 관련장비 | http://www.okmall.com/product/product.html?pID=20000802
-001 | 005 | 000 | 다용도툴다용도칼 | http://www.okmall.com/product/product.html?pID=20000836
-001 | 005 | 000 | 삽도끼망치 | http://www.okmall.com/product/product.html?pID=20000837
+001 | 004 | 999 | 텐트타프 관련장비 | http://www.okmall.com/product/product.html?pID=20000801
+001 | 004 | 999 | 텐트타프 관련장비 | http://www.okmall.com/product/product.html?pID=20000802
 
 003 | 001 | 000 | 합성충전재 침낭 | http://www.okmall.com/product/product.html?pID=20000804
 003 | 001 | 000 | 다운 침낭 | http://www.okmall.com/product/product.html?pID=20000805
@@ -29,7 +27,7 @@
 006 | 002 | 000 | 손전등 | http://www.okmall.com/product/product.html?pID=20000820
 006 | 001 | 000 | 랜턴 | http://www.okmall.com/product/product.html?pID=20000821
 006 | 003 | 000 | 헤드랜턴 | http://www.okmall.com/product/product.html?pID=20000822
-006 | 005 | 000 | 랜턴기타 | http://www.okmall.com/product/product.html?pID=20000823
+006 | 006 | 000 | 랜턴기타 | http://www.okmall.com/product/product.html?pID=20000823
 
 005 | 001 | 000 | 코펠 | http://www.okmall.com/product/product.html?pID=20000825
 005 | 004 | 000 | 프라이팬주전자 | http://www.okmall.com/product/product.html?pID=20000826
@@ -101,6 +99,8 @@
 009 | 999 | 000 | 잡주머니 | http://www.okmall.com/product/product.html?pID=20000772
 009 | 999 | 000 | 드라이색방수케이스 | http://www.okmall.com/product/product.html?pID=20000773
 
+010 | 001 | 000 | 다용도툴다용도칼 | http://www.okmall.com/product/product.html?pID=20000836
+010 | 001 | 000 | 삽도끼망치 | http://www.okmall.com/product/product.html?pID=20000837
 
 
 

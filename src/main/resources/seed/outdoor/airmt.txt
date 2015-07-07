@@ -9,12 +9,9 @@
 001 | 002 | 003 | 스크린 타프 | http://airmt.net/shop/goods/goods_list.php?category=038005003
 001 | 003 | 000 | 그라운드시트 | http://airmt.net/shop/goods/goods_list.php?category=038004001
 001 | 003 | 000 | 풋프린트 | http://airmt.net/shop/goods/goods_list.php?category=038004005
-001 | 004 | 004 | 팩 | http://airmt.net/shop/goods/goods_list.php?category=038004006
+001 | 004 | 003 | 팩 | http://airmt.net/shop/goods/goods_list.php?category=038004006
 001 | 004 | 003 | 폴 | http://airmt.net/shop/goods/goods_list.php?category=038004002
-001 | 004 | 000 | 기타장비 | http://airmt.net/shop/goods/goods_list.php?category=038004003
-001 | 005 | 000 | 칼툴 | http://airmt.net/shop/goods/goods_list.php?category=044001001
-001 | 005 | 000 | 도끼툴 | http://airmt.net/shop/goods/goods_list.php?category=044001002
-001 | 005 | 000 | 삽망치 | http://airmt.net/shop/goods/goods_list.php?&category=044002
+001 | 004 | 999 | 기타장비 | http://airmt.net/shop/goods/goods_list.php?category=038004003
 
 002 | 001 | 000 | 테이블 | http://airmt.net/shop/goods/goods_list.php?category=041001
 002 | 002 | 000 | 키친테이블 | http://airmt.net/shop/goods/goods_list.php?category=041003
@@ -36,7 +33,7 @@
 
 004 | 001 | 000 | 버너 | http://airmt.net/shop/goods/goods_list.php?category=039004
 004 | 002 | 005 | 토치 | http://airmt.net/shop/goods/goods_list.php?category=044005
-004 | 004 | 000 | 라이터 | http://airmt.net/shop/goods/goods_list.php?&category=044007
+004 | 003 | 000 | 난방장비 | http://airmt.net/shop/goods/goods_list.php?category=043001
 004 | 005 | 000 | 연료연료통 | http://airmt.net/shop/goods/goods_list.php?category=045004
 004 | 005 | 000 | 장장및자콜 | http://airmt.net/shop/goods/goods_list.php?category=045003
 004 | 005 | 000 | 가솔린 | http://airmt.net/shop/goods/goods_list.php?category=045002
@@ -58,9 +55,10 @@
 006 | 004 | 000 | 바베큐용품 | http://airmt.net/shop/goods/goods_list.php?category=039014
 006 | 005 | 000 | 더치오븐소품류 | http://airmt.net/shop/goods/goods_list.php?category=039012
 006 | 005 | 000 | 취사용품기타 | http://airmt.net/shop/goods/goods_list.php?category=039015
+006 | 005 | 000 | 라이터 | http://airmt.net/shop/goods/goods_list.php?&category=044007
 006 | 006 | 000 | 랜턴후래쉬기타 | http://airmt.net/shop/goods/goods_list.php?category=042003
 006 | 006 | 000 | 랜턴기타 | http://airmt.net/shop/goods/goods_list.php?category=042005
-006 | 007 | 000 | 캠핑장비기타 | http://airmt.net/shop/goods/goods_list.php?category=044006
+006 | 999 | 000 | 캠핑장비기타 | http://airmt.net/shop/goods/goods_list.php?category=044006
 
 007 | 005 | 000 | 장갑 | http://airmt.net/shop/goods/goods_list.php?&category=047002
 007 | 005 | 000 | 모자 | http://airmt.net/shop/goods/goods_list.php?category=047003
@@ -71,6 +69,11 @@
 
 008 | 001 | 000 | 등산 스틱 | http://airmt.net/shop/goods/goods_list.php?category=047005
 008 | 006 | 000 | 시계나침반 | http://airmt.net/shop/goods/goods_list.php?category=047008
+008 | 008 | 001 | 하네스 안전벨트 | http://airmt.net/shop/goods/goods_list.php?category=047010001
+008 | 008 | 002 | 자일 | http://airmt.net/shop/goods/goods_list.php?category=047010002
+008 | 008 | 003 | 비너하강기 | http://airmt.net/shop/goods/goods_list.php?category=047010004
+008 | 008 | 004 | 기타암벽장비 | http://airmt.net/shop/goods/goods_list.php?category=047010003
+008 | 999 | 000 | 기타등산장비 | http://airmt.net/shop/goods/goods_list.php?category=047011
 
 009 | 001 | 000 | 대형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006001
 009 | 001 | 000 | 중형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006002
@@ -82,6 +85,17 @@
 009 | 999 | 000 | 루프박스 | http://airmt.net/shop/goods/goods_list.php?category=046001
 009 | 999 | 000 | 카고 캐리어 | http://airmt.net/shop/goods/goods_list.php?category=046002
 009 | 999 | 000 | 가방기타 | http://airmt.net/shop/goods/goods_list.php?category=047006008
+
+010 | 001 | 000 | 칼툴 | http://airmt.net/shop/goods/goods_list.php?category=044001001
+010 | 001 | 000 | 도끼툴 | http://airmt.net/shop/goods/goods_list.php?category=044001002
+010 | 001 | 000 | 삽망치 | http://airmt.net/shop/goods/goods_list.php?&category=044002
+010 | 002 | 000 | 시계나침반 | http://airmt.net/shop/goods/goods_list.php?category=047008
+010 | 003 | 000 | 워터스포츠 | http://airmt.net/shop/goods/goods_list.php?category=043002
+010 | 004 | 004 | 스키보드용품 | http://airmt.net/shop/goods/goods_list.php?category=043005
+010 | 005 | 000 | 쌍안경 | http://airmt.net/shop/goods/goods_list.php?category=048001
+010 | 006 | 000 | 망원경 스코프 | http://airmt.net/shop/goods/goods_list.php?category=048002
+010 | 999 | 000 | 기타장비 | http://airmt.net/shop/goods/goods_list.php?category=043003
+
 
 
 

@@ -1,21 +1,46 @@
-텐트 | http://www.campingamigo.com/shop/goods/goods_list.php?&category=001001
-타프 | http://www.campingamigo.com/shop/goods/goods_list.php?category=001002
-팩 | http://www.campingamigo.com/shop/goods/goods_list.php?&category=010001
-폴대 | http://www.campingamigo.com/shop/goods/goods_list.php?category=010002
-텐트소품 | http://www.campingamigo.com/shop/goods/goods_list.php?category=010003
+001 | 001 | 000 | 텐트 | http://campingamigo.com/shop/goods/goods_list.php?category=001001
+001 | 002 | 000 | 타프 | http://campingamigo.com/shop/goods/goods_list.php?category=001002
+001 | 004 | 000 | 팩 | http://campingamigo.com/shop/goods/goods_list.php?category=010001
+001 | 004 | 000 | 폴 | http://campingamigo.com/shop/goods/goods_list.php?category=010002
 
-의자 | http://www.campingamigo.com/shop/goods/goods_list.php?category=002001
-테이블 | http://www.campingamigo.com/shop/goods/goods_list.php?category=002002
-기타 | http://www.campingamigo.com/shop/goods/goods_list.php?category=002003
+002 | 001 | 000 | 테이블 | http://campingamigo.com/shop/goods/goods_list.php?category=002002
+002 | 004 | 000 | 의자 | http://campingamigo.com/shop/goods/goods_list.php?category=002001
 
-코펠 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003001
-식기 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003002
-컵 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003003
-식기 건조망 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003004
-설거지통 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003005
-팬 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003006
-더치오븐 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003007
-기타주방용품 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003008
-밥솥 | http://www.campingamigo.com/shop/goods/goods_list.php?category=003010
+003 | 001 | 000 | 침낭 | http://campingamigo.com/shop/goods/goods_list.php?category=007001
+003 | 002 | 001 | 자충 매트 | http://campingamigo.com/shop/goods/goods_list.php?category=007004
+003 | 002 | 003 | 발포 매트 | http://campingamigo.com/shop/goods/goods_list.php?category=007005
+003 | 003 | 000 | 해먹 | http://campingamigo.com/shop/goods/goods_list.php?category=008001
+003 | 004 | 000 | 베개 | http://campingamigo.com/shop/goods/goods_list.php?category=007002
+
+004 | 001 | 000 | 버너 | http://campingamigo.com/shop/goods/goods_list.php?category=004001
+004 | 003 | 000 | 손난로 | http://campingamigo.com/shop/goods/goods_list.php?category=005003
+004 | 003 | 000 | 난방용품 | http://campingamigo.com/shop/goods/goods_list.php?category=005008
+
+005 | 001 | 000 | 코펠 | http://campingamigo.com/shop/goods/goods_list.php?&category=003001
+005 | 001 | 000 | 압력 밥솥 | http://campingamigo.com/shop/goods/goods_list.php?category=003010
+005 | 002 | 000 | 쿨러받침 | http://campingamigo.com/shop/goods/goods_list.php?category=002003
+005 | 003 | 000 | 식기 | http://campingamigo.com/shop/goods/goods_list.php?category=003002
+005 | 004 | 000 | 프라이팬 | http://campingamigo.com/shop/goods/goods_list.php?category=003006
+005 | 005 | 000 | 컵 | http://campingamigo.com/shop/goods/goods_list.php?category=003003
+005 | 999 | 000 | 건조망 | http://campingamigo.com/shop/goods/goods_list.php?category=003004
+005 | 999 | 000 | 설거지통 | http://campingamigo.com/shop/goods/goods_list.php?category=003005
+005 | 999 | 000 | 기타주방용품 | http://campingamigo.com/shop/goods/goods_list.php?category=003008
+
+006 | 001 | 000 | 랜턴 | http://campingamigo.com/shop/goods/goods_list.php?category=004002
+006 | 004 | 000 | 더치오븐 | http://campingamigo.com/shop/goods/goods_list.php?category=003007
+006 | 004 | 000 | 화로대 | http://campingamigo.com/shop/goods/goods_list.php?category=005001
+006 | 005 | 000 | 꼬치 | http://campingamigo.com/shop/goods/goods_list.php?category=005004
+006 | 006 | 000 | 랜턴스탠드 | http://campingamigo.com/shop/goods/goods_list.php?category=004003
+006 | 006 | 000 | 파일드라이브 | http://campingamigo.com/shop/goods/goods_list.php?category=004004
+006 | 999 | 000 | 버너랜턴기타 | http://campingamigo.com/shop/goods/goods_list.php?category=004005
+
+007 | 005 | 000 | BBQ 화로 장갑 | http://campingamigo.com/shop/goods/goods_list.php?category=005005
+
+010 | 007 | 000 | 릴선 | http://campingamigo.com/shop/goods/goods_list.php?category=008003
+
+
+
+
+
 
 
