@@ -63,7 +63,7 @@
 
 006 | 001 | 000 | 랜턴 | http://www.campschule.co.kr/front/php/category.php?cate_no=723
 006 | 003 | 000 | 헤드 랜턴 | http://www.campschule.co.kr/front/php/category.php?cate_no=726
-후레쉬 | http://www.campschule.co.kr/front/php/category.php?cate_no=727
+006 | 002 | 000 | 후레쉬 | http://www.campschule.co.kr/front/php/category.php?cate_no=727
 랜턴용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=881
 랜턴걸이 | http://www.campschule.co.kr/front/php/category.php?cate_no=882
 랜턴소품 | http://www.campschule.co.kr/front/php/category.php?cate_no=728
