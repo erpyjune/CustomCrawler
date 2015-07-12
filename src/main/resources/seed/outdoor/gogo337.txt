@@ -1,98 +1,94 @@
-코베아 행사 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=004&type=P
+001 | 001 | 000 | 텐트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=001
+001 | 001 | 001 | 리빙쉘 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=010
+001 | 001 | 000 | 자동 텐트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=012
+001 | 001 | 003 | 알파인 텐트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=014
+001 | 002 | 000 | 타프 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=007
+001 | 001 | 005 | 그늘막 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=008
+001 | 001 | 999 | 낚시 텐트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=013
+001 | 004 | 000 | 텐트소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=015
+001 | 004 | 000 | 기타소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=006
 
-텐트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=001
-리빙쉘 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=010
-자동 텐트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=012
-알파인 텐트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=014
-타프 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=007
-그늘막 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=008
-낚시 텐트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=013
-텐트소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=015
-기타소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=001&type=X&mcode=006
+005 | 001 | 000 | 코펠 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=038&type=X
 
-코펠 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=038&type=X
+002 | 004 | 000 | 의자 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=037&type=X&mcode=001
+003 | 003 | 000 | 야전 침대 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=037&type=X&mcode=002
+002 | 004 | 000 | 등산용 의자 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=037&type=X&mcode=003
+002 | 001 | 000 | 테이블 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=012&type=X&mcode=001
+009 | 003 | 004 | 캐리백 테이블가방 가방 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=012&type=X&mcode=002
+002 | 999 | 000 | 테이블보 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=012&type=X&mcode=003
 
-의자 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=037&type=X&mcode=001
-침대 야전침대 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=037&type=X&mcode=002
-등산용 의자 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=037&type=X&mcode=003
+004 | 001 | 000 | 버너 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=001
+004 | 001 | 000 | 호스버너 버너 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=002
+004 | 001 | 000 | 트윈버너 버너 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=003
+004 | 001 | 000 | 버너소품 버너 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=004
+004 | 001 | 000 | 렌지버너 버너| http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=005
 
-테이블 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=012&type=X&mcode=001
-캐리백 테이블가방 가방 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=012&type=X&mcode=002
-테이블보 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=012&type=X&mcode=003
+004 | 005 | 000 | 가스 연료 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=051&type=X
 
-버너 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=001
-호스버너 버너 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=002
-트윈버너 버너 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=003
-버너소품 버너 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=004
-렌지버너 버너| http://www.gogo337.co.kr/shop/shopbrand.html?xcode=028&type=X&mcode=005
+006 | 001 | 000 | 소형랜턴 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=029&type=X&mcode=003
+006 | 001 | 000 | 중형랜턴 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=029&type=X&mcode=004
+006 | 001 | 000 | 대형랜턴 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=029&type=X&mcode=005
+006 | 005 | 000 | 가스토치 토치 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=029&type=X&mcode=001
 
-가스 연료 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=051&type=X
+003 | 001 | 000 | 침낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=035&type=X&mcode=001
+003 | 002 | 000 | 매트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=035&type=X&mcode=002
+003 | 999 | 000 | 펌프 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=035&type=X&mcode=003
+003 | 004 | 000 | 베개 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=035&type=X&mcode=004
 
-소형랜턴 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=029&type=X&mcode=003
-중형랜턴 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=029&type=X&mcode=004
-대형랜턴 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=029&type=X&mcode=005
-가스토치 토치 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=029&type=X&mcode=001
+006 | 001 | 000 | 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=001
+006 | 002 | 000 | 후레쉬 손전등 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=002
+006 | 003 | 000 | 헤드 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=003
+006 | 001 | 000 | 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=004
+006 | 999 | 000 | 랜턴소모품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=005
 
-침낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=035&type=X&mcode=001
-매트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=035&type=X&mcode=002
-펌프 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=035&type=X&mcode=003
-베개 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=035&type=X&mcode=004
+006 | 004 | 000 | BBQ용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=032&type=X&mcode=001
+006 | 004 | 000 | 화로대용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=032&type=X&mcode=002
+006 | 004 | 000 | 더치오븐용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=032&type=X&mcode=003
 
-캠핑 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=001
-후레쉬 손전등 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=002
-헤드 랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=003
-랜턴 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=004
-랜턴소모품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=041&type=X&mcode=005
-BBQ용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=032&type=X&mcode=001
-화로대용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=032&type=X&mcode=002
-더치오븐용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=032&type=X&mcode=003
+005 | 999 | 000 | 설거지 가방 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=001
+005 | 999 | 000 | 식기 건조망  | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=002
+005 | 999 | 000 | 양념통 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=003
+005 | 003 | 000 | 식기 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=004
+005 | 999 | 000 | 주방용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=005
+005 | 999 | 000 | 주방용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=002
 
-설거지 가방 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=001
-식기 건조망  | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=002
-양념통 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=003
-식기 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=004
-주방용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=001&scode=005
-주방용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=033&type=X&mcode=002
+010 | 001 | 000 | 팩망치도끼삽 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=034&type=X&mcode=001
+001 | 004 | 003 | 폴대 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=034&type=X&mcode=002
+010 | 999 | 000 | 캠핑용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=034&type=X&mcode=003
+010 | 999 | 000 | 캠핑용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=034&type=X&mcode=004
 
-팩망치도끼삽 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=034&type=X&mcode=001
-폴대 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=034&type=X&mcode=002
-캠핑용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=034&type=X&mcode=003
-캠핑용품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=034&type=X&mcode=004
+003 | 003 | 000 | 해먹 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=047&type=X&mcode=001
+003 | 003 | 000 | 해먹소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=047&type=X&mcode=002
 
-해먹 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=047&type=X&mcode=001
-해먹소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=047&type=X&mcode=002
+005 | 002 | 000 | 쿨러 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=049&type=X&mcode=001
 
-쿨러 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=049&type=X&mcode=001
+010 | 003 | 000 | 카약 보트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=044&type=X&mcode=001
+010 | 003 | 000 | 카약소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=044&type=X&mcode=002
 
-카약 보트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=044&type=X&mcode=001
-카약소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=044&type=X&mcode=002
+009 | 001 | 000 | 소형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=001
+009 | 001 | 000 | 중형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=002
+009 | 001 | 000 | 대형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=004
+009 | 999 | 000 | 배낭용품 배낭소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=003
 
-소형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=001
-중형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=002
-대형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=004
-배낭용품 배낭소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=003
+008 | 001 | 000 | 스틱 3단스틱 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=040&type=X&mcode=001
+008 | 001 | 000 | 스틱 4단스틱 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=040&type=X&mcode=002
 
-스틱 3단스틱 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=040&type=X&mcode=001
-스틱 4단스틱 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=040&type=X&mcode=002
+007 | 005 | 000 | 등산양말 양말 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=046&type=X&mcode=005
 
-등산양말 양말 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=046&type=X&mcode=005
+005 | 005 | 000 | 컵 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=042&type=X&mcode=001
+005 | 006 | 000 | 물병 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=042&type=X&mcode=002
 
-컵 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=042&type=X&mcode=001
-물병 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=042&type=X&mcode=002
+007 | 005 | 000 | 장갑 여름장갑 하계용 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=003&scode=002
+007 | 005 | 000 | 장갑 동계장갑 동계용 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=003&scode=001
+007 | 006 | 000 | 안면마스크 마스크 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=004
+010 | 999 | 000 | 타월 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=001
+010 | 999 | 000 | 기타소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=002
 
-장갑 여름장갑 하계용 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=003&scode=002
-장갑 동계장갑 동계용 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=003&scode=001
-안면마스크 마스크 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=004
-타월 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=001
-기타소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=043&type=X&mcode=002
+007 | 003 | 000 | 셔츠 티셔츠 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=016&type=X&mcode=001
 
-셔츠 티셔츠 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=016&type=X&mcode=001
-의류 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=016&type=X&mcode=002
-팬츠 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=016&type=X&mcode=003
+010 | 001 | 000 | 나이프 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=023&type=X&mcode=001
 
-나이프 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=023&type=X&mcode=001
-
-라이터 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=050&type=X
+006 | 005 | 000 | 라이터 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=050&type=X
 
 
 

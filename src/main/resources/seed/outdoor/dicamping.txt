@@ -1,48 +1,48 @@
-리빙쉘 텐트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=001&type=Y
-알파인 텐트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=006&type=Y
-그늘막 텐트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=007&type=Y
-타프 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=002&type=Y
-그라운드시트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=003&type=Y
-루프플라이이너텐트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&type=N&mcode=004
+001 | 001 | 001 | 리빙쉘및돔텐트 텐트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=001&type=Y
+001 | 001 | 003 | 알파인 텐트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=006&type=Y
+001 | 001 | 005 | 그늘막 텐트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=007&type=Y
+001 | 002 | 000 | 타프 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=002&type=Y
+001 | 003 | 000 | 그라운드시트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&mcode=003&type=Y
+001 | 001 | 999 | 루프플라이이너텐트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=015&type=N&mcode=004
 
-침낭 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=001&type=Y
-해먹 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=002&type=Y
-매트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=003&type=Y
-담요 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=005&type=Y
-관련소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=004&type=Y
+003 | 001 | 000 | 침낭 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=001&type=Y
+003 | 003 | 000 | 해먹 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=002&type=Y
+003 | 002 | 000 | 매트 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=003&type=Y
+003 | 999 | 002 | 담요 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=005&type=Y
+003 | 999 | 000 | 관련소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=016&mcode=004&type=Y
 
-테이블 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=003&type=Y
-체어 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=002&type=Y
-알파인 체어 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=007&type=Y
-키친 테이블 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=005&type=Y
-화로 테이블 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=006&type=Y
-야전 침대 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=001&type=Y
-퍼니처소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=004&type=Y
+002 | 001 | 000 | 테이블 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=003&type=Y
+002 | 004 | 000 | 체어 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=002&type=Y
+002 | 004 | 000 | 알파인 체어 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=007&type=Y
+002 | 002 | 000 | 키친 테이블 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=005&type=Y
+002 | 001 | 000 | 화로 테이블 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=006&type=Y
+003 | 003 | 000 | 야전 침대 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=001&type=Y
+002 | 999 | 000 | 퍼니처소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=017&mcode=004&type=Y
 
-후레쉬 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&mcode=003&type=Y
-랜턴 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&mcode=001&type=Y
-건전지 랜턴 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&mcode=002&type=Y
-랜턴소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&mcode=005&type=Y
-랜턴가방소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&type=N&mcode=004
+006 | 002 | 000 | 후레쉬 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&mcode=003&type=Y
+006 | 001 | 000 | 랜턴 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&mcode=001&type=Y
+006 | 001 | 000 | 건전지 랜턴 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&mcode=002&type=Y
+006 | 006 | 000 | 랜턴소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&mcode=005&type=Y
+006 | 006 | 000 | 랜턴가방소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=020&type=N&mcode=004
 
-버너 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=019&mcode=001&type=Y
-난방용품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=019&type=N&mcode=002
-관련소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=019&type=N&mcode=003
+004 | 001 | 000 | 버너 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=019&mcode=001&type=Y
+004 | 999 | 000 | 난방용품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=019&type=N&mcode=002
+004 | 999 | 000 | 관련소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=019&type=N&mcode=003
 
-코펠주전자밥솥 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&type=N&mcode=001
-화로대그릴 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&type=N&mcode=002
-더치오븐 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&type=N&mcode=004
-BBQ용품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&type=N&mcode=003
+005 | 001 | 000 | 코펠주전자밥솥 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&type=N&mcode=001
+006 | 004 | 000 | 화로대그릴 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&type=N&mcode=002
+006 | 004 | 000 | 더치오븐 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&type=N&mcode=004
+006 | 005 | 000 | BBQ용품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=018&type=N&mcode=003
 
-주방용품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=026&type=Y
+005 | 999 | 000 | 주방용품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=026&type=Y
 
-쿨러 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=024&mcode=001&type=Y
-물병물통술병 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=024&type=N&mcode=002
-쿨러소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=024&type=N&mcode=003
+005 | 002 | 000 | 쿨러 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=024&mcode=001&type=Y
+005 | 006 | 000 | 물병물통술병 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=024&type=N&mcode=002
+005 | 999 | 000 | 쿨러소품 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=024&type=N&mcode=003
 
-가스연료 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=022&type=Y
-가방케이스 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=021&type=Y
+004 | 005 | 000 | 가스연료 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=022&type=Y
+009 | 003 | 004 | 가방케이스 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=021&type=Y
 
-장비기타 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=027&type=Y
+010 | 999 | 000 | 장비기타 | http://www.dicamping.co.kr/shop/shopbrand.html?xcode=027&type=Y
 
 
