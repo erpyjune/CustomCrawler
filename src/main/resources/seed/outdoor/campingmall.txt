@@ -1,0 +1,46 @@
+001 | 001 | 003 | 백패킹 텐트 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=002007
+001 | 001 | 000 | 2~3인용 텐트 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=002008
+001 | 001 | 000 | 4~7인용 텐트 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=002010
+001 | 001 | 001 | 리빙쉘 텐트 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=002012
+001 | 003 | 000 | 그라운드시트 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=002004
+001 | 004 | 000 | 텐트관련장비 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=002001
+001 | 002 | 000 | 타프 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=015010
+001 | 002 | 004 | 사이드월&스크린 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=015011
+001 | 001 | 005 | 그늘막 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=015012
+
+003 | 002 | 000 | 매트 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005003
+002 | 004 | 000 | 의자 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005010
+002 | 001 | 000 | 테이블 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005011
+003 | 003 | 000 | 침대및해먹 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005011
+005 | 002 | 000 | 쿨러 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005018
+
+003 | 001 | 002 | 동계 침낭 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005002001
+003 | 001 | 001 | 3계절 침낭 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005002002
+003 | 001 | 004 | 침낭커버압축색 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005002004
+003 | 001 | 004 | 침낭라이너 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005002005
+003 | 004 | 000 | 베개쿠션악세사리 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005002007
+
+004 | 003 | 000 | 캠핑난로 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005019
+010 | 999 | 000 | 기타야외용품 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=005020
+
+006 | 004 | 000 | 그릴및스큐어 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009009
+005 | 001 | 000 | 코펠 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009010
+004 | 002 | 000 | 토치버너스토브 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009008
+005 | 005 | 000 | 물통컵물컵머그잔 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009014001
+005 | 003 | 000 | 식기수저 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009014002
+005 | 999 | 000 | 식기기타 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009014003
+010 | 001 | 000 | 다용도칼 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009015001
+004 | 005 | 000 | 연료 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009016001
+
+006 | 004 | 000 | 화로용품 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009017001
+006 | 005 | 000 | 화로용품 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009017002
+006 | 004 | 000 | BBQ 그릴 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009018
+006 | 005 | 000 | BBQ기타 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=009012
+006 | 001 | 000 | 랜턴류 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=007021
+
+010 | 001 | 000 | 도끼망치톱 | http://www.campingmall.co.kr/shop/goods/goods_list.php?category=007015
+
+
+
+
+
