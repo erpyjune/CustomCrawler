@@ -46,11 +46,6 @@
 
 010 | 999 | 000 | 기타캠핑소품 | http://www.yahocamping.com/shop/shopbrand.html?xcode=028&type=Y
 
-상의 | http://www.yahocamping.com/shop/shopbrand.html?xcode=029&type=Y&mcode=001
-하의 | http://www.yahocamping.com/shop/shopbrand.html?xcode=029&type=Y&mcode=002
-양말과장갑 | http://www.yahocamping.com/shop/shopbrand.html?xcode=029&type=Y&mcode=004
-패션기타 | http://www.yahocamping.com/shop/shopbrand.html?xcode=029&type=Y&mcode=003
-
 009 | 001 | 000 | 백팩 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=030&type=Y&mcode=001
 009 | 999 | 000 | 보조 가방 | http://www.yahocamping.com/shop/shopbrand.html?xcode=030&type=Y&mcode=002
 
