@@ -64,81 +64,81 @@
 006 | 001 | 000 | 랜턴 | http://www.campschule.co.kr/front/php/category.php?cate_no=723
 006 | 003 | 000 | 헤드 랜턴 | http://www.campschule.co.kr/front/php/category.php?cate_no=726
 006 | 002 | 000 | 후레쉬 | http://www.campschule.co.kr/front/php/category.php?cate_no=727
-랜턴용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=881
-랜턴걸이 | http://www.campschule.co.kr/front/php/category.php?cate_no=882
-랜턴소품 | http://www.campschule.co.kr/front/php/category.php?cate_no=728
-버너 | http://www.campschule.co.kr/front/php/category.php?cate_no=46
-버너소품 | http://www.campschule.co.kr/front/php/category.php?cate_no=48
-난로 | http://www.campschule.co.kr/front/php/category.php?cate_no=240
-가스토치 | http://www.campschule.co.kr/front/php/category.php?cate_no=844
-난방용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=886
-전기용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=953
+006 | 006 | 000 | 랜턴용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=881
+006 | 006 | 000 | 랜턴걸이 | http://www.campschule.co.kr/front/php/category.php?cate_no=882
+006 | 006 | 000 | 랜턴소품 | http://www.campschule.co.kr/front/php/category.php?cate_no=728
 
-가스 | http://www.campschule.co.kr/front/php/category.php?cate_no=278
-연료 | http://www.campschule.co.kr/front/php/category.php?cate_no=279
-장작 | http://www.campschule.co.kr/front/php/category.php?cate_no=280
-착화제 | http://www.campschule.co.kr/front/php/category.php?cate_no=282
-차콜 브라켓 | http://www.campschule.co.kr/front/php/category.php?cate_no=281
-연료용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=883
+004 | 001 | 000 | 버너 | http://www.campschule.co.kr/front/php/category.php?cate_no=46
+004 | 002 | 000 | 버너소품 | http://www.campschule.co.kr/front/php/category.php?cate_no=48
+004 | 003 | 000 | 난로 | http://www.campschule.co.kr/front/php/category.php?cate_no=240
+006 | 005 | 000 | 가스토치 | http://www.campschule.co.kr/front/php/category.php?cate_no=844
+004 | 999 | 000 | 난방용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=886
+010 | 007 | 000 | 전기용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=953
 
-다용도 가방 | http://www.campschule.co.kr/front/php/category.php?cate_no=257
-테이블의자케이스 | http://www.campschule.co.kr/front/php/category.php?cate_no=259
-그릴화로케이스 | http://www.campschule.co.kr/front/php/category.php?cate_no=869
-텐트케이스 | http://www.campschule.co.kr/front/php/category.php?cate_no=951
-디팩 | http://www.campschule.co.kr/front/php/category.php?cate_no=954
+004 | 005 | 000 | 가스 | http://www.campschule.co.kr/front/php/category.php?cate_no=278
+004 | 005 | 000 | 연료 | http://www.campschule.co.kr/front/php/category.php?cate_no=279
+004 | 005 | 000 | 장작 | http://www.campschule.co.kr/front/php/category.php?cate_no=280
+004 | 999 | 000 | 착화제 | http://www.campschule.co.kr/front/php/category.php?cate_no=282
+004 | 005 | 000 | 차콜 브라켓 | http://www.campschule.co.kr/front/php/category.php?cate_no=281
+004 | 999 | 000 | 연료용품 | http://www.campschule.co.kr/front/php/category.php?cate_no=883
 
-나이프멀티툴 | http://www.campschule.co.kr/front/php/category.php?cate_no=1041
-라이타 | http://www.campschule.co.kr/front/php/category.php?cate_no=1042
+009 | 999 | 다용도 가방 | http://www.campschule.co.kr/front/php/category.php?cate_no=257
+009 | 003 | 004 | 테이블의자케이스 | http://www.campschule.co.kr/front/php/category.php?cate_no=259
+009 | 003 | 004 | 그릴화로케이스 | http://www.campschule.co.kr/front/php/category.php?cate_no=869
+009 | 003 | 004 | 텐트케이스 | http://www.campschule.co.kr/front/php/category.php?cate_no=951
+009 | 002 | 000 | 디팩 | http://www.campschule.co.kr/front/php/category.php?cate_no=954
 
-해먹 | http://www.campschule.co.kr/front/php/category.php?cate_no=283
+010 | 001 | 000 | 나이프멀티툴 | http://www.campschule.co.kr/front/php/category.php?cate_no=1041
+006 | 005 | 000 | 라이타 | http://www.campschule.co.kr/front/php/category.php?cate_no=1042
 
-남성 자켓 상의 | http://www.campschule.co.kr/front/php/category.php?cate_no=915
-남성 하의 | http://www.campschule.co.kr/front/php/category.php?cate_no=916
-남성 셔츠 티셔츠 상의 | http://www.campschule.co.kr/front/php/category.php?cate_no=917
-여성 자켓 | http://www.campschule.co.kr/front/php/category.php?cate_no=918
-여성 팬츠 하의 |http://www.campschule.co.kr/front/php/category.php?cate_no=919
-여성 셔츠 티셔츠 | http://www.campschule.co.kr/front/php/category.php?cate_no=920
+003 | 003 | 000 | 해먹 | http://www.campschule.co.kr/front/php/category.php?cate_no=283
 
-등산화 | http://www.campschule.co.kr/front/php/category.php?cate_no=734
-신발 | http://www.campschule.co.kr/front/php/category.php?cate_no=735
+007 | 001 | 000 | 남성 자켓 | http://www.campschule.co.kr/front/php/category.php?cate_no=915
+007 | 002 | 000 | 남성 바지 | http://www.campschule.co.kr/front/php/category.php?cate_no=916
+007 | 003 | 000 | 남성 셔츠 티셔츠 상의 | http://www.campschule.co.kr/front/php/category.php?cate_no=917
+007 | 001 | 000 | 여성 자켓 | http://www.campschule.co.kr/front/php/category.php?cate_no=918
+007 | 002 | 000 | 여성 바지 |http://www.campschule.co.kr/front/php/category.php?cate_no=919
+007 | 003 | 000 | 여성 셔츠 | http://www.campschule.co.kr/front/php/category.php?cate_no=920
 
-모자 | http://www.campschule.co.kr/front/php/category.php?cate_no=713
-장갑 | http://www.campschule.co.kr/front/php/category.php?cate_no=714
-마스크 | http://www.campschule.co.kr/front/php/category.php?cate_no=715
-기타 | http://www.campschule.co.kr/front/php/category.php?cate_no=716
+007 | 007 | 000 | 등산화 | http://www.campschule.co.kr/front/php/category.php?cate_no=734
 
-배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=704
-배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=702
-배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=703
-배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=705
-배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=706
-배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=707
-디팩 | http://www.campschule.co.kr/front/php/category.php?cate_no=955
-기타배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=708
+007 | 005 | 000 | 모자 | http://www.campschule.co.kr/front/php/category.php?cate_no=713
+007 | 005 | 000 | 장갑 | http://www.campschule.co.kr/front/php/category.php?cate_no=714
+007 | 006 | 000 | 마스크 | http://www.campschule.co.kr/front/php/category.php?cate_no=715
+007 | 006 | 000 | 등산패션기타 | http://www.campschule.co.kr/front/php/category.php?cate_no=716
 
-운행장비 | http://www.campschule.co.kr/front/php/category.php?cate_no=709
-스틱 | http://www.campschule.co.kr/front/php/category.php?cate_no=710
-아이젠 | http://www.campschule.co.kr/front/php/category.php?cate_no=711
+009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=704
+009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=702
+009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=703
+009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=705
+009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=706
+009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=707
+009 | 002 | 000 | 디팩 | http://www.campschule.co.kr/front/php/category.php?cate_no=955
+009 | 999 | 000 | 기타배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=708
 
-시계 | http://www.campschule.co.kr/front/php/category.php?cate_no=921
-나침반 | http://www.campschule.co.kr/front/php/category.php?cate_no=922
-선글라스 고글 | http://www.campschule.co.kr/front/php/category.php?cate_no=701
-기타악세사리 | http://www.campschule.co.kr/front/php/category.php?cate_no=958
+008 | 999 | 000 | 등산운행장비 | http://www.campschule.co.kr/front/php/category.php?cate_no=709
+008 | 001 | 000 | 스틱 | http://www.campschule.co.kr/front/php/category.php?cate_no=710
+008 | 003 | 000 | 아이젠 | http://www.campschule.co.kr/front/php/category.php?cate_no=711
 
-루프박스 | http://www.campschule.co.kr/front/php/category.php?cate_no=740
-카고백 루프백 | http://www.campschule.co.kr/front/php/category.php?cate_no=738
-루프탑텐트 | http://www.campschule.co.kr/front/php/category.php?cate_no=742
-시스템 캐리어 | http://www.campschule.co.kr/front/php/category.php?cate_no=743
-자전거 캐리어 | http://www.campschule.co.kr/front/php/category.php?cate_no=741
-짐받이 캐리어 | http://www.campschule.co.kr/front/php/category.php?cate_no=739
-스포츠 캐리어 | http://www.campschule.co.kr/front/php/category.php?cate_no=744
-에어 매트 | http://www.campschule.co.kr/front/php/category.php?cate_no=745
-트레일러 | http://www.campschule.co.kr/front/php/category.php?cate_no=1061
+010 | 002 | 000 | 시계 | http://www.campschule.co.kr/front/php/category.php?cate_no=921
+010 | 002 | 000 | 나침반 | http://www.campschule.co.kr/front/php/category.php?cate_no=922
+008 | 005 | 000 | 선글라스 고글 | http://www.campschule.co.kr/front/php/category.php?cate_no=701
+010 | 999 | 000 | 기타악세사리 | http://www.campschule.co.kr/front/php/category.php?cate_no=958
 
-카누 카약 보트 | http://www.campschule.co.kr/front/php/category.php?cate_no=245
-구명조끼 | http://www.campschule.co.kr/front/php/category.php?cate_no=873
-해먹 | http://www.campschule.co.kr/front/php/category.php?cate_no=730
-빔프로젝트 | http://www.campschule.co.kr/front/php/category.php?cate_no=1033
+010 | 008 | 000 | 루프박스 | http://www.campschule.co.kr/front/php/category.php?cate_no=740
+010 | 008 | 000 | 카고백 루프백 | http://www.campschule.co.kr/front/php/category.php?cate_no=738
+001 | 001 | 007 | 루프탑 텐트 | http://www.campschule.co.kr/front/php/category.php?cate_no=742
+010 | 008 | 000 | 시스템 캐리어 | http://www.campschule.co.kr/front/php/category.php?cate_no=743
+010 | 008 | 000 | 자전거 캐리어 | http://www.campschule.co.kr/front/php/category.php?cate_no=741
+010 | 008 | 000 | 짐받이 캐리어 | http://www.campschule.co.kr/front/php/category.php?cate_no=739
+010 | 008 | 000 | 스포츠 캐리어 | http://www.campschule.co.kr/front/php/category.php?cate_no=744
+003 | 002 | 0002 | 에어 매트 | http://www.campschule.co.kr/front/php/category.php?cate_no=745
+010 | 008 | 000 | 트레일러 | http://www.campschule.co.kr/front/php/category.php?cate_no=1061
+
+010 | 003 | 000 | 카누 카약 보트 | http://www.campschule.co.kr/front/php/category.php?cate_no=245
+010 | 003 | 000 | 구명조끼 | http://www.campschule.co.kr/front/php/category.php?cate_no=873
+003 | 003 | 000 | 해먹 | http://www.campschule.co.kr/front/php/category.php?cate_no=730
+010 | 999 | 000 | 빔프로젝트 | http://www.campschule.co.kr/front/php/category.php?cate_no=1033
 
 
 
