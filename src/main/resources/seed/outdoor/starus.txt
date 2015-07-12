@@ -1,37 +1,36 @@
-소형텐트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=1
-중형텐트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=2
-대형텐트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=45
-타프/스크린 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=46
-어닝 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=47
-그라운드시트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=48
-폴대 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=49
-텐트소품 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=50
-캠핑카세트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=67
+001 | 001 | 000 | 소형텐트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=1
+001 | 001 | 000 | 중형텐트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=2
+001 | 001 | 000 | 대형텐트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=45
+001 | 002 | 000 | 타프/스크린 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=46
+001 | 004 | 000 | 어닝 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=47
+001 | 003 | 000 | 그라운드시트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=48
+001 | 004 | 003 | 폴대 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=49
+001 | 004 | 000 | 텐트소품 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=50
+001 | 001 | 999 | 캠핑카세트 | http://www.dkmountain.com/01_mall/list.php?b_category1=1&b_category2=67
 
-침낭 | http://www.dkmountain.com/01_mall/list.php?b_category1=2&b_category2=3
-매트 | http://www.dkmountain.com/01_mall/list.php?b_category1=2&b_category2=4
-침낭커버 | http://www.dkmountain.com/01_mall/list.php?b_category1=2&b_category2=52
+003 | 001 | 000 | 침낭 | http://www.dkmountain.com/01_mall/list.php?b_category1=2&b_category2=3
+003 | 002 | 000 | 매트 | http://www.dkmountain.com/01_mall/list.php?b_category1=2&b_category2=4
+001 | 001 | 006 | 침낭커버 | http://www.dkmountain.com/01_mall/list.php?b_category1=2&b_category2=52
 
-침대 야전침대 | http://www.dkmountain.com/01_mall/list.php?b_category1=3&b_category2=6
-의자 | http://www.dkmountain.com/01_mall/list.php?b_category1=3&b_category2=7
-테이블 | http://www.dkmountain.com/01_mall/list.php?b_category1=3&b_category2=73
-캠핑용품 | http://www.dkmountain.com/01_mall/list.php?b_category1=3&b_category2=74
+003 | 003 | 000 | 야전 침대 | http://www.dkmountain.com/01_mall/list.php?b_category1=3&b_category2=6
+002 | 004 | 000 | 의자 | http://www.dkmountain.com/01_mall/list.php?b_category1=3&b_category2=7
+002 | 001 | 000 | 테이블 | http://www.dkmountain.com/01_mall/list.php?b_category1=3&b_category2=73
 
-코펠 | http://www.dkmountain.com/01_mall/list.php?b_category1=4&b_category2=8
-식기 | http://www.dkmountain.com/01_mall/list.php?b_category1=4&b_category2=9
-취사도구 | http://www.dkmountain.com/01_mall/list.php?b_category1=4&b_category2=10
+005 | 001 | 000 | 코펠 | http://www.dkmountain.com/01_mall/list.php?b_category1=4&b_category2=8
+005 | 003 | 000 | 식기 | http://www.dkmountain.com/01_mall/list.php?b_category1=4&b_category2=9
+005 | 999 | 000 | 취사도구 | http://www.dkmountain.com/01_mall/list.php?b_category1=4&b_category2=10
 
-아이젠 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=11
-스패츠 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=41
-보호대 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=42
-스틱 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=43
-등산용품 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=56
+008 | 003 | 000 | 아이젠 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=11
+008 | 003 | 000 | 스패츠 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=41
+008 | 999 | 000 | 보호대 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=42
+008 | 001 | 000 | 스틱 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=43
+008 | 999 | 000 | 등산용품 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=56
 
-소형배낭 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=70
-대형배낭 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=72
+009 | 001 | 000 | 소형배낭 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=70
+009 | 001 | 000 | 대형배낭 | http://www.dkmountain.com/01_mall/list.php?b_category1=5&b_category2=72
 
-경등산화 등산화 | http://www.dkmountain.com/01_mall/list.php?b_category1=7&b_category2=14
-중등산화 등산화 | http://www.dkmountain.com/01_mall/list.php?b_category1=7&b_category2=15
-깔창 | http://www.dkmountain.com/01_mall/list.php?b_category1=7&b_category2=61
+007 | 007 | 000 | 경등산화 등산화 | http://www.dkmountain.com/01_mall/list.php?b_category1=7&b_category2=14
+007 | 007 | 000 | 중등산화 등산화 | http://www.dkmountain.com/01_mall/list.php?b_category1=7&b_category2=15
+007 | 999 | 000 | 깔창 | http://www.dkmountain.com/01_mall/list.php?b_category1=7&b_category2=61
 
-
+010 | 999 | 000 | 캠핑용품 | http://www.dkmountain.com/01_mall/list.php?b_category1=3&b_category2=74
