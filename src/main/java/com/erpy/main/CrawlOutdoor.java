@@ -370,7 +370,7 @@ public class CrawlOutdoor {
                 crawlMainThread.setExtractDataCount(0);
                 crawlMainThread.setCrawlEncode("euc-kr");
                 crawlMainThread.setSaveEncode("utf-8");
-                crawlMainThread.setContentExtractCountPattern("font.brandbrandname");
+                crawlMainThread.setContentExtractCountPattern("li.prd-name");
                 crawlMainThread.setSeed(seed);
                 crawlMainThread.setExtractType("html");
                 crawlMainThread.setAllCrawlDatas(allCrawlDatas);

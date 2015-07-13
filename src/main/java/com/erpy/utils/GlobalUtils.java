@@ -91,7 +91,7 @@ public class GlobalUtils {
                 replace("<b>", "").replace("</b>", "").replace("판매가", "").replace(" ","").
                 replace(":", "").replace("이벤트가", "").replace("개 구매중","").replace("개구매중","").
                 replace("%", "").replace("~","").replace("개","").replace("구매","").replace("HIT","").
-                replace("할인가","").trim();
+                replace("할인가","").replace("￦","").trim();
     }
 
     ////////////////////////////////////////////////////////////////////////////

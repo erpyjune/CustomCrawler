@@ -176,10 +176,10 @@ public class YahoCamping {
         Document doc = Jsoup.parse(htmlContent);
 
         // 파싱 시작.
-        elements = doc.select("table.product_table");
+        elements = doc.select("dl.item-list");
         for (Element element : elements) {
 
-            if (!element.outerHtml().contains("/shopimages/yahocamp/"))
+            if (!element.outerHtml().contains("<li class=\"prd-name\">"))
                 continue;
 
             productId="";
@@ -187,7 +187,7 @@ public class YahoCamping {
             document = Jsoup.parse(element.outerHtml());
 
             // Thumb link
-            listE = document.select("td.Brand_prodtHeight a img");
+            listE = document.select("dt img");
             for (Element et : listE) {
                 strItem = et.attr("src");
                 searchData.setThumbUrl(prefixHostThumbUrl + strItem);
@@ -196,7 +196,7 @@ public class YahoCamping {
             }
 
             // link
-            listE = document.select("td.Brand_prodtHeight a");
+            listE = document.select("dt a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
@@ -209,7 +209,7 @@ public class YahoCamping {
             }
 
             // product name
-            listE = document.select("font.brandbrandname");
+            listE = document.select("li.prd-name");
             for (Element et : listE) {
                 searchData.setProductName(et.text());
                 logger.debug(String.format(" >> title(%s)", searchData.getProductName()));
@@ -217,7 +217,7 @@ public class YahoCamping {
             }
 
             // org price
-            listE = document.select("span.mk_price");
+            listE = document.select("li[style=\"color:#FF0000; text-decoration:line-through;\"]");
             for (Element et : listE) {
                 strItem = globalUtils.priceDataCleaner(et.text());
                 if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
@@ -228,6 +228,21 @@ public class YahoCamping {
                     logger.error(String.format(" Extract [org price] data is NOT valid - (%s)", strItem));
                     logger.error(String.format(" Extract [org price] product name      - (%s)", searchData.getProductName()));
                     logger.error(String.format(" Extract [org price] seed url          - (%s)", crawlData.getSeedUrl()));
+                }
+            }
+
+            // sale price
+            listE = document.select("li.prd-price");
+            for (Element et : listE) {
+                strItem = globalUtils.priceDataCleaner(et.text());
+                if (strItem.length()>0 && GlobalUtils.isAllDigitChar(strItem)) {
+                    searchData.setOrgPrice(Integer.parseInt(strItem));
+                    logger.debug(String.format(" >> sale price(%s)", searchData.getOrgPrice()));
+                    break;
+                } else {
+                    logger.error(String.format(" Extract [sale price] data is NOT valid - (%s)", strItem));
+                    logger.error(String.format(" Extract [sale price] product name      - (%s)", searchData.getProductName()));
+                    logger.error(String.format(" Extract [sale price] seed url          - (%s)", crawlData.getSeedUrl()));
                 }
             }
 
@@ -338,7 +353,7 @@ public class YahoCamping {
         HttpRequestHeader httpRequestHeader = new HttpRequestHeader("www.yahocamping.com","http://www.yahocamping.com");
         crawlSite.setRequestHeader(httpRequestHeader.getHttpRequestHeader());
         crawlSite.setCrawlEncode("euc-kr");
-        crawlSite.setCrawlUrl("http://www.yahocamping.com/shop/shopbrand.html?xcode=019&type=Y&mcode=001&scode=001");
+        crawlSite.setCrawlUrl("http://www.yahocamping.com/shop/shopbrand.html?xcode=051&type=N&mcode=010");
         int returnCode = crawlSite.HttpCrawlGetDataTimeout();
         String htmlContent = crawlSite.getCrawlData();
 
@@ -348,16 +363,16 @@ public class YahoCamping {
 
         Document doc = Jsoup.parse(htmlContent);
 
-        elements = doc.select("table.product_table");
+        elements = doc.select("dl.item-list");
         for (Element element : elements) {
 
-            if (!element.outerHtml().contains("/shopimages/yahocamp/"))
+            if (!element.outerHtml().contains("<li class=\"prd-name\">"))
                 continue;
 
             document = Jsoup.parse(element.outerHtml());
 
             // Thumb link
-            listE = document.select("td.Brand_prodtHeight a img");
+            listE = document.select("dt img");
             for (Element et : listE) {
                 strItem = et.attr("src");
                 logger.info(prefixHostThumbUrl + strItem);
@@ -365,18 +380,18 @@ public class YahoCamping {
             }
 
             // link
-            listE = document.select("td.Brand_prodtHeight a");
+            listE = document.select("dt a");
             for (Element et : listE) {
                 strLinkUrl = et.attr("href");
                 if (strLinkUrl.length()>0) {
-                    productId = globalUtils.getFieldData(strLinkUrl, "p_code=","&");
+                    productId = globalUtils.getFieldData(strLinkUrl, "branduid=","&");
                     logger.info(" url : " + prefixContentUrl + strLinkUrl);
                     break;
                 }
             }
 
             // product name
-            listE = document.select("font.brandbrandname");
+            listE = document.select("li.prd-name");
             for (Element et : listE) {
                 strItem = et.text();
                 logger.info(" title : " + strItem);
@@ -384,9 +399,9 @@ public class YahoCamping {
             }
 
             // org price
-            listE = document.select("span.mk_price");
+            listE = document.select("li[style=\"color:#FF0000; text-decoration:line-through;\"]");
             for (Element et : listE) {
-                strItem = et.text().replace("원", "").replace(",", "").trim();
+                strItem = et.text().replace("원", "").replace(",", "").replace("￦","").trim();
                 if (GlobalUtils.isAllDigitChar(strItem)) {
                     logger.info(String.format(" >> org price(%s)", strItem));
                     break;
@@ -395,16 +410,16 @@ public class YahoCamping {
                 }
             }
 
-//            // sale price
-//            listE = document.select("div[style=\"padding-bottom:3px\"] b");
-//            for (Element et : listE) {
-//                strItem = et.text().replace("원", "").replace(",", "").trim();
-//                if (GlobalUtils.isAllDigitChar(strItem)) {
-//                    logger.info(String.format(" >> org price(%s)", strItem));
-//                } else {
-//                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
-//                }
-//            }
+            // sale price
+            listE = document.select("li.prd-price");
+            for (Element et : listE) {
+                strItem = et.text().replace("원", "").replace(",", "").replace("￦","").trim();
+                if (GlobalUtils.isAllDigitChar(strItem)) {
+                    logger.info(String.format(" >> org price(%s)", strItem));
+                } else {
+                    logger.info(String.format(" Extract [org price] data is NOT valid --> (%s)", strItem));
+                }
+            }
 
             logger.info(String.format("[%d]=======================================================================",++index));
         }
