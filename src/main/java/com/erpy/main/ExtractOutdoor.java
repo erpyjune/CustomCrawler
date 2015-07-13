@@ -119,6 +119,7 @@ public class ExtractOutdoor {
                 ct.mainExtractProcessing(ct,crawlData,allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_CAMPINGON)) { // Image Forbidden
+                co.setTxtEncode("utf-8");
                 co.mainExtractProcessing(co,crawlData,allSearchDatasMap);
             }
             else if (crawlData.getCpName().equals(GlobalInfo.CP_Aldebaran)) {

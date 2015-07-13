@@ -233,7 +233,7 @@ public class SB {
             // cp name
             searchData.setCpName("sbclub");
             // keyword
-            searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
+//            searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
             // set seed url
             searchData.setSeedUrl(seedUrl);
             // set hash
