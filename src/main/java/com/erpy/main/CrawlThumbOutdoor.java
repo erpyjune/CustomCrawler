@@ -1,6 +1,7 @@
 package com.erpy.main;
 
 import com.erpy.dao.ThumbnailData;
+import com.erpy.dao.ThumbnailDataService;
 import com.erpy.thumbnail.ThumbnailProc;
 import com.erpy.thumbnail.ThumbnailProcData;
 import com.erpy.utils.GlobalInfo;
