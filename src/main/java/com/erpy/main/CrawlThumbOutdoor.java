@@ -384,8 +384,8 @@ public class CrawlThumbOutdoor {
             thumbnailProcData.setHostReferer("http://goodcamping.net");
             thumbnailProcData.setHostDomain("goodcamping.net");
 
-            thumbnailProcData.setParserGroupSelect("span[style=\"cursor:pointer\"]");
-            thumbnailProcData.setParserSkipPattern("objImg");
+            thumbnailProcData.setParserGroupSelect("div[style=\"padding-bottom:10\"]");
+            thumbnailProcData.setParserSkipPattern("/data/goods");
             thumbnailProcData.setParserDocumentSelect("img");
             thumbnailProcData.setReplacePatternFindData("../data");
             thumbnailProcData.setReplacePatternSource("../data");
