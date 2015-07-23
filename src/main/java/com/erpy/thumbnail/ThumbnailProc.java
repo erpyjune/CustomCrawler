@@ -62,7 +62,7 @@ public class ThumbnailProc {
 
             ////////////////////////////////////////////////////////////////////////
             // check exist thumbnail.
-            // option is ALL | all 일 경우에만 db check를 한다.
+            // not 일 경우 thumb 테이블에 데이터가 있는지 확인 한다.
             if (!thumbnailProcData.isAllDataCrawl()) {
                 findThumbnailData.setProductId(searchData.getProductId());
                 findThumbnailData.setCpName(searchData.getCpName());

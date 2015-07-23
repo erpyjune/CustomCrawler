@@ -195,6 +195,7 @@ public class SB {
                 strItem = et.attr("src");
 //                logger.info(" thumb : " + strItem);
                 searchData.setThumbUrl("http://sbclub.co.kr" + strItem);
+                break;
             }
 
             // set link, productId
@@ -206,6 +207,7 @@ public class SB {
                 // get key
                 searchData.setProductId(globalUtils.getFieldData(strItem, "pid="));
                 searchData.setContentUrl("http://sbclub.co.kr/" + strItem);
+                break;
             }
 
             // product name
@@ -214,6 +216,7 @@ public class SB {
                 strItem = globalUtils.htmlCleaner(et.textNodes().toString());
 //                logger.info(" title : " + strItem);
                 searchData.setProductName(strItem);
+                break;
             }
 
             // set org price, sale price.
@@ -222,16 +225,15 @@ public class SB {
                 strItem = globalUtils.priceDataCleaner(et.text());
 //                logger.info(" price : " + strItem);
                 searchData.setOrgPrice(Integer.parseInt(strItem));
+                break;
             }
 
-            // set sale price
-            searchData.setSalePrice(searchData.getOrgPrice());
             // org price = sale price
             searchData.setSalePrice(searchData.getOrgPrice());
             // sale per
             searchData.setSalePer(0.0F);
             // cp name
-            searchData.setCpName("sbclub");
+            searchData.setCpName(GlobalInfo.CP_SBCLUB);
             // keyword
 //            searchData.setCrawlKeyword(isSexKeywordAdd(keyword, false, false));
             // set seed url
@@ -249,7 +251,7 @@ public class SB {
             // 추출된 데이터가 정상인지 체크한다. 정상이 아니면 db에 넣지 않는다.
             if (!globalUtils.isDataEmpty(searchData)) {
                 // key : product id
-                searchDataMap.put(productId + searchData.getCpName(), searchData);
+                searchDataMap.put(searchData.getProductId() + searchData.getCpName(), searchData);
                 totalExtractCount++;
             }
         }
@@ -403,7 +405,7 @@ public class SB {
 
             // 동일한 데이터가 있으면 next page로 이동한다.
             if (crawlIO.isSameCrawlData(allCrawlDatasMap, globalUtils.MD5(crawlSite.getCrawlData()) + seed.getCpName())) {
-                if ((startPage + pageSize) > 440) break; // 11 page 이상이면 break.
+                if ((startPage + pageSize) > 600) break; // 11 page 이상이면 break.
                 startPage = startPage + pageSize;
                 endPage   = endPage + pageSize;
                 logger.info(String.format(" Skip crawling data - startPage(%d), endPage(%d)  ", startPage, endPage));
@@ -612,14 +614,44 @@ public class SB {
     public static void main(String[] args) throws Exception {
         CrawlSite crawl = new CrawlSite();
         GlobalUtils globalUtils = new GlobalUtils();
+        Map<String, String> param = new HashMap<String, String>();
+        Map<String, String> heaer = new HashMap<String, String>();
+
+
+//        private String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
+//        private String REFERER = "http://search.google.com";
+//        private String CONNECTION = "keep-alive";
+//        private String ACCEPT = "text/html, */*; q=0.01";
+//        private String ACCEPT_LANG = "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4";
+//        private String Content_Type = "application/x-www-form-urlencoded; charset=UTF-8";
 
         // http://sbclub.co.kr/category01.html?categoryid=94201?categoryid=94201&startnum=41&endnum=80
+//        crawl.setCrawlUrl("http://sbclub.co.kr/search_brandproductlist.html");
+//        crawl.setCrawlEncode("utf-8");
+//        crawl.addPostRequestParam("mode", "categorymain");
+//        crawl.addPostRequestParam("categoryid", "94201");
+//        crawl.addPostRequestParam("startnum", "41");
+//        crawl.addPostRequestParam("endnum", "80");
+
+        heaer.put("Host","sbclub.co.kr");
+        heaer.put("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0");
+        heaer.put("Accept","text/html, */*; q=0.01");
+        heaer.put("Accept-Language","ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3");
+        heaer.put("Accept-Encoding","gzip, deflate");
+        heaer.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        heaer.put("X-Requested-With", "XMLHttpRequest");
+        heaer.put("Referer", "http://sbclub.co.kr/category01.html?categoryid=19001");
+        crawl.setRequestHeader(heaer);
+
         crawl.setCrawlUrl("http://sbclub.co.kr/search_brandproductlist.html");
         crawl.setCrawlEncode("utf-8");
-        crawl.addPostRequestParam("mode", "categorymain");
-        crawl.addPostRequestParam("categoryid", "94201");
-        crawl.addPostRequestParam("startnum", "41");
-        crawl.addPostRequestParam("endnum", "80");
+        param.put("mode", "categorymain");
+        param.put("categoryid", "19001");
+//        param.put("startnum", "41");
+//        param.put("endnum", "80");
+        param.put("startnum", "41");
+        param.put("endnum", "80");
+        crawl.setPostFormDataParam(param);
 
         crawl.HttpPostGet();
 

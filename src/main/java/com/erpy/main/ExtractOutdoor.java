@@ -177,6 +177,7 @@ public class ExtractOutdoor {
                 logger.error(String.format(" Other cp occurred!! - (%s)", crawlData.getCpName()));
             }
         }
+        logger.info(String.format(" %s - extract total - %s", GlobalInfo.CP_SBCLUB, sbclub.getTotalExtractCount()));
         logger.info(" Extract end!");
     }
 }
