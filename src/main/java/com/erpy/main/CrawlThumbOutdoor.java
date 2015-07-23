@@ -392,6 +392,21 @@ public class CrawlThumbOutdoor {
             thumbnailProcData.setReplacePatternDest("/shop/data");
 
             thumbnailProc.thumbnailProcessing(thumbnailProcData);
+        } else if (GlobalInfo.CP_YahoCamping.equals(cpName)) {
+            thumbnailProcData.setParserType(1);
+            thumbnailProcData.setHtmlCrawlEncoding(GlobalInfo.UTF8);
+            thumbnailProcData.setPrefixHostThumbUrl("http://yahocamping.com");
+            thumbnailProcData.setHostReferer("http://yahocamping.com");
+            thumbnailProcData.setHostDomain("yahocamping.com");
+
+            thumbnailProcData.setParserGroupSelect("div.thumb");
+            thumbnailProcData.setParserSkipPattern("imageview");
+            thumbnailProcData.setParserDocumentSelect("img");
+            thumbnailProcData.setReplacePatternFindData("");
+            thumbnailProcData.setReplacePatternSource("");
+            thumbnailProcData.setReplacePatternDest("");
+
+            thumbnailProc.thumbnailProcessing(thumbnailProcData);
         } else {
             logger.error(" Failure cp is not known !! ");
         }
