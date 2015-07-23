@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -304,6 +305,7 @@ public class CrawlIO {
         CrawlData crawlData   = new CrawlData();
         GlobalInfo globalInfo = new GlobalInfo();
 
+
         int page=1;
         int offset=0;
         int returnCode;
@@ -315,6 +317,9 @@ public class CrawlIO {
         String beforePageMD5hashCode="";
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
+        String strHHmmss;
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
@@ -380,7 +385,9 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
+            strHHmmss = sdf.format(date) + String.format("%d",page);
+//            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
+            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), Integer.parseInt(strHHmmss), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
                 if (isCrawlEnd(page, seed.getCpName())) break;
