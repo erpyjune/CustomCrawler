@@ -334,7 +334,7 @@ public class SnowPeak {
             }
 
             // save file path가 충돌나면 continue 한다.
-            crawlSavePath = crawlIO.makeSaveFilePath(savePrefixPath, strCpName, random.nextInt(918277377));
+            crawlSavePath = crawlIO.makeSaveFilePath(savePrefixPath, strCpName, random.nextLong());
             if (!crawlIO.isSaveFilePathCollision(crawlSavePath)) {
                 logger.error(" Crawling save file path is collision !!");
                 continue;
