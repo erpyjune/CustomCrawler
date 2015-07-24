@@ -210,8 +210,7 @@ public class CrawlIO {
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
         String strHHmmss;
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
@@ -268,7 +267,9 @@ public class CrawlIO {
             }
 
             // 크롤링된 데이터를 disk 에 저장한다.
-            strHHmmss = sdf.format(date) + String.format("%d",page);
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dayTime = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            strHHmmss = dayTime.format(new Date(time)) + String.format("%d",page);
 //            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), Long.parseLong(strHHmmss), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
@@ -323,8 +324,6 @@ public class CrawlIO {
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
         String strHHmmss;
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
         // 환경 셋팅
         crawlSite.setConnectionTimeout(5000);
@@ -363,7 +362,7 @@ public class CrawlIO {
             ////////////////////////////////////////////////////////
             md5HashCode = globalUtils.MD5(crawlSite.getCrawlData());
             if (md5HashCode.equals(beforePageMD5hashCode)) {
-                logger.info(" Before hash code same !!");
+                logger.info(" 현재 수집한 페이지 데이터가 이전에 수집한 데이터와 동일합니다.");
                 break;
             }
 
@@ -390,7 +389,9 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            strHHmmss = sdf.format(date) + String.format("%d",page);
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dayTime = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            strHHmmss = dayTime.format(new Date(time)) + String.format("%d",page);
 //            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), Long.parseLong(strHHmmss), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
@@ -620,8 +621,6 @@ public class CrawlIO {
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
         String strHHmmss;
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         Map<String, String> extractParamNameMap = new HashMap<String, String>();
         Map<String, String> requestPostParam;
 
@@ -700,7 +699,9 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            strHHmmss = sdf.format(date) + String.format("%d",page);
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dayTime = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            strHHmmss = dayTime.format(new Date(time)) + String.format("%d",page);
 //            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), Long.parseLong(strHHmmss), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
@@ -762,8 +763,6 @@ public class CrawlIO {
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
         String strHHmmss;
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         Map<String, String> extractParamNameMap = new HashMap<String, String>();
         Map<String, String> requestPostParam = new HashMap<String, String>();
         HttpRequestHeader httpRequestHeader = new HttpRequestHeader("m.gsshop.com","http://m.gsshop.com");
@@ -832,7 +831,9 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            strHHmmss = sdf.format(date) + String.format("%d",page);
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dayTime = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            strHHmmss = dayTime.format(new Date(time)) + String.format("%d",page);
 //            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), Long.parseLong(strHHmmss), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
@@ -894,8 +895,6 @@ public class CrawlIO {
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
         String strHHmmss;
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         Map<String, String> requestPostParam = new HashMap<String, String>();
 
         // 환경 셋팅
@@ -962,7 +961,9 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            strHHmmss = sdf.format(date) + String.format("%d",page);
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dayTime = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            strHHmmss = dayTime.format(new Date(time)) + String.format("%d",page);
 //            crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), random.nextInt(918277377), crawlSite, saveEncoding);
             crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), Long.parseLong(strHHmmss), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
@@ -1022,8 +1023,6 @@ public class CrawlIO {
         String crawlSavePath;
         String savePrefixPath = globalInfo.getSaveFilePath();
         String strHHmmss;
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         Map<String, String> requestPostParam = new HashMap<String, String>();
 
         // 환경 셋팅
@@ -1099,7 +1098,9 @@ public class CrawlIO {
             /////////////////////////////////////////////////////////
             // 크롤링된 데이터를 disk 에 저장한다.
             /////////////////////////////////////////////////////////
-            strHHmmss = sdf.format(date) + String.format("%d",page);
+            long time = System.currentTimeMillis();
+            SimpleDateFormat dayTime = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            strHHmmss = dayTime.format(new Date(time)) + String.format("%d",page);
             crawlSavePath = crawlIO.flushDiskCrawlData(savePrefixPath, seed.getCpName(), Long.parseLong(strHHmmss), crawlSite, saveEncoding);
             if (crawlSavePath.length()==0) {
                 logger.error(" Crawling data flush disk error !!");
