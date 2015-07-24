@@ -186,7 +186,8 @@ public class GlobalUtils {
         int returnCode;
         StringBuilder sb = new StringBuilder();
 //        StringBuilder indexUrl = new StringBuilder("http://localhost:9200/shop/okmall/");
-        StringBuilder indexUrl = new StringBuilder("http://summarynode.cafe24.com:9200/shop/okmall/");
+//        StringBuilder indexUrl = new StringBuilder("http://summarynode.cafe24.com:9200/shop/okmall/");
+        StringBuilder indexUrl = new StringBuilder("http://localhost:9200/shop/okmall/");
         CrawlSite crawlSite = new CrawlSite();
 
 
