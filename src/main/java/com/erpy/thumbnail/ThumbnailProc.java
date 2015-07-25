@@ -185,8 +185,8 @@ public class ThumbnailProc {
                             logger.info(String.format(" Update thumbnail cp(%s),pid(%s)",
                                     thumbnailProcData.getCpName(), searchData.getProductId()));
                         } else {
-                            logger.info(String.format(" Exist skip update thumbnail cp(%s),pid(%s)",
-                                    thumbnailProcData.getCpName(), searchData.getProductId()));
+                            logger.info(String.format(" Exist skip update thumbnail cp(%s),pid(%s),url(%s)",
+                                    thumbnailProcData.getCpName(), searchData.getProductId(), searchData.getContentUrl()));
                         }
                     }
                     break;
@@ -197,8 +197,8 @@ public class ThumbnailProc {
                     }
                     logger.error(String.format(" Download image ThumbUrl(%s) failure (%s), Count(%d)",
                             searchData.getThumbUrl(), e.getStackTrace().toString(), imageSaveErrorCount));
-                    logger.error(String.format(" Download image cpid(%s), productId(%s)",
-                            thumbnailProcData.getCpName(), searchData.getProductId()));
+                    logger.error(String.format(" Download image cpid(%s), productId(%s), url(%s)",
+                            thumbnailProcData.getCpName(), searchData.getProductId(), searchData.getContentUrl()));
                     imageSaveErrorCount++;
                     Thread.sleep(1100);
                 }
