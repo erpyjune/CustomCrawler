@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 public class CrawlThumbOutdoor {
     private static Logger logger = Logger.getLogger("CrawlThumbOutdoor");
     public static void main(String[] args) throws Exception {
+        GlobalInfo globalInfo = new GlobalInfo();
         ThumbnailProc thumbnailProc = new ThumbnailProc();
         ThumbnailProcData thumbnailProcData = new ThumbnailProcData();
         boolean isAllData=false;
@@ -40,12 +41,7 @@ public class CrawlThumbOutdoor {
         thumbnailProcData.setIsAllDataCrawl(isAllData);
         thumbnailProcData.setHtmlCrawlConnectionTimeout(5000);
         thumbnailProcData.setHtmlCrawlReadTimeout(10000);
-        // mac 13
-//        thumbnailProcData.setSavePathPrefix("/Users/baeonejune/work/SummaryNode/images");
-        // mac 10
-//        thumbnailProcData.setSavePathPrefix("/Users/erpy/work/summaryNode/images");
-        // real
-        thumbnailProcData.setSavePathPrefix("/home/erpy/SummaryNode/images");
+        thumbnailProcData.setSavePathPrefix(globalInfo.getSaveThumbPath());
 
         if (cpName.equals(GlobalInfo.CP_AirMT)) {
             thumbnailProcData.setParserType(1);

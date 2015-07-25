@@ -149,21 +149,21 @@ public class ThumbnailProc {
                     // 기존 thumbnail이 있는지 찾는다.
                     thumbnailData.setCpName(thumbnailProcData.getCpName());
                     thumbnailData.setProductId(searchData.getProductId());
-//                    thumbnailData.setBigThumbUrl(searchData.getThumbUrlBig());
-                    thumbnailData.setBigThumbUrl(searchData.getThumbUrl());
+                    thumbnailData.setBigThumbUrl(searchData.getThumbUrlBig());
+//                    thumbnailData.setBigThumbUrl(searchData.getThumbUrl());
                     dbThumbnailData = thumbnailDataService.getFindThumbnailData(thumbnailData);
 
                     // thumb 테이블에 thumbnail url이 없을 경우.
                     if (dbThumbnailData==null || dbThumbnailData.getBigThumbUrl().trim().length()==0) {
                         // thumb_url_big URL에서 파일이름을 추출.
-//                        imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
-                        imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrl());
+                        imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
+//                        imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrl());
                         logger.info(String.format(" Save image file name (%s)", imageFileName));
                         // 본문에서 big 이미지를 download 한다.
                         globalUtils.saveDiskImgage(
                                 thumbnailProcData.getSavePathPrefix(),
-                                thumbnailProcData.getCpName(), searchData.getThumbUrl(), imageFileName);
-//                                thumbnailProcData.getCpName(), searchData.getThumbUrlBig(), imageFileName);
+                                thumbnailProcData.getCpName(), searchData.getThumbUrlBig(), imageFileName);
+//                                thumbnailProcData.getCpName(), searchData.getThumbUrl(), imageFileName);
                         // thumb 테이블에 thumbnail 데이터 insert.
                         thumbnailDataService.insertThumbnailData(thumbnailData);
                         logger.info(String.format(" Insert thumbnail cp(%s),pid(%s)",
@@ -172,14 +172,14 @@ public class ThumbnailProc {
                         // 기존 thumbnail 데이터가 있어도 모두 업데이트 한다.
                         if (thumbnailProcData.isAllDataCrawl()) {
                             // thumb_url_big URL에서 파일이름을 추출.
-//                            imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
-                            imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrl());
+                            imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrlBig());
+//                            imageFileName = globalUtils.splieImageFileName(searchData.getThumbUrl());
                             logger.info(String.format(" Save image file name (%s)", imageFileName));
                             // 본문에서 big 이미지를 download 한다.
                             globalUtils.saveDiskImgage(
                                     thumbnailProcData.getSavePathPrefix(),
-                                    thumbnailProcData.getCpName(), searchData.getThumbUrl(), imageFileName);
-//                                    thumbnailProcData.getCpName(), searchData.getThumbUrlBig(), imageFileName);
+                                    thumbnailProcData.getCpName(), searchData.getThumbUrlBig(), imageFileName);
+//                                    thumbnailProcData.getCpName(), searchData.getThumbUrl(), imageFileName);
                             // thumb 테이블에서 기존 데이터를 update 한다.
                             thumbnailDataService.updateThumbnailData(thumbnailData);
                             logger.info(String.format(" Update thumbnail cp(%s),pid(%s)",

@@ -10,6 +10,7 @@ import java.util.Properties;
 public class GlobalInfo {
 
     String saveFilePath;
+    String saveThumbPath;
 
     public static final String CP_OKMALL = "okmall";
     public static final String CP_FIRST  = "first";
@@ -66,9 +67,14 @@ public class GlobalInfo {
         Properties props = new Properties();
         props.load(is);
         saveFilePath = props.getProperty("crawl.save.prefix.path");
+        saveThumbPath = props.getProperty("crawl.save.prefix.thumb.path");
     }
 
     public String getSaveFilePath() {
         return saveFilePath;
+    }
+
+    public String getSaveThumbPath() {
+        return saveThumbPath;
     }
 }
