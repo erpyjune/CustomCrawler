@@ -55,16 +55,16 @@ public class IndexingSingle {
 
 
         //List<SearchData> searchDataList = searchDataService.getAllSearchDatas();
-        List<SearchData> searchDataList = searchDataService.getAllSearchDataForUpdate(statusParamMap);
+        //List<SearchData> searchDataList = searchDataService.getAllSearchDataForUpdate(statusParamMap);
+        List<SearchData> searchDataList = searchDataService.getSearchDataByCpName(cpName);
         Iterator iterator = searchDataList.iterator();
         while (true) {
             if (!(iterator.hasNext())) break;
             searchData = (SearchData) iterator.next();
-            if (cpName.length() > 0 && !cpName.equals("all")) {
-                if (!cpName.equals(searchData.getCpName())) continue;
+            if (!contentUrl.equals(searchData.getContentUrl())) {
+                logger.info("url : " + searchData.getContentUrl());
+                continue;
             }
-
-            if (!contentUrl.equals(searchData.getContentUrl())) continue;
 
             if (globalUtils.isDataEmpty(searchData)) {
                 logger.error(" Skip indexing :: data field is null !!");

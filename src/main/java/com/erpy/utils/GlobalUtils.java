@@ -211,6 +211,8 @@ public class GlobalUtils {
         sb.append("\"bthumb\" : ");
         sb.append("\"").append(getImageUrl(thumb.getBigThumbUrl())).append("\",");
 
+        logger.info(String.format(" >> bthumb (%s)", getImageUrl(thumb.getBigThumbUrl())));
+
         sb.append("\"org_price\" : ");
         sb.append(" ").append(searchData.getOrgPrice()).append(",");
 
