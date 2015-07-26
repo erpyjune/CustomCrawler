@@ -34,6 +34,9 @@ public class IndexingSingle {
         int returnCode=0;
 
 
+        // args0 : I, U, E
+        // args1 : cpname
+        // args2 : content url
         if (args.length > 0) {
             indexStatus = args[0];
             cpName = args[1];
@@ -67,6 +70,12 @@ public class IndexingSingle {
                 logger.error(" Skip indexing :: data field is null !!");
                 continue;
             }
+
+            logger.info(String.format(" cp(%s)", searchData.getCpName()));
+            logger.info(String.format(" prdid(%s)", searchData.getProductId()));
+            logger.info(String.format(" url(%s)", searchData.getContentUrl()));
+            logger.info(String.format(" title(%s)", searchData.getProductName()));
+            logger.info("======================================================");
 
             // get thumbnail
             thumbnailData.setCpName(searchData.getCpName());
