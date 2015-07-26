@@ -62,7 +62,7 @@ public class IndexingSingle {
             if (!(iterator.hasNext())) break;
             searchData = (SearchData) iterator.next();
             if (!contentUrl.equals(searchData.getContentUrl())) {
-                logger.info("url : " + searchData.getContentUrl());
+                logger.info(" Skip url : " + searchData.getContentUrl());
                 continue;
             }
 
