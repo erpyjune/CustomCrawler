@@ -211,7 +211,7 @@ public class GlobalUtils {
         sb.append("\"bthumb\" : ");
         sb.append("\"").append(getImageUrl(thumb.getBigThumbUrl())).append("\",");
 
-//        logger.info(String.format(" >> bthumb (%s)", getImageUrl(thumb.getBigThumbUrl())));
+        logger.info(String.format(" >> bthumb (%s)", getImageUrl(thumb.getBigThumbUrl())));
 
         sb.append("\"org_price\" : ");
         sb.append(" ").append(searchData.getOrgPrice()).append(",");
@@ -336,6 +336,9 @@ public class GlobalUtils {
         }
         else if (thumbUrl.contains("campschule.co.kr")) {
             sb = sb.append("http://summarynode.cafe24.com/gimages/campschule/").append(splieImageFileName(thumbUrl));
+        }
+        else if (thumbUrl.contains("yahocamping.com")) {
+            sb = sb.append("http://summarynode.cafe24.com/gimages/yahocamping/").append(splieImageFileName(thumbUrl));
         }
 
         return sb.toString();
