@@ -21,7 +21,7 @@ curl -XPOST "http://localhost:9200/shop/_open"
 sleep 2
 
 # setting schema mapping
-curl -XPUT 'http://localhost:9200/shop/_mapping/okmall' -d '{"okmall":{"properties":{"product_name":{"type":"string","analyzer":"my_ngram_analyzer"},"brand_name":{"type":"string","analyzer":"my_search_std_analyzer"},"url":{"type":"string"},"thumb_url":{"type":"string"},"name":{"type":"string"},"org_price":{"type":"integer"},"sale_price":{"type":"integer"},"cp":{"type":"string","analyzer":"my_search_analyzer"},"keyword":{"type":"string","analyzer":"my_search_analyzer"}}}}'
+curl -XPUT 'http://localhost:9200/shop/_mapping/okmall' -d '{"okmall":{"properties":{"product_name":{"type":"string","analyzer":"my_ngram_analyzer"},"brand_name":{"type":"string","analyzer":"my_search_analyzer"},"url":{"type":"string"},"thumb_url":{"type":"string"},"name":{"type":"string"},"org_price":{"type":"integer"},"sale_price":{"type":"integer"},"cp":{"type":"string","analyzer":"my_search_analyzer"},"keyword":{"type":"string","analyzer":"my_search_analyzer"}}}}'
 
 #end
 
