@@ -50,13 +50,13 @@
 007 | 999 | 000 | 깔창 | http://www.totooutdoor.com/menu/1031?sort=
 007 | 008 | 000 | 런닝화 | http://www.totooutdoor.com/menu/1033?sort=
 
-009 | 001 | 000 | 소형 배낭 | http://www.totooutdoor.com/menu/1131?sort=
-009 | 001 | 000 | 소형 배낭 | http://www.totooutdoor.com/menu/1132?sort=
-009 | 001 | 000 | 중형 배낭 | http://www.totooutdoor.com/menu/1133?sort=
-009 | 001 | 000 | 중형 배낭 | http://www.totooutdoor.com/menu/1134?sort=
-009 | 001 | 000 | 대형 배낭 | http://www.totooutdoor.com/menu/1135?sort=
-009 | 001 | 000 | 대형 배낭 | http://www.totooutdoor.com/menu/1136?sort=
-009 | 001 | 000 | 대형 배낭 | http://www.totooutdoor.com/menu/1137?sort=
+009 | 001 | 000 | 소형 등산 배낭 | http://www.totooutdoor.com/menu/1131?sort=
+009 | 001 | 000 | 소형 등산 배낭 | http://www.totooutdoor.com/menu/1132?sort=
+009 | 001 | 000 | 중형 등산 배낭 | http://www.totooutdoor.com/menu/1133?sort=
+009 | 001 | 000 | 중형 등산 배낭 | http://www.totooutdoor.com/menu/1134?sort=
+009 | 001 | 000 | 대형 등산 배낭 | http://www.totooutdoor.com/menu/1135?sort=
+009 | 001 | 000 | 대형 등산 배낭 | http://www.totooutdoor.com/menu/1136?sort=
+009 | 001 | 000 | 대형 등산 배낭 | http://www.totooutdoor.com/menu/1137?sort=
 
 009 | 999 | 000 | 여행 가방 | http://www.totooutdoor.com/menu/1138?sort=
 009 | 999 | 000 | 수납 가방 | http://www.totooutdoor.com/menu/1139?sort=

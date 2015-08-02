@@ -44,12 +44,12 @@
 005 | 006 | 000 | 물통 | http://tongoutdoor.com/shop/goods/goods_list.php?category=014004
 010 | 002 | 000 | 시계 | http://tongoutdoor.com/shop/goods/goods_list.php?category=014010
 
-009 | 001 | 000 | 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009001
-009 | 001 | 000 | 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009002
-009 | 001 | 000 | 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009003
-009 | 001 | 000 | 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009004
-009 | 001 | 000 | 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009005
-009 | 001 | 000 | 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009006
+009 | 001 | 000 | 가방 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009001
+009 | 001 | 000 | 소형 등산 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009002
+009 | 001 | 000 | 소형 등산 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009003
+009 | 001 | 000 | 중형 등산 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009004
+009 | 001 | 000 | 중형 등산 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009005
+009 | 001 | 000 | 대형 등산 배낭 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009006
 009 | 003 | 001 | 힙색 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009007
 009 | 999 | 000 | 가방류 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009008
 009 | 999 | 000 | 악세사리 | http://tongoutdoor.com/shop/goods/goods_list.php?category=009009

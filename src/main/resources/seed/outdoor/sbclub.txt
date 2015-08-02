@@ -55,10 +55,10 @@
 
 004 | 999 | 000 | 핫팩&손난로&연료 | http://www.sbclub.co.kr/category01.html?categoryid=934
 
-009 | 001 | 000 | 소형 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91901
-009 | 001 | 000 | 소형 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91902
-009 | 001 | 000 | 중형 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91903
-009 | 001 | 000 | 중형 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91904
+009 | 001 | 000 | 소형 등산 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91901
+009 | 001 | 000 | 소형 등산 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91902
+009 | 001 | 000 | 중형 등산 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91903
+009 | 001 | 000 | 중형 등산 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91904
 009 | 001 | 000 | 배낭 | http://www.sbclub.co.kr/category01.html?categoryid=91905
 009 | 003 | 001 | 힙색 | http://www.sbclub.co.kr/category01.html?categoryid=922
 009 | 999 | 000 | 가방소품 | http://www.sbclub.co.kr/category01.html?categoryid=91906

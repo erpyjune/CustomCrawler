@@ -107,12 +107,12 @@
 007 | 006 | 000 | 마스크 | http://www.campschule.co.kr/front/php/category.php?cate_no=715
 007 | 006 | 000 | 등산패션기타 | http://www.campschule.co.kr/front/php/category.php?cate_no=716
 
-009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=704
-009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=702
-009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=703
-009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=705
-009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=706
-009 | 001 | 000 | 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=707
+009 | 001 | 000 | 등산 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=704
+009 | 001 | 000 | 등산 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=702
+009 | 001 | 000 | 등산 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=703
+009 | 001 | 000 | 등산 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=705
+009 | 001 | 000 | 등산 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=706
+009 | 001 | 000 | 등산 배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=707
 009 | 002 | 000 | 디팩 | http://www.campschule.co.kr/front/php/category.php?cate_no=955
 009 | 999 | 000 | 기타배낭 | http://www.campschule.co.kr/front/php/category.php?cate_no=708
 

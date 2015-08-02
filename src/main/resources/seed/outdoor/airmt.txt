@@ -75,10 +75,10 @@
 008 | 008 | 004 | 기타암벽장비 | http://airmt.net/shop/goods/goods_list.php?category=047010003
 008 | 999 | 000 | 기타등산장비 | http://airmt.net/shop/goods/goods_list.php?category=047011
 
-009 | 001 | 000 | 대형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006001
-009 | 001 | 000 | 중형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006002
-009 | 001 | 000 | 중형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006003
-009 | 001 | 000 | 소형 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006004
+009 | 001 | 000 | 대형 등산 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006001
+009 | 001 | 000 | 중형 등산 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006002
+009 | 001 | 000 | 중형 등산 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006003
+009 | 001 | 000 | 소형 등산 배낭 | http://airmt.net/shop/goods/goods_list.php?category=047006004
 009 | 003 | 001 | 힙색 허리색 | http://airmt.net/shop/goods/goods_list.php?category=047006007
 009 | 003 | 002 | 숄더백 | http://airmt.net/shop/goods/goods_list.php?category=047006006
 009 | 003 | 004 | 케이스 | http://airmt.net/shop/goods/goods_list.php?category=045005

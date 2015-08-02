@@ -65,9 +65,9 @@
 010 | 003 | 000 | 카약 보트 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=044&type=X&mcode=001
 010 | 003 | 000 | 카약소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=044&type=X&mcode=002
 
-009 | 001 | 000 | 소형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=001
-009 | 001 | 000 | 중형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=002
-009 | 001 | 000 | 대형배낭 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=004
+009 | 001 | 000 | 소형 등산 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=001
+009 | 001 | 000 | 중형 등산 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=002
+009 | 001 | 000 | 대형 등산 배낭 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=004
 009 | 999 | 000 | 배낭용품 배낭소품 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=039&type=X&mcode=003
 
 008 | 001 | 000 | 스틱 3단스틱 | http://www.gogo337.co.kr/shop/shopbrand.html?xcode=040&type=X&mcode=001

@@ -85,10 +85,10 @@
 007 | 009 | 000 | 슬리퍼 쪼리 | http://www.okmall.com/product/product.html?pID=20000784
 007 | 009 | 000 | 아쿠아 슈즈 | http://www.okmall.com/product/product.html?pID=20000785
 
-009 | 001 | 000 | 대형 배낭 | http://www.okmall.com/product/product.html?pID=20000752
-009 | 001 | 000 | 중형 배낭 | http://www.okmall.com/product/product.html?pID=20000753
-009 | 001 | 000 | 소형 배낭 | http://www.okmall.com/product/product.html?pID=20000754
-009 | 001 | 000 | 대형 배낭 | http://www.okmall.com/product/product.html?pID=20000752
+009 | 001 | 000 | 대형 등산 배낭 | http://www.okmall.com/product/product.html?pID=20000752
+009 | 001 | 000 | 중형 등산 배낭 | http://www.okmall.com/product/product.html?pID=20000753
+009 | 001 | 000 | 소형 등산 배낭 | http://www.okmall.com/product/product.html?pID=20000754
+009 | 001 | 000 | 대형 등산 배낭 | http://www.okmall.com/product/product.html?pID=20000752
 009 | 002 | 000 | 디팩 | http://www.okmall.com/product/product.html?pID=20000767
 009 | 003 | 001 | 힙색 | http://www.okmall.com/product/product.html?pID=20000758
 009 | 003 | 002 | 메신저백 | http://www.okmall.com/product/product.html?pID=20000759

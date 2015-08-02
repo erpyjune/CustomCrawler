@@ -66,10 +66,10 @@
 007 | 006 | 000 | 클라터뮤젠 | http://www.yahocamping.com/shop/shopbrand.html?xcode=044&type=N&mcode=009
 007 | 006 | 000 | 피엘라벤 | http://www.yahocamping.com/shop/shopbrand.html?xcode=044&type=N&mcode=010
 
-009 | 001 | 000 | 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=001
-009 | 001 | 000 | 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=002
-009 | 001 | 000 | 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=003
-009 | 001 | 000 | 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=004
+009 | 001 | 000 | 대형 등산 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=001
+009 | 001 | 000 | 중형 등산 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=002
+009 | 001 | 000 | 소형 등산 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=003
+009 | 001 | 000 | 등산 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=004
 009 | 001 | 000 | 백팩 배낭 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=007
 009 | 999 | 000 | 그레니티기어 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=005
 009 | 999 | 000 | 엑스페드 | http://www.yahocamping.com/shop/shopbrand.html?xcode=045&type=N&mcode=006

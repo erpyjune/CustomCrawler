@@ -162,9 +162,9 @@
 008 | 003 | 000 | 스패츠 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=061006
 008 | 004 | 000 | 우산 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=061008
 
-009 | 001 | 000 | 대형 배낭 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060001
-009 | 001 | 000 | 중형 배낭 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060002
-009 | 001 | 000 | 소형 배낭 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060003
+009 | 001 | 000 | 대형 등산 배낭 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060001
+009 | 001 | 000 | 중형 등산 배낭 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060002
+009 | 001 | 000 | 소형 등산 배낭 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060003
 009 | 002 | 000 | 디팩 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060013
 009 | 999 | 000 | 배낭소품 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060004
 009 | 999 | 000 | 레인커버 | http://www.campingon.co.kr/shop/goods/goods_list.php?category=060012

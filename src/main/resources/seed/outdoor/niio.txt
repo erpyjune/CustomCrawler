@@ -21,7 +21,7 @@
 003 | 002 | 002 | 에어 매트 | http://www.niio.co.kr/index_list2.jsp?pagename=list&pgstyle=b&sort=g3&sort_id=g301&brand=&sort_us=
 003 | 002 | 001 | 자충식 매트 | http://www.niio.co.kr/index_list2.jsp?pagename=list&pgstyle=b&sort=g3&sort_id=g302&brand=&sort_us=
 
-009 | 001 | 000 | 배낭 | http://www.niio.co.kr/index_list2.jsp?pgstyle=b&pagename=list&sort=g4&sort_id=&sort_us=
+009 | 001 | 000 | 등산 배낭 | http://www.niio.co.kr/index_list2.jsp?pgstyle=b&pagename=list&sort=g4&sort_id=&sort_us=
 
 003 | 001 | 000 | 다운 침낭 | http://www.niio.co.kr/index_list2.jsp?pagename=list&pgstyle=b&sort=g5&sort_id=g501&brand=&sort_us=
 003 | 001 | 000 | 합성 침낭 | http://www.niio.co.kr/index_list2.jsp?pagename=list&pgstyle=b&sort=g5&sort_id=g502&brand=&sort_us=
