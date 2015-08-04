@@ -23,6 +23,7 @@ public class MakeThumbnail {
         String key;
         String fileName, inPath, outPath;
         String cpName;
+        int thumbWidth=0, thumbHeight=0;
         SearchData searchData;
         CrawlIO crawlIO = new CrawlIO();
         StringBuffer sb = new StringBuffer();
@@ -36,12 +37,18 @@ public class MakeThumbnail {
 
         if (args.length == 0) {
             logger.error(" Error argument !!");
-            logger.error(" USAGE : cp_name");
+            logger.error(" USAGE : cp_name width height");
             System.exit(-1);
         }
 
+
+        logger.info(" cpName : " + args[0]);
+        logger.info(" width  : " + args[1]);
+        logger.info(" height : " + args[2]);
+
         cpName = args[0];
-        logger.info(" cpName : " + cpName);
+        thumbWidth = Integer.parseInt(args[1]);
+        thumbHeight = Integer.parseInt(args[2]);
 
         String thumbnailDir = "thumbnails";
         String thumbnailLocalPath = "/Users/baeonejune/work/SummaryNode/images";
@@ -95,7 +102,7 @@ public class MakeThumbnail {
 
             try {
 //                globalUtils.makeThumbnail(inPath, outPath);
-                Thumbnails.of(new File(inPath)).size(300, 300).toFile(new File(outPath));
+                Thumbnails.of(new File(inPath)).size(thumbWidth, thumbHeight).toFile(new File(outPath));
                 logger.info(String.format(" cp (%s)", searchData.getCpName()));
                 logger.info(String.format(" in (%s)", inPath));
                 logger.info(String.format(" out(%s)", outPath));
