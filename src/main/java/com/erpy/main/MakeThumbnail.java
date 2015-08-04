@@ -4,6 +4,7 @@ import com.erpy.crawler.CrawlIO;
 import com.erpy.dao.SearchData;
 import com.erpy.dao.ThumbnailData;
 import com.erpy.dao.ThumbnailDataService;
+import com.erpy.utils.GlobalInfo;
 import com.erpy.utils.GlobalUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.log4j.Logger;
@@ -30,6 +31,7 @@ public class MakeThumbnail {
         StringBuffer sbOut = new StringBuffer();
         StringBuffer sbIn = new StringBuffer();
         GlobalUtils globalUtils = new GlobalUtils();
+        GlobalInfo globalInfo = new GlobalInfo();
         ThumbnailData thumbnailData = new ThumbnailData();
         ThumbnailData dbThumbnail;
         ThumbnailDataService thumbnailDataService = new ThumbnailDataService();
@@ -51,7 +53,7 @@ public class MakeThumbnail {
         thumbHeight = Integer.parseInt(args[2]);
 
         String thumbnailDir = "thumbnails";
-        String thumbnailLocalPath = "/Users/baeonejune/work/SummaryNode/images";
+        String thumbnailLocalPath = globalInfo.getSaveThumbPath();
 
         // set env.
         String thumbnailFlushTargetDir = sb.
